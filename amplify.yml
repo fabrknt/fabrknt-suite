@@ -59,16 +59,12 @@ applications:
             - echo "PULSE build completed"
         postBuild:
           commands:
-            - echo "Checking standalone build structure..."
-            - ls -la .next/standalone/
-            - ls -la .next/standalone/apps/ || echo "No apps directory"
-            - ls -la .next/standalone/apps/pulse/ || echo "No pulse directory in apps"
-            - echo "Copying static assets..."
-            - cp -r .next/static .next/standalone/.next/static
-            - cp -r public .next/standalone/public || true
-            - echo "Prepared standalone build for deployment"
+            - echo "Copying static assets to standalone build..."
+            - cp -r .next/static .next/standalone/apps/pulse/.next/static
+            - cp -r public .next/standalone/apps/pulse/public || true
+            - echo "Standalone build prepared for deployment"
       artifacts:
-        baseDirectory: .next/standalone
+        baseDirectory: .next/standalone/apps/pulse
         files:
           - '**/*'
       cache:
