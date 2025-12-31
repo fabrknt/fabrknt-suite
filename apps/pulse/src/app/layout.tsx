@@ -7,14 +7,16 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'PULSE - Team Vitality Tracking | Fabrknt Suite',
-  description: 'Decentralized contribution scoring and team health monitoring for Web3 organizations',
+  description:
+    'Decentralized contribution scoring and team health monitoring for Web3 organizations',
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 5,
+  },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className={inter.className}>
