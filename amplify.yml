@@ -12,6 +12,7 @@ applications:
             - echo "Installing dependencies for ACQUIRE"
         build:
           commands:
+            - cd apps/acquire
             - pnpm run build
             - echo "ACQUIRE build completed"
         postBuild:
@@ -53,6 +54,7 @@ applications:
             - echo "Installing dependencies for PULSE"
         build:
           commands:
+            - cd apps/pulse
             - pnpm run build
             - echo "PULSE build completed"
         postBuild:
@@ -94,6 +96,7 @@ applications:
             - echo "Installing dependencies for TRACE"
         build:
           commands:
+            - cd apps/trace
             - pnpm run build
             - echo "TRACE build completed"
         postBuild:
