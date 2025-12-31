@@ -7,24 +7,24 @@ applications:
           commands:
             - corepack enable
             - corepack prepare pnpm@8.15.0 --activate
+            - cd ../..
             - pnpm install --frozen-lockfile
             - echo "Installing dependencies for ACQUIRE"
         build:
           commands:
-            - cd apps/acquire
             - pnpm run build
             - echo "ACQUIRE build completed"
         postBuild:
           commands:
             - echo "Post-build completed"
       artifacts:
-        baseDirectory: apps/acquire/.next
+        baseDirectory: .next
         files:
           - '**/*'
       cache:
         paths:
           - node_modules/**/*
-          - apps/acquire/.next/cache/**/*
+          - .next/cache/**/*
           - .turbo/**/*
     customHeaders:
       - pattern: '**/*'
@@ -48,24 +48,24 @@ applications:
           commands:
             - corepack enable
             - corepack prepare pnpm@8.15.0 --activate
+            - cd ../..
             - pnpm install --frozen-lockfile
             - echo "Installing dependencies for PULSE"
         build:
           commands:
-            - cd apps/pulse
             - pnpm run build
             - echo "PULSE build completed"
         postBuild:
           commands:
             - echo "Post-build completed"
       artifacts:
-        baseDirectory: apps/pulse/.next
+        baseDirectory: .next
         files:
           - '**/*'
       cache:
         paths:
           - node_modules/**/*
-          - apps/pulse/.next/cache/**/*
+          - .next/cache/**/*
           - .turbo/**/*
     customHeaders:
       - pattern: '**/*'
@@ -89,24 +89,24 @@ applications:
           commands:
             - corepack enable
             - corepack prepare pnpm@8.15.0 --activate
+            - cd ../..
             - pnpm install --frozen-lockfile
             - echo "Installing dependencies for TRACE"
         build:
           commands:
-            - cd apps/trace
             - pnpm run build
             - echo "TRACE build completed"
         postBuild:
           commands:
             - echo "Post-build completed"
       artifacts:
-        baseDirectory: apps/trace/.next
+        baseDirectory: .next
         files:
           - '**/*'
       cache:
         paths:
           - node_modules/**/*
-          - apps/trace/.next/cache/**/*
+          - .next/cache/**/*
           - .turbo/**/*
     customHeaders:
       - pattern: '**/*'
