@@ -33,7 +33,7 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
           {/* Mobile Header with Close Button */}
           <div className="flex h-16 items-center justify-between border-b border-border px-6">
             <div className="flex items-center gap-2">
-              <ShoppingBag className="h-5 w-5 text-blue-600" />
+              <ShoppingBag className="h-5 w-5 text-emerald-600" />
               <span className="text-xl font-bold text-foreground">ACQUIRE</span>
             </div>
             <button
@@ -75,7 +75,7 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
                   className={cn(
                     'flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-colors',
                     isActive
-                      ? 'bg-blue-50 text-blue-700'
+                      ? 'bg-emerald-50 text-emerald-700'
                       : 'text-foreground/90 hover:bg-gray-50 hover:text-foreground'
                   )}
                 >
@@ -106,7 +106,7 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
                 <BarChart3 className="h-3.5 w-3.5" />
                 <span>TRACE</span>
               </a>
-              <div className="flex items-center gap-2 px-2 py-1.5 rounded text-xs bg-blue-50 text-blue-700 font-medium">
+              <div className="flex items-center gap-2 px-2 py-1.5 rounded text-xs bg-emerald-50 text-emerald-700 font-medium">
                 <ShoppingBag className="h-3.5 w-3.5" />
                 <span>ACQUIRE</span>
                 <span className="ml-auto text-[10px]">●</span>
@@ -132,9 +132,9 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
         {/* Logo */}
         <div className="flex h-16 items-center border-b border-border px-6">
           <div className="flex items-center gap-2">
-            <ShoppingBag className="h-5 w-5 text-blue-600" />
+            <ShoppingBag className="h-5 w-5 text-emerald-600" />
             <span className="text-xl font-bold text-foreground">ACQUIRE</span>
-            <span className="rounded bg-blue-50 px-1.5 py-0.5 text-xs font-semibold text-blue-700">
+            <span className="rounded bg-emerald-50 px-1.5 py-0.5 text-xs font-semibold text-emerald-700">
               PREVIEW
             </span>
           </div>
@@ -169,7 +169,7 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
                 className={cn(
                   'flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-colors',
                   isActive
-                    ? 'bg-blue-50 text-blue-700'
+                    ? 'bg-emerald-50 text-emerald-700'
                     : 'text-foreground/90 hover:bg-gray-50 hover:text-foreground'
                 )}
               >
@@ -198,7 +198,7 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
               <BarChart3 className="h-3.5 w-3.5" />
               <span>TRACE</span>
             </a>
-            <div className="flex items-center gap-2 px-2 py-1.5 rounded text-xs bg-blue-50 text-blue-700 font-medium">
+            <div className="flex items-center gap-2 px-2 py-1.5 rounded text-xs bg-emerald-50 text-emerald-700 font-medium">
               <ShoppingBag className="h-3.5 w-3.5" />
               <span>ACQUIRE</span>
               <span className="ml-auto text-[10px]">●</span>
