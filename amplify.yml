@@ -59,11 +59,16 @@ applications:
             - echo "PULSE build completed"
         postBuild:
           commands:
+            - echo "Preparing node_modules for Amplify runtime..."
+            - ln -sf ../../node_modules node_modules || cp -r ../../node_modules node_modules
             - echo "Post-build completed"
       artifacts:
-        baseDirectory: .next
+        baseDirectory: .
         files:
-          - '**/*'
+          - '.next/**/*'
+          - 'node_modules/**/*'
+          - 'package.json'
+          - 'public/**/*'
       cache:
         paths:
           - node_modules/**/*
