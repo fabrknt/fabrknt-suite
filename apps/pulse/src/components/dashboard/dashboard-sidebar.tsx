@@ -2,7 +2,16 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Users, Activity, Award, X } from 'lucide-react';
+import {
+  LayoutDashboard,
+  Users,
+  Activity,
+  Award,
+  X,
+  Heart,
+  BarChart3,
+  ShoppingBag,
+} from 'lucide-react';
 import { cn } from '@fabrknt/ui';
 
 const navigation = [
@@ -50,7 +59,7 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
           {/* Mobile Header with Close Button */}
           <div className="flex h-16 items-center justify-between border-b border-border px-6">
             <div className="flex items-center gap-2">
-              <span className="text-4xl">💓</span>
+              <Heart className="h-5 w-5 text-purple-600" />
               <h1 className="text-xl font-bold text-foreground">PULSE</h1>
             </div>
             <button
@@ -78,10 +87,10 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
                   className={cn(
                     'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
                     isActive
-                      ? 'bg-purple-100 text-purple-700'
+                      ? 'bg-purple-50 text-purple-700'
                       : item.disabled
                         ? 'text-gray-400 cursor-not-allowed'
-                        : 'text-foreground/90 hover:bg-muted hover:text-foreground'
+                        : 'text-foreground/90 hover:bg-gray-50 hover:text-foreground'
                   )}
                   onClick={(e) => {
                     if (item.disabled) {
@@ -104,24 +113,24 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
             <div className="text-xs font-medium text-foreground mb-2">Switch App</div>
             <div className="space-y-1">
               <div className="flex items-center gap-2 px-2 py-1.5 rounded text-xs bg-purple-50 text-purple-700 font-medium">
-                <span>💓</span>
+                <Heart className="h-3.5 w-3.5" />
                 <span>PULSE</span>
                 <span className="ml-auto text-[10px]">●</span>
               </div>
               <a
                 href="http://localhost:3002"
                 onClick={onClose}
-                className="flex items-center gap-2 px-2 py-1.5 rounded text-xs text-foreground/90 hover:bg-muted transition-colors"
+                className="flex items-center gap-2 px-2 py-1.5 rounded text-xs text-foreground/90 hover:bg-gray-50 transition-colors"
               >
-                <span>📊</span>
+                <BarChart3 className="h-3.5 w-3.5" />
                 <span>TRACE</span>
               </a>
               <a
                 href="http://localhost:3003"
                 onClick={onClose}
-                className="flex items-center gap-2 px-2 py-1.5 rounded text-xs text-foreground/90 hover:bg-muted transition-colors"
+                className="flex items-center gap-2 px-2 py-1.5 rounded text-xs text-foreground/90 hover:bg-gray-50 transition-colors"
               >
-                <span>💼</span>
+                <ShoppingBag className="h-3.5 w-3.5" />
                 <span>ACQUIRE</span>
               </a>
             </div>
@@ -143,7 +152,7 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
               <div className="mt-1">
                 Part of <span className="font-semibold text-foreground">Fabrknt Suite</span>
               </div>
-              <div className="mt-1 text-blue-700">👁️ Preview Only</div>
+              <div className="mt-1 text-gray-600">Preview Only</div>
             </div>
           </div>
         </div>
@@ -153,10 +162,10 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
       <div className="hidden lg:flex h-full w-64 flex-col bg-muted border-r border-border">
         {/* Brand Header */}
         <div className="flex h-16 items-center px-6 border-b border-border">
-          <span className="text-4xl">💓</span>
-          <div className="ml-2 flex items-center gap-2">
+          <div className="flex items-center gap-2">
+            <Heart className="h-5 w-5 text-purple-600" />
             <h1 className="text-xl font-bold text-foreground">PULSE</h1>
-            <span className="rounded bg-blue-100 px-1.5 py-0.5 text-xs font-semibold text-blue-800">
+            <span className="rounded bg-purple-50 px-1.5 py-0.5 text-xs font-semibold text-purple-700">
               PREVIEW
             </span>
           </div>
@@ -178,10 +187,10 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
                 className={cn(
                   'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
                   isActive
-                    ? 'bg-purple-100 text-purple-700'
+                    ? 'bg-purple-50 text-purple-700'
                     : item.disabled
                       ? 'text-gray-400 cursor-not-allowed'
-                      : 'text-foreground/90 hover:bg-muted hover:text-foreground'
+                      : 'text-foreground/90 hover:bg-gray-50 hover:text-foreground'
                 )}
                 onClick={(e) => item.disabled && e.preventDefault()}
               >
@@ -198,23 +207,23 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
           <div className="text-xs font-medium text-foreground mb-2">Switch App</div>
           <div className="space-y-1">
             <div className="flex items-center gap-2 px-2 py-1.5 rounded text-xs bg-purple-50 text-purple-700 font-medium">
-              <span>💓</span>
+              <Heart className="h-3.5 w-3.5" />
               <span>PULSE</span>
               <span className="ml-auto text-[10px]">●</span>
             </div>
             <a
               href="http://localhost:3002"
-              className="flex items-center gap-2 px-2 py-1.5 rounded text-xs text-foreground/90 hover:bg-muted transition-colors"
+              className="flex items-center gap-2 px-2 py-1.5 rounded text-xs text-foreground/90 hover:bg-gray-50 transition-colors"
             >
-              <span>📊</span>
+              <BarChart3 className="h-3.5 w-3.5" />
               <span>TRACE</span>
             </a>
             <a
               href="http://localhost:3003"
-              className="flex items-center gap-2 px-2 py-1.5 rounded text-xs text-foreground/90 hover:bg-muted transition-colors"
+              className="flex items-center gap-2 px-2 py-1.5 rounded text-xs text-foreground/90 hover:bg-gray-50 transition-colors"
             >
-              <span>🏗️</span>
-              <span>FABRIC</span>
+              <ShoppingBag className="h-3.5 w-3.5" />
+              <span>ACQUIRE</span>
             </a>
           </div>
         </div>
@@ -222,7 +231,7 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
         {/* Footer */}
         <div className="border-t border-border p-4 space-y-3">
           <div className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-full bg-purple-600 flex items-center justify-center text-white text-sm font-medium">
+            <div className="h-8 w-8 rounded-full bg-gray-900 flex items-center justify-center text-white text-sm font-medium">
               O
             </div>
             <div className="flex-1 min-w-0">
@@ -235,7 +244,7 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
             <div className="mt-1">
               Part of <span className="font-semibold text-foreground">Fabrknt Suite</span>
             </div>
-            <div className="mt-1 text-blue-700">👁️ Preview Only</div>
+            <div className="mt-1 text-gray-600">Preview Only</div>
           </div>
         </div>
       </div>
