@@ -8,26 +8,31 @@ import { formatNumber } from '@/lib/utils/format';
 export default function DashboardPage() {
   // Get data
   const contributors = getMockContributors();
-  const activeContributors = contributors.filter(c => c.isActive);
+  const activeContributors = contributors.filter((c) => c.isActive);
   const contributions = getMockContributions(7); // Last 7 days
   const healthScore = getTodayHealthScore();
 
   // Calculate stats
   const totalContributions = contributions.length;
   const totalPraises = contributors.reduce((sum, c) => sum + c.praisesReceived, 0);
-  const avgScore = Math.round(contributors.reduce((sum, c) => sum + c.totalScore, 0) / contributors.length);
+  const avgScore = Math.round(
+    contributors.reduce((sum, c) => sum + c.totalScore, 0) / contributors.length
+  );
 
   // Top contributors (by total score)
-  const topContributors = [...contributors]
-    .sort((a, b) => b.totalScore - a.totalScore)
-    .slice(0, 3);
+  const topContributors = [...contributors].sort((a, b) => b.totalScore - a.totalScore).slice(0, 3);
 
   return (
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-foreground">Team Vitality Overview</h1>
-        <p className="text-muted-foreground mt-2">
+        <h1
+          className="text-3xl font-semibold text-foreground tracking-tight"
+          style={{ letterSpacing: '-0.02em' }}
+        >
+          Team Vitality Overview
+        </h1>
+        <p className="text-muted-foreground mt-2" style={{ color: '#666' }}>
           Track team health, contributions, and recognize outstanding work
         </p>
       </div>
@@ -68,8 +73,14 @@ export default function DashboardPage() {
         </div>
 
         {/* Health Components */}
-        <div className="lg:col-span-2 bg-card rounded-lg border border-border p-6">
-          <h3 className="text-lg font-semibold text-foreground mb-4">
+        <div
+          className="lg:col-span-2 bg-card rounded-lg border border-border p-6"
+          style={{ borderColor: '#e8e8e8' }}
+        >
+          <h3
+            className="text-lg font-semibold text-foreground mb-4"
+            style={{ letterSpacing: '-0.01em' }}
+          >
             Health Components
           </h3>
           <div className="space-y-4">
@@ -80,10 +91,14 @@ export default function DashboardPage() {
                   {healthScore.teamRetentionScore}/100
                 </span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
+              <div className="w-full rounded-full h-2" style={{ background: '#f0f0f0' }}>
                 <div
-                  className="bg-purple-600 h-2 rounded-full"
-                  style={{ width: `${healthScore.teamRetentionScore}%` }}
+                  className="h-2 rounded-full"
+                  style={{
+                    width: `${healthScore.teamRetentionScore}%`,
+                    background: 'linear-gradient(90deg, #a855f7 0%, #7c3aed 100%)',
+                    boxShadow: '0 2px 8px 0 rgba(168, 85, 247, 0.4)',
+                  }}
                 />
               </div>
             </div>
@@ -95,10 +110,14 @@ export default function DashboardPage() {
                   {healthScore.developerActivityScore}/100
                 </span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
+              <div className="w-full rounded-full h-2" style={{ background: '#f0f0f0' }}>
                 <div
-                  className="bg-blue-600 h-2 rounded-full"
-                  style={{ width: `${healthScore.developerActivityScore}%` }}
+                  className="h-2 rounded-full"
+                  style={{
+                    width: `${healthScore.developerActivityScore}%`,
+                    background: 'linear-gradient(90deg, #a855f7 0%, #7c3aed 100%)',
+                    boxShadow: '0 2px 8px 0 rgba(168, 85, 247, 0.4)',
+                  }}
                 />
               </div>
             </div>
@@ -110,10 +129,14 @@ export default function DashboardPage() {
                   {healthScore.communityEngagementScore}/100
                 </span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
+              <div className="w-full rounded-full h-2" style={{ background: '#f0f0f0' }}>
                 <div
-                  className="bg-green-600 h-2 rounded-full"
-                  style={{ width: `${healthScore.communityEngagementScore}%` }}
+                  className="h-2 rounded-full"
+                  style={{
+                    width: `${healthScore.communityEngagementScore}%`,
+                    background: 'linear-gradient(90deg, #a855f7 0%, #7c3aed 100%)',
+                    boxShadow: '0 2px 8px 0 rgba(168, 85, 247, 0.4)',
+                  }}
                 />
               </div>
             </div>
@@ -125,10 +148,14 @@ export default function DashboardPage() {
                   {healthScore.qualityIndex}/100
                 </span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
+              <div className="w-full rounded-full h-2" style={{ background: '#f0f0f0' }}>
                 <div
-                  className="bg-orange-600 h-2 rounded-full"
-                  style={{ width: `${healthScore.qualityIndex}%` }}
+                  className="h-2 rounded-full"
+                  style={{
+                    width: `${healthScore.qualityIndex}%`,
+                    background: 'linear-gradient(90deg, #a855f7 0%, #7c3aed 100%)',
+                    boxShadow: '0 2px 8px 0 rgba(168, 85, 247, 0.4)',
+                  }}
                 />
               </div>
             </div>
@@ -146,10 +173,17 @@ export default function DashboardPage() {
       {/* Top Contributors */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold text-foreground">
+          <h2
+            className="text-xl font-semibold text-foreground"
+            style={{ letterSpacing: '-0.01em' }}
+          >
             Top Contributors
           </h2>
-          <a href="/dashboard/contributors" className="text-sm text-purple-600 hover:text-purple-700">
+          <a
+            href="/dashboard/contributors"
+            className="text-sm transition-colors hover:opacity-80"
+            style={{ color: '#a855f7' }}
+          >
             View all →
           </a>
         </div>

@@ -36,8 +36,14 @@ export function StatsCard({
       <div className="flex items-center justify-between">
         <p className="text-sm font-medium text-muted-foreground">{title}</p>
         {Icon && (
-          <div className="rounded-lg bg-green-50 p-2">
-            <Icon className="h-5 w-5 text-green-600" />
+          <div
+            className="rounded-lg p-2"
+            style={{
+              background:
+                'linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, rgba(8, 145, 178, 0.1) 100%)',
+            }}
+          >
+            <Icon className="h-5 w-5" style={{ color: '#06b6d4' }} />
           </div>
         )}
       </div>
@@ -48,15 +54,14 @@ export function StatsCard({
       {/* Change Indicator */}
       {change !== undefined && (
         <div className="mt-2 flex items-center gap-1">
-          {trend === 'up' && <ArrowUp className="h-4 w-4 text-green-600" />}
-          {trend === 'down' && <ArrowDown className="h-4 w-4 text-red-600" />}
+          {trend === 'up' && <ArrowUp className="h-4 w-4" style={{ color: '#06b6d4' }} />}
+          {trend === 'down' && <ArrowDown className="h-4 w-4 text-gray-500" />}
           <span
             className={cn(
               'text-sm font-medium',
-              trend === 'up' && 'text-green-600',
-              trend === 'down' && 'text-red-600',
-              !trend && 'text-muted-foreground'
+              trend === 'down' ? 'text-gray-600' : trend === 'up' ? '' : 'text-muted-foreground'
             )}
+            style={trend === 'up' ? { color: '#06b6d4' } : {}}
           >
             {change > 0 ? '+' : ''}
             {change}%

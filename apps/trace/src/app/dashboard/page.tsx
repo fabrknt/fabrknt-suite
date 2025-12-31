@@ -14,8 +14,13 @@ export default function DashboardPage() {
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-foreground">Dashboard Overview</h1>
-        <p className="text-muted-foreground mt-2">
+        <h1
+          className="text-3xl font-semibold text-foreground tracking-tight"
+          style={{ letterSpacing: '-0.02em' }}
+        >
+          Dashboard Overview
+        </h1>
+        <p className="text-muted-foreground mt-2" style={{ color: '#666' }}>
           Track your protocol's activity metrics and engagement
         </p>
       </div>
@@ -61,16 +66,20 @@ export default function DashboardPage() {
       </div>
 
       {/* Quick Stats */}
-      <div className="bg-card rounded-lg border border-border p-6">
-        <h3 className="text-lg font-semibold text-foreground mb-4">
+      <div
+        className="bg-card rounded-lg border border-border p-6"
+        style={{ borderColor: '#e8e8e8' }}
+      >
+        <h3
+          className="text-lg font-semibold text-foreground mb-4"
+          style={{ letterSpacing: '-0.01em' }}
+        >
           Quick Stats
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
             <p className="text-sm text-muted-foreground mb-1">Transaction Count</p>
-            <p className="text-2xl font-bold text-foreground">
-              {formatNumber(today.txCount)}
-            </p>
+            <p className="text-2xl font-bold text-foreground">{formatNumber(today.txCount)}</p>
             <p className="text-sm text-muted-foreground/75 mt-1">transactions today</p>
           </div>
           <div>
@@ -82,9 +91,7 @@ export default function DashboardPage() {
           </div>
           <div>
             <p className="text-sm text-muted-foreground mb-1">Activity Score</p>
-            <p className="text-2xl font-bold text-foreground">
-              {today.activityScore}/100
-            </p>
+            <p className="text-2xl font-bold text-foreground">{today.activityScore}/100</p>
             <p className="text-sm text-muted-foreground/75 mt-1">protocol health</p>
           </div>
         </div>

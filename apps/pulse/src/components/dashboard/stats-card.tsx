@@ -33,8 +33,14 @@ export function StatsCard({
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-sm font-medium text-muted-foreground">{title}</h3>
         {Icon && (
-          <div className="p-2 bg-purple-50 rounded-lg">
-            <Icon className="h-5 w-5 text-purple-600" />
+          <div
+            className="p-2 rounded-lg"
+            style={{
+              background:
+                'linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%)',
+            }}
+          >
+            <Icon className="h-5 w-5" style={{ color: '#a855f7' }} />
           </div>
         )}
       </div>
@@ -45,9 +51,7 @@ export function StatsCard({
       </div>
 
       {/* Description */}
-      {description && (
-        <p className="text-sm text-muted-foreground/75">{description}</p>
-      )}
+      {description && <p className="text-sm text-muted-foreground/75">{description}</p>}
     </div>
   );
 }

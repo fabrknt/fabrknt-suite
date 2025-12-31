@@ -4,7 +4,7 @@ import { cn } from '@fabrknt/ui';
 export interface StatsCardProps {
   title: string;
   value: string | number;
-  change?: number;        // % change from previous period
+  change?: number; // % change from previous period
   icon?: LucideIcon;
   trend?: 'up' | 'down';
   loading?: boolean;
@@ -39,8 +39,14 @@ export function StatsCard({
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-sm font-medium text-muted-foreground">{title}</h3>
         {Icon && (
-          <div className="p-2 bg-orange-50 rounded-lg">
-            <Icon className="h-5 w-5 text-orange-600" />
+          <div
+            className="p-2 rounded-lg"
+            style={{
+              background:
+                'linear-gradient(135deg, rgba(249, 115, 22, 0.1) 0%, rgba(234, 88, 12, 0.1) 100%)',
+            }}
+          >
+            <Icon className="h-5 w-5" style={{ color: '#f97316' }} />
           </div>
         )}
       </div>
@@ -54,15 +60,13 @@ export function StatsCard({
       {showTrend && (
         <div className="flex items-center gap-1">
           {isPositive ? (
-            <ArrowUp className="h-4 w-4 text-green-600" />
+            <ArrowUp className="h-4 w-4" style={{ color: '#f97316' }} />
           ) : (
-            <ArrowDown className="h-4 w-4 text-red-600" />
+            <ArrowDown className="h-4 w-4 text-gray-500" />
           )}
           <span
-            className={cn(
-              'text-sm font-medium',
-              isPositive ? 'text-green-600' : 'text-red-600'
-            )}
+            className={cn('text-sm font-medium', isPositive ? '' : 'text-gray-600')}
+            style={isPositive ? { color: '#f97316' } : {}}
           >
             {Math.abs(change).toFixed(1)}%
           </span>

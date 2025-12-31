@@ -59,7 +59,7 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
           {/* Mobile Header with Close Button */}
           <div className="flex h-16 items-center justify-between border-b border-border px-6">
             <div className="flex items-center gap-2">
-              <Heart className="h-5 w-5 text-purple-600" />
+              <Heart className="h-5 w-5" style={{ color: '#a855f7' }} />
               <h1 className="text-xl font-bold text-foreground">PULSE</h1>
             </div>
             <button
@@ -85,13 +85,21 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
                   key={item.name}
                   href={item.disabled ? '#' : item.href}
                   className={cn(
-                    'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+                    'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all',
                     isActive
-                      ? 'bg-purple-50 text-purple-700'
+                      ? 'text-white'
                       : item.disabled
                         ? 'text-gray-400 cursor-not-allowed'
                         : 'text-foreground/90 hover:bg-gray-50 hover:text-foreground'
                   )}
+                  style={
+                    isActive
+                      ? {
+                          background: 'linear-gradient(135deg, #a855f7 0%, #7c3aed 100%)',
+                          boxShadow: '0 4px 14px 0 rgba(168, 85, 247, 0.4)',
+                        }
+                      : {}
+                  }
                   onClick={(e) => {
                     if (item.disabled) {
                       e.preventDefault();
@@ -112,7 +120,13 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
           <div className="border-t border-border p-4">
             <div className="text-xs font-medium text-foreground mb-2">Switch App</div>
             <div className="space-y-1">
-              <div className="flex items-center gap-2 px-2 py-1.5 rounded text-xs bg-purple-50 text-purple-700 font-medium">
+              <div
+                className="flex items-center gap-2 px-2 py-1.5 rounded text-xs text-white font-medium"
+                style={{
+                  background: 'linear-gradient(135deg, #a855f7 0%, #7c3aed 100%)',
+                  boxShadow: '0 2px 8px 0 rgba(168, 85, 247, 0.3)',
+                }}
+              >
                 <Heart className="h-3.5 w-3.5" />
                 <span>PULSE</span>
                 <span className="ml-auto text-[10px]">●</span>
@@ -139,7 +153,13 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
           {/* Footer */}
           <div className="border-t border-border p-4 space-y-3">
             <div className="flex items-center gap-3">
-              <div className="h-8 w-8 rounded-full bg-purple-600 flex items-center justify-center text-white text-sm font-medium">
+              <div
+                className="h-8 w-8 rounded-full flex items-center justify-center text-white text-sm font-medium"
+                style={{
+                  background: 'linear-gradient(135deg, #a855f7 0%, #7c3aed 100%)',
+                  boxShadow: '0 2px 8px 0 rgba(168, 85, 247, 0.4)',
+                }}
+              >
                 O
               </div>
               <div className="flex-1 min-w-0">
@@ -163,9 +183,15 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
         {/* Brand Header */}
         <div className="flex h-16 items-center px-6 border-b border-border">
           <div className="flex items-center gap-2">
-            <Heart className="h-5 w-5 text-purple-600" />
+            <Heart className="h-5 w-5" style={{ color: '#a855f7' }} />
             <h1 className="text-xl font-bold text-foreground">PULSE</h1>
-            <span className="rounded bg-purple-50 px-1.5 py-0.5 text-xs font-semibold text-purple-700">
+            <span
+              className="rounded px-1.5 py-0.5 text-xs font-semibold text-white"
+              style={{
+                background: 'linear-gradient(135deg, #a855f7 0%, #7c3aed 100%)',
+                boxShadow: '0 2px 4px 0 rgba(168, 85, 247, 0.3)',
+              }}
+            >
               PREVIEW
             </span>
           </div>
@@ -185,13 +211,21 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
                 key={item.name}
                 href={item.disabled ? '#' : item.href}
                 className={cn(
-                  'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+                  'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all',
                   isActive
-                    ? 'bg-purple-50 text-purple-700'
+                    ? 'text-white'
                     : item.disabled
                       ? 'text-gray-400 cursor-not-allowed'
                       : 'text-foreground/90 hover:bg-gray-50 hover:text-foreground'
                 )}
+                style={
+                  isActive
+                    ? {
+                        background: 'linear-gradient(135deg, #a855f7 0%, #7c3aed 100%)',
+                        boxShadow: '0 4px 14px 0 rgba(168, 85, 247, 0.4)',
+                      }
+                    : {}
+                }
                 onClick={(e) => item.disabled && e.preventDefault()}
               >
                 <Icon className="h-5 w-5" />
@@ -206,7 +240,13 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
         <div className="border-t border-border p-4">
           <div className="text-xs font-medium text-foreground mb-2">Switch App</div>
           <div className="space-y-1">
-            <div className="flex items-center gap-2 px-2 py-1.5 rounded text-xs bg-purple-50 text-purple-700 font-medium">
+            <div
+              className="flex items-center gap-2 px-2 py-1.5 rounded text-xs text-white font-medium"
+              style={{
+                background: 'linear-gradient(135deg, #a855f7 0%, #7c3aed 100%)',
+                boxShadow: '0 2px 8px 0 rgba(168, 85, 247, 0.3)',
+              }}
+            >
               <Heart className="h-3.5 w-3.5" />
               <span>PULSE</span>
               <span className="ml-auto text-[10px]">●</span>
@@ -231,7 +271,13 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
         {/* Footer */}
         <div className="border-t border-border p-4 space-y-3">
           <div className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-full bg-gray-900 flex items-center justify-center text-white text-sm font-medium">
+            <div
+              className="h-8 w-8 rounded-full flex items-center justify-center text-white text-sm font-medium"
+              style={{
+                background: 'linear-gradient(135deg, #a855f7 0%, #7c3aed 100%)',
+                boxShadow: '0 2px 8px 0 rgba(168, 85, 247, 0.4)',
+              }}
+            >
               O
             </div>
             <div className="flex-1 min-w-0">

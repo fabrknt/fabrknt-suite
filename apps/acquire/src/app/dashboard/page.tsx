@@ -14,8 +14,13 @@ export default function DashboardPage() {
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-foreground">Marketplace Overview</h1>
-        <p className="text-muted-foreground mt-2">
+        <h1
+          className="text-3xl font-semibold text-foreground tracking-tight"
+          style={{ letterSpacing: '-0.02em' }}
+        >
+          Marketplace Overview
+        </h1>
+        <p className="text-muted-foreground mt-2" style={{ color: '#666' }}>
           Discover verified Web3 projects with proven team vitality and growth signals
         </p>
       </div>
@@ -56,14 +61,23 @@ export default function DashboardPage() {
       <div className="mt-8">
         <div className="mb-6 flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-bold text-foreground">Featured Listings</h2>
-            <p className="text-sm text-muted-foreground/75">
+            <h2
+              className="text-2xl font-semibold text-foreground tracking-tight"
+              style={{ letterSpacing: '-0.01em' }}
+            >
+              Featured Listings
+            </h2>
+            <p className="text-sm text-muted-foreground/75" style={{ color: '#666' }}>
               Top active projects with verified signals
             </p>
           </div>
           <Link
             href="/dashboard/marketplace"
-            className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-700"
+            className="flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-all text-white hover:shadow-lg"
+            style={{
+              background: 'linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)',
+              boxShadow: '0 4px 14px 0 rgba(6, 182, 212, 0.4)',
+            }}
           >
             View All Listings
             <ArrowRight className="h-4 w-4" />
@@ -80,8 +94,16 @@ export default function DashboardPage() {
       {/* Quick Stats */}
       <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">
         {/* Revenue Breakdown */}
-        <div className="rounded-lg border border-border bg-card p-6">
-          <h3 className="text-lg font-bold text-foreground">Marketplace Metrics</h3>
+        <div
+          className="rounded-lg border border-border bg-card p-6"
+          style={{ borderColor: '#e8e8e8' }}
+        >
+          <h3
+            className="text-lg font-semibold text-foreground"
+            style={{ letterSpacing: '-0.01em' }}
+          >
+            Marketplace Metrics
+          </h3>
           <div className="mt-4 space-y-4">
             <div className="flex items-center justify-between">
               <span className="text-sm text-muted-foreground">Total Revenue</span>
@@ -97,7 +119,7 @@ export default function DashboardPage() {
             </div>
             <div className="flex items-center justify-between">
               <span className="text-sm text-muted-foreground">Verified Listings</span>
-              <span className="font-bold text-green-600">
+              <span className="font-bold" style={{ color: '#06b6d4' }}>
                 {listings.filter((l) => l.suiteData?.revenue_verified).length}/{stats.totalListings}
               </span>
             </div>
@@ -105,8 +127,16 @@ export default function DashboardPage() {
         </div>
 
         {/* Category Distribution */}
-        <div className="rounded-lg border border-border bg-card p-6">
-          <h3 className="text-lg font-bold text-foreground">Category Distribution</h3>
+        <div
+          className="rounded-lg border border-border bg-card p-6"
+          style={{ borderColor: '#e8e8e8' }}
+        >
+          <h3
+            className="text-lg font-semibold text-foreground"
+            style={{ letterSpacing: '-0.01em' }}
+          >
+            Category Distribution
+          </h3>
           <div className="mt-4 space-y-4">
             {['defi', 'gaming', 'dao', 'nft', 'infrastructure'].map((category) => {
               const count = listings.filter((l) => l.category === category).length;
@@ -119,10 +149,17 @@ export default function DashboardPage() {
                       {count} ({percentage.toFixed(0)}%)
                     </span>
                   </div>
-                  <div className="mt-1 h-2 w-full rounded-full bg-muted">
+                  <div
+                    className="mt-1 h-2 w-full rounded-full bg-muted"
+                    style={{ background: '#f0f0f0' }}
+                  >
                     <div
-                      className="h-2 rounded-full bg-green-600"
-                      style={{ width: `${percentage}%` }}
+                      className="h-2 rounded-full"
+                      style={{
+                        width: `${percentage}%`,
+                        background: 'linear-gradient(90deg, #06b6d4 0%, #0891b2 100%)',
+                        boxShadow: '0 2px 8px 0 rgba(6, 182, 212, 0.4)',
+                      }}
                     />
                   </div>
                 </div>

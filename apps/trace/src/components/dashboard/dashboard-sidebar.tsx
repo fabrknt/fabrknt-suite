@@ -58,7 +58,7 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
           {/* Mobile Header with Close Button */}
           <div className="flex h-16 items-center justify-between border-b border-border px-6">
             <div className="flex items-center gap-2">
-              <BarChart3 className="h-5 w-5 text-amber-600" />
+              <BarChart3 className="h-5 w-5" style={{ color: '#f97316' }} />
               <h1 className="text-xl font-bold text-foreground">TRACE</h1>
             </div>
             <button
@@ -85,11 +85,19 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
                   href={item.href}
                   onClick={onClose}
                   className={cn(
-                    'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+                    'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all',
                     isActive
-                      ? 'bg-amber-50 text-amber-700'
+                      ? 'text-white'
                       : 'text-foreground/90 hover:bg-gray-50 hover:text-foreground'
                   )}
+                  style={
+                    isActive
+                      ? {
+                          background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+                          boxShadow: '0 4px 14px 0 rgba(249, 115, 22, 0.4)',
+                        }
+                      : {}
+                  }
                 >
                   <Icon className="h-5 w-5" />
                   {item.name}
@@ -110,7 +118,13 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
                 <Heart className="h-3.5 w-3.5" />
                 <span>PULSE</span>
               </a>
-              <div className="flex items-center gap-2 px-2 py-1.5 rounded text-xs bg-amber-50 text-amber-700 font-medium">
+              <div
+                className="flex items-center gap-2 px-2 py-1.5 rounded text-xs text-white font-medium"
+                style={{
+                  background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+                  boxShadow: '0 2px 8px 0 rgba(249, 115, 22, 0.3)',
+                }}
+              >
                 <BarChart3 className="h-3.5 w-3.5" />
                 <span>TRACE</span>
                 <span className="ml-auto text-[10px]">●</span>
@@ -129,7 +143,13 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
           {/* Footer */}
           <div className="border-t border-border p-4 space-y-3">
             <div className="flex items-center gap-3">
-              <div className="h-8 w-8 rounded-full bg-amber-600 flex items-center justify-center text-white text-sm font-medium">
+              <div
+                className="h-8 w-8 rounded-full flex items-center justify-center text-white text-sm font-medium"
+                style={{
+                  background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+                  boxShadow: '0 2px 8px 0 rgba(249, 115, 22, 0.4)',
+                }}
+              >
                 U
               </div>
               <div className="flex-1 min-w-0">
@@ -153,9 +173,15 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
         {/* Brand Header */}
         <div className="flex h-16 items-center px-6 border-b border-border">
           <div className="flex items-center gap-2">
-            <BarChart3 className="h-5 w-5 text-orange-600" />
+            <BarChart3 className="h-5 w-5" style={{ color: '#f97316' }} />
             <h1 className="text-xl font-bold text-foreground">TRACE</h1>
-            <span className="rounded bg-amber-50 px-1.5 py-0.5 text-xs font-semibold text-amber-700">
+            <span
+              className="rounded px-1.5 py-0.5 text-xs font-semibold text-white"
+              style={{
+                background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+                boxShadow: '0 2px 4px 0 rgba(249, 115, 22, 0.3)',
+              }}
+            >
               PREVIEW
             </span>
           </div>
@@ -175,11 +201,19 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
                 key={item.name}
                 href={item.href}
                 className={cn(
-                  'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+                  'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all',
                   isActive
-                    ? 'bg-orange-50 text-orange-700'
+                    ? 'text-white'
                     : 'text-foreground/90 hover:bg-gray-50 hover:text-foreground'
                 )}
+                style={
+                  isActive
+                    ? {
+                        background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+                        boxShadow: '0 4px 14px 0 rgba(249, 115, 22, 0.4)',
+                      }
+                    : {}
+                }
               >
                 <Icon className="h-5 w-5" />
                 {item.name}
@@ -199,7 +233,13 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
               <Heart className="h-3.5 w-3.5" />
               <span>PULSE</span>
             </a>
-            <div className="flex items-center gap-2 px-2 py-1.5 rounded text-xs bg-orange-50 text-orange-700 font-medium">
+            <div
+              className="flex items-center gap-2 px-2 py-1.5 rounded text-xs text-white font-medium"
+              style={{
+                background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+                boxShadow: '0 2px 8px 0 rgba(249, 115, 22, 0.3)',
+              }}
+            >
               <BarChart3 className="h-3.5 w-3.5" />
               <span>TRACE</span>
               <span className="ml-auto text-[10px]">●</span>
@@ -217,7 +257,13 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
         {/* Footer */}
         <div className="border-t border-border p-4 space-y-3">
           <div className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-full bg-gray-900 flex items-center justify-center text-white text-sm font-medium">
+            <div
+              className="h-8 w-8 rounded-full flex items-center justify-center text-white text-sm font-medium"
+              style={{
+                background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+                boxShadow: '0 2px 8px 0 rgba(249, 115, 22, 0.4)',
+              }}
+            >
               U
             </div>
             <div className="flex-1 min-w-0">
