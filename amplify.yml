@@ -65,7 +65,10 @@ applications:
             - echo "Copying server trace files for Amplify..."
             - cp .next/next-server.js.nft.json .next/standalone/apps/pulse/.next/next-server.js.nft.json
             - cp .next/next-minimal-server.js.nft.json .next/standalone/apps/pulse/.next/next-minimal-server.js.nft.json
+            - cp .next/next-server.js.nft.json .next/standalone/apps/pulse/next-server.js.nft.json
+            - cp .next/next-minimal-server.js.nft.json .next/standalone/apps/pulse/next-minimal-server.js.nft.json
             - cp .next/trace .next/standalone/apps/pulse/.next/trace || true
+            - cp .next/trace .next/standalone/apps/pulse/trace || true
             - echo "Copying required-server-files.json for Amplify..."
             - cp .next/standalone/apps/pulse/.next/required-server-files.json .next/standalone/apps/pulse/required-server-files.json
             - echo "Standalone build prepared for deployment"
