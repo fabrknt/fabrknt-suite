@@ -41,7 +41,7 @@ export default function MarketplacePage() {
 
   // Sort listings
   const sortedListings = [...filteredListings].sort((a, b) => {
-    if (sortBy === 'price') return b.askingPrice - a.askingPrice;
+    if (sortBy === 'price') return (b.askingPrice || 0) - (a.askingPrice || 0);
     if (sortBy === 'revenue') return b.revenue - a.revenue;
     if (sortBy === 'score')
       return (b.suiteData?.fabrknt_score || 0) - (a.suiteData?.fabrknt_score || 0);

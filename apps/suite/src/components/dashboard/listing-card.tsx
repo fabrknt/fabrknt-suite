@@ -15,6 +15,7 @@ const statusColors = {
   under_offer: 'bg-yellow-100 text-yellow-800',
   sold: 'bg-muted text-gray-800',
   withdrawn: 'bg-red-100 text-red-800',
+  in_discussion: 'bg-blue-100 text-blue-800',
 };
 
 const categoryIcons = {
@@ -39,7 +40,7 @@ export function ListingCard({ listing }: ListingCardProps) {
 
   return (
     <div className="group rounded-lg border border-border bg-card p-6 transition-all hover:border-green-300 hover:shadow-lg">
-      <Link href={`/marketplace/marketplace/${listing.id}`} className="block">
+      <Link href={`/match/opportunities/${listing.id}`} className="block">
         {/* Header */}
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-3">
@@ -75,9 +76,11 @@ export function ListingCard({ listing }: ListingCardProps) {
         {/* Metrics Grid */}
         <div className="mt-4 grid grid-cols-3 gap-4">
           <div>
-            <p className="text-xs text-muted-foreground/75">Asking Price</p>
-            <p className="mt-1 text-lg font-bold text-foreground">
-              {formatUSD(listing.askingPrice)}
+            <p className="text-xs text-muted-foreground/75">
+              {listing.askingPrice ? 'Asking Price' : 'Type'}
+            </p>
+            <p className="mt-1 text-lg font-bold text-foreground capitalize">
+              {listing.askingPrice ? formatUSD(listing.askingPrice) : listing.type}
             </p>
           </div>
           <div>

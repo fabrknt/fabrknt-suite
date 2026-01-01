@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { Listing } from '@/lib/mock-data';
 import { formatUSD, formatNumber } from '@/lib/utils/format';
-import { getRevenueMultiple } from '@/lib/marketplace/helpers';
+import { getRevenueMultiple } from '@/lib/match/helpers';
 
 interface SpotlightSectionProps {
   title: string;
@@ -20,7 +20,7 @@ const categoryColors = {
   gaming: 'bg-orange-100 text-orange-700',
 };
 
-export function MarketplaceSpotlightSection({
+export function MatchSpotlightSection({
   title,
   description,
   icon: Icon,
@@ -48,7 +48,7 @@ export function MarketplaceSpotlightSection({
           return (
             <Link
               key={listing.id}
-              href={`/marketplace/marketplace/${listing.id}`}
+              href={`/match/opportunities/${listing.id}`}
               className="block p-3 rounded-lg border border-border hover:border-cyan-300 hover:shadow-md transition-all"
             >
               <div className="flex items-start justify-between">
@@ -72,10 +72,12 @@ export function MarketplaceSpotlightSection({
                   </div>
                 </div>
                 <div className="flex items-center gap-4 ml-4">
-                  <div className="text-right">
-                    <p className="text-xs text-muted-foreground">Price</p>
-                    <p className="text-sm font-bold text-foreground">{formatUSD(listing.askingPrice)}</p>
-                  </div>
+                  {listing.askingPrice && (
+                    <div className="text-right">
+                      <p className="text-xs text-muted-foreground">Price</p>
+                      <p className="text-sm font-bold text-foreground">{formatUSD(listing.askingPrice)}</p>
+                    </div>
+                  )}
                   {fabrkntScore > 0 && (
                     <div className="text-right">
                       <p className="text-xs text-muted-foreground">Score</p>
@@ -91,10 +93,10 @@ export function MarketplaceSpotlightSection({
 
       <div className="mt-4 pt-4 border-t border-border">
         <Link
-          href="/marketplace/marketplace"
+          href="/match/opportunities"
           className="flex items-center justify-center gap-2 text-sm text-cyan-600 hover:text-cyan-700 font-medium"
         >
-          View All Listings
+          View All Opportunities
           <ArrowRight className="h-4 w-4" />
         </Link>
       </div>

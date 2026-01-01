@@ -72,7 +72,7 @@ export default function CompanyProfilePage({ params }: PageProps) {
                   </div>
                   {company.isListed && (
                     <Link
-                      href={`/marketplace/marketplace/${company.listingId}`}
+                      href={`/match/opportunities/${company.listingId}`}
                       className="flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-700 hover:bg-purple-200"
                     >
                       <span>Listed in Marketplace</span>

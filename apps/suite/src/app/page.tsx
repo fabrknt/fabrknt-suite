@@ -32,11 +32,11 @@ export default function SuiteLandingPage() {
                 <ArrowRight className="h-5 w-5" />
               </Link>
               <Link
-                href="/marketplace"
+                href="/match"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg bg-cyan-600 text-white hover:bg-cyan-700 transition-colors font-semibold text-lg"
               >
                 <ShoppingCart className="h-6 w-6" />
-                Browse Marketplace
+                Explore Match
                 <ArrowRight className="h-5 w-5" />
               </Link>
             </div>
@@ -127,58 +127,58 @@ export default function SuiteLandingPage() {
             </Link>
           </div>
 
-          {/* MARKETPLACE Product */}
+          {/* MATCH Product */}
           <div className="bg-card rounded-lg border border-border p-8">
             <div className="flex items-center gap-3 mb-6">
               <div className="p-3 rounded-lg bg-cyan-100">
                 <ShoppingCart className="h-8 w-8 text-cyan-600" />
               </div>
               <div>
-                <h2 className="text-2xl font-bold text-foreground">MARKETPLACE</h2>
-                <p className="text-sm text-muted-foreground">Verified Company Marketplace</p>
+                <h2 className="text-2xl font-bold text-foreground">MATCH</h2>
+                <p className="text-sm text-muted-foreground">M&A & Partnership Matching</p>
               </div>
             </div>
 
             <p className="text-muted-foreground mb-6">
-              Acquire web3 companies with verified intelligence. Only companies with proven metrics
-              and verified data can be listed.
+              Find acquisition targets and partnership opportunities with verified intelligence.
+              Connect for M&A, strategic alliances, and ecosystem collaboration.
             </p>
 
             <div className="space-y-4 mb-6">
               <div className="flex items-start gap-3">
                 <Building2 className="h-5 w-5 text-cyan-600 mt-0.5" />
                 <div>
-                  <p className="font-semibold text-foreground">Verified Listings</p>
+                  <p className="font-semibold text-foreground">M&A Opportunities</p>
                   <p className="text-sm text-muted-foreground">
-                    {listedCompanies} companies with intelligence scores available
+                    {listedCompanies} verified companies available for acquisition
                   </p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <Shield className="h-5 w-5 text-cyan-600 mt-0.5" />
+                <Users className="h-5 w-5 text-cyan-600 mt-0.5" />
                 <div>
-                  <p className="font-semibold text-foreground">No Self-Reported Data</p>
+                  <p className="font-semibold text-foreground">Partnership Matching</p>
                   <p className="text-sm text-muted-foreground">
-                    All metrics automatically verified before listing
+                    Strategic alliances, tech collaborations, ecosystem building
                   </p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <TrendingUp className="h-5 w-5 text-cyan-600 mt-0.5" />
                 <div>
-                  <p className="font-semibold text-foreground">Transparent Metrics</p>
+                  <p className="font-semibold text-foreground">Verified Intelligence</p>
                   <p className="text-sm text-muted-foreground">
-                    See team health, growth, and verified revenue
+                    All metrics verified - team health, growth, and revenue
                   </p>
                 </div>
               </div>
             </div>
 
             <Link
-              href="/marketplace"
+              href="/match"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-cyan-600 text-white hover:bg-cyan-700 transition-colors font-medium w-full justify-center"
             >
-              Browse Marketplace
+              Explore Opportunities
               <ArrowRight className="h-5 w-5" />
             </Link>
           </div>
@@ -232,7 +232,7 @@ export default function SuiteLandingPage() {
             Start Making Data-Driven Decisions
           </h2>
           <p className="text-lg text-muted-foreground mb-8">
-            Research companies with INTELLIGENCE, acquire with MARKETPLACE. All backed by verified data.
+            Research companies with INTELLIGENCE, connect for M&A and partnerships with MATCH. All backed by verified data.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
@@ -243,10 +243,10 @@ export default function SuiteLandingPage() {
               <ArrowRight className="h-5 w-5" />
             </Link>
             <Link
-              href="/marketplace/marketplace"
+              href="/match/opportunities"
               className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg border-2 border-cyan-600 text-cyan-600 hover:bg-cyan-50 transition-colors font-medium"
             >
-              View All Listings
+              View All Opportunities
               <ArrowRight className="h-5 w-5" />
             </Link>
           </div>

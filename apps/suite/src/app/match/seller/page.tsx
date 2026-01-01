@@ -12,6 +12,7 @@ const statusColors = {
   under_offer: 'bg-yellow-100 text-yellow-800',
   sold: 'bg-muted text-gray-800',
   withdrawn: 'bg-red-100 text-red-800',
+  in_discussion: 'bg-blue-100 text-blue-800',
 };
 
 export default function SellerDashboardPage() {
@@ -21,7 +22,7 @@ export default function SellerDashboardPage() {
   const myListings = allListings.slice(0, 3);
 
   const activeListings = myListings.filter((l) => l.status === 'active').length;
-  const totalValue = myListings.reduce((sum, l) => l.askingPrice, 0);
+  const totalValue = myListings.reduce((sum, l) => sum + (l.askingPrice || 0), 0);
   const underOffer = myListings.filter((l) => l.status === 'under_offer').length;
 
   return (
@@ -106,7 +107,7 @@ export default function SellerDashboardPage() {
                   </div>
                 </td>
                 <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-foreground">
-                  {formatUSD(listing.askingPrice)}
+                  {listing.askingPrice ? formatUSD(listing.askingPrice) : 'Partnership'}
                 </td>
                 <td className="whitespace-nowrap px-6 py-4 text-sm text-foreground">
                   {formatUSD(listing.revenue)}
@@ -130,7 +131,7 @@ export default function SellerDashboardPage() {
                 <td className="whitespace-nowrap px-6 py-4 text-sm">
                   <div className="flex items-center gap-2">
                     <Link
-                      href={`/marketplace/marketplace/${listing.id}`}
+                      href={`/match/opportunities/${listing.id}`}
                       className="text-green-600 hover:text-green-900"
                       title="View"
                     >

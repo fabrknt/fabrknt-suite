@@ -21,6 +21,7 @@ const statusColors = {
   under_offer: 'bg-yellow-100 text-yellow-800',
   sold: 'bg-muted text-gray-800',
   withdrawn: 'bg-red-100 text-red-800',
+  in_discussion: 'bg-blue-100 text-blue-800',
 };
 
 export default function ListingDetailPage({
@@ -40,7 +41,7 @@ export default function ListingDetailPage({
       <div className="border-b border-border bg-card">
         <div className="p-8">
           <Link
-            href="/marketplace/marketplace"
+            href="/match/opportunities"
             className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
           >
             <ArrowLeft className="h-4 w-4" />
@@ -73,10 +74,21 @@ export default function ListingDetailPage({
             </div>
 
             <div className="text-right">
-              <p className="text-sm text-muted-foreground">Asking Price</p>
-              <p className="text-3xl font-bold text-green-600">
-                {formatUSD(listing.askingPrice)}
-              </p>
+              {listing.askingPrice ? (
+                <>
+                  <p className="text-sm text-muted-foreground">Asking Price</p>
+                  <p className="text-3xl font-bold text-green-600">
+                    {formatUSD(listing.askingPrice)}
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="text-sm text-muted-foreground">Opportunity Type</p>
+                  <p className="text-3xl font-bold text-cyan-600 capitalize">
+                    {listing.type}
+                  </p>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -139,13 +151,27 @@ export default function ListingDetailPage({
                 </div>
 
                 <div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <TrendingUp className="h-5 w-5 text-gray-400" />
-                    <span className="text-sm text-muted-foreground">Revenue Multiple</span>
-                  </div>
-                  <p className="text-2xl font-bold text-foreground">
-                    {(listing.askingPrice / listing.revenue).toFixed(1)}x
-                  </p>
+                  {listing.askingPrice ? (
+                    <>
+                      <div className="flex items-center gap-2 mb-2">
+                        <TrendingUp className="h-5 w-5 text-gray-400" />
+                        <span className="text-sm text-muted-foreground">Revenue Multiple</span>
+                      </div>
+                      <p className="text-2xl font-bold text-foreground">
+                        {(listing.askingPrice / listing.revenue).toFixed(1)}x
+                      </p>
+                    </>
+                  ) : listing.partnershipType ? (
+                    <>
+                      <div className="flex items-center gap-2 mb-2">
+                        <TrendingUp className="h-5 w-5 text-gray-400" />
+                        <span className="text-sm text-muted-foreground">Partnership Type</span>
+                      </div>
+                      <p className="text-2xl font-bold text-foreground capitalize">
+                        {listing.partnershipType}
+                      </p>
+                    </>
+                  ) : null}
                 </div>
 
                 <div>

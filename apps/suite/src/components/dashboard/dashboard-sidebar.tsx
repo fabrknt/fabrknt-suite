@@ -4,13 +4,14 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
   Building2,
-  ShoppingBag,
+  Link2,
   Users,
   X,
   Brain,
   List,
   TrendingUp,
-  Home
+  Home,
+  Target
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -19,11 +20,11 @@ const intelligenceNav = [
   { name: 'Companies', href: '/intelligence/companies', icon: List },
 ];
 
-const marketplaceNav = [
-  { name: 'Spotlight', href: '/marketplace', icon: TrendingUp },
-  { name: 'Listings', href: '/marketplace/marketplace', icon: ShoppingBag },
-  { name: 'My Listings', href: '/marketplace/seller', icon: Building2 },
-  { name: 'Buyers', href: '/marketplace/buyers', icon: Users, disabled: true },
+const matchNav = [
+  { name: 'Spotlight', href: '/match', icon: TrendingUp },
+  { name: 'Opportunities', href: '/match/opportunities', icon: Target },
+  { name: 'My Opportunities', href: '/match/seller', icon: Building2 },
+  { name: 'Partners', href: '/match/partners', icon: Users, disabled: true },
 ];
 
 interface DashboardSidebarProps {
@@ -34,7 +35,7 @@ interface DashboardSidebarProps {
 export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
   const pathname = usePathname();
   const isIntelligence = pathname.startsWith('/intelligence');
-  const isMarketplace = pathname.startsWith('/marketplace');
+  const isMatch = pathname.startsWith('/match');
 
   return (
     <>
@@ -71,7 +72,7 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
               onClick={onClose}
               className={cn(
                 'flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-all',
-                !isIntelligence && !isMarketplace
+                !isIntelligence && !isMatch
                   ? 'bg-gray-100 text-foreground'
                   : 'text-foreground/90 hover:bg-gray-50 hover:text-foreground'
               )}
@@ -111,17 +112,17 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
               </div>
             </div>
 
-            {/* MARKETPLACE Section */}
+            {/* MATCH Section */}
             <div>
               <div className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                <ShoppingBag className="h-4 w-4 text-cyan-600" />
-                Marketplace
+                <Link2 className="h-4 w-4 text-cyan-600" />
+                Match
               </div>
               <div className="space-y-1">
-                {marketplaceNav.map((item) => {
+                {matchNav.map((item) => {
                   const isActive =
-                    item.href === '/marketplace'
-                      ? pathname === '/marketplace'
+                    item.href === '/match'
+                      ? pathname === '/match'
                       : pathname === item.href || pathname.startsWith(item.href + '/');
                   const Icon = item.icon;
 
@@ -163,7 +164,7 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
           <div className="border-t border-border p-4">
             <div className="text-xs text-muted-foreground/75">
               <div className="font-medium text-foreground">Fabrknt Suite</div>
-              <div className="mt-1">Intelligence + Marketplace</div>
+              <div className="mt-1">Intelligence + Match</div>
               <div className="mt-1 text-gray-600">Preview</div>
             </div>
           </div>
@@ -189,7 +190,7 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
             href="/"
             className={cn(
               'flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-all',
-              !isIntelligence && !isMarketplace
+              !isIntelligence && !isMatch
                 ? 'bg-gray-100 text-foreground'
                 : 'text-foreground/90 hover:bg-gray-50 hover:text-foreground'
             )}
@@ -228,17 +229,17 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
             </div>
           </div>
 
-          {/* MARKETPLACE Section */}
+          {/* MATCH Section */}
           <div>
             <div className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-              <ShoppingBag className="h-4 w-4 text-cyan-600" />
-              Marketplace
+              <Link2 className="h-4 w-4 text-cyan-600" />
+              Match
             </div>
             <div className="space-y-1">
-              {marketplaceNav.map((item) => {
+              {matchNav.map((item) => {
                 const isActive =
-                  item.href === '/marketplace'
-                    ? pathname === '/marketplace'
+                  item.href === '/match'
+                    ? pathname === '/match'
                     : pathname === item.href || pathname.startsWith(item.href + '/');
                 const Icon = item.icon;
 
@@ -279,7 +280,7 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
         <div className="border-t border-border p-4">
           <div className="text-xs text-muted-foreground/75">
             <div className="font-medium text-foreground">Fabrknt Suite</div>
-            <div className="mt-1">Intelligence + Marketplace</div>
+            <div className="mt-1">Intelligence + Match</div>
             <div className="mt-1 text-gray-600">Preview</div>
           </div>
         </div>

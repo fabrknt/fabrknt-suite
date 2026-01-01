@@ -1,14 +1,25 @@
 import { SuiteData } from '@fabrknt/ui';
 
+export type OpportunityType = 'acquisition' | 'partnership' | 'collaboration' | 'investment';
+
 export interface Listing {
   id: string;
+  type: OpportunityType;
   projectName: string;
   description: string;
-  askingPrice: number;
+
+  // M&A specific (acquisition/investment)
+  askingPrice?: number;
   revenue: number;
   mau: number;
+
+  // Partnership specific
+  seekingPartners?: string[];  // e.g., ["DeFi protocol", "Payment provider"]
+  offeringCapabilities?: string[];  // e.g., ["ZKP infrastructure", "Node operations"]
+  partnershipType?: 'technical' | 'strategic' | 'marketing' | 'ecosystem';
+
   category: 'defi' | 'nft' | 'gaming' | 'infrastructure' | 'dao';
-  status: 'active' | 'under_offer' | 'sold' | 'withdrawn';
+  status: 'active' | 'under_offer' | 'sold' | 'withdrawn' | 'in_discussion';
   sellerWallet: string;
   createdAt: string;
 
@@ -19,7 +30,7 @@ export interface Listing {
   chain: 'ethereum' | 'base' | 'polygon' | 'solana' | 'multi-chain';
   website?: string;
   hasNDA: boolean;
-  requiresProofOfFunds: boolean;
+  requiresProofOfFunds?: boolean;
   minBuyerCapital?: number;
 }
 
@@ -32,6 +43,7 @@ export function generateMockListings(): Listing[] {
   return [
     {
       id: 'listing-1',
+      type: 'acquisition',
       projectName: 'DeFi Yield Protocol',
       description: 'Automated yield farming protocol with proven revenue and active community. $2.5M ARR, 15K MAU, growing 25% MoM.',
       askingPrice: 8500000,
@@ -65,6 +77,7 @@ export function generateMockListings(): Listing[] {
     },
     {
       id: 'listing-2',
+      type: 'acquisition',
       projectName: 'NFT Gaming Platform',
       description: 'Play-to-earn gaming ecosystem with 50K+ active players. Strong community engagement and proven team.',
       askingPrice: 12000000,
@@ -98,6 +111,7 @@ export function generateMockListings(): Listing[] {
     },
     {
       id: 'listing-3',
+      type: 'acquisition',
       projectName: 'DAO Governance Toolkit',
       description: 'Modular governance framework used by 200+ DAOs. Subscription-based revenue model, highly scalable.',
       askingPrice: 5500000,
@@ -131,6 +145,7 @@ export function generateMockListings(): Listing[] {
     },
     {
       id: 'listing-4',
+      type: 'acquisition',
       projectName: 'NFT Marketplace',
       description: 'Curated NFT marketplace focusing on digital art. $850K ARR, strong artist community.',
       askingPrice: 3200000,
@@ -163,6 +178,7 @@ export function generateMockListings(): Listing[] {
     },
     {
       id: 'listing-5',
+      type: 'acquisition',
       projectName: 'Cross-Chain Bridge',
       description: 'Secure multi-chain asset bridge. $4.2M TVL, high transaction volume, strong security track record.',
       askingPrice: 15000000,
@@ -196,6 +212,7 @@ export function generateMockListings(): Listing[] {
     },
     {
       id: 'listing-6',
+      type: 'acquisition',
       projectName: 'Social DeFi App',
       description: 'Social trading platform with 12K active traders. Revenue from trading fees and premium subscriptions.',
       askingPrice: 4800000,
@@ -225,6 +242,109 @@ export function generateMockListings(): Listing[] {
         },
         revenue_verified: 1,
         fabrknt_score: 77,
+      },
+    },
+    // Partnership Opportunities
+    {
+      id: 'partnership-1',
+      type: 'partnership',
+      projectName: 'ZK-Proof Infrastructure',
+      description: 'Enterprise-grade zero-knowledge proof infrastructure seeking integration partners. Looking to collaborate with L2s, privacy protocols, and enterprise blockchain solutions.',
+      revenue: 1500000,
+      mau: 3200,
+      seekingPartners: ['Layer 2 protocols', 'Privacy-focused DeFi', 'Enterprise blockchain'],
+      offeringCapabilities: ['ZK-SNARK circuits', 'Proof generation', 'Verification infrastructure'],
+      partnershipType: 'technical',
+      category: 'infrastructure',
+      status: 'active',
+      sellerWallet: '0xG3h4...I5j6',
+      createdAt: new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+      chain: 'ethereum',
+      website: 'https://example-zk.tech',
+      hasNDA: true,
+      suiteData: {
+        pulse: {
+          vitality_score: 88,
+          developer_activity_score: 92,
+          team_retention_score: 85,
+          active_contributors: 14,
+        },
+        trace: {
+          growth_score: 82,
+          verified_roi: 400,
+          roi_multiplier: 4.0,
+          quality_score: 88,
+        },
+        revenue_verified: 1,
+        fabrknt_score: 86,
+      },
+    },
+    {
+      id: 'partnership-2',
+      type: 'collaboration',
+      projectName: 'DePIN Network',
+      description: 'Decentralized Physical Infrastructure Network with 5K+ nodes. Seeking ecosystem partnerships for network expansion and use-case development.',
+      revenue: 800000,
+      mau: 5500,
+      seekingPartners: ['IoT platforms', 'Smart city solutions', 'Data marketplaces'],
+      offeringCapabilities: ['Global node network', 'Data collection infrastructure', 'Token economics'],
+      partnershipType: 'ecosystem',
+      category: 'infrastructure',
+      status: 'active',
+      sellerWallet: '0xH5i6...J7k8',
+      createdAt: new Date(now.getTime() - 14 * 24 * 60 * 60 * 1000).toISOString(),
+      chain: 'multi-chain',
+      website: 'https://example-depin.network',
+      hasNDA: false,
+      suiteData: {
+        pulse: {
+          vitality_score: 80,
+          developer_activity_score: 78,
+          team_retention_score: 82,
+          active_contributors: 11,
+        },
+        trace: {
+          growth_score: 85,
+          verified_roi: 320,
+          roi_multiplier: 3.2,
+          quality_score: 80,
+        },
+        revenue_verified: 1,
+        fabrknt_score: 81,
+      },
+    },
+    {
+      id: 'partnership-3',
+      type: 'partnership',
+      projectName: 'Payment Protocol',
+      description: 'Stablecoin payment rails for Web3 apps. Seeking strategic partnerships with DeFi protocols, NFT marketplaces, and gaming platforms for payment integration.',
+      revenue: 2200000,
+      mau: 18000,
+      seekingPartners: ['DeFi protocols', 'NFT marketplaces', 'Gaming platforms', 'E-commerce'],
+      offeringCapabilities: ['Instant settlements', 'Multi-currency support', 'Compliance infrastructure'],
+      partnershipType: 'strategic',
+      category: 'defi',
+      status: 'active',
+      sellerWallet: '0xI7j8...K9l0',
+      createdAt: new Date(now.getTime() - 10 * 24 * 60 * 60 * 1000).toISOString(),
+      chain: 'multi-chain',
+      website: 'https://example-pay.protocol',
+      hasNDA: true,
+      suiteData: {
+        pulse: {
+          vitality_score: 86,
+          developer_activity_score: 88,
+          team_retention_score: 84,
+          active_contributors: 13,
+        },
+        trace: {
+          growth_score: 90,
+          verified_roi: 480,
+          roi_multiplier: 4.8,
+          quality_score: 87,
+        },
+        revenue_verified: 1,
+        fabrknt_score: 88,
       },
     },
   ];
@@ -259,13 +379,20 @@ export function getListingsByCategory(category: Listing['category']): Listing[] 
 }
 
 /**
- * Calculate marketplace stats
+ * Get opportunities by type
  */
-export function calculateMarketplaceStats() {
+export function getOpportunitiesByType(type: OpportunityType): Listing[] {
+  return getMockListings().filter(l => l.type === type);
+}
+
+/**
+ * Calculate match platform stats
+ */
+export function calculateMatchStats() {
   const listings = getMockListings();
   const activeListings = listings.filter(l => l.status === 'active');
 
-  const totalValue = activeListings.reduce((sum, l) => sum + l.askingPrice, 0);
+  const totalValue = activeListings.reduce((sum, l) => sum + (l.askingPrice || 0), 0);
   const avgFabrkntScore = listings
     .filter(l => l.suiteData?.fabrknt_score)
     .reduce((sum, l) => sum + (l.suiteData?.fabrknt_score || 0), 0) / listings.length;

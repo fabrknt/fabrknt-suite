@@ -1,17 +1,17 @@
 import Link from 'next/link';
 import { Building2, DollarSign, TrendingUp, Clock, Eye, Award, ArrowRight } from 'lucide-react';
 import { StatsCard } from '@/components/dashboard/stats-card';
-import { getMockListings, calculateMarketplaceStats } from '@/lib/mock-data';
+import { getMockListings, calculateMatchStats } from '@/lib/mock-data';
 import {
   getFeaturedListings,
   getRecentlyListed,
   getBestValue,
   getHighInterest,
-} from '@/lib/marketplace/helpers';
-import { MarketplaceSpotlightSection } from '@/components/marketplace/marketplace-spotlight';
+} from '@/lib/match/helpers';
+import { MatchSpotlightSection } from '@/components/match/match-spotlight';
 
-export default function MarketplacePage() {
-  const stats = calculateMarketplaceStats();
+export default function MatchPage() {
+  const stats = calculateMatchStats();
   const listings = getMockListings();
 
   // Spotlight sections
@@ -24,23 +24,23 @@ export default function MarketplacePage() {
     <div className="space-y-8">
       {/* Header */}
       <div className="text-center">
-        <h1 className="text-4xl font-bold text-foreground mb-4">Verified Web3 Marketplace</h1>
+        <h1 className="text-4xl font-bold text-foreground mb-4">M&A & Partnership Matching</h1>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-          Acquire web3 companies with verified on-chain and off-chain intelligence
+          Find acquisition targets and partnership opportunities with verified intelligence
         </p>
       </div>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
         <StatsCard
-          title="Total Listings"
+          title="Total Opportunities"
           value={stats.totalListings}
           icon={Building2}
           trend="up"
           change={12}
         />
         <StatsCard
-          title="Active Listings"
+          title="Active Opportunities"
           value={stats.activeListings}
           icon={TrendingUp}
           trend="up"
@@ -64,9 +64,9 @@ export default function MarketplacePage() {
 
       {/* Spotlight Sections */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Featured Listings */}
-        <MarketplaceSpotlightSection
-          title="Featured Listings"
+        {/* Featured Opportunities */}
+        <MatchSpotlightSection
+          title="Featured Opportunities"
           description="Highest verified intelligence scores"
           icon={Award}
           listings={featured}
@@ -74,16 +74,16 @@ export default function MarketplacePage() {
         />
 
         {/* Recently Listed */}
-        <MarketplaceSpotlightSection
+        <MatchSpotlightSection
           title="Recently Listed"
-          description="Latest acquisition opportunities"
+          description="Latest M&A and partnership opportunities"
           icon={Clock}
           listings={recentlyListed}
           iconColor="text-blue-600"
         />
 
         {/* High Interest */}
-        <MarketplaceSpotlightSection
+        <MatchSpotlightSection
           title="High Interest"
           description="Most active user bases"
           icon={Eye}
@@ -92,7 +92,7 @@ export default function MarketplacePage() {
         />
 
         {/* Best Value */}
-        <MarketplaceSpotlightSection
+        <MatchSpotlightSection
           title="Best Value"
           description="Lowest revenue multiples"
           icon={TrendingUp}
@@ -101,11 +101,11 @@ export default function MarketplacePage() {
         />
       </div>
 
-      {/* Marketplace Metrics */}
+      {/* Platform Metrics */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {/* Revenue Breakdown */}
         <div className="rounded-lg border border-border bg-card p-6">
-          <h3 className="text-lg font-semibold text-foreground mb-4">Marketplace Metrics</h3>
+          <h3 className="text-lg font-semibold text-foreground mb-4">Platform Metrics</h3>
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <span className="text-sm text-muted-foreground">Total Revenue</span>
@@ -164,14 +164,14 @@ export default function MarketplacePage() {
       <div className="bg-cyan-50 border border-cyan-200 rounded-lg p-8 text-center">
         <h3 className="text-2xl font-bold text-cyan-900 mb-4">Verified Intelligence</h3>
         <p className="text-cyan-800 max-w-2xl mx-auto mb-6">
-          Every listing includes verified on-chain and off-chain intelligence metrics. See team health,
-          growth momentum, and verified revenue before you buy.
+          Every opportunity includes verified on-chain and off-chain intelligence metrics. See team health,
+          growth momentum, and verified revenue before you connect.
         </p>
         <Link
-          href="/marketplace/marketplace"
+          href="/match/opportunities"
           className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-cyan-600 text-white hover:bg-cyan-700 transition-colors font-medium"
         >
-          Explore All Listings
+          Explore All Opportunities
           <ArrowRight className="h-5 w-5" />
         </Link>
       </div>

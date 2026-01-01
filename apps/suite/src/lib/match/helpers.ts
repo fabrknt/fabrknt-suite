@@ -25,10 +25,10 @@ export function getRecentlyListed(listings: Listing[], limit: number = 5): Listi
  */
 export function getBestValue(listings: Listing[], limit: number = 5): Listing[] {
   return [...listings]
-    .filter((l) => l.status === 'active' && l.revenue > 0)
+    .filter((l) => l.status === 'active' && l.revenue > 0 && l.askingPrice)
     .sort((a, b) => {
-      const aMultiple = a.askingPrice / a.revenue;
-      const bMultiple = b.askingPrice / b.revenue;
+      const aMultiple = (a.askingPrice || 0) / a.revenue;
+      const bMultiple = (b.askingPrice || 0) / b.revenue;
       return aMultiple - bMultiple; // Lower multiple = better value
     })
     .slice(0, limit);
@@ -68,6 +68,6 @@ export function getListingsByCategory(listings: Listing[], category: Listing['ca
  * Calculate revenue multiple for a listing
  */
 export function getRevenueMultiple(listing: Listing): number {
-  if (listing.revenue === 0) return 0;
+  if (listing.revenue === 0 || !listing.askingPrice) return 0;
   return listing.askingPrice / listing.revenue;
 }
