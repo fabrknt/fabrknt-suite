@@ -30,7 +30,7 @@ export interface SuiteRibbonProps {
 }
 
 export function SuiteRibbon({
-  listingId,
+  listingId: _listingId,
   data,
   loading = false,
   className,
