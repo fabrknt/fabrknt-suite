@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 import { getListingById } from '@/lib/mock-data';
 import { formatUSD, formatNumber, formatDate } from '@/lib/utils/format';
-import { SuiteRibbon } from '@fabrknt/ui';
+import { SuiteRibbon } from '@/components/suite-ribbon';
 import { cn } from '@/lib/utils';
 
 const statusColors = {

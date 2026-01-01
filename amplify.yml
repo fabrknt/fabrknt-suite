@@ -3,7 +3,6 @@ frontend:
   phases:
     preBuild:
       commands:
-        - cd apps/suite
         - corepack enable
         - corepack prepare pnpm@latest --activate
         - pnpm install --no-frozen-lockfile

@@ -1,4 +1,4 @@
-import { SuiteData } from '@fabrknt/ui';
+import { SuiteData } from '@/components/suite-ribbon';
 
 export type OpportunityType = 'acquisition' | 'partnership' | 'collaboration' | 'investment';
 
