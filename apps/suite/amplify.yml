@@ -6,23 +6,23 @@ frontend:
         - corepack enable
         - corepack prepare pnpm@8.15.0 --activate
         - pnpm install --frozen-lockfile
-        - echo "Installing dependencies for ACQUIRE"
+        - echo "Installing dependencies for Fabrknt Suite"
     build:
       commands:
-        - cd apps/acquire
+        - cd apps/suite
         - pnpm run build
-        - echo "ACQUIRE build completed"
+        - echo "Suite build completed"
     postBuild:
       commands:
         - echo "Post-build completed"
   artifacts:
-    baseDirectory: apps/acquire/.next
+    baseDirectory: apps/suite/.next
     files:
       - '**/*'
   cache:
     paths:
       - node_modules/**/*
-      - apps/acquire/.next/cache/**/*
+      - apps/suite/.next/cache/**/*
       - .turbo/**/*
 customHeaders:
   - pattern: '**/*'
