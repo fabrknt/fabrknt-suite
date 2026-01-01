@@ -2,12 +2,26 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Building2, LayoutDashboard, ShoppingBag, Users, X, Heart, BarChart3 } from 'lucide-react';
+import {
+  Building2,
+  ShoppingBag,
+  Users,
+  X,
+  Brain,
+  List,
+  TrendingUp,
+  Home
+} from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-const navigation = [
-  { name: 'Overview', href: '/marketplace', icon: LayoutDashboard },
-  { name: 'Marketplace', href: '/marketplace/marketplace', icon: ShoppingBag },
+const intelligenceNav = [
+  { name: 'Spotlight', href: '/intelligence', icon: TrendingUp },
+  { name: 'Companies', href: '/intelligence/companies', icon: List },
+];
+
+const marketplaceNav = [
+  { name: 'Spotlight', href: '/marketplace', icon: TrendingUp },
+  { name: 'Listings', href: '/marketplace/marketplace', icon: ShoppingBag },
   { name: 'My Listings', href: '/marketplace/seller', icon: Building2 },
   { name: 'Buyers', href: '/marketplace/buyers', icon: Users, disabled: true },
 ];
@@ -19,6 +33,8 @@ interface DashboardSidebarProps {
 
 export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
   const pathname = usePathname();
+  const isIntelligence = pathname.startsWith('/intelligence');
+  const isMarketplace = pathname.startsWith('/marketplace');
 
   return (
     <>
@@ -32,10 +48,12 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
         <div className="flex h-full flex-col">
           {/* Mobile Header with Close Button */}
           <div className="flex h-16 items-center justify-between border-b border-border px-6">
-            <div className="flex items-center gap-2">
-              <ShoppingBag className="h-5 w-5" style={{ color: '#06b6d4' }} />
-              <span className="text-xl font-bold text-foreground">MARKETPLACE</span>
-            </div>
+            <Link href="/" className="flex items-center gap-2" onClick={onClose}>
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center">
+                <span className="text-white font-bold text-sm">FS</span>
+              </div>
+              <span className="text-xl font-bold text-foreground">Suite</span>
+            </Link>
             <button
               onClick={onClose}
               className="p-2 text-foreground hover:bg-muted rounded-md transition-colors"
@@ -46,96 +64,107 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 space-y-1 px-3 py-4 overflow-y-auto">
-            {navigation.map((item) => {
-              const isActive =
-                item.href === '/marketplace'
-                  ? pathname === '/marketplace'
-                  : pathname === item.href || pathname.startsWith(item.href + '/');
-              const Icon = item.icon;
+          <nav className="flex-1 space-y-4 px-3 py-4 overflow-y-auto">
+            {/* Home */}
+            <Link
+              href="/"
+              onClick={onClose}
+              className={cn(
+                'flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-all',
+                !isIntelligence && !isMarketplace
+                  ? 'bg-gray-100 text-foreground'
+                  : 'text-foreground/90 hover:bg-gray-50 hover:text-foreground'
+              )}
+            >
+              <Home className="mr-3 h-5 w-5" />
+              Home
+            </Link>
 
-              if (item.disabled) {
-                return (
-                  <div
-                    key={item.name}
-                    className="flex items-center rounded-lg px-3 py-2 text-sm font-medium text-gray-400 cursor-not-allowed"
-                  >
-                    <Icon className="mr-3 h-5 w-5" />
-                    {item.name}
-                    <span className="ml-auto text-xs">(Soon)</span>
-                  </div>
-                );
-              }
+            {/* INTELLIGENCE Section */}
+            <div>
+              <div className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                <Brain className="h-4 w-4 text-purple-600" />
+                Intelligence
+              </div>
+              <div className="space-y-1">
+                {intelligenceNav.map((item) => {
+                  const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+                  const Icon = item.icon;
 
-              return (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  onClick={onClose}
-                  className={cn(
-                    'flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-all',
-                    isActive
-                      ? 'text-white'
-                      : 'text-foreground/90 hover:bg-gray-50 hover:text-foreground'
-                  )}
-                  style={
-                    isActive
-                      ? {
-                          background: 'linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)',
-                          boxShadow: '0 4px 14px 0 rgba(6, 182, 212, 0.4)',
-                        }
-                      : {}
-                  }
-                >
-                  <Icon className="mr-3 h-5 w-5" />
-                  {item.name}
-                </Link>
-              );
-            })}
-          </nav>
-
-          {/* Suite Switcher */}
-          <div className="border-t border-border p-4">
-            <div className="text-xs font-medium text-foreground mb-2">Switch App</div>
-            <div className="space-y-1">
-              <a
-                href="http://localhost:3001"
-                onClick={onClose}
-                className="flex items-center gap-2 px-2 py-1.5 rounded text-xs text-foreground/90 hover:bg-gray-50 transition-colors"
-              >
-                <Heart className="h-3.5 w-3.5" />
-                <span>PULSE</span>
-              </a>
-              <a
-                href="http://localhost:3002"
-                onClick={onClose}
-                className="flex items-center gap-2 px-2 py-1.5 rounded text-xs text-foreground/90 hover:bg-gray-50 transition-colors"
-              >
-                <BarChart3 className="h-3.5 w-3.5" />
-                <span>TRACE</span>
-              </a>
-              <div
-                className="flex items-center gap-2 px-2 py-1.5 rounded text-xs text-white font-medium"
-                style={{
-                  background: 'linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)',
-                  boxShadow: '0 2px 8px 0 rgba(6, 182, 212, 0.3)',
-                }}
-              >
-                <ShoppingBag className="h-3.5 w-3.5" />
-                <span>MARKETPLACE</span>
-                <span className="ml-auto text-[10px]">●</span>
+                  return (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      onClick={onClose}
+                      className={cn(
+                        'flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-all',
+                        isActive
+                          ? 'text-white bg-purple-600 shadow-lg shadow-purple-600/40'
+                          : 'text-foreground/90 hover:bg-gray-50 hover:text-foreground'
+                      )}
+                    >
+                      <Icon className="mr-3 h-5 w-5" />
+                      {item.name}
+                    </Link>
+                  );
+                })}
               </div>
             </div>
-          </div>
+
+            {/* MARKETPLACE Section */}
+            <div>
+              <div className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                <ShoppingBag className="h-4 w-4 text-cyan-600" />
+                Marketplace
+              </div>
+              <div className="space-y-1">
+                {marketplaceNav.map((item) => {
+                  const isActive =
+                    item.href === '/marketplace'
+                      ? pathname === '/marketplace'
+                      : pathname === item.href || pathname.startsWith(item.href + '/');
+                  const Icon = item.icon;
+
+                  if (item.disabled) {
+                    return (
+                      <div
+                        key={item.name}
+                        className="flex items-center rounded-lg px-3 py-2 text-sm font-medium text-gray-400 cursor-not-allowed"
+                      >
+                        <Icon className="mr-3 h-5 w-5" />
+                        {item.name}
+                        <span className="ml-auto text-xs">(Soon)</span>
+                      </div>
+                    );
+                  }
+
+                  return (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      onClick={onClose}
+                      className={cn(
+                        'flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-all',
+                        isActive
+                          ? 'text-white bg-cyan-600 shadow-lg shadow-cyan-600/40'
+                          : 'text-foreground/90 hover:bg-gray-50 hover:text-foreground'
+                      )}
+                    >
+                      <Icon className="mr-3 h-5 w-5" />
+                      {item.name}
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          </nav>
 
           {/* Footer */}
           <div className="border-t border-border p-4">
             <div className="text-xs text-muted-foreground/75">
-              <div className="font-medium text-foreground">MARKETPLACE</div>
-              <div className="mt-1">
-                Part of <span className="font-semibold text-foreground">Fabrknt Suite</span>
-              </div>
-              <div className="mt-1 text-gray-600">Preview Only</div>
+              <div className="font-medium text-foreground">Fabrknt Suite</div>
+              <div className="mt-1">Intelligence + Marketplace</div>
+              <div className="mt-1 text-gray-600">Preview</div>
             </div>
           </div>
         </div>
@@ -145,109 +174,113 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
       <div className="hidden lg:flex h-full w-64 flex-col bg-muted border-r border-border">
         {/* Logo */}
         <div className="flex h-16 items-center border-b border-border px-6">
-          <div className="flex items-center gap-2">
-            <ShoppingBag className="h-5 w-5" style={{ color: '#06b6d4' }} />
-            <span className="text-xl font-bold text-foreground">MARKETPLACE</span>
-            <span
-              className="rounded px-1.5 py-0.5 text-xs font-semibold text-white"
-              style={{
-                background: 'linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)',
-                boxShadow: '0 2px 4px 0 rgba(6, 182, 212, 0.3)',
-              }}
-            >
-              PREVIEW
-            </span>
-          </div>
+          <Link href="/" className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center">
+              <span className="text-white font-bold text-sm">FS</span>
+            </div>
+            <span className="text-xl font-bold text-foreground">Suite</span>
+          </Link>
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 space-y-1 px-3 py-4">
-          {navigation.map((item) => {
-            const isActive =
-              item.href === '/marketplace'
-                ? pathname === '/marketplace'
-                : pathname === item.href || pathname.startsWith(item.href + '/');
-            const Icon = item.icon;
+        <nav className="flex-1 space-y-4 px-3 py-4">
+          {/* Home */}
+          <Link
+            href="/"
+            className={cn(
+              'flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-all',
+              !isIntelligence && !isMarketplace
+                ? 'bg-gray-100 text-foreground'
+                : 'text-foreground/90 hover:bg-gray-50 hover:text-foreground'
+            )}
+          >
+            <Home className="mr-3 h-5 w-5" />
+            Home
+          </Link>
 
-            if (item.disabled) {
-              return (
-                <div
-                  key={item.name}
-                  className="flex items-center rounded-lg px-3 py-2 text-sm font-medium text-gray-400 cursor-not-allowed"
-                >
-                  <Icon className="mr-3 h-5 w-5" />
-                  {item.name}
-                  <span className="ml-auto text-xs">(Soon)</span>
-                </div>
-              );
-            }
+          {/* INTELLIGENCE Section */}
+          <div>
+            <div className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+              <Brain className="h-4 w-4 text-purple-600" />
+              Intelligence
+            </div>
+            <div className="space-y-1">
+              {intelligenceNav.map((item) => {
+                const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+                const Icon = item.icon;
 
-            return (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={cn(
-                  'flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-all',
-                  isActive
-                    ? 'text-white'
-                    : 'text-foreground/90 hover:bg-gray-50 hover:text-foreground'
-                )}
-                style={
-                  isActive
-                    ? {
-                        background: 'linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)',
-                        boxShadow: '0 4px 14px 0 rgba(6, 182, 212, 0.4)',
-                      }
-                    : {}
-                }
-              >
-                <Icon className="mr-3 h-5 w-5" />
-                {item.name}
-              </Link>
-            );
-          })}
-        </nav>
-
-        {/* Suite Switcher */}
-        <div className="border-t border-border p-4">
-          <div className="text-xs font-medium text-foreground mb-2">Switch App</div>
-          <div className="space-y-1">
-            <a
-              href="http://localhost:3001"
-              className="flex items-center gap-2 px-2 py-1.5 rounded text-xs text-foreground/90 hover:bg-gray-50 transition-colors"
-            >
-              <Heart className="h-3.5 w-3.5" />
-              <span>PULSE</span>
-            </a>
-            <a
-              href="http://localhost:3002"
-              className="flex items-center gap-2 px-2 py-1.5 rounded text-xs text-foreground/90 hover:bg-gray-50 transition-colors"
-            >
-              <BarChart3 className="h-3.5 w-3.5" />
-              <span>TRACE</span>
-            </a>
-            <div
-              className="flex items-center gap-2 px-2 py-1.5 rounded text-xs text-white font-medium"
-              style={{
-                background: 'linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)',
-                boxShadow: '0 2px 8px 0 rgba(6, 182, 212, 0.3)',
-              }}
-            >
-              <ShoppingBag className="h-3.5 w-3.5" />
-              <span>MARKETPLACE</span>
-              <span className="ml-auto text-[10px]">●</span>
+                return (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className={cn(
+                      'flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-all',
+                      isActive
+                        ? 'text-white bg-purple-600 shadow-lg shadow-purple-600/40'
+                        : 'text-foreground/90 hover:bg-gray-50 hover:text-foreground'
+                    )}
+                  >
+                    <Icon className="mr-3 h-5 w-5" />
+                    {item.name}
+                  </Link>
+                );
+              })}
             </div>
           </div>
-        </div>
+
+          {/* MARKETPLACE Section */}
+          <div>
+            <div className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+              <ShoppingBag className="h-4 w-4 text-cyan-600" />
+              Marketplace
+            </div>
+            <div className="space-y-1">
+              {marketplaceNav.map((item) => {
+                const isActive =
+                  item.href === '/marketplace'
+                    ? pathname === '/marketplace'
+                    : pathname === item.href || pathname.startsWith(item.href + '/');
+                const Icon = item.icon;
+
+                if (item.disabled) {
+                  return (
+                    <div
+                      key={item.name}
+                      className="flex items-center rounded-lg px-3 py-2 text-sm font-medium text-gray-400 cursor-not-allowed"
+                    >
+                      <Icon className="mr-3 h-5 w-5" />
+                      {item.name}
+                      <span className="ml-auto text-xs">(Soon)</span>
+                    </div>
+                  );
+                }
+
+                return (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className={cn(
+                      'flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-all',
+                      isActive
+                        ? 'text-white bg-cyan-600 shadow-lg shadow-cyan-600/40'
+                        : 'text-foreground/90 hover:bg-gray-50 hover:text-foreground'
+                    )}
+                  >
+                    <Icon className="mr-3 h-5 w-5" />
+                    {item.name}
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        </nav>
 
         {/* Footer */}
         <div className="border-t border-border p-4">
           <div className="text-xs text-muted-foreground/75">
-            <div className="font-medium text-foreground">MARKETPLACE</div>
-            <div className="mt-1">
-              Part of <span className="font-semibold text-foreground">Fabrknt Suite</span>
-            </div>
-            <div className="mt-1 text-gray-600">Preview Only</div>
+            <div className="font-medium text-foreground">Fabrknt Suite</div>
+            <div className="mt-1">Intelligence + Marketplace</div>
+            <div className="mt-1 text-gray-600">Preview</div>
           </div>
         </div>
       </div>
