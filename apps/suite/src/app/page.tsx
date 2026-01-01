@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { ArrowRight, Brain, Link2, TrendingUp, Shield, Users, Building2 } from 'lucide-react';
 import { companies } from '@/lib/intelligence/companies';
 import { getMockListings } from '@/lib/mock-data';
+import { Logo } from '@/components/logo';
 
 export default function SuiteLandingPage() {
   const totalCompanies = companies.length;
@@ -15,6 +16,9 @@ export default function SuiteLandingPage() {
       <div className="border-b border-border bg-card">
         <div className="container mx-auto px-4 py-16 md:py-24">
           <div className="max-w-4xl mx-auto text-center">
+            <div className="flex justify-center mb-8">
+              <Logo size="lg" />
+            </div>
             <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6">
               Web3 Intelligence & M&A Matching Platform
             </h1>

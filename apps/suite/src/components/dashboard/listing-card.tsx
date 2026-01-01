@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Building2, TrendingUp, Users, DollarSign, Shield } from 'lucide-react';
+import { Building2, TrendingUp, Users, DollarSign, Shield, Briefcase, UserCheck } from 'lucide-react';
 import { Listing } from '@/lib/mock-data';
 import { formatUSD, formatNumber, truncateAddress } from '@/lib/utils/format';
 import { cn } from '@/lib/utils';
@@ -30,6 +30,9 @@ export function ListingCard({ listing }: ListingCardProps) {
   const CategoryIcon = categoryIcons[listing.category];
   const fabrkntScore = listing.suiteData?.fabrknt_score || 0;
 
+  // Determine if M&A or Partnership
+  const isMA = listing.type === 'acquisition' || listing.type === 'investment';
+
   // Color code the Fabrknt Score
   const scoreColor =
     fabrkntScore >= 80
@@ -38,9 +41,29 @@ export function ListingCard({ listing }: ListingCardProps) {
       ? 'text-yellow-600 bg-yellow-50'
       : 'text-red-600 bg-red-50';
 
+  // Type badge styling
+  const typeBadgeColor = isMA
+    ? 'bg-green-100 text-green-800 border-green-200'
+    : 'bg-blue-100 text-blue-800 border-blue-200';
+
+  const TypeIcon = isMA ? Briefcase : UserCheck;
+
   return (
     <div className="group rounded-lg border border-border bg-card p-6 transition-all hover:border-green-300 hover:shadow-lg">
       <Link href={`/match/opportunities/${listing.id}`} className="block">
+        {/* Type Badge - Prominent */}
+        <div className="mb-4">
+          <span
+            className={cn(
+              'inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold border',
+              typeBadgeColor
+            )}
+          >
+            <TypeIcon className="h-3.5 w-3.5" />
+            {isMA ? 'M&A' : 'PARTNERSHIP'}
+          </span>
+        </div>
+
         {/* Header */}
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-3">

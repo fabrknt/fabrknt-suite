@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Briefcase, UserCheck } from 'lucide-react';
 import { Listing } from '@/lib/mock-data';
 import { formatUSD, formatNumber } from '@/lib/utils/format';
 import { getRevenueMultiple } from '@/lib/match/helpers';
@@ -45,6 +45,13 @@ export function MatchSpotlightSection({
           const fabrkntScore = listing.suiteData?.fabrknt_score || 0;
           const scoreColor = fabrkntScore >= 85 ? 'text-green-600' : fabrkntScore >= 70 ? 'text-yellow-600' : 'text-red-600';
 
+          // Determine type
+          const isMA = listing.type === 'acquisition' || listing.type === 'investment';
+          const TypeIcon = isMA ? Briefcase : UserCheck;
+          const typeBadgeColor = isMA
+            ? 'bg-green-100 text-green-700 border-green-200'
+            : 'bg-blue-100 text-blue-700 border-blue-200';
+
           return (
             <Link
               key={listing.id}
@@ -57,6 +64,12 @@ export function MatchSpotlightSection({
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
                       <h4 className="font-semibold text-foreground">{listing.projectName}</h4>
+                      <span
+                        className={`inline-flex items-center gap-1 text-xs px-1.5 py-0.5 rounded border font-semibold ${typeBadgeColor}`}
+                      >
+                        <TypeIcon className="h-3 w-3" />
+                        {isMA ? 'M&A' : 'Partnership'}
+                      </span>
                       <span className={`text-xs px-1.5 py-0.5 rounded ${categoryColors[listing.category]}`}>
                         {listing.category.toUpperCase()}
                       </span>
@@ -66,8 +79,12 @@ export function MatchSpotlightSection({
                       <span>Revenue: {formatUSD(listing.revenue)}/yr</span>
                       <span>•</span>
                       <span>MAU: {formatNumber(listing.mau)}</span>
-                      <span>•</span>
-                      <span>{multiple.toFixed(1)}x Multiple</span>
+                      {isMA && (
+                        <>
+                          <span>•</span>
+                          <span>{multiple.toFixed(1)}x Multiple</span>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>

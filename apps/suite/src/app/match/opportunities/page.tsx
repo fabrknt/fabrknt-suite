@@ -7,6 +7,7 @@ import { getMockListings, Listing } from '@/lib/mock-data';
 
 type CategoryFilter = 'all' | Listing['category'];
 type StatusFilter = 'all' | Listing['status'];
+type TypeFilter = 'all' | 'ma' | 'partnership';
 
 const categories: { value: CategoryFilter; label: string }[] = [
   { value: 'all', label: 'All Categories' },
@@ -25,9 +26,16 @@ const statuses: { value: StatusFilter; label: string }[] = [
   { value: 'withdrawn', label: 'Withdrawn' },
 ];
 
+const types: { value: TypeFilter; label: string }[] = [
+  { value: 'all', label: 'All Types' },
+  { value: 'ma', label: 'M&A (Acquisition/Investment)' },
+  { value: 'partnership', label: 'Partnership/Collaboration' },
+];
+
 export default function MarketplacePage() {
   const [categoryFilter, setCategoryFilter] = useState<CategoryFilter>('all');
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
+  const [typeFilter, setTypeFilter] = useState<TypeFilter>('all');
   const [sortBy, setSortBy] = useState<'price' | 'revenue' | 'score'>('score');
 
   const listings = getMockListings();
@@ -36,7 +44,16 @@ export default function MarketplacePage() {
   const filteredListings = listings.filter((listing) => {
     const categoryMatch = categoryFilter === 'all' || listing.category === categoryFilter;
     const statusMatch = statusFilter === 'all' || listing.status === statusFilter;
-    return categoryMatch && statusMatch;
+
+    // Type filter
+    let typeMatch = true;
+    if (typeFilter === 'ma') {
+      typeMatch = listing.type === 'acquisition' || listing.type === 'investment';
+    } else if (typeFilter === 'partnership') {
+      typeMatch = listing.type === 'partnership' || listing.type === 'collaboration';
+    }
+
+    return categoryMatch && statusMatch && typeMatch;
   });
 
   // Sort listings
@@ -65,7 +82,25 @@ export default function MarketplacePage() {
           <h3 className="font-semibold text-foreground">Filters</h3>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {/* Type Filter - PROMINENT */}
+          <div>
+            <label className="mb-2 block text-sm font-medium text-foreground/90">
+              Opportunity Type
+            </label>
+            <select
+              value={typeFilter}
+              onChange={(e) => setTypeFilter(e.target.value as TypeFilter)}
+              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm font-semibold focus:border-cyan-500 focus:outline-none focus:ring-1 focus:ring-cyan-500"
+            >
+              {types.map((type) => (
+                <option key={type.value} value={type.value}>
+                  {type.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
           {/* Category Filter */}
           <div>
             <label className="mb-2 block text-sm font-medium text-foreground/90">Category</label>

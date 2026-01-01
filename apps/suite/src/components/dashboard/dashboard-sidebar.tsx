@@ -14,6 +14,7 @@ import {
   Target
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Logo } from '@/components/logo';
 
 const intelligenceNav = [
   { name: 'Spotlight', href: '/intelligence', icon: TrendingUp },
@@ -49,12 +50,9 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
         <div className="flex h-full flex-col">
           {/* Mobile Header with Close Button */}
           <div className="flex h-16 items-center justify-between border-b border-border px-6">
-            <Link href="/" className="flex items-center gap-2" onClick={onClose}>
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center">
-                <span className="text-white font-bold text-sm">FS</span>
-              </div>
-              <span className="text-xl font-bold text-foreground">Suite</span>
-            </Link>
+            <div onClick={onClose}>
+              <Logo size="md" />
+            </div>
             <button
               onClick={onClose}
               className="p-2 text-foreground hover:bg-muted rounded-md transition-colors"
@@ -175,12 +173,7 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
       <div className="hidden lg:flex h-full w-64 flex-col bg-muted border-r border-border">
         {/* Logo */}
         <div className="flex h-16 items-center border-b border-border px-6">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center">
-              <span className="text-white font-bold text-sm">FS</span>
-            </div>
-            <span className="text-xl font-bold text-foreground">Suite</span>
-          </Link>
+          <Logo size="md" />
         </div>
 
         {/* Navigation */}
