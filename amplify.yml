@@ -6,7 +6,7 @@ frontend:
         - cd apps/suite
         - corepack enable
         - corepack prepare pnpm@latest --activate
-        - pnpm install
+        - pnpm install --no-frozen-lockfile
         - echo "Installing dependencies for Fabrknt"
     build:
       commands:
