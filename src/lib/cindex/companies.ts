@@ -36,6 +36,15 @@ export interface Company {
         volume30d?: number; // Trading volume (for NFT, DeFi)
     };
 
+    // Social metrics
+    social: {
+        score: number; // 0-100
+        twitterFollowers?: number;
+        discordMembers?: number;
+        telegramMembers?: number;
+        communityEngagement: number; // 0-100
+    };
+
     // Overall index
     overallScore: number; // 0-100 (combined health score)
     trend: TrendDirection; // 30-day trend
@@ -97,6 +106,17 @@ function transformCompany(company: any): Company {
                 : 0,
             tvl: onchain.tvl,
             volume30d: onchain.volume30d,
+        },
+        social: {
+            score: company.socialScore,
+            twitterFollowers: indexData?.twitter?.followers,
+            discordMembers: indexData?.social?.discordMembers,
+            telegramMembers: indexData?.social?.telegramMembers,
+            communityEngagement: indexData?.twitter?.engagement30d?.likes
+                ? (indexData.twitter.engagement30d.likes +
+                   indexData.twitter.engagement30d.retweets +
+                   indexData.twitter.engagement30d.replies)
+                : company.socialScore,
         },
         news: indexData?.news || [],
     };

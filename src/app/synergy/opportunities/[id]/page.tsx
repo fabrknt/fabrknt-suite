@@ -11,10 +11,10 @@ import {
   Calendar,
   FileText,
 } from 'lucide-react';
-import { getListingById } from '@/lib/mock-data';
 import { formatUSD, formatNumber, formatDate } from '@/lib/utils/format';
 import { SuiteRibbon } from '@/components/suite-ribbon';
 import { cn } from '@/lib/utils';
+import { prisma } from '@/lib/db';
 
 const statusColors = {
   active: 'bg-green-100 text-green-800',
@@ -30,11 +30,37 @@ export default async function ListingDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const listing = getListingById(id);
+
+  // Fetch listing from database
+  const listing = await prisma.listing.findUnique({
+    where: { id },
+    include: {
+      seller: {
+        select: {
+          id: true,
+          walletAddress: true,
+          displayName: true,
+          website: true,
+          twitter: true,
+        },
+      },
+    },
+  });
 
   if (!listing) {
     notFound();
   }
+
+  // Transform Prisma data to match component expectations
+  const transformedListing = {
+    ...listing,
+    revenue: Number(listing.revenue),
+    askingPrice: listing.askingPrice ? Number(listing.askingPrice) : null,
+    minBuyerCapital: listing.minBuyerCapital ? Number(listing.minBuyerCapital) : null,
+    sellerWallet: listing.seller.walletAddress,
+    // Parse suiteDataSnapshot if it exists
+    suiteData: listing.suiteDataSnapshot ? JSON.parse(JSON.stringify(listing.suiteDataSnapshot)) : null,
+  };
 
   return (
     <div className="min-h-screen bg-muted">
@@ -52,44 +78,44 @@ export default async function ListingDetailPage({
           <div className="mt-4 flex items-start justify-between">
             <div>
               <h1 className="text-3xl font-bold text-foreground">
-                {listing.projectName}
+                {transformedListing.projectName}
               </h1>
               <p className="text-lg text-muted-foreground mt-1">
-                {listing.productType}
+                {transformedListing.productType}
               </p>
               <div className="mt-2 flex items-center gap-3">
                 <span className="text-sm capitalize text-muted-foreground">
-                  {listing.category}
+                  {transformedListing.category}
                 </span>
                 <span className="text-gray-300">•</span>
                 <span className="text-sm capitalize text-muted-foreground">
-                  {listing.chain}
+                  {transformedListing.chain}
                 </span>
                 <span className="text-gray-300">•</span>
                 <span
                   className={cn(
                     'rounded-full px-3 py-1 text-xs font-medium',
-                    statusColors[listing.status]
+                    statusColors[transformedListing.status]
                   )}
                 >
-                  {listing.status.replace('_', ' ').toUpperCase()}
+                  {transformedListing.status.replace('_', ' ').toUpperCase()}
                 </span>
               </div>
             </div>
 
             <div className="text-right">
-              {listing.askingPrice ? (
+              {transformedListing.askingPrice ? (
                 <>
                   <p className="text-sm text-muted-foreground">Asking Price</p>
                   <p className="text-3xl font-bold text-green-600">
-                    {formatUSD(listing.askingPrice)}
+                    {formatUSD(transformedListing.askingPrice)}
                   </p>
                 </>
               ) : (
                 <>
                   <p className="text-sm text-muted-foreground">Opportunity Type</p>
                   <p className="text-3xl font-bold text-cyan-600 capitalize">
-                    {listing.type}
+                    {transformedListing.type}
                   </p>
                 </>
               )}
@@ -106,19 +132,19 @@ export default async function ListingDetailPage({
             <div className="rounded-lg border border-border bg-card p-6">
               <h2 className="text-xl font-bold text-foreground">About</h2>
               <p className="mt-4 text-foreground/90 leading-relaxed">
-                {listing.description}
+                {transformedListing.description}
               </p>
             </div>
 
             {/* Fabrknt Suite Verification */}
-            {listing.suiteData && (
+            {transformedListing.suiteData && (
               <SuiteRibbon
-                listingId={listing.id}
+                listingId={transformedListing.id}
                 data={{
-                  pulse: listing.suiteData.pulse,
-                  trace: listing.suiteData.trace,
-                  revenue_verified: listing.revenue, // Pass actual revenue value
-                  fabrknt_score: listing.suiteData.fabrknt_score,
+                  pulse: transformedListing.suiteData.pulse,
+                  trace: transformedListing.suiteData.trace,
+                  revenue_verified: transformedListing.revenue, // Pass actual revenue value
+                  fabrknt_score: transformedListing.suiteData.fabrknt_score,
                 }}
               />
             )}
@@ -138,7 +164,7 @@ export default async function ListingDetailPage({
                     </span>
                   </div>
                   <p className="text-2xl font-bold text-foreground">
-                    {formatUSD(listing.revenue)}
+                    {formatUSD(transformedListing.revenue)}
                   </p>
                 </div>
 
@@ -150,29 +176,29 @@ export default async function ListingDetailPage({
                     </span>
                   </div>
                   <p className="text-2xl font-bold text-foreground">
-                    {formatNumber(listing.mau)}
+                    {formatNumber(transformedListing.mau)}
                   </p>
                 </div>
 
                 <div>
-                  {listing.askingPrice ? (
+                  {transformedListing.askingPrice ? (
                     <>
                       <div className="flex items-center gap-2 mb-2">
                         <TrendingUp className="h-5 w-5 text-gray-400" />
                         <span className="text-sm text-muted-foreground">Revenue Multiple</span>
                       </div>
                       <p className="text-2xl font-bold text-foreground">
-                        {(listing.askingPrice / listing.revenue).toFixed(1)}x
+                        {(transformedListing.askingPrice / transformedListing.revenue).toFixed(1)}x
                       </p>
                     </>
-                  ) : listing.partnershipType ? (
+                  ) : transformedListing.partnershipType ? (
                     <>
                       <div className="flex items-center gap-2 mb-2">
                         <TrendingUp className="h-5 w-5 text-gray-400" />
                         <span className="text-sm text-muted-foreground">Partnership Type</span>
                       </div>
                       <p className="text-2xl font-bold text-foreground capitalize">
-                        {listing.partnershipType}
+                        {transformedListing.partnershipType}
                       </p>
                     </>
                   ) : null}
@@ -184,7 +210,7 @@ export default async function ListingDetailPage({
                     <span className="text-sm text-muted-foreground">Listed Date</span>
                   </div>
                   <p className="text-2xl font-bold text-foreground">
-                    {formatDate(listing.createdAt)}
+                    {formatDate(transformedListing.createdAt)}
                   </p>
                 </div>
               </div>
@@ -197,17 +223,17 @@ export default async function ListingDetailPage({
               </h2>
 
               <div className="space-y-4">
-                {listing.website && (
+                {transformedListing.website && (
                   <div className="flex items-center gap-3">
                     <Globe className="h-5 w-5 text-gray-400" />
                     <span className="text-sm text-muted-foreground">Website:</span>
                     <a
-                      href={listing.website}
+                      href={transformedListing.website}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-sm text-green-600 hover:underline"
                     >
-                      {listing.website}
+                      {transformedListing.website}
                     </a>
                   </div>
                 )}
@@ -216,11 +242,11 @@ export default async function ListingDetailPage({
                   <Building2 className="h-5 w-5 text-gray-400" />
                   <span className="text-sm text-muted-foreground">Seller Wallet:</span>
                   <code className="text-sm font-mono text-foreground">
-                    {listing.sellerWallet}
+                    {transformedListing.sellerWallet}
                   </code>
                 </div>
 
-                {listing.hasNDA && (
+                {transformedListing.hasNDA && (
                   <div className="flex items-center gap-3">
                     <FileText className="h-5 w-5 text-gray-400" />
                     <span className="text-sm text-muted-foreground">NDA Required:</span>
@@ -228,7 +254,7 @@ export default async function ListingDetailPage({
                   </div>
                 )}
 
-                {listing.requiresProofOfFunds && (
+                {transformedListing.requiresProofOfFunds && (
                   <div className="flex items-center gap-3">
                     <Shield className="h-5 w-5 text-gray-400" />
                     <span className="text-sm text-muted-foreground">
@@ -238,14 +264,14 @@ export default async function ListingDetailPage({
                   </div>
                 )}
 
-                {listing.minBuyerCapital && (
+                {transformedListing.minBuyerCapital && (
                   <div className="flex items-center gap-3">
                     <DollarSign className="h-5 w-5 text-gray-400" />
                     <span className="text-sm text-muted-foreground">
                       Minimum Buyer Capital:
                     </span>
                     <span className="text-sm font-medium text-foreground">
-                      {formatUSD(listing.minBuyerCapital)}
+                      {formatUSD(transformedListing.minBuyerCapital)}
                     </span>
                   </div>
                 )}
@@ -261,7 +287,7 @@ export default async function ListingDetailPage({
                 Interested?
               </h3>
 
-              {listing.status === 'active' ? (
+              {transformedListing.status === 'active' ? (
                 <div className="space-y-3">
                   <button className="w-full rounded-lg bg-green-600 px-4 py-3 text-sm font-semibold text-white hover:bg-green-700">
                     Schedule Call
@@ -278,7 +304,7 @@ export default async function ListingDetailPage({
                   <p className="text-sm text-muted-foreground">
                     This listing is{' '}
                     <span className="font-semibold">
-                      {listing.status.replace('_', ' ')}
+                      {transformedListing.status.replace('_', ' ')}
                     </span>
                   </p>
                 </div>
@@ -296,10 +322,10 @@ export default async function ListingDetailPage({
                   <div
                     className={cn(
                       'mt-0.5 h-5 w-5 rounded-full flex items-center justify-center',
-                      listing.hasNDA ? 'bg-green-100' : 'bg-muted'
+                      transformedListing.hasNDA ? 'bg-green-100' : 'bg-muted'
                     )}
                   >
-                    {listing.hasNDA && (
+                    {transformedListing.hasNDA && (
                       <FileText className="h-3 w-3 text-green-600" />
                     )}
                   </div>
@@ -308,7 +334,7 @@ export default async function ListingDetailPage({
                       NDA Agreement
                     </p>
                     <p className="text-xs text-muted-foreground/75">
-                      {listing.hasNDA ? 'Required' : 'Not required'}
+                      {transformedListing.hasNDA ? 'Required' : 'Not required'}
                     </p>
                   </div>
                 </div>
@@ -317,10 +343,10 @@ export default async function ListingDetailPage({
                   <div
                     className={cn(
                       'mt-0.5 h-5 w-5 rounded-full flex items-center justify-center',
-                      listing.requiresProofOfFunds ? 'bg-green-100' : 'bg-muted'
+                      transformedListing.requiresProofOfFunds ? 'bg-green-100' : 'bg-muted'
                     )}
                   >
-                    {listing.requiresProofOfFunds && (
+                    {transformedListing.requiresProofOfFunds && (
                       <Shield className="h-3 w-3 text-green-600" />
                     )}
                   </div>
@@ -329,12 +355,12 @@ export default async function ListingDetailPage({
                       Proof of Funds
                     </p>
                     <p className="text-xs text-muted-foreground/75">
-                      {listing.requiresProofOfFunds ? 'Required' : 'Not required'}
+                      {transformedListing.requiresProofOfFunds ? 'Required' : 'Not required'}
                     </p>
                   </div>
                 </div>
 
-                {listing.minBuyerCapital && (
+                {transformedListing.minBuyerCapital && (
                   <div className="flex items-start gap-2">
                     <div className="mt-0.5 h-5 w-5 rounded-full bg-green-100 flex items-center justify-center">
                       <DollarSign className="h-3 w-3 text-green-600" />
@@ -344,7 +370,7 @@ export default async function ListingDetailPage({
                         Minimum Capital
                       </p>
                       <p className="text-xs text-muted-foreground/75">
-                        {formatUSD(listing.minBuyerCapital)}
+                        {formatUSD(transformedListing.minBuyerCapital)}
                       </p>
                     </div>
                   </div>

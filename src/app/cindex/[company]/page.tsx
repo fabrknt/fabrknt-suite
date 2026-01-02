@@ -153,6 +153,17 @@ async function getCompanyData(slug: string) {
                 tvl: onchain.tvl,
                 volume30d: onchain.volume30d,
             },
+            social: {
+                score: company.socialScore,
+                twitterFollowers: indexData?.twitter?.followers,
+                discordMembers: indexData?.social?.discordMembers,
+                telegramMembers: indexData?.social?.telegramMembers,
+                communityEngagement: indexData?.twitter?.engagement30d?.likes
+                    ? (indexData.twitter.engagement30d.likes +
+                       indexData.twitter.engagement30d.retweets +
+                       indexData.twitter.engagement30d.replies)
+                    : company.socialScore,
+            },
             news: indexData?.news || [],
             scores: {
                 overall: company.overallScore,
@@ -440,7 +451,7 @@ export default async function CompanyProfilePage({ params }: PageProps) {
                         </div>
                     </div>
 
-                    {/* Growth Metrics - simplified for brevity */}
+                    {/* Growth Metrics */}
                     <div className="bg-card rounded-lg border border-border p-6">
                         <div className="flex items-center gap-2 mb-4">
                             <Activity className="h-5 w-5 text-purple-600" />
@@ -455,6 +466,54 @@ export default async function CompanyProfilePage({ params }: PageProps) {
                             <p className="text-sm text-muted-foreground">
                                 Growth momentum score
                             </p>
+                        </div>
+                        <div className="space-y-3">
+                            <div className="flex justify-between">
+                                <span className="text-sm text-muted-foreground">
+                                    On-Chain Activity (30d)
+                                </span>
+                                <span className="font-medium text-foreground">
+                                    {formatNumber(
+                                        company.growth.onChainActivity30d
+                                    )}
+                                </span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span className="text-sm text-muted-foreground">
+                                    User Growth Rate
+                                </span>
+                                <span className="font-medium text-foreground">
+                                    +{company.growth.userGrowthRate}%
+                                </span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span className="text-sm text-muted-foreground">
+                                    Wallet Growth
+                                </span>
+                                <span className="font-medium text-foreground">
+                                    {company.growth.walletGrowth}%
+                                </span>
+                            </div>
+                            {company.growth.tvl && (
+                                <div className="flex justify-between">
+                                    <span className="text-sm text-muted-foreground">
+                                        Total Value Locked
+                                    </span>
+                                    <span className="font-medium text-foreground">
+                                        ${formatNumber(company.growth.tvl)}
+                                    </span>
+                                </div>
+                            )}
+                            {company.growth.volume30d && (
+                                <div className="flex justify-between">
+                                    <span className="text-sm text-muted-foreground">
+                                        Volume (30d)
+                                    </span>
+                                    <span className="font-medium text-foreground">
+                                        ${formatNumber(company.growth.volume30d)}
+                                    </span>
+                                </div>
+                            )}
                         </div>
                     </div>
 
@@ -487,6 +546,46 @@ export default async function CompanyProfilePage({ params }: PageProps) {
                             <p className="text-sm text-muted-foreground">
                                 Twitter activity score
                             </p>
+                        </div>
+                        <div className="space-y-3">
+                            {company.social.twitterFollowers && (
+                                <div className="flex justify-between">
+                                    <span className="text-sm text-muted-foreground">
+                                        Twitter Followers
+                                    </span>
+                                    <span className="font-medium text-foreground">
+                                        {formatNumber(company.social.twitterFollowers)}
+                                    </span>
+                                </div>
+                            )}
+                            {company.social.discordMembers && (
+                                <div className="flex justify-between">
+                                    <span className="text-sm text-muted-foreground">
+                                        Discord Members
+                                    </span>
+                                    <span className="font-medium text-foreground">
+                                        {formatNumber(company.social.discordMembers)}
+                                    </span>
+                                </div>
+                            )}
+                            {company.social.telegramMembers && (
+                                <div className="flex justify-between">
+                                    <span className="text-sm text-muted-foreground">
+                                        Telegram Members
+                                    </span>
+                                    <span className="font-medium text-foreground">
+                                        {formatNumber(company.social.telegramMembers)}
+                                    </span>
+                                </div>
+                            )}
+                            <div className="flex justify-between">
+                                <span className="text-sm text-muted-foreground">
+                                    Community Engagement
+                                </span>
+                                <span className="font-medium text-foreground">
+                                    {company.social.communityEngagement}/100
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
