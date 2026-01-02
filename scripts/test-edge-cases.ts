@@ -6,7 +6,7 @@ import {
     calculateNewsGrowthScore,
     calculateWebScore,
     calculateAttentionScore,
-} from "../src/lib/intelligence/calculators/score-calculator";
+} from "../src/lib/index/calculators/score-calculator";
 import {
     GitHubTeamMetrics,
     TwitterMetrics,

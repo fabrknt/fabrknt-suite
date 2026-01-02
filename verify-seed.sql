@@ -28,10 +28,10 @@ FROM "Company"
 GROUP BY "category"
 ORDER BY count DESC;
 
--- Check if intelligenceData is populated
+-- Check if indexData is populated
 SELECT 
     COUNT(*) as total,
-    COUNT("intelligenceData") as with_intelligence_data,
-    COUNT(*) - COUNT("intelligenceData") as missing_intelligence_data
+    COUNT("indexData") as with_index_data,
+    COUNT(*) - COUNT("indexData") as missing_index_data
 FROM "Company";
 

@@ -54,7 +54,7 @@ function generateSqlSeed() {
 
     console.log(`📁 Found ${files.length} company files\n`);
 
-    let sql = `-- Seed Company table with Intelligence data from ${
+    let sql = `-- Seed Company table with Index data from ${
         files.length
     } JSON files
 -- Run this in Supabase SQL Editor after creating the Company table
@@ -82,14 +82,14 @@ function generateSqlSeed() {
 
             const company = jsonData.company;
             const id = `comp_${company.slug}`;
-            const intelligenceDataJson = JSON.stringify(jsonData.rawData || {});
+            const indexDataJson = JSON.stringify(jsonData.rawData || {});
 
             sql += `-- ${company.name}\n`;
             sql += `INSERT INTO "Company" (\n`;
             sql += `    "id", "slug", "name", "category", "description", "logo", "website",\n`;
             sql += `    "overallScore", "teamHealthScore", "growthScore", "socialScore", "walletQualityScore",\n`;
             sql += `    "trend", "isListed", "isActive",\n`;
-            sql += `    "intelligenceData",\n`;
+            sql += `    "indexData",\n`;
             sql += `    "createdAt", "updatedAt", "lastFetchedAt"\n`;
             sql += `) VALUES (\n`;
             sql += `    ${escapeSqlString(id)},\n`;
@@ -107,10 +107,7 @@ function generateSqlSeed() {
             sql += `    ${escapeSqlString(company.trend)},\n`;
             sql += `    ${company.isListed},\n`;
             sql += `    true,\n`;
-            sql += `    '${intelligenceDataJson.replace(
-                /'/g,
-                "''"
-            )}'::jsonb,\n`;
+            sql += `    '${indexDataJson.replace(/'/g, "''")}'::jsonb,\n`;
             sql += `    NOW(), NOW(), '${jsonData.fetchedAt}'\n`;
             sql += `) ON CONFLICT (slug) DO UPDATE SET\n`;
             sql += `    "name" = EXCLUDED."name",\n`;
@@ -125,7 +122,7 @@ function generateSqlSeed() {
             sql += `    "walletQualityScore" = EXCLUDED."walletQualityScore",\n`;
             sql += `    "trend" = EXCLUDED."trend",\n`;
             sql += `    "isListed" = EXCLUDED."isListed",\n`;
-            sql += `    "intelligenceData" = EXCLUDED."intelligenceData",\n`;
+            sql += `    "indexData" = EXCLUDED."indexData",\n`;
             sql += `    "updatedAt" = NOW(),\n`;
             sql += `    "lastFetchedAt" = EXCLUDED."lastFetchedAt";\n\n`;
 

@@ -7,10 +7,10 @@ import { prisma } from '@/lib/db';
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { address: string } }
+  { params }: { params: Promise<{ address: string }> }
 ) {
   try {
-    const { address } = params;
+    const { address } = await params;
 
     // Validate address format (basic check)
     if (!address || address.length < 10) {
@@ -66,7 +66,8 @@ export async function GET(
 
     return NextResponse.json(user);
   } catch (error) {
-    console.error(`GET /api/users/${params.address} error:`, error);
+    const { address } = await params;
+    console.error(`GET /api/users/${address} error:`, error);
     return NextResponse.json(
       { error: 'Failed to fetch user' },
       { status: 500 }
@@ -80,10 +81,10 @@ export async function GET(
  */
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { address: string } }
+  { params }: { params: Promise<{ address: string }> }
 ) {
   try {
-    const { address } = params;
+    const { address } = await params;
     const body = await request.json();
 
     // Validate address
@@ -132,7 +133,8 @@ export async function PUT(
 
     return NextResponse.json(user);
   } catch (error) {
-    console.error(`PUT /api/users/${params.address} error:`, error);
+    const { address } = await params;
+    console.error(`PUT /api/users/${address} error:`, error);
     return NextResponse.json(
       { error: 'Failed to update user' },
       { status: 500 }

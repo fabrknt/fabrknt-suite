@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS "Listing" (
     "hasNDA" BOOLEAN NOT NULL DEFAULT false,
     "requiresProofOfFunds" BOOLEAN NOT NULL DEFAULT false,
     "minBuyerCapital" DECIMAL(15,2),
-    "intelligenceCompanyId" TEXT,
+    "indexCompanyId" TEXT,
     "suiteDataSnapshot" JSONB,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

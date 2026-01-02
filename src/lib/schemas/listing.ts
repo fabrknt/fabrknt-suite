@@ -175,12 +175,12 @@ export const DealTermsSchema = z.object({
 
 export type DealTermsInput = z.infer<typeof DealTermsSchema>;
 
-// ==================== Step 5: Intelligence Link ====================
+// ==================== Step 5: Index Link ====================
 
-export const IntelligenceLinkSchema = z.object({
-  intelligenceCompanyId: z.string().optional(),
+export const IndexLinkSchema = z.object({
+  indexCompanyId: z.string().optional(),
 
-  // When linking, we'll fetch and store the Intelligence data
+  // When linking, we'll fetch and store the Index data
   suiteDataSnapshot: z
     .object({
       pulse: z
@@ -205,7 +205,7 @@ export const IntelligenceLinkSchema = z.object({
     .optional(),
 });
 
-export type IntelligenceLinkInput = z.infer<typeof IntelligenceLinkSchema>;
+export type IndexLinkInput = z.infer<typeof IndexLinkSchema>;
 
 // ==================== Full Listing Creation Schema ====================
 
@@ -218,7 +218,7 @@ export const CreateListingSchema = z.discriminatedUnion('type', [
     chain: ChainEnum,
     ...MAAcquisitionMetricsSchema.shape,
     ...DealTermsSchema.shape,
-    ...IntelligenceLinkSchema.shape,
+    ...IndexLinkSchema.shape,
   }),
 
   // Investment
@@ -229,7 +229,7 @@ export const CreateListingSchema = z.discriminatedUnion('type', [
     chain: ChainEnum,
     ...MAAcquisitionMetricsSchema.shape,
     ...DealTermsSchema.shape,
-    ...IntelligenceLinkSchema.shape,
+    ...IndexLinkSchema.shape,
   }),
 
   // Partnership
@@ -240,7 +240,7 @@ export const CreateListingSchema = z.discriminatedUnion('type', [
     chain: ChainEnum,
     ...PartnershipMetricsSchema.shape,
     ...DealTermsSchema.shape,
-    ...IntelligenceLinkSchema.shape,
+    ...IndexLinkSchema.shape,
   }),
 
   // Collaboration
@@ -251,7 +251,7 @@ export const CreateListingSchema = z.discriminatedUnion('type', [
     chain: ChainEnum,
     ...PartnershipMetricsSchema.shape,
     ...DealTermsSchema.shape,
-    ...IntelligenceLinkSchema.shape,
+    ...IndexLinkSchema.shape,
   }),
 ]);
 
@@ -279,7 +279,7 @@ export const UpdateListingSchema = z.object({
   hasNDA: z.boolean().optional(),
   requiresProofOfFunds: z.boolean().optional(),
   minBuyerCapital: z.number().min(0).max(10000000000).optional(),
-  intelligenceCompanyId: z.string().optional(),
+  indexCompanyId: z.string().optional(),
   suiteDataSnapshot: z
     .object({
       pulse: z

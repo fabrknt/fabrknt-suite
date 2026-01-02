@@ -1,5 +1,5 @@
 /**
- * Seed Company table with Intelligence data from JSON files
+ * Seed Company table with Index data from JSON files
  * Run with: pnpm tsx scripts/seed-companies.ts
  *
  * Note: If you encounter connection errors, use the SQL seed script instead:
@@ -143,7 +143,7 @@ async function seedCompanies() {
                     walletQualityScore: jsonData.scores.walletQuality,
                     trend: company.trend,
                     isListed: company.isListed,
-                    intelligenceData: jsonData.rawData, // Store full raw data as JSON
+                    indexData: jsonData.rawData, // Store full raw data as JSON
                     lastFetchedAt: new Date(jsonData.fetchedAt),
                     updatedAt: new Date(),
                 },
@@ -161,7 +161,7 @@ async function seedCompanies() {
                     walletQualityScore: jsonData.scores.walletQuality,
                     trend: company.trend,
                     isListed: company.isListed,
-                    intelligenceData: jsonData.rawData, // Store full raw data as JSON
+                    indexData: jsonData.rawData, // Store full raw data as JSON
                     lastFetchedAt: new Date(jsonData.fetchedAt),
                 },
             });

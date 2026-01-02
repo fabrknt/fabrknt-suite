@@ -15,16 +15,16 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-const intelligenceNav = [
-  { name: 'Spotlight', href: '/intelligence', icon: TrendingUp },
-  { name: 'Companies', href: '/intelligence/companies', icon: List },
+const indexNav = [
+  { name: 'Spotlight', href: '/index', icon: TrendingUp },
+  { name: 'Companies', href: '/index/companies', icon: List },
 ];
 
-const matchNav = [
-  { name: 'Spotlight', href: '/match', icon: TrendingUp },
-  { name: 'Opportunities', href: '/match/opportunities', icon: Target },
-  { name: 'My Opportunities', href: '/match/seller', icon: Building2 },
-  { name: 'Partners', href: '/match/partners', icon: Users, disabled: true },
+const synergyNav = [
+  { name: 'Spotlight', href: '/synergy', icon: TrendingUp },
+  { name: 'Opportunities', href: '/synergy/opportunities', icon: Target },
+  { name: 'My Opportunities', href: '/synergy/seller', icon: Building2 },
+  { name: 'Partners', href: '/synergy/partners', icon: Users, disabled: true },
 ];
 
 interface DashboardSidebarProps {
@@ -34,8 +34,8 @@ interface DashboardSidebarProps {
 
 export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
   const pathname = usePathname();
-  const isIntelligence = pathname.startsWith('/intelligence');
-  const isMatch = pathname.startsWith('/match');
+  const isIndex = pathname.startsWith('/index');
+  const isSynergy = pathname.startsWith('/synergy');
 
   return (
     <>
@@ -66,7 +66,7 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
               onClick={onClose}
               className={cn(
                 'flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-all',
-                !isIntelligence && !isMatch
+                !isIndex && !isSynergy
                   ? 'bg-gray-100 text-foreground'
                   : 'text-foreground/90 hover:bg-gray-50 hover:text-foreground'
               )}
@@ -75,17 +75,17 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
               Home
             </Link>
 
-            {/* INTELLIGENCE Section */}
+            {/* INDEX Section */}
             <div>
               <div className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                 <Brain className="h-4 w-4 text-purple-600" />
-                Intelligence
+                Index
               </div>
               <div className="space-y-1">
-                {intelligenceNav.map((item) => {
+                {indexNav.map((item) => {
                   const isActive =
-                    item.href === '/intelligence'
-                      ? pathname === '/intelligence'
+                    item.href === '/index'
+                      ? pathname === '/index'
                       : pathname === item.href || pathname.startsWith(item.href + '/');
                   const Icon = item.icon;
 
@@ -109,17 +109,17 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
               </div>
             </div>
 
-            {/* MATCH Section */}
+            {/* SYNERGY Section */}
             <div>
               <div className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                 <Link2 className="h-4 w-4 text-cyan-600" />
-                Match
+                Synergy
               </div>
               <div className="space-y-1">
-                {matchNav.map((item) => {
+                {synergyNav.map((item) => {
                   const isActive =
-                    item.href === '/match'
-                      ? pathname === '/match'
+                    item.href === '/synergy'
+                      ? pathname === '/synergy'
                       : pathname === item.href || pathname.startsWith(item.href + '/');
                   const Icon = item.icon;
 
@@ -161,7 +161,7 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
           <div className="border-t border-border p-4">
             <div className="text-xs text-muted-foreground/75">
               <div className="font-medium text-foreground">Fabrknt Suite</div>
-              <div className="mt-1">Intelligence + Match</div>
+              <div className="mt-1">Index + Synergy</div>
               <div className="mt-1 text-gray-600">Preview</div>
             </div>
           </div>
@@ -177,7 +177,7 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
             href="/"
             className={cn(
               'flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-all',
-              !isIntelligence && !isMatch
+              !isIndex && !isSynergy
                 ? 'bg-gray-100 text-foreground'
                 : 'text-foreground/90 hover:bg-gray-50 hover:text-foreground'
             )}
@@ -186,17 +186,17 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
             Home
           </Link>
 
-          {/* INTELLIGENCE Section */}
+          {/* INDEX Section */}
           <div>
             <div className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
               <Brain className="h-4 w-4 text-purple-600" />
-              Intelligence
+              Index
             </div>
             <div className="space-y-1">
-              {intelligenceNav.map((item) => {
+              {indexNav.map((item) => {
                 const isActive =
-                  item.href === '/intelligence'
-                    ? pathname === '/intelligence'
+                  item.href === '/index'
+                    ? pathname === '/index'
                     : pathname === item.href || pathname.startsWith(item.href + '/');
                 const Icon = item.icon;
 
@@ -219,17 +219,17 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
             </div>
           </div>
 
-          {/* MATCH Section */}
+          {/* SYNERGY Section */}
           <div>
             <div className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
               <Link2 className="h-4 w-4 text-cyan-600" />
-              Match
+              Synergy
             </div>
             <div className="space-y-1">
-              {matchNav.map((item) => {
+              {synergyNav.map((item) => {
                 const isActive =
-                  item.href === '/match'
-                    ? pathname === '/match'
+                  item.href === '/synergy'
+                    ? pathname === '/synergy'
                     : pathname === item.href || pathname.startsWith(item.href + '/');
                 const Icon = item.icon;
 
@@ -270,7 +270,7 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
         <div className="border-t border-border p-4">
           <div className="text-xs text-muted-foreground/75">
             <div className="font-medium text-foreground">Fabrknt Suite</div>
-            <div className="mt-1">Intelligence + Match</div>
+            <div className="mt-1">Index + Synergy</div>
             <div className="mt-1 text-gray-600">Preview</div>
           </div>
         </div>

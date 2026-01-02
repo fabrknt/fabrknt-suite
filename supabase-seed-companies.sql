@@ -1,4 +1,4 @@
--- Seed Company table with Intelligence data from 24 JSON files
+-- Seed Company table with Index data from 24 JSON files
 -- Run this in Supabase SQL Editor after creating the Company table
 -- Generated: 2026-01-02T06:01:56.917Z
 
@@ -10,7 +10,7 @@ INSERT INTO "Company" (
     "id", "slug", "name", "category", "description", "logo", "website",
     "overallScore", "teamHealthScore", "growthScore", "socialScore", "walletQualityScore",
     "trend", "isListed", "isActive",
-    "intelligenceData",
+    "indexData",
     "createdAt", "updatedAt", "lastFetchedAt"
 ) VALUES (
     'comp_aurory',
@@ -43,7 +43,7 @@ INSERT INTO "Company" (
     "walletQualityScore" = EXCLUDED."walletQualityScore",
     "trend" = EXCLUDED."trend",
     "isListed" = EXCLUDED."isListed",
-    "intelligenceData" = EXCLUDED."intelligenceData",
+    "indexData" = EXCLUDED."indexData",
     "updatedAt" = NOW(),
     "lastFetchedAt" = EXCLUDED."lastFetchedAt";
 
@@ -52,7 +52,7 @@ INSERT INTO "Company" (
     "id", "slug", "name", "category", "description", "logo", "website",
     "overallScore", "teamHealthScore", "growthScore", "socialScore", "walletQualityScore",
     "trend", "isListed", "isActive",
-    "intelligenceData",
+    "indexData",
     "createdAt", "updatedAt", "lastFetchedAt"
 ) VALUES (
     'comp_blur',
@@ -85,7 +85,7 @@ INSERT INTO "Company" (
     "walletQualityScore" = EXCLUDED."walletQualityScore",
     "trend" = EXCLUDED."trend",
     "isListed" = EXCLUDED."isListed",
-    "intelligenceData" = EXCLUDED."intelligenceData",
+    "indexData" = EXCLUDED."indexData",
     "updatedAt" = NOW(),
     "lastFetchedAt" = EXCLUDED."lastFetchedAt";
 
@@ -94,7 +94,7 @@ INSERT INTO "Company" (
     "id", "slug", "name", "category", "description", "logo", "website",
     "overallScore", "teamHealthScore", "growthScore", "socialScore", "walletQualityScore",
     "trend", "isListed", "isActive",
-    "intelligenceData",
+    "indexData",
     "createdAt", "updatedAt", "lastFetchedAt"
 ) VALUES (
     'comp_drift',
@@ -127,7 +127,7 @@ INSERT INTO "Company" (
     "walletQualityScore" = EXCLUDED."walletQualityScore",
     "trend" = EXCLUDED."trend",
     "isListed" = EXCLUDED."isListed",
-    "intelligenceData" = EXCLUDED."intelligenceData",
+    "indexData" = EXCLUDED."indexData",
     "updatedAt" = NOW(),
     "lastFetchedAt" = EXCLUDED."lastFetchedAt";
 
@@ -136,7 +136,7 @@ INSERT INTO "Company" (
     "id", "slug", "name", "category", "description", "logo", "website",
     "overallScore", "teamHealthScore", "growthScore", "socialScore", "walletQualityScore",
     "trend", "isListed", "isActive",
-    "intelligenceData",
+    "indexData",
     "createdAt", "updatedAt", "lastFetchedAt"
 ) VALUES (
     'comp_euler',
@@ -169,7 +169,7 @@ INSERT INTO "Company" (
     "walletQualityScore" = EXCLUDED."walletQualityScore",
     "trend" = EXCLUDED."trend",
     "isListed" = EXCLUDED."isListed",
-    "intelligenceData" = EXCLUDED."intelligenceData",
+    "indexData" = EXCLUDED."indexData",
     "updatedAt" = NOW(),
     "lastFetchedAt" = EXCLUDED."lastFetchedAt";
 
@@ -178,7 +178,7 @@ INSERT INTO "Company" (
     "id", "slug", "name", "category", "description", "logo", "website",
     "overallScore", "teamHealthScore", "growthScore", "socialScore", "walletQualityScore",
     "trend", "isListed", "isActive",
-    "intelligenceData",
+    "indexData",
     "createdAt", "updatedAt", "lastFetchedAt"
 ) VALUES (
     'comp_fabrknt',
@@ -211,7 +211,7 @@ INSERT INTO "Company" (
     "walletQualityScore" = EXCLUDED."walletQualityScore",
     "trend" = EXCLUDED."trend",
     "isListed" = EXCLUDED."isListed",
-    "intelligenceData" = EXCLUDED."intelligenceData",
+    "indexData" = EXCLUDED."indexData",
     "updatedAt" = NOW(),
     "lastFetchedAt" = EXCLUDED."lastFetchedAt";
 
@@ -220,7 +220,7 @@ INSERT INTO "Company" (
     "id", "slug", "name", "category", "description", "logo", "website",
     "overallScore", "teamHealthScore", "growthScore", "socialScore", "walletQualityScore",
     "trend", "isListed", "isActive",
-    "intelligenceData",
+    "indexData",
     "createdAt", "updatedAt", "lastFetchedAt"
 ) VALUES (
     'comp_jito',
@@ -253,7 +253,7 @@ INSERT INTO "Company" (
     "walletQualityScore" = EXCLUDED."walletQualityScore",
     "trend" = EXCLUDED."trend",
     "isListed" = EXCLUDED."isListed",
-    "intelligenceData" = EXCLUDED."intelligenceData",
+    "indexData" = EXCLUDED."indexData",
     "updatedAt" = NOW(),
     "lastFetchedAt" = EXCLUDED."lastFetchedAt";
 
@@ -262,7 +262,7 @@ INSERT INTO "Company" (
     "id", "slug", "name", "category", "description", "logo", "website",
     "overallScore", "teamHealthScore", "growthScore", "socialScore", "walletQualityScore",
     "trend", "isListed", "isActive",
-    "intelligenceData",
+    "indexData",
     "createdAt", "updatedAt", "lastFetchedAt"
 ) VALUES (
     'comp_jupiter',
@@ -295,7 +295,7 @@ INSERT INTO "Company" (
     "walletQualityScore" = EXCLUDED."walletQualityScore",
     "trend" = EXCLUDED."trend",
     "isListed" = EXCLUDED."isListed",
-    "intelligenceData" = EXCLUDED."intelligenceData",
+    "indexData" = EXCLUDED."indexData",
     "updatedAt" = NOW(),
     "lastFetchedAt" = EXCLUDED."lastFetchedAt";
 
@@ -304,7 +304,7 @@ INSERT INTO "Company" (
     "id", "slug", "name", "category", "description", "logo", "website",
     "overallScore", "teamHealthScore", "growthScore", "socialScore", "walletQualityScore",
     "trend", "isListed", "isActive",
-    "intelligenceData",
+    "indexData",
     "createdAt", "updatedAt", "lastFetchedAt"
 ) VALUES (
     'comp_kamino',
@@ -337,7 +337,7 @@ INSERT INTO "Company" (
     "walletQualityScore" = EXCLUDED."walletQualityScore",
     "trend" = EXCLUDED."trend",
     "isListed" = EXCLUDED."isListed",
-    "intelligenceData" = EXCLUDED."intelligenceData",
+    "indexData" = EXCLUDED."indexData",
     "updatedAt" = NOW(),
     "lastFetchedAt" = EXCLUDED."lastFetchedAt";
 
@@ -346,7 +346,7 @@ INSERT INTO "Company" (
     "id", "slug", "name", "category", "description", "logo", "website",
     "overallScore", "teamHealthScore", "growthScore", "socialScore", "walletQualityScore",
     "trend", "isListed", "isActive",
-    "intelligenceData",
+    "indexData",
     "createdAt", "updatedAt", "lastFetchedAt"
 ) VALUES (
     'comp_lido',
@@ -379,7 +379,7 @@ INSERT INTO "Company" (
     "walletQualityScore" = EXCLUDED."walletQualityScore",
     "trend" = EXCLUDED."trend",
     "isListed" = EXCLUDED."isListed",
-    "intelligenceData" = EXCLUDED."intelligenceData",
+    "indexData" = EXCLUDED."indexData",
     "updatedAt" = NOW(),
     "lastFetchedAt" = EXCLUDED."lastFetchedAt";
 
@@ -388,7 +388,7 @@ INSERT INTO "Company" (
     "id", "slug", "name", "category", "description", "logo", "website",
     "overallScore", "teamHealthScore", "growthScore", "socialScore", "walletQualityScore",
     "trend", "isListed", "isActive",
-    "intelligenceData",
+    "indexData",
     "createdAt", "updatedAt", "lastFetchedAt"
 ) VALUES (
     'comp_mangomarkets',
@@ -421,7 +421,7 @@ INSERT INTO "Company" (
     "walletQualityScore" = EXCLUDED."walletQualityScore",
     "trend" = EXCLUDED."trend",
     "isListed" = EXCLUDED."isListed",
-    "intelligenceData" = EXCLUDED."intelligenceData",
+    "indexData" = EXCLUDED."indexData",
     "updatedAt" = NOW(),
     "lastFetchedAt" = EXCLUDED."lastFetchedAt";
 
@@ -430,7 +430,7 @@ INSERT INTO "Company" (
     "id", "slug", "name", "category", "description", "logo", "website",
     "overallScore", "teamHealthScore", "growthScore", "socialScore", "walletQualityScore",
     "trend", "isListed", "isActive",
-    "intelligenceData",
+    "indexData",
     "createdAt", "updatedAt", "lastFetchedAt"
 ) VALUES (
     'comp_marginfi',
@@ -463,7 +463,7 @@ INSERT INTO "Company" (
     "walletQualityScore" = EXCLUDED."walletQualityScore",
     "trend" = EXCLUDED."trend",
     "isListed" = EXCLUDED."isListed",
-    "intelligenceData" = EXCLUDED."intelligenceData",
+    "indexData" = EXCLUDED."indexData",
     "updatedAt" = NOW(),
     "lastFetchedAt" = EXCLUDED."lastFetchedAt";
 
@@ -472,7 +472,7 @@ INSERT INTO "Company" (
     "id", "slug", "name", "category", "description", "logo", "website",
     "overallScore", "teamHealthScore", "growthScore", "socialScore", "walletQualityScore",
     "trend", "isListed", "isActive",
-    "intelligenceData",
+    "indexData",
     "createdAt", "updatedAt", "lastFetchedAt"
 ) VALUES (
     'comp_metaplex',
@@ -505,7 +505,7 @@ INSERT INTO "Company" (
     "walletQualityScore" = EXCLUDED."walletQualityScore",
     "trend" = EXCLUDED."trend",
     "isListed" = EXCLUDED."isListed",
-    "intelligenceData" = EXCLUDED."intelligenceData",
+    "indexData" = EXCLUDED."indexData",
     "updatedAt" = NOW(),
     "lastFetchedAt" = EXCLUDED."lastFetchedAt";
 
@@ -514,7 +514,7 @@ INSERT INTO "Company" (
     "id", "slug", "name", "category", "description", "logo", "website",
     "overallScore", "teamHealthScore", "growthScore", "socialScore", "walletQualityScore",
     "trend", "isListed", "isActive",
-    "intelligenceData",
+    "indexData",
     "createdAt", "updatedAt", "lastFetchedAt"
 ) VALUES (
     'comp_morpho',
@@ -547,7 +547,7 @@ INSERT INTO "Company" (
     "walletQualityScore" = EXCLUDED."walletQualityScore",
     "trend" = EXCLUDED."trend",
     "isListed" = EXCLUDED."isListed",
-    "intelligenceData" = EXCLUDED."intelligenceData",
+    "indexData" = EXCLUDED."indexData",
     "updatedAt" = NOW(),
     "lastFetchedAt" = EXCLUDED."lastFetchedAt";
 
@@ -556,7 +556,7 @@ INSERT INTO "Company" (
     "id", "slug", "name", "category", "description", "logo", "website",
     "overallScore", "teamHealthScore", "growthScore", "socialScore", "walletQualityScore",
     "trend", "isListed", "isActive",
-    "intelligenceData",
+    "indexData",
     "createdAt", "updatedAt", "lastFetchedAt"
 ) VALUES (
     'comp_orca',
@@ -589,7 +589,7 @@ INSERT INTO "Company" (
     "walletQualityScore" = EXCLUDED."walletQualityScore",
     "trend" = EXCLUDED."trend",
     "isListed" = EXCLUDED."isListed",
-    "intelligenceData" = EXCLUDED."intelligenceData",
+    "indexData" = EXCLUDED."indexData",
     "updatedAt" = NOW(),
     "lastFetchedAt" = EXCLUDED."lastFetchedAt";
 
@@ -598,7 +598,7 @@ INSERT INTO "Company" (
     "id", "slug", "name", "category", "description", "logo", "website",
     "overallScore", "teamHealthScore", "growthScore", "socialScore", "walletQualityScore",
     "trend", "isListed", "isActive",
-    "intelligenceData",
+    "indexData",
     "createdAt", "updatedAt", "lastFetchedAt"
 ) VALUES (
     'comp_parallel',
@@ -631,7 +631,7 @@ INSERT INTO "Company" (
     "walletQualityScore" = EXCLUDED."walletQualityScore",
     "trend" = EXCLUDED."trend",
     "isListed" = EXCLUDED."isListed",
-    "intelligenceData" = EXCLUDED."intelligenceData",
+    "indexData" = EXCLUDED."indexData",
     "updatedAt" = NOW(),
     "lastFetchedAt" = EXCLUDED."lastFetchedAt";
 
@@ -640,7 +640,7 @@ INSERT INTO "Company" (
     "id", "slug", "name", "category", "description", "logo", "website",
     "overallScore", "teamHealthScore", "growthScore", "socialScore", "walletQualityScore",
     "trend", "isListed", "isActive",
-    "intelligenceData",
+    "indexData",
     "createdAt", "updatedAt", "lastFetchedAt"
 ) VALUES (
     'comp_rocketpool',
@@ -673,7 +673,7 @@ INSERT INTO "Company" (
     "walletQualityScore" = EXCLUDED."walletQualityScore",
     "trend" = EXCLUDED."trend",
     "isListed" = EXCLUDED."isListed",
-    "intelligenceData" = EXCLUDED."intelligenceData",
+    "indexData" = EXCLUDED."indexData",
     "updatedAt" = NOW(),
     "lastFetchedAt" = EXCLUDED."lastFetchedAt";
 
@@ -682,7 +682,7 @@ INSERT INTO "Company" (
     "id", "slug", "name", "category", "description", "logo", "website",
     "overallScore", "teamHealthScore", "growthScore", "socialScore", "walletQualityScore",
     "trend", "isListed", "isActive",
-    "intelligenceData",
+    "indexData",
     "createdAt", "updatedAt", "lastFetchedAt"
 ) VALUES (
     'comp_safe',
@@ -715,7 +715,7 @@ INSERT INTO "Company" (
     "walletQualityScore" = EXCLUDED."walletQualityScore",
     "trend" = EXCLUDED."trend",
     "isListed" = EXCLUDED."isListed",
-    "intelligenceData" = EXCLUDED."intelligenceData",
+    "indexData" = EXCLUDED."indexData",
     "updatedAt" = NOW(),
     "lastFetchedAt" = EXCLUDED."lastFetchedAt";
 
@@ -724,7 +724,7 @@ INSERT INTO "Company" (
     "id", "slug", "name", "category", "description", "logo", "website",
     "overallScore", "teamHealthScore", "growthScore", "socialScore", "walletQualityScore",
     "trend", "isListed", "isActive",
-    "intelligenceData",
+    "indexData",
     "createdAt", "updatedAt", "lastFetchedAt"
 ) VALUES (
     'comp_staratlas',
@@ -757,7 +757,7 @@ INSERT INTO "Company" (
     "walletQualityScore" = EXCLUDED."walletQualityScore",
     "trend" = EXCLUDED."trend",
     "isListed" = EXCLUDED."isListed",
-    "intelligenceData" = EXCLUDED."intelligenceData",
+    "indexData" = EXCLUDED."indexData",
     "updatedAt" = NOW(),
     "lastFetchedAt" = EXCLUDED."lastFetchedAt";
 
@@ -766,7 +766,7 @@ INSERT INTO "Company" (
     "id", "slug", "name", "category", "description", "logo", "website",
     "overallScore", "teamHealthScore", "growthScore", "socialScore", "walletQualityScore",
     "trend", "isListed", "isActive",
-    "intelligenceData",
+    "indexData",
     "createdAt", "updatedAt", "lastFetchedAt"
 ) VALUES (
     'comp_tensor',
@@ -799,7 +799,7 @@ INSERT INTO "Company" (
     "walletQualityScore" = EXCLUDED."walletQualityScore",
     "trend" = EXCLUDED."trend",
     "isListed" = EXCLUDED."isListed",
-    "intelligenceData" = EXCLUDED."intelligenceData",
+    "indexData" = EXCLUDED."indexData",
     "updatedAt" = NOW(),
     "lastFetchedAt" = EXCLUDED."lastFetchedAt";
 
@@ -808,7 +808,7 @@ INSERT INTO "Company" (
     "id", "slug", "name", "category", "description", "logo", "website",
     "overallScore", "teamHealthScore", "growthScore", "socialScore", "walletQualityScore",
     "trend", "isListed", "isActive",
-    "intelligenceData",
+    "indexData",
     "createdAt", "updatedAt", "lastFetchedAt"
 ) VALUES (
     'comp_uniswap',
@@ -841,7 +841,7 @@ INSERT INTO "Company" (
     "walletQualityScore" = EXCLUDED."walletQualityScore",
     "trend" = EXCLUDED."trend",
     "isListed" = EXCLUDED."isListed",
-    "intelligenceData" = EXCLUDED."intelligenceData",
+    "indexData" = EXCLUDED."indexData",
     "updatedAt" = NOW(),
     "lastFetchedAt" = EXCLUDED."lastFetchedAt";
 
@@ -850,7 +850,7 @@ INSERT INTO "Company" (
     "id", "slug", "name", "category", "description", "logo", "website",
     "overallScore", "teamHealthScore", "growthScore", "socialScore", "walletQualityScore",
     "trend", "isListed", "isActive",
-    "intelligenceData",
+    "indexData",
     "createdAt", "updatedAt", "lastFetchedAt"
 ) VALUES (
     'comp_velodrome',
@@ -883,7 +883,7 @@ INSERT INTO "Company" (
     "walletQualityScore" = EXCLUDED."walletQualityScore",
     "trend" = EXCLUDED."trend",
     "isListed" = EXCLUDED."isListed",
-    "intelligenceData" = EXCLUDED."intelligenceData",
+    "indexData" = EXCLUDED."indexData",
     "updatedAt" = NOW(),
     "lastFetchedAt" = EXCLUDED."lastFetchedAt";
 
@@ -892,7 +892,7 @@ INSERT INTO "Company" (
     "id", "slug", "name", "category", "description", "logo", "website",
     "overallScore", "teamHealthScore", "growthScore", "socialScore", "walletQualityScore",
     "trend", "isListed", "isActive",
-    "intelligenceData",
+    "indexData",
     "createdAt", "updatedAt", "lastFetchedAt"
 ) VALUES (
     'comp_zerox',
@@ -925,7 +925,7 @@ INSERT INTO "Company" (
     "walletQualityScore" = EXCLUDED."walletQualityScore",
     "trend" = EXCLUDED."trend",
     "isListed" = EXCLUDED."isListed",
-    "intelligenceData" = EXCLUDED."intelligenceData",
+    "indexData" = EXCLUDED."indexData",
     "updatedAt" = NOW(),
     "lastFetchedAt" = EXCLUDED."lastFetchedAt";
 
@@ -934,7 +934,7 @@ INSERT INTO "Company" (
     "id", "slug", "name", "category", "description", "logo", "website",
     "overallScore", "teamHealthScore", "growthScore", "socialScore", "walletQualityScore",
     "trend", "isListed", "isActive",
-    "intelligenceData",
+    "indexData",
     "createdAt", "updatedAt", "lastFetchedAt"
 ) VALUES (
     'comp_zora',
@@ -967,7 +967,7 @@ INSERT INTO "Company" (
     "walletQualityScore" = EXCLUDED."walletQualityScore",
     "trend" = EXCLUDED."trend",
     "isListed" = EXCLUDED."isListed",
-    "intelligenceData" = EXCLUDED."intelligenceData",
+    "indexData" = EXCLUDED."indexData",
     "updatedAt" = NOW(),
     "lastFetchedAt" = EXCLUDED."lastFetchedAt";
 

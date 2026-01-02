@@ -162,8 +162,8 @@ export async function POST(request: NextRequest) {
                     ? new Prisma.Decimal(data.minBuyerCapital)
                     : null,
 
-                // Intelligence link
-                intelligenceCompanyId: data.intelligenceCompanyId || null,
+                // Index link
+                indexCompanyId: data.indexCompanyId || null,
                 suiteDataSnapshot: data.suiteDataSnapshot || undefined,
 
                 // Seller

@@ -83,16 +83,16 @@ export default async function SuiteLandingPage() {
                                 <Github className="h-5 w-5" />
                             </a>
                             <Link
-                                href="/intelligence"
+                                href="/index"
                                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                             >
-                                Intelligence
+                                Index
                             </Link>
                             <Link
-                                href="/match"
+                                href="/synergy"
                                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                             >
-                                Match
+                                Synergy
                             </Link>
                         </div>
                     </div>
@@ -116,29 +116,29 @@ export default async function SuiteLandingPage() {
                             </span>
                         </div>
                         <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6">
-                            Web3 Intelligence & Matching Platform
+                            Web3 Index & Synergy Platform
                         </h1>
                         <p className="text-xl text-muted-foreground mb-8">
                             Research web3 companies with AI-powered
-                            intelligence. Connect for acquisitions, strategic
+                            index. Connect for acquisitions, strategic
                             partnerships, and ecosystem collaborations—all
                             backed by verified on-chain and off-chain data.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <Link
-                                href="/intelligence"
+                                href="/index"
                                 className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition-colors font-semibold text-lg"
                             >
                                 <Brain className="h-6 w-6" />
-                                Explore Intelligence
+                                Explore Index
                                 <ArrowRight className="h-5 w-5" />
                             </Link>
                             <Link
-                                href="/match"
+                                href="/synergy"
                                 className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg bg-cyan-600 text-white hover:bg-cyan-700 transition-colors font-semibold text-lg"
                             >
                                 <Link2 className="h-6 w-6" />
-                                Find Matches
+                                Find Synergies
                                 <ArrowRight className="h-5 w-5" />
                             </Link>
                         </div>
@@ -162,7 +162,7 @@ export default async function SuiteLandingPage() {
                             {companyStats.avgScore}
                         </p>
                         <p className="text-sm text-muted-foreground">
-                            Avg Intelligence Score
+                            Avg Index Score
                         </p>
                     </div>
                     <div className="text-center">
@@ -187,7 +187,7 @@ export default async function SuiteLandingPage() {
             {/* Products Section */}
             <div className="container mx-auto px-4 py-16">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
-                    {/* INTELLIGENCE Product */}
+                    {/* INDEX Product */}
                     <div className="bg-card rounded-lg border border-border p-8">
                         <div className="flex items-center gap-3 mb-6">
                             <div className="p-3 rounded-lg bg-purple-100">
@@ -195,16 +195,16 @@ export default async function SuiteLandingPage() {
                             </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-foreground">
-                                    INTELLIGENCE
+                                    INDEX
                                 </h2>
                                 <p className="text-sm text-muted-foreground">
-                                    Web3 Company Intelligence
+                                    Web3 Company Index
                                 </p>
                             </div>
                         </div>
 
                         <p className="text-muted-foreground mb-6">
-                            Automated intelligence for {totalCompanies} web3
+                            Automated index for {totalCompanies} web3
                             companies with verified on-chain and off-chain data.
                             No manual input, just trustworthy metrics.
                         </p>
@@ -238,7 +238,7 @@ export default async function SuiteLandingPage() {
                                 <Shield className="h-5 w-5 text-purple-600 mt-0.5" />
                                 <div>
                                     <p className="font-semibold text-foreground">
-                                        Verified Intelligence
+                                        Verified Index
                                     </p>
                                     <p className="text-sm text-muted-foreground">
                                         Automated verification via blockchain
@@ -249,15 +249,15 @@ export default async function SuiteLandingPage() {
                         </div>
 
                         <Link
-                            href="/intelligence"
+                            href="/index"
                             className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition-colors font-medium w-full justify-center"
                         >
-                            Explore Intelligence
+                            Explore Index
                             <ArrowRight className="h-5 w-5" />
                         </Link>
                     </div>
 
-                    {/* MATCH Product */}
+                    {/* SYNERGY Product */}
                     <div className="bg-card rounded-lg border border-border p-8">
                         <div className="flex items-center gap-3 mb-6">
                             <div className="p-3 rounded-lg bg-cyan-100">
@@ -265,17 +265,17 @@ export default async function SuiteLandingPage() {
                             </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-foreground">
-                                    MATCH
+                                    SYNERGY
                                 </h2>
                                 <p className="text-sm text-muted-foreground">
-                                    M&A & Partnership Matching
+                                    M&A & Partnership Synergy
                                 </p>
                             </div>
                         </div>
 
                         <p className="text-muted-foreground mb-6">
                             Find acquisition targets and partnership
-                            opportunities with verified intelligence. Connect
+                            opportunities with verified index. Connect
                             for M&A, strategic alliances, and ecosystem
                             collaboration.
                         </p>
@@ -311,18 +311,18 @@ export default async function SuiteLandingPage() {
                                 <Shield className="h-5 w-5 text-cyan-600 mt-0.5" />
                                 <div>
                                     <p className="font-semibold text-foreground">
-                                        AI-Powered Matching
+                                        AI-Powered Synergy
                                     </p>
                                     <p className="text-sm text-muted-foreground">
                                         Automated compatibility analysis based
-                                        on verified intelligence scores
+                                        on verified index scores
                                     </p>
                                 </div>
                             </div>
                         </div>
 
                         <Link
-                            href="/match"
+                            href="/synergy"
                             className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-cyan-600 text-white hover:bg-cyan-700 transition-colors font-medium w-full justify-center"
                         >
                             Explore Opportunities
@@ -347,7 +347,7 @@ export default async function SuiteLandingPage() {
                                     </span>
                                 </div>
                                 <h3 className="text-lg font-semibold text-foreground mb-2">
-                                    AI Intelligence
+                                    AI Index
                                 </h3>
                                 <p className="text-sm text-muted-foreground">
                                     Automated analysis of on-chain data, GitHub
@@ -362,7 +362,7 @@ export default async function SuiteLandingPage() {
                                     </span>
                                 </div>
                                 <h3 className="text-lg font-semibold text-foreground mb-2">
-                                    Smart Matching
+                                    Smart Synergy
                                 </h3>
                                 <p className="text-sm text-muted-foreground">
                                     AI-powered compatibility analysis finds the
@@ -406,16 +406,16 @@ export default async function SuiteLandingPage() {
                             >
                                 www.fabrknt.com
                             </a>{" "}
-                            — Building the future of Web3 intelligence and
-                            matching
+                            — Building the future of Web3 index and
+                            synergy
                         </p>
                     </div>
                     <div className="bg-card rounded-lg border border-border p-8">
                         <p className="text-muted-foreground mb-6">
-                            Fabrknt is a Web3 intelligence and matching platform
+                            Fabrknt is a Web3 index and synergy platform
                             that brings transparency and trust to the ecosystem.
                             Our mission is to enable better decision-making
-                            through AI-powered, verified intelligence on Web3
+                            through AI-powered, verified index on Web3
                             companies.
                         </p>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -425,7 +425,7 @@ export default async function SuiteLandingPage() {
                                 </h3>
                                 <p className="text-sm text-muted-foreground">
                                     Democratize access to verified Web3 company
-                                    intelligence and facilitate meaningful
+                                    index and facilitate meaningful
                                     connections between companies seeking growth
                                     through M&A and strategic partnerships.
                                 </p>
@@ -438,7 +438,7 @@ export default async function SuiteLandingPage() {
                                     100% automated verification using on-chain
                                     data, GitHub activity, and social metrics.
                                     No manual input, no manipulation—just
-                                    trustworthy, transparent intelligence.
+                                    trustworthy, transparent index.
                                 </p>
                             </div>
                             <div>
@@ -459,8 +459,8 @@ export default async function SuiteLandingPage() {
                                 <p className="text-sm text-muted-foreground">
                                     We believe in building in public. Follow our
                                     journey on GitHub and X as we continue to
-                                    expand our intelligence coverage and
-                                    matching capabilities.
+                                    expand our index coverage and
+                                    synergy capabilities.
                                 </p>
                             </div>
                         </div>
@@ -475,23 +475,23 @@ export default async function SuiteLandingPage() {
                         Ready to Find Your Next Strategic Move?
                     </h2>
                     <p className="text-lg text-muted-foreground mb-8">
-                        Research companies with AI-powered INTELLIGENCE. Find
-                        acquisitions and partnerships with smart MATCH. All
+                        Research companies with AI-powered INDEX. Find
+                        acquisitions and partnerships with smart SYNERGY. All
                         decisions backed by 100% verified data.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <Link
-                            href="/intelligence/companies"
+                            href="/index/companies"
                             className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition-colors font-medium"
                         >
                             Explore Companies
                             <ArrowRight className="h-5 w-5" />
                         </Link>
                         <Link
-                            href="/match/opportunities"
+                            href="/synergy/opportunities"
                             className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg border-2 border-cyan-600 text-cyan-600 hover:bg-cyan-50 transition-colors font-medium"
                         >
-                            Find Matches
+                            Find Synergyes
                             <ArrowRight className="h-5 w-5" />
                         </Link>
                     </div>
@@ -515,7 +515,7 @@ export default async function SuiteLandingPage() {
                                 </span>
                             </div>
                             <p className="text-sm text-muted-foreground mb-4">
-                                Web3 Intelligence & Matching Platform
+                                Web3 Index & Synergy Platform
                             </p>
                             <p className="text-sm text-muted-foreground mb-4">
                                 We are{" "}
@@ -564,15 +564,15 @@ export default async function SuiteLandingPage() {
                             <ul className="space-y-2">
                                 <li>
                                     <Link
-                                        href="/intelligence"
+                                        href="/index"
                                         className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                                     >
-                                        Intelligence
+                                        Index
                                     </Link>
                                 </li>
                                 <li>
                                     <Link
-                                        href="/intelligence/companies"
+                                        href="/index/companies"
                                         className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                                     >
                                         Company Directory
@@ -580,15 +580,15 @@ export default async function SuiteLandingPage() {
                                 </li>
                                 <li>
                                     <Link
-                                        href="/match"
+                                        href="/synergy"
                                         className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                                     >
-                                        Match
+                                        Synergy
                                     </Link>
                                 </li>
                                 <li>
                                     <Link
-                                        href="/match/opportunities"
+                                        href="/synergy/opportunities"
                                         className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                                     >
                                         Opportunities

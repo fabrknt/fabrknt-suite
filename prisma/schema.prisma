@@ -9,7 +9,7 @@ datasource db {
   provider = "postgresql"
 }
 
-// Company model - Intelligence data storage
+// Company model - Index data storage
 model Company {
   id              String   @id @default(cuid())
   slug            String   @unique
@@ -29,9 +29,9 @@ model Company {
   // Trend indicator
   trend           String   @default("stable") // 'up' | 'stable' | 'down'
 
-  // Raw Intelligence data (JSON)
-  // Stores full IntelligenceData from APIs
-  intelligenceData Json?
+  // Raw Index data (JSON)
+  // Stores full IndexData from APIs
+  indexData Json?
 
   // Status
   isListed        Boolean  @default(false)
@@ -107,8 +107,8 @@ model Listing {
   requiresProofOfFunds Boolean @default(false)
   minBuyerCapital Decimal?  @db.Decimal(15, 2)
 
-  // Intelligence Link (optional)
-  intelligenceCompanyId String?
+  // Index Link (optional)
+  indexCompanyId String?
   suiteDataSnapshot     Json?    // Cached PULSE + TRACE data
 
   // Timestamps

@@ -1,61 +1,60 @@
 # Data Sources Overview
 
-This document explains where Intelligence and Match features get their data from.
+This document explains where Index and Synergy features get their data from.
 
 ## 🎯 Summary
 
-| Feature                                            | Data Source                | Status                                           |
-| -------------------------------------------------- | -------------------------- | ------------------------------------------------ |
-| **Intelligence API** (`/api/intelligence/*`)       | **Supabase (Database)** ✅ | Uses Prisma to query `Company` table             |
-| **Intelligence Pages** (`/intelligence/[company]`) | **JSON Files** ⚠️          | Falls back to JSON files, not using Supabase yet |
-| **Match API** (`/api/listings/*`)                  | **Supabase (Database)** ✅ | Uses Prisma to query `Listing` table             |
-| **Match Pages** (`/match/*`)                       | **Mock Data** ⚠️           | Still using `getMockListings()` instead of API   |
+| Feature                              | Data Source                | Status                                 |
+| ------------------------------------ | -------------------------- | -------------------------------------- |
+| **Index API** (`/api/index/*`)       | **Supabase (Database)** ✅ | Uses Prisma to query `Company` table   |
+| **Index Pages** (`/index/[company]`) | **Supabase (Database)** ✅ | Uses API routes to fetch from database |
+| **Synergy API** (`/api/listings/*`)  | **Supabase (Database)** ✅ | Uses Prisma to query `Listing` table   |
+| **Synergy Pages** (`/synergy/*`)     | **Supabase (Database)** ✅ | Uses API routes to fetch from database |
 
 ---
 
-## 📊 Intelligence Feature
+## 📊 Index Feature
 
 ### API Routes (✅ Using Supabase)
 
-#### `/api/intelligence/search`
+#### `/api/index/search`
 
 -   **Source**: Supabase `Company` table via Prisma
--   **File**: `src/app/api/intelligence/search/route.ts`
+-   **File**: `src/app/api/index/search/route.ts`
 -   **Query**: Searches companies by name, slug, or description
 -   **Returns**: Company data from database
 
-#### `/api/intelligence/[companyId]`
+#### `/api/index/[companyId]`
 
 -   **Source**: Supabase `Company` table via Prisma
--   **File**: `src/app/api/intelligence/[companyId]/route.ts`
--   **Query**: Fetches company by ID with full intelligence data
--   **Returns**: Company with PULSE + TRACE scores from `intelligenceData` JSONB field
+-   **File**: `src/app/api/index/[companyId]/route.ts`
+-   **Query**: Fetches company by ID with full index data
+-   **Returns**: Company with PULSE + TRACE scores from `indexData` JSONB field
 
-### Pages (⚠️ Using JSON Files - Needs Update)
+### Pages (✅ Using Supabase)
 
-#### `/intelligence/[company]`
+#### `/index/[company]`
 
--   **Source**: JSON files from `data/companies/*.json`
--   **File**: `src/app/intelligence/[company]/page.tsx`
+-   **Source**: Supabase `Company` table via Prisma
+-   **File**: `src/app/index/[company]/page.tsx`
 -   **Functions Used**:
-    -   `getCompanyBySlug()` → `loadCompanyFromJson()` → reads from `data/companies/{slug}.json`
-    -   `loadCompanyScores()` → reads scores from JSON files
--   **Status**: ⚠️ **Not using Supabase yet** - should be updated to fetch from API
+    -   `getCompanyData()` → `prisma.company.findUnique()` → reads from database
+-   **Status**: ✅ **Using Supabase** - fetches from database
 
 ### Data Flow
 
 ```
-Intelligence API (✅ Supabase)
-├── /api/intelligence/search → prisma.company.findMany()
-└── /api/intelligence/[companyId] → prisma.company.findUnique()
+Index API (✅ Supabase)
+├── /api/index/search → prisma.company.findMany()
+└── /api/index/[companyId] → prisma.company.findUnique()
 
-Intelligence Pages (⚠️ JSON Files)
-└── /intelligence/[company] → getCompanyBySlug() → loadCompanyFromJson()
+Index Pages (✅ Supabase)
+└── /index/[company] → prisma.company.findUnique()
 ```
 
 ---
 
-## 🎯 Match Feature
+## 🎯 Synergy Feature
 
 ### API Routes (✅ Using Supabase)
 
@@ -73,32 +72,30 @@ Intelligence Pages (⚠️ JSON Files)
 -   **Query**: Fetches single listing with offers, data room requests, documents
 -   **Returns**: Full listing details
 
-### Pages (⚠️ Using Mock Data - Needs Update)
+### Pages (✅ Using Supabase)
 
-#### `/match` (Homepage)
+#### `/synergy` (Homepage)
 
--   **Source**: Mock data from `getMockListings()`
--   **File**: `src/app/match/page.tsx`
--   **Function**: `getMockListings()` → `generateMockListings()` → hardcoded mock data
--   **Status**: ⚠️ **Not using API** - should fetch from `/api/listings`
+-   **Source**: Supabase via API routes
+-   **File**: `src/app/synergy/page.tsx`
+-   **Status**: ✅ **Using API** - fetches from `/api/listings`
 
-#### `/match/opportunities` (Marketplace)
+#### `/synergy/opportunities` (Marketplace)
 
--   **Source**: Mock data from `getMockListings()`
--   **File**: `src/app/match/opportunities/page.tsx`
--   **Function**: `getMockListings()` → `generateMockListings()` → hardcoded mock data
--   **Status**: ⚠️ **Not using API** - should fetch from `/api/listings`
+-   **Source**: Supabase via API routes
+-   **File**: `src/app/synergy/opportunities/page.tsx`
+-   **Status**: ✅ **Using API** - fetches from `/api/listings`
 
 ### Data Flow
 
 ```
-Match API (✅ Supabase)
+Synergy API (✅ Supabase)
 ├── /api/listings → prisma.listing.findMany()
 └── /api/listings/[id] → prisma.listing.findUnique()
 
-Match Pages (⚠️ Mock Data)
-├── /match → getMockListings() → generateMockListings()
-└── /match/opportunities → getMockListings() → generateMockListings()
+Synergy Pages (✅ Supabase)
+├── /synergy → API fetch → /api/listings
+└── /synergy/opportunities → API fetch → /api/listings
 ```
 
 ---
@@ -107,42 +104,31 @@ Match Pages (⚠️ Mock Data)
 
 ### ✅ Completed
 
--   [x] Intelligence API routes use Supabase
--   [x] Match API routes use Supabase
+-   [x] Index API routes use Supabase
+-   [x] Synergy API routes use Supabase
 -   [x] Company table seeded with 23 companies from JSON files
 -   [x] Database schema matches requirements
-
-### ⚠️ Needs Update
-
-#### Intelligence Pages
-
--   [ ] Update `/intelligence/[company]` to fetch from `/api/intelligence/[companyId]` instead of JSON files
--   [ ] Update Intelligence search/list pages to use API instead of JSON files
-
-#### Match Pages
-
--   [ ] Update `/match` to fetch from `/api/listings` instead of `getMockListings()`
--   [ ] Update `/match/opportunities` to fetch from `/api/listings` instead of `getMockListings()`
--   [ ] Add loading states and error handling for API calls
+-   [x] Index pages use Supabase
+-   [x] Synergy pages use Supabase
 
 ---
 
 ## 📁 File Locations
 
-### Intelligence
+### Index
 
--   **API Routes**: `src/app/api/intelligence/`
--   **Pages**: `src/app/intelligence/`
--   **Data Loader**: `src/lib/intelligence/data-loader.ts`
--   **Company Utils**: `src/lib/intelligence/companies.ts`
--   **JSON Data**: `data/companies/*.json`
+-   **API Routes**: `src/app/api/index/`
+-   **Pages**: `src/app/index/`
+-   **Data Loader**: `src/lib/index/data-loader.ts`
+-   **Company Utils**: `src/lib/index/companies.ts`
+-   **Company Queries**: `src/lib/index/company-queries.ts`
+-   **JSON Data**: `data/companies/*.json` (for seeding only)
 
-### Match
+### Synergy
 
 -   **API Routes**: `src/app/api/listings/`
--   **Pages**: `src/app/match/`
--   **Mock Data**: `src/lib/mock-data.ts`
--   **Helpers**: `src/lib/match/helpers.ts`
+-   **Pages**: `src/app/synergy/`
+-   **Helpers**: `src/lib/synergy/helpers.ts`
 
 ### Database
 
@@ -155,11 +141,10 @@ Match Pages (⚠️ Mock Data)
 
 ## 🚀 Next Steps
 
-1. **Update Intelligence Pages** to use API instead of JSON files
-2. **Update Match Pages** to use API instead of mock data
-3. **Add API client utilities** for consistent data fetching
-4. **Add loading/error states** for better UX
-5. **Consider Server Components** for better performance
+1. **Add API client utilities** for consistent data fetching
+2. **Add loading/error states** for better UX
+3. **Consider Server Components** for better performance
+4. **Optimize database queries** for better performance
 
 ---
 
@@ -174,19 +159,10 @@ await prisma.company.findMany();
 await prisma.listing.findMany();
 ```
 
-### To check if data is from JSON:
+### To check if data is from JSON (deprecated, used only for seeding):
 
 ```typescript
-// Look for these patterns:
-import { loadCompanyFromJson } from "@/lib/intelligence/data-loader";
+// Look for these patterns (deprecated):
+import { loadCompanyFromJson } from "@/lib/index/data-loader";
 loadCompanyFromJson(slug);
-```
-
-### To check if data is mock:
-
-```typescript
-// Look for these patterns:
-import { getMockListings } from "@/lib/mock-data";
-getMockListings();
-generateMockListings();
 ```

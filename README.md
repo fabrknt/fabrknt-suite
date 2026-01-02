@@ -1,6 +1,6 @@
-# Fabrknt Suite: Web3 Intelligence & Matching Platform
+# Fabrknt Suite: Web3 Index & Synergy Platform
 
-**Intelligence → Match: AI-Powered Company Intelligence & Matching Platform for Web3 SMEs**
+**Index → Synergy: AI-Powered Company Index & Synergy Platform for Web3 SMEs**
 
 **Domain:** `www.fabrknt.com`
 
@@ -10,9 +10,9 @@
 
 **Project Name:** Fabrknt Suite (Powered by Fabrknt)
 
-**Concept:** A next-generation Web3 corporate analysis and matching platform consisting of two integrated products: **Intelligence** (automated company intelligence) and **Match** (M&A & partnership matching). Intelligence provides verified company intelligence combining growth metrics and team health data. Match leverages Intelligence data to power M&A and partnership matching, enabling high-trust business transactions with complete transparency.
+**Concept:** A next-generation Web3 corporate analysis and synergy platform consisting of two integrated products: **Index** (automated company index) and **Synergy** (M&A & partnership synergy). Index provides verified company index combining growth metrics and team health data. Synergy leverages Index data to power M&A and partnership synergy, enabling high-trust business transactions with complete transparency.
 
-**Architecture:** **Intelligence → Match** - Intelligence serves as the data foundation that powers Match's matching and decision-making capabilities. Every Match listing is backed by verified Intelligence data, ensuring transparency and trust.
+**Architecture:** **Index → Synergy** - Index serves as the data foundation that powers Synergy's synergy and decision-making capabilities. Every Synergy listing is backed by verified Index data, ensuring transparency and trust.
 
 **Positioning:** **AI × SME Specialization × Integrated Advisory** - Maximizing automation through AI to drastically improve the cost and time efficiency of M&A and partnership processes in the Web3 market, where information asymmetry is high.
 
@@ -57,19 +57,19 @@ AI seamlessly combines three layers of data to provide a holistic view:
 
 ---
 
-## 4. Platform Architecture: Intelligence → Match
+## 4. Platform Architecture: Index → Synergy
 
-The platform operates on a two-tier architecture where **Intelligence** serves as the data foundation that powers **Match**.
+The platform operates on a two-tier architecture where **Index** serves as the data foundation that powers **Synergy**.
 
-### 4.1. Intelligence: The Data Foundation
+### 4.1. Index: The Data Foundation
 
-**Intelligence** provides automated, verified intelligence for Web3 companies by combining:
+**Index** provides automated, verified index for Web3 companies by combining:
 
 -   **Growth Metrics:** On-chain activity, wallet growth, user growth rates, TVL trends, and transaction volumes
 -   **Team Health:** GitHub commits, active contributors, contributor retention, code quality, and team consistency
--   **Verified Intelligence:** Automated verification via blockchain and GitHub APIs—no manual input, just trustworthy metrics
+-   **Verified Index:** Automated verification via blockchain and GitHub APIs—no manual input, just trustworthy metrics
 
-**The "Fabrknt Score":** An aggregate intelligence score (0-100) calculated from:
+**The "Fabrknt Score":** An aggregate index score (0-100) calculated from:
 
 -   **Growth Score:** On-chain conversion efficiency, wallet quality, and service activity metrics (DAU/WAU/MAU)
 -   **Team Health Score:** Team contribution consistency and developer activity
@@ -79,27 +79,27 @@ The platform operates on a two-tier architecture where **Intelligence** serves a
 
 -   Automated analysis of on-chain data, GitHub activity, and social metrics
 -   Real-time monitoring and updates
--   Comprehensive company directory with verified intelligence scores
+-   Comprehensive company directory with verified index scores
 -   Transparent, auditable data sources
 
-### 4.2. Match: Powered by Intelligence Data
+### 4.2. Synergy: Powered by Index Data
 
-**Match** leverages Intelligence data to enable M&A and partnership matching:
+**Synergy** leverages Index data to enable M&A and partnership synergy:
 
--   **Automated Data Import:** Listings automatically pull verified intelligence data from Intelligence—no manual entry required
--   **The "Audit View":** Buyers can deep-dive into the raw intelligence data without leaving the Match interface
--   **AI-Powered Matching:** Automated compatibility analysis based on verified intelligence scores
+-   **Automated Data Import:** Listings automatically pull verified index data from Index—no manual entry required
+-   **The "Audit View":** Buyers can deep-dive into the raw index data without leaving the Synergy interface
+-   **AI-Powered Synergy:** Automated compatibility analysis based on verified index scores
 -   **One-Click NDA:** Buyers sign an on-chain message to unlock "Privileged Data" (GitHub private repos, specific smart contract addresses)
 -   **Proof of Funds (PoF):** Access to high-value listings is gated by a wallet-balance check to ensure only serious buyers engage
 
-### 4.3. Partnership & Collaboration Matching
+### 4.3. Partnership & Collaboration Synergy
 
-Beyond M&A transactions, **Match** serves as a comprehensive "matchmaking platform" for the Web3 ecosystem:
+Beyond M&A transactions, **Synergy** serves as a comprehensive "synergy platform" for the Web3 ecosystem:
 
--   **Business Matchmaking:** Connect companies seeking infrastructure with SMEs possessing specific tech stacks (e.g., Zero-Knowledge Proofs, DePIN)
--   **Technology-Complementary Alliances:** Match companies based on complementary capabilities and technical requirements, using Intelligence data to assess compatibility
+-   **Business Synergy:** Connect companies seeking infrastructure with SMEs possessing specific tech stacks (e.g., Zero-Knowledge Proofs, DePIN)
+-   **Technology-Complementary Alliances:** Synergy companies based on complementary capabilities and technical requirements, using Index data to assess compatibility
 -   **Partnership Types:** Support for technical, strategic, marketing, and ecosystem partnerships
--   **Post-Alliance Monitoring:** AI continuously analyzes on-chain activity post-partnership using Intelligence data to visualize and evaluate synergies, such as increases in user count or transaction volume
+-   **Post-Alliance Monitoring:** AI continuously analyzes on-chain activity post-partnership using Index data to visualize and evaluate synergies, such as increases in user count or transaction volume
 
 ### 4.4. Transaction Protocol (The Deal Protocol)
 
@@ -113,20 +113,20 @@ Beyond M&A transactions, **Match** serves as a comprehensive "matchmaking platfo
 ## 5. Design System & Aesthetics
 
 -   **Visual Identity:** Full consistency with `www.fabrknt.com`.
--   **The "Suite Ribbon":** Every Match listing features a dedicated data ribbon displaying real-time intelligence signals from Intelligence (growth metrics and team health).
+-   **The "Suite Ribbon":** Every Synergy listing features a dedicated data ribbon displaying real-time index signals from Index (growth metrics and team health).
 -   **Minimalist Architecture:** The UI feels like a "Financial Terminal"—functional, fast, and devoid of "Crypto-hype" visuals.
 
 ---
 
-## 6. Intelligence → Match Data Flow
+## 6. Index → Synergy Data Flow
 
-**Intelligence** collects and verifies data, which **Match** uses for matching and decision-making:
+**Index** collects and verifies data, which **Synergy** uses for synergy and decision-making:
 
-| Intelligence Data  | Used by Match For                                                                     | Impact on Matching & Valuation                                                      |
+| Index Data         | Used by Synergy For                                                                   | Impact on Synergy & Valuation                                                       |
 | ------------------ | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
 | **Growth Metrics** | Verified On-chain ROI / Marketing efficiency + Service activity metrics (DAU/WAU/MAU) | Proves the product is "market-fit", scalable, and actively being used by real users |
 | **Team Health**    | Team contribution score / Developer activity / Code quality                           | Reduces "Key Person Risk" by proving a healthy team and sustainable development     |
-| **Overall Score**  | Automated compatibility analysis and ranking                                          | Enables AI-powered matching based on verified intelligence scores                   |
+| **Overall Score**  | Automated compatibility analysis and ranking                                          | Enables AI-powered synergy based on verified index scores                           |
 
 ---
 
@@ -154,10 +154,10 @@ Beyond M&A transactions, **Match** serves as a comprehensive "matchmaking platfo
 
 ### 7.3. Unified API Structure
 
--   `GET /api/v1/intelligence/companies`: Get verified company intelligence data
--   `GET /api/v1/intelligence/companies/{id}`: Get detailed intelligence for a specific company
--   `GET /api/v1/match/opportunities`: Get M&A and partnership opportunities (powered by Intelligence data)
--   `GET /api/v1/match/opportunities/{id}`: Get detailed opportunity with full intelligence metrics
+-   `GET /api/v1/index/companies`: Get verified company index data
+-   `GET /api/v1/index/companies/{id}`: Get detailed index for a specific company
+-   `GET /api/v1/synergy/opportunities`: Get M&A and partnership opportunities (powered by Index data)
+-   `GET /api/v1/synergy/opportunities/{id}`: Get detailed opportunity with full index metrics
 -   `POST /api/v1/escrow/init`: Deploys a new escrow instance for a deal
 
 ---
@@ -186,25 +186,25 @@ Beyond M&A transactions, **Match** serves as a comprehensive "matchmaking platfo
 
 ## 9. The Fabrknt Ecosystem Vision
 
-**Fabrknt Suite** operates on a data-driven architecture where **Intelligence** powers **Match**.
+**Fabrknt Suite** operates on a data-driven architecture where **Index** powers **Synergy**.
 
-### The Intelligence → Match Flow
+### The Index → Synergy Flow
 
-1. **Intelligence** collects and verifies comprehensive company data:
+1. **Index** collects and verifies comprehensive company data:
 
     - Growth metrics (on-chain activity, wallet growth, user growth rates)
     - Team health (GitHub activity, contributors, code quality)
-    - Overall intelligence scores (0-100)
+    - Overall index scores (0-100)
 
-2. **Match** leverages Intelligence data to enable trusted transactions:
+2. **Synergy** leverages Index data to enable trusted transactions:
 
-    - M&A matching powered by verified intelligence scores
-    - Partnership matching based on complementary capabilities
-    - Automated compatibility analysis using intelligence metrics
+    - M&A synergy powered by verified index scores
+    - Partnership synergy based on complementary capabilities
+    - Automated compatibility analysis using index metrics
 
 3. **Result:** Buyers, sellers, and partners can transact with complete transparency, seeing authenticated team health and growth metrics for every listing.
 
-This data-driven approach eliminates information asymmetry and enables high-trust business transfers and partnerships in Web3, supporting the global consolidation and integration of the Web3 ecosystem. **Intelligence is the foundation; Match is the engine that uses that foundation to create connections.**
+This data-driven approach eliminates information asymmetry and enables high-trust business transfers and partnerships in Web3, supporting the global consolidation and integration of the Web3 ecosystem. **Index is the foundation; Synergy is the engine that uses that foundation to create connections.**
 
 ---
 
@@ -212,15 +212,15 @@ This data-driven approach eliminates information asymmetry and enables high-trus
 
 ### Phase 1: Core Platform ✅
 
--   Intelligence: Automated company intelligence with growth and team health metrics
--   Match: Basic M&A matching functionality powered by Intelligence data
--   Suite Ribbon component displaying Intelligence metrics
+-   Index: Automated company index with growth and team health metrics
+-   Synergy: Basic M&A synergy functionality powered by Index data
+-   Suite Ribbon component displaying Index metrics
 
 ### Phase 2: Partnership Features ✅
 
--   Partnership and collaboration matching (implemented in code)
--   Enhanced matching algorithms using Intelligence scores
--   Post-alliance monitoring capabilities leveraging Intelligence data
+-   Partnership and collaboration synergy (implemented in code)
+-   Enhanced synergy algorithms using Index scores
+-   Post-alliance monitoring capabilities leveraging Index data
 
 ### Phase 3: AI Enhancement (In Progress)
 
@@ -235,27 +235,27 @@ This data-driven approach eliminates information asymmetry and enables high-trus
 
 ### For Sellers
 
-1. Your company is automatically tracked in **Intelligence** (if not, add it)
-2. Intelligence verifies your growth metrics and team health
-3. Create your listing in **Match** - intelligence data auto-populates from Intelligence
-4. Listings show verified intelligence scores, enabling faster buyer trust
+1. Your company is automatically tracked in **Index** (if not, add it)
+2. Index verifies your growth metrics and team health
+3. Create your listing in **Synergy** - index data auto-populates from Index
+4. Listings show verified index scores, enabling faster buyer trust
 
 ### For Buyers
 
-1. Browse **Intelligence** to research companies with verified metrics
-2. Use **Match** to find acquisition targets and partnership opportunities
-3. View detailed intelligence data (growth metrics, team health) for each opportunity
-4. Access detailed audit views with raw intelligence data
+1. Browse **Index** to research companies with verified metrics
+2. Use **Synergy** to find acquisition targets and partnership opportunities
+3. View detailed index data (growth metrics, team health) for each opportunity
+4. Access detailed audit views with raw index data
 5. Sign on-chain NDA for privileged data access
 6. Complete transactions via atomic escrow
 
 ### For Partners
 
-1. Browse **Intelligence** to understand company capabilities
-2. Use **Match** to find partnership opportunities
+1. Browse **Index** to understand company capabilities
+2. Use **Synergy** to find partnership opportunities
 3. Filter by partnership type (technical, strategic, marketing, ecosystem)
-4. Match based on complementary capabilities using Intelligence data
-5. Monitor post-alliance synergies through Intelligence metrics
+4. Synergy based on complementary capabilities using Index data
+5. Monitor post-alliance synergies through Index metrics
 
 ---
 

@@ -2,8 +2,8 @@
  * Verification script to check if real data is being loaded from JSON files
  */
 
-import { companies } from "../src/lib/intelligence/companies";
-import { hasRealData } from "../src/lib/intelligence/data-loader";
+import { companies } from "../src/lib/index/companies";
+import { hasRealData } from "../src/lib/index/data-loader";
 
 console.log("\n📊 Company Data Loading Verification\n");
 console.log("=" + "=".repeat(60) + "\n");
@@ -44,10 +44,10 @@ companiesWithRealData.forEach((slug) => {
 
 // Summary
 console.log("=" + "=".repeat(60));
+console.log(`\nTotal companies: ${companies.length}`);
 console.log(
-    `\nTotal companies: ${companies.length}`
-);
-console.log(
-    `Companies with real data: ${companiesWithRealData.filter(hasRealData).length}/${companiesWithRealData.length}`
+    `Companies with real data: ${
+        companiesWithRealData.filter(hasRealData).length
+    }/${companiesWithRealData.length}`
 );
 console.log("\nData loading successful! 🎉\n");

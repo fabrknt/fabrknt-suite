@@ -9,11 +9,12 @@ import { Prisma } from '@prisma/client';
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const listing = await prisma.listing.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         seller: {
           select: {
@@ -102,15 +103,16 @@ export async function GET(
  */
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const body = await request.json();
 
     // Validate with Zod
     const validationResult = UpdateListingSchema.safeParse({
       ...body,
-      id: params.id,
+      id: id,
     });
 
     if (!validationResult.success) {
@@ -127,7 +129,7 @@ export async function PUT(
 
     // Verify listing exists and check ownership
     const existingListing = await prisma.listing.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       select: { sellerId: true },
     });
 
@@ -184,8 +186,8 @@ export async function PUT(
       updateData.minBuyerCapital = data.minBuyerCapital ? new Prisma.Decimal(data.minBuyerCapital) : null;
     }
 
-    if (data.intelligenceCompanyId !== undefined) {
-      updateData.intelligenceCompanyId = data.intelligenceCompanyId || null;
+    if (data.indexCompanyId !== undefined) {
+      updateData.indexCompanyId = data.indexCompanyId || null;
     }
     if (data.suiteDataSnapshot !== undefined) {
       updateData.suiteDataSnapshot = data.suiteDataSnapshot || null;
@@ -195,7 +197,7 @@ export async function PUT(
 
     // Update listing
     const listing = await prisma.listing.update({
-      where: { id: params.id },
+      where: { id: id },
       data: updateData,
       include: {
         seller: {
@@ -210,7 +212,8 @@ export async function PUT(
 
     return NextResponse.json(listing);
   } catch (error) {
-    console.error(`PUT /api/listings/${params.id} error:`, error);
+    const { id } = await params;
+    console.error(`PUT /api/listings/${id} error:`, error);
 
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === 'P2025') {
@@ -234,15 +237,16 @@ export async function PUT(
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const { searchParams } = new URL(request.url);
     const hardDelete = searchParams.get('hard') === 'true';
 
     // Verify listing exists and check ownership
     const existingListing = await prisma.listing.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       select: { sellerId: true },
     });
 
@@ -265,14 +269,14 @@ export async function DELETE(
     if (hardDelete) {
       // Hard delete (permanently remove)
       await prisma.listing.delete({
-        where: { id: params.id },
+        where: { id: id },
       });
 
       return NextResponse.json({ message: 'Listing permanently deleted' });
     } else {
       // Soft delete (set status to withdrawn)
       const listing = await prisma.listing.update({
-        where: { id: params.id },
+        where: { id: id },
         data: {
           status: 'withdrawn',
           updatedAt: new Date(),
@@ -282,7 +286,8 @@ export async function DELETE(
       return NextResponse.json(listing);
     }
   } catch (error) {
-    console.error(`DELETE /api/listings/${params.id} error:`, error);
+    const { id } = await params;
+    console.error(`DELETE /api/listings/${id} error:`, error);
 
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === 'P2025') {

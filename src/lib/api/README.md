@@ -1,10 +1,10 @@
 # Real Data Integration for Fabrknt Suite
 
-This directory contains API clients for fetching real intelligence data from multiple sources.
+This directory contains API clients for fetching real index data from multiple sources.
 
 ## Overview
 
-The Intelligence system combines data from:
+The Index system combines data from:
 
 | Source      | Data                            | Purpose              |
 | ----------- | ------------------------------- | -------------------- |
@@ -100,7 +100,7 @@ The code supports multiple Solana RPC providers:
 3. Copy to `.env.local` as `DUNE_API_KEY`
 4. Add `duneQueryId` to company metadata in registry
 
-**Recommendation**: Skip Dune unless you specifically need volume/fee accuracy. RPC metrics are sufficient for most intelligence scoring.
+**Recommendation**: Skip Dune unless you specifically need volume/fee accuracy. RPC metrics are sufficient for most index scoring.
 
 #### Nansen (Optional)
 
@@ -127,7 +127,7 @@ npx tsx scripts/test-uniswap-data.ts
 This will:
 
 -   Fetch data from all sources
--   Calculate Intelligence Score
+-   Calculate Index Score
 -   Display results in terminal
 
 ## Dune Analytics Setup
@@ -166,12 +166,12 @@ import {
     fetchUniswapData,
     calculateUniswapScore,
     getUniswapCompanyData,
-} from "@/lib/intelligence/uniswap";
+} from "@/lib/index/uniswap";
 
 // Get raw data from all sources
 const data = await fetchUniswapData();
 
-// Calculate Intelligence Score
+// Calculate Index Score
 const score = await calculateUniswapScore();
 
 // Get complete company data (formatted for UI)
@@ -182,14 +182,14 @@ const company = await getUniswapCompanyData();
 
 To add more companies, create similar files:
 
-1. **Create company-specific file**: `src/lib/intelligence/aave.ts`
+1. **Create company-specific file**: `src/lib/index/aave.ts`
 2. **Update API calls**: Use correct repo, Twitter handle, contract addresses
 3. **Add to companies list**: Import and add to `companies.ts`
 
 Example for Aave:
 
 ```typescript
-// src/lib/intelligence/aave.ts
+// src/lib/index/aave.ts
 import { getTeamMetrics } from "@/lib/api/github";
 import { getUserMetrics } from "@/lib/api/twitter";
 // ... etc
@@ -201,7 +201,7 @@ export async function getAaveMetrics() {
 }
 ```
 
-## Intelligence Score Calculation
+## Index Score Calculation
 
 The overall score (0-100) is calculated as:
 
@@ -234,7 +234,7 @@ Overall = (Team Health × 0.35) + (Growth × 0.40) + (Social × 0.15) + (Wallet 
 
 ### Adjust Weights
 
-Edit `src/lib/intelligence/calculators/score-calculator.ts` to adjust weights and normalization ranges.
+Edit `src/lib/index/calculators/score-calculator.ts` to adjust weights and normalization ranges.
 
 ## Rate Limits
 

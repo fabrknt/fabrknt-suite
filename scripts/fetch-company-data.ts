@@ -1,7 +1,7 @@
 /**
- * Generic Script: Fetch Company Intelligence Data
+ * Generic Script: Fetch Company Index Data
  *
- * This script can fetch intelligence data for any company registered in the registry.
+ * This script can fetch index data for any company registered in the registry.
  *
  * Usage:
  *   pnpm fetch:company uniswap
@@ -17,15 +17,15 @@ config({ path: resolve(process.cwd(), ".env.local") });
 import { promises as fs } from "fs";
 import { join } from "path";
 import {
-    getIntelligenceModule,
+    getIndexModule,
     getAvailableCompanySlugs,
     getCompanyMetadata,
     getChainRpcInfo,
-} from "../src/lib/intelligence/registry";
-import { IntelligenceData, IntelligenceScore } from "../src/lib/api/types";
-import { Company } from "../src/lib/intelligence/companies";
-import { CrawlerService } from "../src/lib/intelligence/crawler";
-import { LLMService } from "../src/lib/intelligence/llm";
+} from "../src/lib/index/registry";
+import { IndexData, IndexScore } from "../src/lib/api/types";
+import { Company } from "../src/lib/index/companies";
+import { CrawlerService } from "../src/lib/index/crawler";
+import { LLMService } from "../src/lib/index/llm";
 
 // Initialize Services
 const crawler = new CrawlerService();
@@ -42,8 +42,8 @@ interface StoredCompanyData {
         chain: string;
         description: string;
     };
-    rawData: IntelligenceData;
-    scores: IntelligenceScore;
+    rawData: IndexData;
+    scores: IndexScore;
     company: Company;
 }
 
@@ -65,8 +65,8 @@ async function ensureDataDir(): Promise<void> {
 async function saveCompanyData(
     slug: string,
     metadata: { name: string; chain: string; description: string },
-    rawData: IntelligenceData,
-    scores: IntelligenceScore,
+    rawData: IndexData,
+    scores: IndexScore,
     company: Company
 ): Promise<string> {
     await ensureDataDir();
@@ -132,7 +132,7 @@ async function fetchCompanyData(slug: string) {
     const chainRpcInfo = getChainRpcInfo(metadata.chain);
     const rpcEnvVar = chainRpcInfo.envVar;
 
-    console.log(`\n🚀 Fetching ${metadata.name} Intelligence Data...`);
+    console.log(`\n🚀 Fetching ${metadata.name} Index Data...`);
     console.log(`   Chain: ${metadata.chain.toUpperCase()}\n`);
 
     // Debug: Check environment variables (chain-specific)
@@ -141,36 +141,40 @@ async function fetchCompanyData(slug: string) {
         `  - GITHUB_TOKEN: ${process.env.GITHUB_TOKEN ? "✓ Set" : "✗ Missing"}`
     );
     console.log(
-        `  - TWITTER_BEARER_TOKEN: ${process.env.TWITTER_BEARER_TOKEN ? "✓ Set" : "✗ Missing"
+        `  - TWITTER_BEARER_TOKEN: ${
+            process.env.TWITTER_BEARER_TOKEN ? "✓ Set" : "✗ Missing"
         }`
     );
     console.log(
-        `  - ${rpcEnvVar}: ${process.env[rpcEnvVar]
-            ? "✓ Set"
-            : `✗ Using ${chainRpcInfo.defaultUrl || "default"}`
+        `  - ${rpcEnvVar}: ${
+            process.env[rpcEnvVar]
+                ? "✓ Set"
+                : `✗ Using ${chainRpcInfo.defaultUrl || "default"}`
         }`
     );
 
     // Show chain-specific API keys
     if (metadata.chain === "ethereum") {
         console.log(
-            `  - ALCHEMY_API_KEY: ${process.env.ALCHEMY_API_KEY ? "✓ Set" : "✗ Missing (optional)"
+            `  - ALCHEMY_API_KEY: ${
+                process.env.ALCHEMY_API_KEY ? "✓ Set" : "✗ Missing (optional)"
             }`
         );
     }
     if (metadata.chain === "solana") {
         console.log(
-            `  - HELIUS_API_KEY: ${process.env.HELIUS_API_KEY ? "✓ Set" : "✗ Missing (optional)"
+            `  - HELIUS_API_KEY: ${
+                process.env.HELIUS_API_KEY ? "✓ Set" : "✗ Missing (optional)"
             }`
         );
     }
     console.log("");
 
     try {
-        // Get the intelligence module for this company
-        const module = await getIntelligenceModule(slug);
+        // Get the index module for this company
+        const module = await getIndexModule(slug);
         if (!module) {
-            console.error(`❌ No intelligence module found for: ${slug}`);
+            console.error(`❌ No index module found for: ${slug}`);
             console.error(
                 `\nAvailable companies: ${getAvailableCompanySlugs().join(
                     ", "
@@ -213,15 +217,18 @@ async function fetchCompanyData(slug: string) {
         console.log(`  - Contract/Program: ${data.onchain.contractAddress}`);
         console.log(`  - Chain: ${data.onchain.chain}`);
         console.log(
-            `  - Transactions (24h): ${data.onchain.transactionCount24h?.toLocaleString() || "N/A"
+            `  - Transactions (24h): ${
+                data.onchain.transactionCount24h?.toLocaleString() || "N/A"
             }`
         );
         console.log(
-            `  - Transactions (30d): ${data.onchain.transactionCount30d?.toLocaleString() || "N/A"
+            `  - Transactions (30d): ${
+                data.onchain.transactionCount30d?.toLocaleString() || "N/A"
             }`
         );
         console.log(
-            `  - Unique Wallets (30d): ${data.onchain.uniqueWallets30d?.toLocaleString() || "N/A"
+            `  - Unique Wallets (30d): ${
+                data.onchain.uniqueWallets30d?.toLocaleString() || "N/A"
             }`
         );
 
@@ -231,21 +238,34 @@ async function fetchCompanyData(slug: string) {
             data.news = [];
 
             if (metadata.blogUrl) {
-                const news = await crawler.crawlCompanyNews(metadata.blogUrl, "Official Blog");
+                const news = await crawler.crawlCompanyNews(
+                    metadata.blogUrl,
+                    "Official Blog"
+                );
                 data.news.push(...news);
             }
             if (metadata.mediumUrl) {
-                const news = await crawler.crawlCompanyNews(metadata.mediumUrl, "Medium");
+                const news = await crawler.crawlCompanyNews(
+                    metadata.mediumUrl,
+                    "Medium"
+                );
                 data.news.push(...news);
             }
 
             // Summarize partnerships
             if (data.news.length > 0) {
-                console.log(`\n🤖 Summarizing ${data.news.length} news items for partnerships...`);
+                console.log(
+                    `\n🤖 Summarizing ${data.news.length} news items for partnerships...`
+                );
                 for (const item of data.news) {
-                    item.summary = await llm.summarizePartnerships(item.title, item.url);
+                    item.summary = await llm.summarizePartnerships(
+                        item.title,
+                        item.url
+                    );
                     if (item.summary !== "Not a partnership") {
-                        console.log(`   - [Partnership Opportunity] ${item.title}: ${item.summary}`);
+                        console.log(
+                            `   - [Partnership Opportunity] ${item.title}: ${item.summary}`
+                        );
                     }
                 }
             } else {
@@ -253,12 +273,12 @@ async function fetchCompanyData(slug: string) {
             }
         }
 
-        // Step 2: Calculate Intelligence Score
-        console.log("\n🧮 Step 2: Calculating Intelligence Score...");
+        // Step 2: Calculate Index Score
+        console.log("\n🧮 Step 2: Calculating Index Score...");
         const score = await module.calculateScore(data);
 
         console.log("\n✅ Score calculated successfully!");
-        console.log("\n🎯 Intelligence Scores:");
+        console.log("\n🎯 Index Scores:");
         console.log(`  - Overall Score: ${score.overall}/100`);
         console.log(`  - Team Health: ${score.teamHealth}/100`);
         console.log(`  - Growth Score: ${score.growthScore}/100`);
@@ -405,24 +425,32 @@ async function main() {
         const opportunities = await crawler.crawlFundingNews();
 
         console.log(`\n✅ Found ${opportunities.length} funding items.`);
-        const potentialSeeds = opportunities.filter(o => o.isPotentialSeed);
+        const potentialSeeds = opportunities.filter((o) => o.isPotentialSeed);
         console.log(`🌱 Potential Seed Rounds: ${potentialSeeds.length}`);
 
         if (potentialSeeds.length > 0) {
             console.log("\n🔍 Analyzing Potentials:");
             for (const seed of potentialSeeds) {
-                console.log(`   - ${seed.companyName} (${seed.amount}): ${seed.roundType}`);
+                console.log(
+                    `   - ${seed.companyName} (${seed.amount}): ${seed.roundType}`
+                );
             }
         }
 
         const fundingPath = join(DATA_DIR, "funding.json");
-        await fs.writeFile(fundingPath, JSON.stringify({
-            fetchedAt: new Date().toISOString(),
-            opportunities
-        }, null, 2));
+        await fs.writeFile(
+            fundingPath,
+            JSON.stringify(
+                {
+                    fetchedAt: new Date().toISOString(),
+                    opportunities,
+                },
+                null,
+                2
+            )
+        );
 
         console.log(`\n💾 Funding data saved to: ${fundingPath}`);
-
     } else {
         // Fetch single company
         await fetchCompanyData(companySlug);

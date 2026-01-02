@@ -1,14 +1,14 @@
 /**
- * Recalculate Intelligence Scores for All Companies
+ * Recalculate Index Scores for All Companies
  * Reads existing company JSON files, recalculates scores using updated calculation logic,
  * and updates the JSON files with new scores.
  */
 
 import { readFileSync, writeFileSync, readdirSync } from "fs";
 import { join } from "path";
-import { calculateIntelligenceScore } from "../src/lib/intelligence/calculators/score-calculator";
-import { IntelligenceData, IntelligenceScore } from "../src/lib/api/types";
-import { Company } from "../src/lib/intelligence/companies";
+import { calculateIndexScore } from "../src/lib/index/calculators/score-calculator";
+import { IndexData, IndexScore } from "../src/lib/api/types";
+import { Company } from "../src/lib/index/companies";
 
 interface StoredCompanyData {
     slug: string;
@@ -18,21 +18,21 @@ interface StoredCompanyData {
         chain: string;
         description: string;
     };
-    rawData: IntelligenceData;
-    scores: IntelligenceScore;
+    rawData: IndexData;
+    scores: IndexScore;
     company: Company;
 }
 
 const DATA_DIR = join(process.cwd(), "data", "companies");
 
 /**
- * Generic function to convert IntelligenceData + IntelligenceScore to Company
+ * Generic function to convert IndexData + IndexScore to Company
  * Preserves existing company metadata (description, logo, website, etc.)
  */
 function updateCompanyFromScores(
     existingCompany: Company,
-    data: IntelligenceData,
-    score: IntelligenceScore
+    data: IndexData,
+    score: IndexScore
 ): Company {
     // Determine trend based on growth and team health
     const isPrivateDev = data.github.totalCommits30d < 5;
@@ -101,7 +101,7 @@ function recalculateCompanyScores(slug: string): {
         const oldScore = storedData.company.overallScore;
 
         // Recalculate scores using updated calculation logic
-        const newScores = calculateIntelligenceScore(
+        const newScores = calculateIndexScore(
             storedData.rawData.github,
             storedData.rawData.twitter,
             storedData.rawData.onchain,
@@ -150,7 +150,7 @@ function recalculateCompanyScores(slug: string): {
  * Main function to recalculate scores for all companies
  */
 async function main() {
-    console.log("🔄 Recalculating Intelligence Scores for All Companies\n");
+    console.log("🔄 Recalculating Index Scores for All Companies\n");
 
     // Get all JSON files in the companies directory
     const files = readdirSync(DATA_DIR).filter(

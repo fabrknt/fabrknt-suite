@@ -1,15 +1,15 @@
-# Intelligence Data Loading Guide
+# Index Data Loading Guide
 
 ## Overview
 
-The intelligence system now automatically loads **real data from JSON files** when available, and falls back to mock data for companies that don't have JSON files yet.
+The index system now automatically loads **real data from JSON files** when available, and falls back to mock data for companies that don't have JSON files yet.
 
 ## How It Works
 
 ### 1. Data Sources
 
-- **Real Data**: Located in `/data/companies/` as JSON files
-- **Mock Data**: Defined in `/src/lib/intelligence/companies.ts` as fallback
+-   **Real Data**: Located in `/data/companies/` as JSON files
+-   **Mock Data**: Defined in `/src/lib/index/companies.ts` as fallback
 
 ### 2. Loading Priority
 
@@ -19,19 +19,21 @@ The intelligence system now automatically loads **real data from JSON files** wh
 
 ### 3. Files Modified
 
-- **`src/lib/intelligence/data-loader.ts`** (NEW)
-  - Utilities to load company data from JSON files
-  - Functions to check if real data exists
-  - Function to load all companies from JSON
+-   **`src/lib/index/data-loader.ts`** (NEW)
 
-- **`src/lib/intelligence/companies.ts`** (MODIFIED)
-  - Now imports and uses data-loader utilities
-  - Automatically merges real data with mock data
-  - Exports unified `companies` array
+    -   Utilities to load company data from JSON files
+    -   Functions to check if real data exists
+    -   Function to load all companies from JSON
+
+-   **`src/lib/index/companies.ts`** (MODIFIED)
+    -   Now imports and uses data-loader utilities
+    -   Automatically merges real data with mock data
+    -   Exports unified `companies` array
 
 ## Current Status
 
 ### Companies with Real Data (8)
+
 ✅ Verified and loaded from JSON files:
 
 1. **Uniswap** - Score: 54 (28 commits/30d)
@@ -44,19 +46,21 @@ The intelligence system now automatically loads **real data from JSON files** wh
 8. **Orca** - Score: 46 (1 commit/30d)
 
 ### Companies with Mock Data (23)
+
 Using placeholder data until JSON files are fetched:
-- Aave, Compound, Curve, MakerDAO
-- Chainlink, The Graph, Polygon, Filecoin, Arweave
-- OpenSea, Art Blocks, Zora, Foundation
-- Snapshot, Aragon, Colony, Gitcoin, Coordinape
-- Axie Infinity, The Sandbox, Illuvium, Gods Unchained, Gala Games
+
+-   Aave, Compound, Curve, MakerDAO
+-   Chainlink, The Graph, Polygon, Filecoin, Arweave
+-   OpenSea, Art Blocks, Zora, Foundation
+-   Snapshot, Aragon, Colony, Gitcoin, Coordinape
+-   Axie Infinity, The Sandbox, Illuvium, Gods Unchained, Gala Games
 
 ## Adding New Companies
 
 To add a new company with real data:
 
-1. **Add intelligence module** in `/src/lib/intelligence/[company].ts`
-2. **Register in registry** at `/src/lib/intelligence/registry.ts`
+1. **Add index module** in `/src/lib/index/[company].ts`
+2. **Register in registry** at `/src/lib/index/registry.ts`
 3. **Fetch data** using `pnpm fetch:company [company-slug]`
 4. **Automatic loading** - The system will automatically use the new JSON file
 
@@ -65,16 +69,19 @@ No need to manually update the companies array!
 ## Fetching Data
 
 ### Fetch single company:
+
 ```bash
 pnpm fetch:company uniswap
 ```
 
 ### Fetch all companies:
+
 ```bash
 pnpm fetch:company all
 ```
 
 ### Verify data loading:
+
 ```bash
 pnpm tsx scripts/verify-data-loading.ts
 ```
@@ -90,7 +97,7 @@ pnpm tsx scripts/verify-data-loading.ts
 ## Next Steps
 
 1. **Fix API keys** (Alchemy, Dune) to unblock data fetching
-2. **Fetch all 25 companies** from the intelligence registry
+2. **Fetch all 25 companies** from the index registry
 3. **Replace all mock data** with real data
 4. **Set up automated refresh** to keep data current
 

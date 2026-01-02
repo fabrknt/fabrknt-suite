@@ -38,7 +38,7 @@ NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=[your-project-id]
 
 ## Optional Environment Variables
 
-### GitHub API (for Intelligence features)
+### GitHub API (for Index features)
 
 ```bash
 GITHUB_TOKEN=[your-github-token]
@@ -48,7 +48,7 @@ GITHUB_TOKEN=[your-github-token]
 
 ---
 
-### Twitter API (for Intelligence features)
+### Twitter API (for Index features)
 
 ```bash
 TWITTER_BEARER_TOKEN=[your-bearer-token]

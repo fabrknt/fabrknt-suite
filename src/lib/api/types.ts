@@ -71,9 +71,9 @@ export interface DuneQueryResult {
     executionId: string;
     queryId: number;
     state:
-        | "QUERY_STATE_COMPLETED"
-        | "QUERY_STATE_FAILED"
-        | "QUERY_STATE_PENDING";
+    | "QUERY_STATE_COMPLETED"
+    | "QUERY_STATE_FAILED"
+    | "QUERY_STATE_PENDING";
     rows: any[];
     metadata: {
         columnNames: string[];
@@ -107,8 +107,8 @@ export interface NansenWalletMetrics {
     smartMoneyOutflow30d: number; // USD
 }
 
-// Combined Intelligence Data
-export interface IntelligenceData {
+// Combined Index Data
+export interface IndexData {
     companyName: string;
     category: "defi" | "nft" | "gaming" | "infrastructure" | "dao";
     github: GitHubTeamMetrics;
@@ -125,8 +125,8 @@ export interface IntelligenceData {
     calculatedAt: string;
 }
 
-// Intelligence Score Breakdown
-export interface IntelligenceScore {
+// Index Score Breakdown
+export interface IndexScore {
     overall: number; // 0-100
     teamHealth: number; // 0-100
     growthScore: number; // 0-100

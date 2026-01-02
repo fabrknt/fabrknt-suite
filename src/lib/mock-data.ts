@@ -398,7 +398,7 @@ export function getOpportunitiesByType(type: OpportunityType): Listing[] {
 /**
  * Calculate match platform stats
  */
-export function calculateMatchStats() {
+export function calculateSynergyStats() {
   const listings = getMockListings();
   const activeListings = listings.filter(l => l.status === 'active');
 

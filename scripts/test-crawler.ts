@@ -3,8 +3,8 @@ import { config } from "dotenv";
 import { resolve } from "path";
 config({ path: resolve(process.cwd(), ".env.local") });
 
-import { CrawlerService } from "../src/lib/intelligence/crawler";
-import { LLMService } from "../src/lib/intelligence/llm";
+import { CrawlerService } from "../src/lib/index/crawler";
+import { LLMService } from "../src/lib/index/llm";
 
 async function testCrawler() {
     const crawler = new CrawlerService();
@@ -23,7 +23,10 @@ async function testCrawler() {
 
             // Test 2: Summarization (Mock if API key missing)
             console.log("\n2. Testing LLM Summarization...");
-            const summary = await llm.summarizePartnerships(news[0].title, news[0].url);
+            const summary = await llm.summarizePartnerships(
+                news[0].title,
+                news[0].url
+            );
             console.log(`Summary Result: ${summary}`);
         }
     } catch (error) {

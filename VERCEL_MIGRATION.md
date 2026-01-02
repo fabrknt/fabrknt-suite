@@ -154,7 +154,7 @@ git push origin main
 
 1. ✅ Check build logs in Vercel Dashboard
 2. ✅ Verify environment variables are set correctly
-3. ✅ Test API routes: `/api/intelligence/search`
+3. ✅ Test API routes: `/api/index/search`
 4. ✅ Test database connections
 5. ✅ Verify Prisma client generation
 
@@ -252,6 +252,6 @@ If you need to rollback to Amplify:
 
 ---
 
-**Migration Date**: ******\_******  
-**Migrated By**: ******\_******  
+**Migration Date**: **\*\***\_**\*\***  
+**Migrated By**: **\*\***\_**\*\***  
 **Status**: ✅ Complete / ⚠️ In Progress

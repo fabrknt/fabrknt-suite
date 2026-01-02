@@ -2,17 +2,19 @@
 const nextConfig = {
     reactStrictMode: true,
     transpilePackages: [
-        "@fabrknt/ui",
-        "@fabrknt/auth",
-        "@fabrknt/db",
-        "@fabrknt/api",
-        "@fabrknt/blockchain",
+        // "@fabrknt/ui",
+        // "@fabrknt/auth",
+        // "@fabrknt/db",
+        // "@fabrknt/api",
+        // "@fabrknt/blockchain",
     ],
     experimental: {
         serverActions: {
             bodySizeLimit: "2mb",
         },
     },
+    // Empty turbopack config to silence Next.js 16 warning
+    turbopack: {},
     webpack: (config, { isServer }) => {
         // Ignore React Native dependencies that MetaMask SDK tries to import
         config.resolve.fallback = {

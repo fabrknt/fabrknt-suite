@@ -63,7 +63,7 @@ After deployment, verify:
 -   [ ] Build completed successfully
 -   [ ] Site loads at Vercel URL
 -   [ ] Database connection works
--   [ ] API routes function (`/api/intelligence/search`)
+-   [ ] API routes function (`/api/index/search`)
 -   [ ] Prisma client generated
 
 ---

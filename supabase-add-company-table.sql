@@ -1,4 +1,4 @@
--- Add Company table for Intelligence data storage
+-- Add Company table for Index data storage
 -- Run this in Supabase SQL Editor
 
 CREATE TABLE IF NOT EXISTS "Company" (
@@ -20,8 +20,8 @@ CREATE TABLE IF NOT EXISTS "Company" (
     -- Trend
     "trend" TEXT NOT NULL DEFAULT 'stable',
 
-    -- Raw Intelligence data (full JSON from APIs)
-    "intelligenceData" JSONB,
+    -- Raw Index data (full JSON from APIs)
+    "indexData" JSONB,
 
     -- Status
     "isListed" BOOLEAN NOT NULL DEFAULT false,

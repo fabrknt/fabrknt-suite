@@ -50,7 +50,7 @@ export function ListingCard({ listing }: ListingCardProps) {
 
   return (
     <div className="group rounded-lg border border-border bg-card p-6 transition-all hover:border-green-300 hover:shadow-lg">
-      <Link href={`/match/opportunities/${listing.id}`} className="block">
+      <Link href={`/synergy/opportunities/${listing.id}`} className="block">
         {/* Type Badge - Prominent */}
         <div className="mb-4">
           <span

@@ -3,10 +3,10 @@ import {
     calculateGitHubScore,
     calculateTwitterScore,
     calculateOnChainScore,
-    calculateIntelligenceScore,
-    calculateNewsGrowthScore,
+    calculateIndexScore,
+    calculateIndexNewsScore,
     calculateWebScore
-} from "../src/lib/intelligence/calculators/score-calculator";
+} from "../src/lib/index/calculators/score-calculator";
 
 function assert(condition: boolean, message: string) {
     if (!condition) {
@@ -23,8 +23,8 @@ async function runTests() {
     const freshNews = [{ title: "Launch mainnet", date: new Date().toISOString(), url: "", summary: "", source: "" }];
     const oldNews = [{ title: "Launch mainnet", date: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(), url: "", summary: "", source: "" }];
 
-    const freshScore = calculateNewsGrowthScore(freshNews);
-    const oldScore = calculateNewsGrowthScore(oldNews);
+    const freshScore = calculateIndexNewsScore(freshNews);
+    const oldScore = calculateIndexNewsScore(oldNews);
 
     assert(freshScore > oldScore, `Fresh news (${freshScore}) should score higher than old news (${oldScore})`);
     assert(freshScore >= 15, "Fresh news with 1 keyword should be at least 15 (10 base + 5 keyword)");
@@ -76,8 +76,8 @@ async function runTests() {
     const twitter = { followers: 5000, engagement30d: { likes: 100, retweets: 10, replies: 5 } };
     const onchain = { transactionCount30d: 1000 };
 
-    const privateResult = calculateIntelligenceScore(privateGitHub as any, twitter as any, onchain as any);
-    const publicResult = calculateIntelligenceScore(publicGitHub as any, twitter as any, onchain as any);
+    const privateResult = calculateIndexScore(privateGitHub as any, twitter as any, onchain as any);
+    const publicResult = calculateIndexScore(publicGitHub as any, twitter as any, onchain as any);
 
     console.log(`Private-heavy GitHub score: ${privateResult.teamHealth}, Overall: ${privateResult.overall}`);
     console.log(`Public GitHub score: ${publicResult.teamHealth}, Overall: ${publicResult.overall}`);
