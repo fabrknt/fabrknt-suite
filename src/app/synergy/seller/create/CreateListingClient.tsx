@@ -176,6 +176,28 @@ export function CreateListingClient() {
                     </p>
                 </div>
 
+                {/* Demo Mode Notice */}
+                <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-8">
+                    <div className="flex items-start gap-3">
+                        <div className="flex-shrink-0">
+                            <div className="relative flex h-3 w-3 mt-1">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span>
+                            </div>
+                        </div>
+                        <div className="flex-1">
+                            <h3 className="text-sm font-semibold text-amber-900 mb-1">
+                                Demo Mode Active
+                            </h3>
+                            <p className="text-sm text-amber-800">
+                                This form is functional and will create a listing in the database for demonstration purposes.
+                                In production, listings will be verified and require connection to a wallet with appropriate permissions.
+                                All data entered here is for testing only.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
                 {/* Progress Bar */}
                 <div className="mb-8">
                     <div className="flex items-center justify-between mb-2">

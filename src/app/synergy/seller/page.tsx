@@ -35,6 +35,28 @@ export default function SellerDashboardPage() {
         </p>
       </div>
 
+      {/* Demo Data Notice */}
+      <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+        <div className="flex items-start gap-3">
+          <div className="flex-shrink-0">
+            <div className="relative flex h-3 w-3 mt-1">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span>
+            </div>
+          </div>
+          <div className="flex-1">
+            <h3 className="text-sm font-semibold text-amber-900 mb-1">
+              Demo Mode
+            </h3>
+            <p className="text-sm text-amber-800">
+              This dashboard displays sample listings for demonstration purposes.
+              In production, you will see only your own listings based on your connected wallet address.
+              All data shown is fictional and for preview only.
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* Stats */}
       <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-3">
         <StatsCard
