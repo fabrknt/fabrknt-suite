@@ -8,7 +8,8 @@
         "start": "next start -p 3000",
         "lint": "next lint",
         "type-check": "tsc --noEmit",
-        "fetch:company": "tsx scripts/fetch-company-data.ts"
+        "fetch:company": "tsx scripts/fetch-company-data.ts",
+        "postinstall": "prisma generate"
     },
     "prisma": {
         "seed": "tsx prisma/seed.ts"

@@ -3,7 +3,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { TypeSelectionSchema, type TypeSelectionInput, type CreateListingInput } from '@/lib/schemas/listing';
-import { Building2, Handshake, Users, TrendingUp } from 'lucide-react';
+import { Building2, UserPlus, Users, TrendingUp } from 'lucide-react';
 
 interface TypeSelectionStepProps {
   defaultValues: Partial<CreateListingInput>;
@@ -29,7 +29,7 @@ const listingTypes = [
     value: 'partnership' as const,
     label: 'Partnership',
     description: 'Find strategic partners for collaboration',
-    icon: Handshake,
+    icon: UserPlus,
     color: 'bg-green-100 text-green-600 border-green-200',
   },
   {

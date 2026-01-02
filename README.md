@@ -135,7 +135,7 @@ Beyond M&A transactions, **Match** serves as a comprehensive "matchmaking platfo
 ### 7.1. Tech Stack
 
 -   **Frontend:** Next.js 14, Tailwind CSS, Shadcn UI.
--   **Hosting:** AWS Amplify Hosting (consistent with main website)
+-   **Hosting:** Vercel (optimized for Next.js)
 -   **Backend:** Amazon RDS PostgreSQL as the central hub for the Suite.
 -   **API:** AWS API Gateway + Lambda for serverless APIs
 -   **Background Workers:** AWS Lambda triggered by EventBridge for data aggregation and monitoring
