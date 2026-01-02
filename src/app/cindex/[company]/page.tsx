@@ -565,7 +565,7 @@ export default async function CompanyProfilePage({ params }: PageProps) {
                                     News Growth Score
                                 </span>
                                 <span className="font-medium text-foreground">
-                                    {scores?.breakdown?.onchain?.indexNewsScore || 0}/100
+                                    {scores?.breakdown?.onchain?.newsGrowthScore || 0}/100
                                 </span>
                             </div>
                             <div className="flex justify-between">
