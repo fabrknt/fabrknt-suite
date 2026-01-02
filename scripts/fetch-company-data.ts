@@ -21,11 +21,11 @@ import {
     getAvailableCompanySlugs,
     getCompanyMetadata,
     getChainRpcInfo,
-} from "../src/lib/index/registry";
+} from "../src/lib/cindex/registry";
 import { IndexData, IndexScore } from "../src/lib/api/types";
-import { Company } from "../src/lib/index/companies";
-import { CrawlerService } from "../src/lib/index/crawler";
-import { LLMService } from "../src/lib/index/llm";
+import { Company } from "../src/lib/cindex/companies";
+import { CrawlerService } from "../src/lib/cindex/crawler";
+import { LLMService } from "../src/lib/cindex/llm";
 
 // Initialize Services
 const crawler = new CrawlerService();
