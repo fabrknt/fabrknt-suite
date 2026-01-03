@@ -6,6 +6,7 @@ import { X, Heart, Star, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
+import { PartnerCardCarousel } from "./partner-card-carousel";
 
 interface UserCompany {
   slug: string;
@@ -55,21 +56,51 @@ interface Props {
   swipedPartners: Set<string>;
 }
 
+type PartnershipMode = "all" | "integration" | "acquisition" | "comarketing" | "investment";
+
 export function PartnerDiscovery({ userCompany, allCompanies, swipedPartners }: Props) {
   const [matches, setMatches] = useState<PartnerMatch[]>([]);
+  const [filteredMatches, setFilteredMatches] = useState<PartnerMatch[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [swiping, setSwiping] = useState(false);
+  const [mode, setMode] = useState<PartnershipMode>("all");
   const { toast } = useToast();
 
   const x = useMotionValue(0);
+  const y = useMotionValue(0);
   const rotate = useTransform(x, [-200, 200], [-25, 25]);
   const opacity = useTransform(x, [-200, -100, 0, 100, 200], [0, 1, 1, 1, 0]);
+
+  // Visual feedback for swipe direction
+  const likeOpacity = useTransform(x, [0, 50, 200], [0, 0.5, 1]);
+  const passOpacity = useTransform(x, [-200, -50, 0], [1, 0.5, 0]);
+  const superLikeOpacity = useTransform(y, [-200, -50, 0], [1, 0.5, 0]);
 
   // Load matches on mount
   useEffect(() => {
     loadMatches();
   }, []);
+
+  // Filter matches by partnership mode
+  useEffect(() => {
+    if (mode === "all") {
+      setFilteredMatches(matches);
+    } else {
+      const filtered = matches.filter((m) => {
+        // Map partnership types to modes
+        const typeToMode: Record<string, PartnershipMode> = {
+          integration: "integration",
+          merger: "acquisition",
+          "co-marketing": "comarketing",
+          revenue_share: "investment",
+        };
+        return typeToMode[m.partnershipType] === mode;
+      });
+      setFilteredMatches(filtered);
+    }
+    setCurrentIndex(0); // Reset to first card when mode changes
+  }, [mode, matches]);
 
   async function loadMatches() {
     try {
@@ -158,6 +189,13 @@ export function PartnerDiscovery({ userCompany, allCompanies, swipedPartners }: 
   function handleDragEnd(event: any, info: PanInfo) {
     const threshold = 100;
 
+    // Super like (swipe up)
+    if (info.offset.y < -threshold) {
+      handleSwipe("super_like");
+      return;
+    }
+
+    // Pass or interested (swipe left/right)
     if (Math.abs(info.offset.x) > threshold) {
       // Swipe left = pass
       if (info.offset.x < 0) {
@@ -170,6 +208,7 @@ export function PartnerDiscovery({ userCompany, allCompanies, swipedPartners }: 
     } else {
       // Reset position
       x.set(0);
+      y.set(0);
     }
   }
 
@@ -184,17 +223,23 @@ export function PartnerDiscovery({ userCompany, allCompanies, swipedPartners }: 
     );
   }
 
-  if (matches.length === 0 || currentIndex >= matches.length) {
+  if (filteredMatches.length === 0 || currentIndex >= filteredMatches.length) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4">
         <div className="max-w-md text-center space-y-4">
-          <h2 className="text-2xl font-bold">No More Matches</h2>
+          <h2 className="text-2xl font-bold">
+            {mode === "all" ? "No More Matches" : `No ${mode} Matches`}
+          </h2>
           <p className="text-muted-foreground">
-            You've reviewed all available partnership opportunities for {userCompany.name}.
+            {mode === "all"
+              ? `You've reviewed all available partnership opportunities for ${userCompany.name}.`
+              : `No ${mode} partnership opportunities available. Try a different mode.`}
           </p>
-          <p className="text-sm text-muted-foreground">
-            Check back later for new companies, or view your existing matches.
-          </p>
+          {mode !== "all" && (
+            <Button onClick={() => setMode("all")} variant="outline">
+              ← View All Matches
+            </Button>
+          )}
           <Button asChild>
             <a href="/partnerships/matches">View My Matches →</a>
           </Button>
@@ -203,31 +248,78 @@ export function PartnerDiscovery({ userCompany, allCompanies, swipedPartners }: 
     );
   }
 
-  const currentMatch = matches[currentIndex];
-  const remainingCount = matches.length - currentIndex;
+  const currentMatch = filteredMatches[currentIndex];
+  const remainingCount = filteredMatches.length - currentIndex;
 
   return (
     <div className="min-h-screen flex flex-col">
       {/* Header */}
-      <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            {userCompany.logo && (
-              <Image
-                src={userCompany.logo}
-                alt={userCompany.name}
-                width={32}
-                height={32}
-                className="rounded-full"
-              />
-            )}
-            <div>
-              <h1 className="font-semibold">{userCompany.name}</h1>
-              <p className="text-xs text-muted-foreground">Partnership Discovery</p>
+      <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-10">
+        <div className="container mx-auto px-4 py-4">
+          {/* Top Row: Company Info */}
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-3">
+              {userCompany.logo && (
+                <Image
+                  src={userCompany.logo}
+                  alt={userCompany.name}
+                  width={32}
+                  height={32}
+                  className="rounded-full"
+                />
+              )}
+              <div>
+                <h1 className="font-semibold">{userCompany.name}</h1>
+                <p className="text-xs text-muted-foreground">Partnership Discovery</p>
+              </div>
+            </div>
+            <div className="text-sm text-muted-foreground">
+              {remainingCount} {remainingCount === 1 ? "match" : "matches"}
             </div>
           </div>
-          <div className="text-sm text-muted-foreground">
-            {remainingCount} {remainingCount === 1 ? "match" : "matches"} remaining
+
+          {/* Bottom Row: Mode Switcher */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-1">
+            <Button
+              size="sm"
+              variant={mode === "all" ? "default" : "outline"}
+              onClick={() => setMode("all")}
+              className="flex-shrink-0"
+            >
+              All
+            </Button>
+            <Button
+              size="sm"
+              variant={mode === "integration" ? "default" : "outline"}
+              onClick={() => setMode("integration")}
+              className="flex-shrink-0"
+            >
+              Integration
+            </Button>
+            <Button
+              size="sm"
+              variant={mode === "acquisition" ? "default" : "outline"}
+              onClick={() => setMode("acquisition")}
+              className="flex-shrink-0"
+            >
+              Acquisition
+            </Button>
+            <Button
+              size="sm"
+              variant={mode === "comarketing" ? "default" : "outline"}
+              onClick={() => setMode("comarketing")}
+              className="flex-shrink-0"
+            >
+              Co-Marketing
+            </Button>
+            <Button
+              size="sm"
+              variant={mode === "investment" ? "default" : "outline"}
+              onClick={() => setMode("investment")}
+              className="flex-shrink-0"
+            >
+              Investment
+            </Button>
           </div>
         </div>
       </header>
@@ -238,19 +330,51 @@ export function PartnerDiscovery({ userCompany, allCompanies, swipedPartners }: 
           {/* Card Stack */}
           <div className="relative aspect-[3/4] max-h-[600px]">
             {/* Next card preview (behind) */}
-            {currentIndex + 1 < matches.length && (
+            {currentIndex + 1 < filteredMatches.length && (
               <div className="absolute inset-0 bg-card border rounded-2xl scale-95 opacity-50" />
             )}
 
-            {/* Current card */}
+            {/* Current card with visual feedback overlays */}
             <motion.div
-              style={{ x, rotate, opacity }}
-              drag="x"
-              dragConstraints={{ left: 0, right: 0 }}
+              style={{ x, y, rotate, opacity }}
+              drag
+              dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
               onDragEnd={handleDragEnd}
               className="absolute inset-0 cursor-grab active:cursor-grabbing"
             >
-              <PartnerCard match={currentMatch} />
+              {/* Card Content */}
+              <PartnerCardCarousel match={currentMatch} />
+
+              {/* Visual Swipe Feedback Overlays */}
+              {/* Pass (Swipe Left) - Red X */}
+              <motion.div
+                className="absolute inset-0 flex items-center justify-center bg-red-500/20 rounded-2xl pointer-events-none"
+                style={{ opacity: passOpacity }}
+              >
+                <div className="bg-red-500/90 rounded-full p-8 shadow-2xl">
+                  <X className="h-32 w-32 text-white" strokeWidth={3} />
+                </div>
+              </motion.div>
+
+              {/* Interested (Swipe Right) - Green Heart */}
+              <motion.div
+                className="absolute inset-0 flex items-center justify-center bg-green-500/20 rounded-2xl pointer-events-none"
+                style={{ opacity: likeOpacity }}
+              >
+                <div className="bg-green-500/90 rounded-full p-8 shadow-2xl">
+                  <Heart className="h-32 w-32 text-white" strokeWidth={3} />
+                </div>
+              </motion.div>
+
+              {/* Super Like (Swipe Up) - Blue Star */}
+              <motion.div
+                className="absolute inset-0 flex items-center justify-center bg-blue-500/20 rounded-2xl pointer-events-none"
+                style={{ opacity: superLikeOpacity }}
+              >
+                <div className="bg-blue-500/90 rounded-full p-8 shadow-2xl">
+                  <Star className="h-32 w-32 text-white fill-white" strokeWidth={3} />
+                </div>
+              </motion.div>
             </motion.div>
           </div>
 
@@ -288,164 +412,24 @@ export function PartnerDiscovery({ userCompany, allCompanies, swipedPartners }: 
           </div>
 
           {/* Legend */}
-          <div className="flex items-center justify-center gap-8 mt-4 text-xs text-muted-foreground">
-            <div className="flex items-center gap-2">
+          <div className="grid grid-cols-3 gap-4 mt-4 text-xs text-muted-foreground">
+            <div className="flex flex-col items-center gap-1 text-center">
               <X className="h-4 w-4 text-red-500" />
-              <span>Pass</span>
+              <span>Swipe Left</span>
+              <span className="text-[10px]">Pass</span>
             </div>
-            <div className="flex items-center gap-2">
-              <Star className="h-4 w-4 text-blue-500" />
-              <span>Super Like</span>
+            <div className="flex flex-col items-center gap-1 text-center">
+              <Star className="h-4 w-4 text-blue-500 fill-blue-500" />
+              <span>Swipe Up</span>
+              <span className="text-[10px]">Super Like</span>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col items-center gap-1 text-center">
               <Heart className="h-4 w-4 text-green-500" />
-              <span>Interested</span>
+              <span>Swipe Right</span>
+              <span className="text-[10px]">Interested</span>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  );
-}
-
-function PartnerCard({ match }: { match: PartnerMatch }) {
-  const { partner, matchScore, compatibility, projectedImpact, partnershipType, reasoning } = match;
-
-  return (
-    <div className="h-full bg-card border rounded-2xl overflow-hidden shadow-xl flex flex-col">
-      {/* Header with logo and match score */}
-      <div className="relative bg-gradient-to-br from-primary/10 to-primary/5 p-6">
-        <div className="flex items-start justify-between">
-          <div className="flex items-center gap-4">
-            {partner.logo && (
-              <Image
-                src={partner.logo}
-                alt={partner.name}
-                width={64}
-                height={64}
-                className="rounded-xl bg-background p-2"
-              />
-            )}
-            <div>
-              <h2 className="text-2xl font-bold">{partner.name}</h2>
-              <p className="text-sm text-muted-foreground capitalize">{partner.category}</p>
-            </div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-primary">{matchScore}</div>
-            <div className="text-xs text-muted-foreground">Match</div>
-          </div>
-        </div>
-      </div>
-
-      {/* Scrollable content */}
-      <div className="flex-1 overflow-y-auto p-6 space-y-6">
-        {/* Description */}
-        {partner.description && (
-          <div>
-            <h3 className="font-semibold mb-2">About</h3>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              {partner.description}
-            </p>
-          </div>
-        )}
-
-        {/* Partnership Type */}
-        <div>
-          <h3 className="font-semibold mb-2">Partnership Type</h3>
-          <div className="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium capitalize">
-            {partnershipType.replace(/_/g, " ")}
-          </div>
-        </div>
-
-        {/* Synergy */}
-        <div>
-          <h3 className="font-semibold mb-2">Why This Match?</h3>
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            {compatibility.synergy}
-          </p>
-        </div>
-
-        {/* Projected Impact */}
-        <div>
-          <h3 className="font-semibold mb-3">Projected Impact</h3>
-          <div className="grid grid-cols-3 gap-3">
-            <div className="text-center p-3 bg-muted rounded-lg">
-              <div className="text-lg font-bold">+{projectedImpact.runwayExtension}</div>
-              <div className="text-xs text-muted-foreground">Months Runway</div>
-            </div>
-            <div className="text-center p-3 bg-muted rounded-lg">
-              <div className="text-lg font-bold">+{projectedImpact.userGrowth}%</div>
-              <div className="text-xs text-muted-foreground">User Growth</div>
-            </div>
-            <div className="text-center p-3 bg-muted rounded-lg">
-              <div className="text-lg font-bold">
-                ${(projectedImpact.revenueOpportunity / 1000).toFixed(0)}k
-              </div>
-              <div className="text-xs text-muted-foreground">Revenue/mo</div>
-            </div>
-          </div>
-        </div>
-
-        {/* Compatibility Details */}
-        <div>
-          <h3 className="font-semibold mb-3">Compatibility</h3>
-          <div className="space-y-2">
-            <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">User Overlap</span>
-              <span className="font-medium">{compatibility.userOverlap.toFixed(1)}%</span>
-            </div>
-            <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Technical Fit</span>
-              <span className="font-medium">{compatibility.technicalFit}/100</span>
-            </div>
-            <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Category</span>
-              <span className="font-medium">{compatibility.categoryFit}</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Health Metrics */}
-        {(partner.overallScore || partner.teamHealthScore || partner.growthScore) && (
-          <div>
-            <h3 className="font-semibold mb-3">Health Metrics</h3>
-            <div className="space-y-2">
-              {partner.overallScore && (
-                <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Overall Score</span>
-                  <span className="font-medium">{partner.overallScore}/100</span>
-                </div>
-              )}
-              {partner.teamHealthScore && (
-                <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Team Health</span>
-                  <span className="font-medium">{partner.teamHealthScore}/100</span>
-                </div>
-              )}
-              {partner.growthScore && (
-                <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Growth</span>
-                  <span className="font-medium">{partner.growthScore}/100</span>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* Website Link */}
-        {partner.website && (
-          <div>
-            <a
-              href={partner.website}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm text-primary hover:underline"
-            >
-              Visit Website →
-            </a>
-          </div>
-        )}
       </div>
     </div>
   );
