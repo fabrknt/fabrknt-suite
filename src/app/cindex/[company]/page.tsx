@@ -17,6 +17,7 @@ import { prisma } from "@/lib/db";
 import { cn } from "@/lib/utils";
 import { formatNumber } from "@/lib/utils/format";
 import { NewsSection } from "@/components/cindex/news-section";
+import { ClaimProfileButton } from "@/components/claim-profile-button";
 import type { Metadata } from "next";
 
 interface PageProps {
@@ -46,6 +47,7 @@ const categoryColors = {
 function getCompanySocialLinks(slug: string): {
     github?: string;
     twitter?: string;
+    githubOrg?: string;
 } {
     // Map of company slugs to their GitHub org and Twitter handle
     // Verified from actual index module files
@@ -84,6 +86,7 @@ function getCompanySocialLinks(slug: string): {
     return {
         github: `https://github.com/${social.github}`,
         twitter: `https://twitter.com/${social.twitter}`,
+        githubOrg: social.github,
     };
 }
 
@@ -471,17 +474,27 @@ export default async function CompanyProfilePage({ params }: PageProps) {
                             </div>
                         </div>
 
-                        {/* Overall Score */}
-                        <div className="text-center bg-muted rounded-lg p-6">
-                            <p className="text-sm text-muted-foreground mb-2">
-                                Overall Index Score
-                            </p>
-                            <p className={cn("text-5xl font-bold", scoreColor)}>
-                                {company.overallScore}
-                            </p>
-                            <p className="text-xs text-muted-foreground mt-1">
-                                out of 100
-                            </p>
+                        <div className="flex flex-col gap-4 items-end">
+                            {/* Claim Profile Button */}
+                            <ClaimProfileButton
+                                companySlug={company.slug}
+                                companyName={company.name}
+                                githubOrg={socialLinks.githubOrg}
+                                website={company.website || undefined}
+                            />
+
+                            {/* Overall Score */}
+                            <div className="text-center bg-muted rounded-lg p-6">
+                                <p className="text-sm text-muted-foreground mb-2">
+                                    Overall Index Score
+                                </p>
+                                <p className={cn("text-5xl font-bold", scoreColor)}>
+                                    {company.overallScore}
+                                </p>
+                                <p className="text-xs text-muted-foreground mt-1">
+                                    out of 100
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
