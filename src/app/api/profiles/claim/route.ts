@@ -9,6 +9,7 @@ import {
   claimProfile,
   VerificationType,
 } from "@/lib/profile-verification";
+import { sendWelcomeEmail } from "@/lib/email/match-notifications";
 
 export async function POST(request: NextRequest) {
   try {
@@ -126,6 +127,20 @@ export async function POST(request: NextRequest) {
       verificationType as VerificationType,
       verificationResult.proof || ""
     );
+
+    // Send welcome email
+    if (user.email) {
+      try {
+        await sendWelcomeEmail({
+          userEmail: user.email,
+          userName: user.name || "there",
+          companyName: companyData.name,
+        });
+      } catch (emailError) {
+        // Log but don't fail the request if email fails
+        console.error("Error sending welcome email:", emailError);
+      }
+    }
 
     return NextResponse.json({
       success: true,

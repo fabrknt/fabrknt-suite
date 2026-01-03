@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
 import { prisma } from "@/lib/db";
+import { sendMatchNotification } from "@/lib/email/match-notifications";
 
 export async function POST(req: NextRequest) {
   try {
@@ -98,7 +99,56 @@ export async function POST(req: NextRequest) {
 
         matchId = match.id;
 
-        // TODO: Send email notifications to both parties
+        // Send email notifications to both parties
+        try {
+          // Get company details
+          const [userCompany, partnerCompany] = await Promise.all([
+            prisma.company.findUnique({
+              where: { slug: companySlug },
+              select: { name: true, description: true },
+            }),
+            prisma.company.findUnique({
+              where: { slug: partnerSlug },
+              select: { name: true, description: true },
+            }),
+          ]);
+
+          // Get partner's claimed profile to find their user
+          const partnerProfile = await prisma.claimedProfile.findFirst({
+            where: { companySlug: partnerSlug },
+            include: { user: true },
+          });
+
+          // Send notification to current user
+          if (user.email && userCompany && partnerCompany) {
+            await sendMatchNotification({
+              userEmail: user.email,
+              userName: user.name || "there",
+              userCompanyName: userCompany.name,
+              partnerCompanyName: partnerCompany.name,
+              partnerCompanySlug: partnerSlug,
+              partnerDescription: partnerCompany.description || undefined,
+              matchScore: match.matchScore,
+            });
+          }
+
+          // Send notification to partner user
+          if (partnerProfile?.user?.email && userCompany && partnerCompany) {
+            await sendMatchNotification({
+              userEmail: partnerProfile.user.email,
+              userName: partnerProfile.user.name || "there",
+              userCompanyName: partnerCompany.name,
+              partnerCompanyName: userCompany.name,
+              partnerCompanySlug: companySlug,
+              partnerDescription: userCompany.description || undefined,
+              matchScore: match.matchScore,
+            });
+          }
+        } catch (emailError) {
+          // Log but don't fail the request if email fails
+          console.error("Error sending match notification emails:", emailError);
+        }
+
         // TODO: Create chat channel for the match
       }
     }
