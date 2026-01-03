@@ -1,10 +1,12 @@
-# Real Data Integration for Fabrknt Suite
+# Real Data Integration for FABRKNT Suite
 
-This directory contains API clients for fetching real index data from multiple sources.
+This directory contains API clients for fetching real verification data from multiple sources.
 
 ## Overview
 
-The Index system combines data from:
+FABRKNT uses **100% automated verification** — no manual input, no self-reported metrics. Only signals that can be verified.
+
+The INDEX system combines data from:
 
 | Source      | Data                            | Purpose              |
 | ----------- | ------------------------------- | -------------------- |
@@ -201,13 +203,15 @@ export async function getAaveMetrics() {
 }
 ```
 
-## Index Score Calculation
+## INDEX Score Calculation
 
-The overall score (0-100) is calculated as:
+The overall score (0-100) is calculated from verified data sources only:
 
 ```
 Overall = (Team Health × 0.35) + (Growth × 0.40) + (Social × 0.15) + (Wallet Quality × 0.10)
 ```
+
+**If it can't be verified, it doesn't count.**
 
 ### Weights:
 
@@ -234,7 +238,7 @@ Overall = (Team Health × 0.35) + (Growth × 0.40) + (Social × 0.15) + (Wallet 
 
 ### Adjust Weights
 
-Edit `src/lib/index/calculators/score-calculator.ts` to adjust weights and normalization ranges.
+Edit `src/lib/cindex/calculators/score-calculator.ts` to adjust weights and normalization ranges.
 
 ## Rate Limits
 

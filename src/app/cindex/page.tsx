@@ -87,9 +87,9 @@ async function getAllCompaniesFromDB(): Promise<Company[]> {
                 discordMembers: indexData?.social?.discordMembers,
                 telegramMembers: indexData?.social?.telegramMembers,
                 communityEngagement: indexData?.twitter?.engagement30d?.likes
-                    ? (indexData.twitter.engagement30d.likes +
-                       indexData.twitter.engagement30d.retweets +
-                       indexData.twitter.engagement30d.replies)
+                    ? indexData.twitter.engagement30d.likes +
+                      indexData.twitter.engagement30d.retweets +
+                      indexData.twitter.engagement30d.replies
                     : company.socialScore,
             },
         };
@@ -195,7 +195,8 @@ export default async function CindexPage() {
                     Web3 Company Verification
                 </p>
                 <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                    An automated index that shows what Web3 companies actually do — not what they say.
+                    An automated index that shows what Web3 companies actually
+                    do — not what they say.
                 </p>
             </div>
 
@@ -213,9 +214,12 @@ export default async function CindexPage() {
                             Data Collection in Progress
                         </h3>
                         <p className="text-sm text-blue-800">
-                            We are currently fetching and verifying data from GitHub, Twitter, and on-chain sources for all companies.
-                            Some metrics may be incomplete or show as zero until the initial data collection is complete.
-                            Index scores will be updated automatically as data becomes available.
+                            We are currently fetching and verifying data from
+                            GitHub, Twitter, and on-chain sources for all
+                            companies. Some metrics may be incomplete or show as
+                            zero until the initial data collection is complete.
+                            Index scores will be updated automatically as data
+                            becomes available.
                         </p>
                     </div>
                 </div>

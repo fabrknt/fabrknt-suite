@@ -19,7 +19,7 @@ import {
 import { SynergySpotlightSection } from "@/components/synergy/synergy-spotlight";
 
 // Mark page as dynamic since it uses database
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 async function getListings() {
     const listings = await prisma.listing.findMany({
@@ -87,11 +87,11 @@ function calculateStats(listings: any[]) {
     const avgScore =
         listings.length > 0
             ? Math.round(
-                listings.reduce(
-                    (sum, l) => sum + (l.suiteData?.fabrknt_score || 0),
-                    0
-                ) / listings.length
-            )
+                  listings.reduce(
+                      (sum, l) => sum + (l.suiteData?.fabrknt_score || 0),
+                      0
+                  ) / listings.length
+              )
             : 0;
 
     return {
@@ -134,7 +134,8 @@ export default async function SynergyPage() {
                     Quiet M&A & Partnerships
                 </p>
                 <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                    Discover acquisition targets and partnership opportunities — without broadcasting intent.
+                    Discover acquisition targets and partnership opportunities —
+                    without broadcasting intent.
                 </p>
             </div>
 
@@ -142,8 +143,18 @@ export default async function SynergyPage() {
             <div className="rounded-lg border-2 border-amber-300 bg-amber-50 p-4 max-w-4xl mx-auto">
                 <div className="flex items-start gap-3">
                     <div className="flex-shrink-0">
-                        <svg className="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        <svg
+                            className="h-6 w-6 text-amber-600"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                            />
                         </svg>
                     </div>
                     <div className="flex-1">
@@ -151,7 +162,14 @@ export default async function SynergyPage() {
                             Demo Data Notice
                         </h3>
                         <p className="text-sm text-amber-800">
-                            <strong>All companies and opportunities shown are fictional demo data for testing purposes only.</strong> These are not real companies or actual M&A/partnership opportunities. This platform is in preview mode to demonstrate features and functionality.
+                            <strong>
+                                All companies and opportunities shown are
+                                fictional demo data for testing purposes only.
+                            </strong>{" "}
+                            These are not real companies or actual
+                            M&A/partnership opportunities. This platform is in
+                            preview mode to demonstrate features and
+                            functionality.
                         </p>
                     </div>
                 </div>
@@ -316,7 +334,8 @@ export default async function SynergyPage() {
             {/* CTA Section */}
             <div className="bg-cyan-50 border border-cyan-200 rounded-lg p-8 text-center">
                 <h3 className="text-2xl font-bold text-cyan-900 mb-4">
-                    AI-powered compatibility analysis based on verified index scores, not narratives.
+                    AI-powered compatibility analysis based on verified index
+                    scores, not narratives.
                 </h3>
                 <p className="text-cyan-800 max-w-2xl mx-auto mb-6">
                     Every opportunity includes verified on-chain and off-chain

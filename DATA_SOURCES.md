@@ -1,60 +1,62 @@
 # Data Sources Overview
 
-This document explains where Index and Synergy features get their data from.
+This document explains where INDEX (Web3 Company Verification) and SYNERGY (Quiet M&A & Partnerships) features get their data from.
+
+**FABRKNT uses 100% automated verification** — no manual input, no self-reported metrics. Only signals that can be verified.
 
 ## 🎯 Summary
 
-| Feature                              | Data Source                | Status                                 |
-| ------------------------------------ | -------------------------- | -------------------------------------- |
-| **Index API** (`/api/index/*`)       | **Supabase (Database)** ✅ | Uses Prisma to query `Company` table   |
-| **Index Pages** (`/index/[company]`) | **Supabase (Database)** ✅ | Uses API routes to fetch from database |
-| **Synergy API** (`/api/listings/*`)  | **Supabase (Database)** ✅ | Uses Prisma to query `Listing` table   |
-| **Synergy Pages** (`/synergy/*`)     | **Supabase (Database)** ✅ | Uses API routes to fetch from database |
+| Feature                               | Data Source                | Status                                 |
+| ------------------------------------- | -------------------------- | -------------------------------------- |
+| **INDEX API** (`/api/cindex/*`)       | **Supabase (Database)** ✅ | Uses Prisma to query `Company` table   |
+| **INDEX Pages** (`/cindex/[company]`) | **Supabase (Database)** ✅ | Uses API routes to fetch from database |
+| **SYNERGY API** (`/api/listings/*`)   | **Supabase (Database)** ✅ | Uses Prisma to query `Listing` table   |
+| **SYNERGY Pages** (`/synergy/*`)      | **Supabase (Database)** ✅ | Uses API routes to fetch from database |
 
 ---
 
-## 📊 Index Feature
+## 📊 INDEX Feature — Web3 Company Verification
 
 ### API Routes (✅ Using Supabase)
 
-#### `/api/index/search`
+#### `/api/cindex/search`
 
 -   **Source**: Supabase `Company` table via Prisma
--   **File**: `src/app/api/index/search/route.ts`
+-   **File**: `src/app/api/cindex/search/route.ts`
 -   **Query**: Searches companies by name, slug, or description
 -   **Returns**: Company data from database
 
-#### `/api/index/[companyId]`
+#### `/api/cindex/[companyId]`
 
 -   **Source**: Supabase `Company` table via Prisma
--   **File**: `src/app/api/index/[companyId]/route.ts`
--   **Query**: Fetches company by ID with full index data
--   **Returns**: Company with PULSE + TRACE scores from `indexData` JSONB field
+-   **File**: `src/app/api/cindex/[companyId]/route.ts`
+-   **Query**: Fetches company by ID with full verification data
+-   **Returns**: Company with verified index scores from `indexData` JSONB field
 
 ### Pages (✅ Using Supabase)
 
-#### `/index/[company]`
+#### `/cindex/[company]`
 
 -   **Source**: Supabase `Company` table via Prisma
--   **File**: `src/app/index/[company]/page.tsx`
+-   **File**: `src/app/cindex/[company]/page.tsx`
 -   **Functions Used**:
     -   `getCompanyData()` → `prisma.company.findUnique()` → reads from database
--   **Status**: ✅ **Using Supabase** - fetches from database
+-   **Status**: ✅ **Using Supabase** - fetches verified data from database
 
 ### Data Flow
 
 ```
-Index API (✅ Supabase)
-├── /api/index/search → prisma.company.findMany()
-└── /api/index/[companyId] → prisma.company.findUnique()
+INDEX API (✅ Supabase)
+├── /api/cindex/search → prisma.company.findMany()
+└── /api/cindex/[companyId] → prisma.company.findUnique()
 
-Index Pages (✅ Supabase)
-└── /index/[company] → prisma.company.findUnique()
+INDEX Pages (✅ Supabase)
+└── /cindex/[company] → prisma.company.findUnique()
 ```
 
 ---
 
-## 🎯 Synergy Feature
+## 🎯 SYNERGY Feature — Quiet M&A & Partnerships
 
 ### API Routes (✅ Using Supabase)
 
@@ -89,11 +91,11 @@ Index Pages (✅ Supabase)
 ### Data Flow
 
 ```
-Synergy API (✅ Supabase)
+SYNERGY API (✅ Supabase)
 ├── /api/listings → prisma.listing.findMany()
 └── /api/listings/[id] → prisma.listing.findUnique()
 
-Synergy Pages (✅ Supabase)
+SYNERGY Pages (✅ Supabase)
 ├── /synergy → API fetch → /api/listings
 └── /synergy/opportunities → API fetch → /api/listings
 ```
@@ -104,27 +106,28 @@ Synergy Pages (✅ Supabase)
 
 ### ✅ Completed
 
--   [x] Index API routes use Supabase
--   [x] Synergy API routes use Supabase
--   [x] Company table seeded with 23 companies from JSON files
+-   [x] INDEX API routes use Supabase
+-   [x] SYNERGY API routes use Supabase
+-   [x] Company table seeded with 23+ companies from JSON files
 -   [x] Database schema matches requirements
--   [x] Index pages use Supabase
--   [x] Synergy pages use Supabase
+-   [x] INDEX pages use Supabase
+-   [x] SYNERGY pages use Supabase
+-   [x] 100% automated verification — no manual input
 
 ---
 
 ## 📁 File Locations
 
-### Index
+### INDEX — Web3 Company Verification
 
--   **API Routes**: `src/app/api/index/`
--   **Pages**: `src/app/index/`
--   **Data Loader**: `src/lib/index/data-loader.ts`
--   **Company Utils**: `src/lib/index/companies.ts`
--   **Company Queries**: `src/lib/index/company-queries.ts`
+-   **API Routes**: `src/app/api/cindex/`
+-   **Pages**: `src/app/cindex/`
+-   **Data Loader**: `src/lib/cindex/data-loader.ts`
+-   **Company Utils**: `src/lib/cindex/companies.ts`
+-   **Company Queries**: `src/lib/cindex/company-queries.ts`
 -   **JSON Data**: `data/companies/*.json` (for seeding only)
 
-### Synergy
+### SYNERGY — Quiet M&A & Partnerships
 
 -   **API Routes**: `src/app/api/listings/`
 -   **Pages**: `src/app/synergy/`

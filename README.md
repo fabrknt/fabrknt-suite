@@ -1,6 +1,8 @@
-# Fabrknt Suite: Web3 Index & Synergy Platform
+# FABRKNT Suite: Web3 Index & Synergy Platform
 
-**Index → Synergy: AI-Powered Company Index & Synergy Platform for Web3 SMEs**
+**Verify Web3. Before You Trust It.**
+
+**Pitch decks lie. On-chain data doesn't.**
 
 **Domain:** `www.fabrknt.com`
 
@@ -8,9 +10,11 @@
 
 ## 1. Project Overview
 
-**Project Name:** Fabrknt Suite (Powered by Fabrknt)
+**Project Name:** FABRKNT Suite
 
-**Concept:** A next-generation Web3 corporate analysis and synergy platform consisting of two integrated products: **Index** (automated company index) and **Synergy** (M&A & partnership synergy). Index provides verified company index combining growth metrics and team health data. Synergy leverages Index data to power M&A and partnership synergy, enabling high-trust business transactions with complete transparency.
+**Concept:** A Web3 Index & Synergy platform built for **early verification**. We help **Web3 Corp Dev teams, investors, and founders** verify companies using real on-chain activity, GitHub signals, and social data — fully automated, no self-reporting.
+
+**Products:** Two integrated products: **INDEX** (Web3 Company Verification) and **SYNERGY** (Quiet M&A & Partnerships). INDEX provides automated verification that shows what Web3 companies actually do — not what they say. SYNERGY leverages INDEX data to enable acquisition targets and partnership opportunities — without broadcasting intent.
 
 **Architecture:** **Index → Synergy** - Index serves as the data foundation that powers Synergy's synergy and decision-making capabilities. Every Synergy listing is backed by verified Index data, ensuring transparency and trust.
 
@@ -61,13 +65,22 @@ AI seamlessly combines three layers of data to provide a holistic view:
 
 The platform operates on a two-tier architecture where **Index** serves as the data foundation that powers **Synergy**.
 
-### 4.1. Index: The Data Foundation
+### 4.1. INDEX: Web3 Company Verification
 
-**Index** provides automated, verified index for Web3 companies by combining:
+**INDEX** is an automated index that shows what Web3 companies actually do — not what they say.
 
--   **Growth Metrics:** On-chain activity, wallet growth, user growth rates, TVL trends, and transaction volumes
--   **Team Health:** GitHub commits, active contributors, contributor retention, code quality, and team consistency
--   **Verified Index:** Automated verification via blockchain and GitHub APIs—no manual input, just trustworthy metrics
+**What we verify:**
+
+-   **On-chain growth**  
+    Wallet activity, protocol usage, real traction
+
+-   **Team & code health**  
+    GitHub commits, contributors, retention, code quality
+
+-   **Signal integrity**  
+    Cross-verified via blockchain and public APIs
+
+**If it can't be verified, it doesn't count.**
 
 **The "Fabrknt Score":** An aggregate index score (0-100) calculated from:
 
@@ -82,13 +95,22 @@ The platform operates on a two-tier architecture where **Index** serves as the d
 -   Comprehensive company directory with verified index scores
 -   Transparent, auditable data sources
 
-### 4.2. Synergy: Powered by Index Data
+### 4.2. SYNERGY: Quiet M&A & Partnerships
 
-**Synergy** leverages Index data to enable M&A and partnership synergy:
+**SYNERGY** enables discovery of acquisition targets and partnership opportunities — without broadcasting intent.
 
--   **Automated Data Import:** Listings automatically pull verified index data from Index—no manual entry required
--   **The "Audit View":** Buyers can deep-dive into the raw index data without leaving the Synergy interface
--   **AI-Powered Synergy:** Automated compatibility analysis based on verified index scores
+**Built for:**
+
+-   Corp Dev teams scouting quietly
+-   Strategic partnerships and integrations
+-   Ecosystem collaborations
+-   Early M&A conversations
+
+**Key Features:**
+
+-   **Automated Data Import:** Listings automatically pull verified index data from INDEX—no manual entry required
+-   **The "Audit View":** Buyers can deep-dive into the raw index data without leaving the SYNERGY interface
+-   **AI-Powered Synergy:** Automated compatibility analysis based on **verified index scores**, not narratives
 -   **One-Click NDA:** Buyers sign an on-chain message to unlock "Privileged Data" (GitHub private repos, specific smart contract addresses)
 -   **Proof of Funds (PoF):** Access to high-value listings is gated by a wallet-balance check to ensure only serious buyers engage
 
@@ -164,23 +186,49 @@ Beyond M&A transactions, **Synergy** serves as a comprehensive "synergy platform
 
 ## 8. Unique Value Proposition
 
+### The Problem We Solve
+
+Web3 has a trust problem:
+
+-   User numbers are inflated
+-   GitHub looks active — until you check
+-   "Strategic partnerships" don't exist
+-   M&A and investments start with slides, not reality
+
+**Most Web3 decisions are still made on unverified claims.**
+
+### Our Solution
+
+**FABRKNT fixes the first step.**
+
+**No forms.**  
+**No pitch decks.**  
+**No self-reported metrics.**
+
+**Only signals that can be verified.**
+
+### Our Approach
+
+-   **100% automated verification**  
+    No manual input, no manipulation—just trustworthy, transparent index.
+
+-   **No self-reported metrics**  
+    We only use data that can be independently verified.
+
+-   **Built for Web3, by Web3**  
+    We understand the unique challenges of the Web3 ecosystem.
+
 ### AI-Powered Automation
 
 -   **50%+ Time Reduction:** Accelerated sourcing and evaluation through AI algorithms
 -   **Weeks to Days:** Document processing speed improvements for mid-market deals
 -   **Automated Verification:** 100% automated verification using on-chain data, GitHub activity, and social metrics
 
-### SME Specialization
+### Who We Serve
 
--   **Focus on Web3 SMEs:** Specialized in serving small to medium enterprises in the Web3 space
--   **Scalable Solutions:** Designed for deals in the $1M-$5M range where traditional M&A processes are inefficient
--   **Cost-Effective:** AI automation reduces costs associated with traditional due diligence
-
-### Integrated Advisory
-
--   **End-to-End Support:** From target identification to transaction completion
--   **Data-Driven Decisions:** Comprehensive three-tier data integration (on-chain, off-chain, online)
--   **Transparent Process:** Complete visibility into verified metrics and data sources
+-   **Corp Dev & M&A Teams:** Avoid bad first calls. Screen candidates before outreach.
+-   **Web3 Investors & Funds:** Run pre-DD before the pitch deck arrives.
+-   **Web3 Founders:** Get discovered for what you actually build — not how well you sell.
 
 ---
 
@@ -233,17 +281,28 @@ This data-driven approach eliminates information asymmetry and enables high-trus
 
 ## 11. Getting Started
 
+### How It Works
+
+1. **Verify**  
+   We automatically analyze on-chain data, GitHub activity, and social signals.
+
+2. **Score**  
+   Companies receive transparent, comparable index scores.
+
+3. **Connect**  
+   Use verified data to approach acquisitions and partnerships with confidence.
+
 ### For Sellers
 
-1. Your company is automatically tracked in **Index** (if not, add it)
-2. Index verifies your growth metrics and team health
-3. Create your listing in **Synergy** - index data auto-populates from Index
+1. Your company is automatically tracked in **INDEX** (if not, add it)
+2. INDEX verifies your growth metrics and team health
+3. Create your listing in **SYNERGY** - index data auto-populates from INDEX
 4. Listings show verified index scores, enabling faster buyer trust
 
 ### For Buyers
 
-1. Browse **Index** to research companies with verified metrics
-2. Use **Synergy** to find acquisition targets and partnership opportunities
+1. Browse **INDEX** to research companies with verified metrics
+2. Use **SYNERGY** to find acquisition targets and partnership opportunities — without broadcasting intent
 3. View detailed index data (growth metrics, team health) for each opportunity
 4. Access detailed audit views with raw index data
 5. Sign on-chain NDA for privileged data access
@@ -251,20 +310,50 @@ This data-driven approach eliminates information asymmetry and enables high-trus
 
 ### For Partners
 
-1. Browse **Index** to understand company capabilities
-2. Use **Synergy** to find partnership opportunities
+1. Browse **INDEX** to understand company capabilities
+2. Use **SYNERGY** to find partnership opportunities
 3. Filter by partnership type (technical, strategic, marketing, ecosystem)
-4. Synergy based on complementary capabilities using Index data
-5. Monitor post-alliance synergies through Index metrics
+4. Synergy based on complementary capabilities using INDEX data
+5. Monitor post-alliance synergies through INDEX metrics
 
 ---
 
-## 12. Contributing
+## 12. Our Belief
 
-This is part of the Fabrknt ecosystem. For contributions, please refer to the main Fabrknt repository.
+**Web3 deserves better signals.**
+
+-   Verification beats trust.
+-   Data beats narratives.
+-   Transparency compounds.
+
+**FABRKNT is built in public — because credibility matters.**
+
+> FABRKNT does not rank narratives.  
+> We index reality.
 
 ---
 
-## 13. License
+## 13. Contributing
+
+This is part of the FABRKNT ecosystem. For contributions, please refer to the main FABRKNT repository.
+
+**FABRKNT is built in public — because credibility matters.**
+
+---
+
+## 14. License
 
 See LICENSE file in the repository root.
+
+---
+
+## 15. Contact & Resources
+
+-   **Website:** [www.fabrknt.com](https://www.fabrknt.com)
+-   **GitHub:** [github.com/fabrknt](https://github.com/fabrknt)
+-   **X (Twitter):** [@fabrknt](https://x.com/fabrknt)
+
+---
+
+**Stop trusting claims.**  
+**Start verifying.**

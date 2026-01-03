@@ -79,14 +79,14 @@ export default function MarketplacePage() {
                         createdAt: listing.createdAt,
                         suiteData: listing.suiteDataSnapshot
                             ? {
-                                pulse: listing.suiteDataSnapshot.pulse,
-                                trace: listing.suiteDataSnapshot.trace,
-                                revenue_verified:
-                                    listing.suiteDataSnapshot
-                                        .revenue_verified,
-                                fabrknt_score:
-                                    listing.suiteDataSnapshot.fabrknt_score,
-                            }
+                                  pulse: listing.suiteDataSnapshot.pulse,
+                                  trace: listing.suiteDataSnapshot.trace,
+                                  revenue_verified:
+                                      listing.suiteDataSnapshot
+                                          .revenue_verified,
+                                  fabrknt_score:
+                                      listing.suiteDataSnapshot.fabrknt_score,
+                              }
                             : undefined,
                         chain: listing.chain,
                         website: listing.website || undefined,
@@ -157,7 +157,8 @@ export default function MarketplacePage() {
                     Quiet M&A & Partnerships
                 </p>
                 <p className="text-muted-foreground mt-2">
-                    Discover acquisition targets and partnership opportunities — without broadcasting intent.
+                    Discover acquisition targets and partnership opportunities —
+                    without broadcasting intent.
                 </p>
             </div>
 
@@ -165,8 +166,18 @@ export default function MarketplacePage() {
             <div className="rounded-lg border-2 border-amber-300 bg-amber-50 p-4">
                 <div className="flex items-start gap-3">
                     <div className="flex-shrink-0">
-                        <svg className="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        <svg
+                            className="h-6 w-6 text-amber-600"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                            />
                         </svg>
                     </div>
                     <div className="flex-1">
@@ -174,7 +185,13 @@ export default function MarketplacePage() {
                             Demo Data Notice
                         </h3>
                         <p className="text-sm text-amber-800">
-                            <strong>All companies and listings shown are fictional demo data for testing purposes only.</strong> These are not real companies or actual acquisition opportunities. This platform is in preview mode to demonstrate features and functionality.
+                            <strong>
+                                All companies and listings shown are fictional
+                                demo data for testing purposes only.
+                            </strong>{" "}
+                            These are not real companies or actual acquisition
+                            opportunities. This platform is in preview mode to
+                            demonstrate features and functionality.
                         </p>
                     </div>
                 </div>
@@ -260,9 +277,9 @@ export default function MarketplacePage() {
                             onChange={(e) =>
                                 setSortBy(
                                     e.target.value as
-                                    | "price"
-                                    | "revenue"
-                                    | "score"
+                                        | "price"
+                                        | "revenue"
+                                        | "score"
                                 )
                             }
                             className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
