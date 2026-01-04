@@ -29,7 +29,7 @@ export function SynergyCTA({ variant = "primary", className = "" }: SynergyCTAPr
     return (
       <Link
         href={href}
-        className={`inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg border-2 border-green-600 text-green-600 hover:bg-green-50 transition-colors font-medium ${className}`}
+        className={`inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg border-2 border-cyan-400 text-cyan-400 hover:bg-cyan-400/10 transition-all font-bold ${className}`}
       >
         <div className="flex flex-col items-center">
           <span>Find Synergies</span>
@@ -44,12 +44,12 @@ export function SynergyCTA({ variant = "primary", className = "" }: SynergyCTAPr
   return (
     <Link
       href={href}
-      className={`inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg bg-green-600 text-white hover:bg-green-700 transition-colors font-semibold text-lg relative group ${className}`}
+      className={`inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg bg-emerald-500 text-white hover:bg-emerald-400 transition-all font-bold text-lg relative group border border-emerald-400 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40 ${className}`}
     >
       <Link2 className="h-6 w-6" />
       <div className="flex flex-col items-start">
         <span>Find Real Synergies</span>
-        {!session && <span className="text-xs font-normal text-green-100">Sign in required</span>}
+        {!session && <span className="text-xs font-normal text-emerald-100">Sign in required</span>}
       </div>
       <ArrowRight className="h-5 w-5" />
     </Link>
@@ -64,7 +64,7 @@ export function SynergyCTACard() {
   return (
     <Link
       href={href}
-      className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-green-600 text-white hover:bg-green-700 transition-colors font-medium w-full justify-center"
+      className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-emerald-500 text-white hover:bg-emerald-400 transition-all font-bold w-full justify-center border border-emerald-400 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40"
     >
       <div className="flex flex-col items-center">
         <span>Find Synergies</span>

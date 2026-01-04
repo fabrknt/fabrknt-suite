@@ -98,7 +98,7 @@ export function OpportunityCard({ opportunity, onAction, disabled = false }: Opp
   const typeLabel = opportunityTypeLabels[typeKey] || opportunity.opportunityType;
 
   return (
-    <div className="group bg-card rounded-lg border border-border p-6 transition-all hover:border-green-300 hover:shadow-lg">
+    <div className="group bg-card rounded-lg border border-border p-6 transition-all hover:border-cyan-400/50 hover:shadow-lg hover:shadow-cyan-400/10">
       {/* Header */}
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3 flex-1">
@@ -116,7 +116,7 @@ export function OpportunityCard({ opportunity, onAction, disabled = false }: Opp
             )}
           </div>
           <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-foreground group-hover:text-green-600 transition-colors truncate">
+            <h3 className="font-semibold text-foreground group-hover:text-cyan-400 transition-colors truncate">
               {opportunity.partnerName}
             </h3>
             <div className="flex items-center gap-2 mt-1">
@@ -137,7 +137,7 @@ export function OpportunityCard({ opportunity, onAction, disabled = false }: Opp
       {/* Synergy Description */}
       <div className="mb-4">
         <div className="flex items-start gap-2">
-          <Sparkles className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
+          <Sparkles className="h-4 w-4 text-cyan-400 mt-0.5 flex-shrink-0" />
           <p className="text-sm text-muted-foreground line-clamp-2">
             {opportunity.compatibility.synergy}
           </p>
@@ -214,7 +214,7 @@ export function OpportunityCard({ opportunity, onAction, disabled = false }: Opp
         <Button
           onClick={() => handleAction("interested")}
           disabled={disabled || isProcessing}
-          className="flex-1 bg-green-600 hover:bg-green-700 text-white"
+          className="flex-1 bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold border border-cyan-300 shadow-lg shadow-cyan-400/20 hover:shadow-cyan-400/40"
           size="sm"
         >
           <Check className="h-4 w-4 mr-1" />

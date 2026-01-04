@@ -69,24 +69,24 @@ export default async function SuiteLandingPage() {
     const activeListings = listingStats.activeListings;
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-muted to-background">
+        <div className="min-h-screen bg-background">
             {/* Header */}
             <LandingHeader />
 
             {/* Hero Section */}
-            <div className="border-b border-border bg-card">
+            <div className="border-b border-border bg-card/50 backdrop-blur-sm">
                 <div className="container mx-auto px-4 py-16 md:py-24">
                     <div className="max-w-4xl mx-auto text-center">
                         <div className="flex justify-center mb-4">
                             <Logo size="lg" />
                         </div>
                         <div className="flex justify-center mb-8">
-                            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-100 text-purple-800 text-sm font-semibold">
+                            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-cyan-400/10 text-cyan-400 border border-cyan-400/30 text-sm font-semibold font-mono">
                                 <span className="relative flex h-2 w-2">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
-                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-purple-500"></span>
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400"></span>
                                 </span>
-                                Preview
+                                PREVIEW
                             </span>
                         </div>
                         <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-4">
@@ -97,7 +97,7 @@ export default async function SuiteLandingPage() {
                         </h2>
                         <p className="text-xl md:text-2xl font-semibold text-muted-foreground mb-2">
                             Pitch decks lie.{" "}
-                            <span className="text-purple-600">
+                            <span className="text-cyan-400 font-bold">
                                 On-chain data doesn't.
                             </span>
                         </p>
@@ -113,7 +113,7 @@ export default async function SuiteLandingPage() {
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <Link
                                 href="/cindex"
-                                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition-colors font-semibold text-lg"
+                                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-md bg-cyan-400 text-slate-950 hover:bg-cyan-300 transition-all font-bold text-lg border border-cyan-300 shadow-lg shadow-cyan-400/20 hover:shadow-cyan-400/40"
                             >
                                 <Brain className="h-6 w-6" />
                                 Explore Verified Companies
@@ -142,7 +142,7 @@ export default async function SuiteLandingPage() {
                         </p>
                     </div>
                     <div className="text-center">
-                        <p className="text-4xl font-bold text-purple-600 mb-2">
+                        <p className="text-4xl font-bold text-cyan-400 font-mono mb-2">
                             100%
                         </p>
                         <p className="text-sm text-muted-foreground mb-1">
@@ -239,7 +239,7 @@ export default async function SuiteLandingPage() {
                             No self-reported metrics.
                         </span>
                     </div>
-                    <p className="text-lg font-semibold text-purple-600 mb-0">
+                    <p className="text-lg font-semibold text-cyan-400 mb-0">
                         Only signals that can be verified.
                     </p>
                 </div>
@@ -251,8 +251,8 @@ export default async function SuiteLandingPage() {
                     {/* INDEX Product */}
                     <div className="bg-card rounded-lg border border-border p-8">
                         <div className="flex items-center gap-3 mb-6">
-                            <div className="p-3 rounded-lg bg-purple-100">
-                                <Brain className="h-8 w-8 text-purple-600" />
+                            <div className="p-3 rounded-lg bg-cyan-400/10 border border-cyan-400/30">
+                                <Brain className="h-8 w-8 text-cyan-400" />
                             </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-foreground">
@@ -271,7 +271,7 @@ export default async function SuiteLandingPage() {
 
                         <div className="space-y-4 mb-6">
                             <div className="flex items-start gap-3">
-                                <TrendingUp className="h-5 w-5 text-purple-600 mt-0.5" />
+                                <TrendingUp className="h-5 w-5 text-cyan-400 mt-0.5" />
                                 <div>
                                     <p className="font-semibold text-foreground">
                                         On-chain growth
@@ -283,7 +283,7 @@ export default async function SuiteLandingPage() {
                                 </div>
                             </div>
                             <div className="flex items-start gap-3">
-                                <Users className="h-5 w-5 text-purple-600 mt-0.5" />
+                                <Users className="h-5 w-5 text-cyan-400 mt-0.5" />
                                 <div>
                                     <p className="font-semibold text-foreground">
                                         Team & code health
@@ -295,7 +295,7 @@ export default async function SuiteLandingPage() {
                                 </div>
                             </div>
                             <div className="flex items-start gap-3">
-                                <Shield className="h-5 w-5 text-purple-600 mt-0.5" />
+                                <Shield className="h-5 w-5 text-cyan-400 mt-0.5" />
                                 <div>
                                     <p className="font-semibold text-foreground">
                                         Signal integrity
@@ -308,13 +308,13 @@ export default async function SuiteLandingPage() {
                             </div>
                         </div>
 
-                        <p className="text-sm font-semibold text-purple-600 mb-6">
+                        <p className="text-sm font-semibold text-cyan-400 mb-6">
                             If it can't be verified, it doesn't count.
                         </p>
 
                         <Link
                             href="/cindex"
-                            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition-colors font-medium w-full justify-center"
+                            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-cyan-400 text-slate-950 hover:bg-cyan-300 transition-all font-bold w-full justify-center border border-cyan-300 shadow-lg shadow-cyan-400/20 hover:shadow-cyan-400/40"
                         >
                             Explore the Index
                             <ArrowRight className="h-5 w-5" />
@@ -324,8 +324,8 @@ export default async function SuiteLandingPage() {
                     {/* SYNERGY Product */}
                     <div className="bg-card rounded-lg border border-border p-8">
                         <div className="flex items-center gap-3 mb-6">
-                            <div className="p-3 rounded-lg bg-cyan-100">
-                                <Link2 className="h-8 w-8 text-cyan-600" />
+                            <div className="p-3 rounded-lg bg-cyan-400/10 border border-cyan-400/30">
+                                <Link2 className="h-8 w-8 text-cyan-400" />
                             </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-foreground">
@@ -344,7 +344,7 @@ export default async function SuiteLandingPage() {
 
                         <div className="space-y-4 mb-6">
                             <div className="flex items-start gap-3">
-                                <Building2 className="h-5 w-5 text-cyan-600 mt-0.5" />
+                                <Building2 className="h-5 w-5 text-cyan-400 mt-0.5" />
                                 <div>
                                     <p className="font-semibold text-foreground">
                                         Corp Dev teams scouting quietly
@@ -352,7 +352,7 @@ export default async function SuiteLandingPage() {
                                 </div>
                             </div>
                             <div className="flex items-start gap-3">
-                                <Users className="h-5 w-5 text-cyan-600 mt-0.5" />
+                                <Users className="h-5 w-5 text-cyan-400 mt-0.5" />
                                 <div>
                                     <p className="font-semibold text-foreground">
                                         Integration and acquisition opportunities
@@ -360,7 +360,7 @@ export default async function SuiteLandingPage() {
                                 </div>
                             </div>
                             <div className="flex items-start gap-3">
-                                <Shield className="h-5 w-5 text-cyan-600 mt-0.5" />
+                                <Shield className="h-5 w-5 text-cyan-400 mt-0.5" />
                                 <div>
                                     <p className="font-semibold text-foreground">
                                         Early M&A conversations
@@ -391,8 +391,8 @@ export default async function SuiteLandingPage() {
                         </h2>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                             <div className="text-center">
-                                <div className="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center mx-auto mb-4">
-                                    <span className="text-2xl font-bold text-purple-600">
+                                <div className="w-16 h-16 rounded-full bg-cyan-400/10 border border-cyan-400/30 flex items-center justify-center mx-auto mb-4">
+                                    <span className="text-2xl font-bold text-cyan-400 font-mono">
                                         1
                                     </span>
                                 </div>
@@ -405,8 +405,8 @@ export default async function SuiteLandingPage() {
                                 </p>
                             </div>
                             <div className="text-center">
-                                <div className="w-16 h-16 rounded-full bg-cyan-100 flex items-center justify-center mx-auto mb-4">
-                                    <span className="text-2xl font-bold text-cyan-600">
+                                <div className="w-16 h-16 rounded-full bg-cyan-400/10 border border-cyan-400/30 flex items-center justify-center mx-auto mb-4">
+                                    <span className="text-2xl font-bold text-cyan-400 font-mono">
                                         2
                                     </span>
                                 </div>
@@ -419,8 +419,8 @@ export default async function SuiteLandingPage() {
                                 </p>
                             </div>
                             <div className="text-center">
-                                <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
-                                    <span className="text-2xl font-bold text-green-600">
+                                <div className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center mx-auto mb-4">
+                                    <span className="text-2xl font-bold text-emerald-500 font-mono">
                                         3
                                     </span>
                                 </div>
@@ -445,7 +445,7 @@ export default async function SuiteLandingPage() {
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <div className="bg-card rounded-lg border border-border p-6 text-center">
-                            <Building2 className="h-12 w-12 text-purple-600 mx-auto mb-4" />
+                            <Building2 className="h-12 w-12 text-cyan-400 mx-auto mb-4" />
                             <h3 className="text-lg font-semibold text-foreground mb-2">
                                 Corp Dev & M&A Teams
                             </h3>
@@ -455,7 +455,7 @@ export default async function SuiteLandingPage() {
                             </p>
                         </div>
                         <div className="bg-card rounded-lg border border-border p-6 text-center">
-                            <TrendingUp className="h-12 w-12 text-cyan-600 mx-auto mb-4" />
+                            <TrendingUp className="h-12 w-12 text-cyan-400 mx-auto mb-4" />
                             <h3 className="text-lg font-semibold text-foreground mb-2">
                                 Web3 Investors & Funds
                             </h3>
@@ -464,7 +464,7 @@ export default async function SuiteLandingPage() {
                             </p>
                         </div>
                         <div className="bg-card rounded-lg border border-border p-6 text-center">
-                            <Users className="h-12 w-12 text-green-600 mx-auto mb-4" />
+                            <Users className="h-12 w-12 text-emerald-500 mx-auto mb-4" />
                             <h3 className="text-lg font-semibold text-foreground mb-2">
                                 Web3 Founders
                             </h3>
@@ -484,7 +484,7 @@ export default async function SuiteLandingPage() {
                         <h2 className="text-3xl font-bold text-foreground mb-6">
                             Our belief
                         </h2>
-                        <p className="text-2xl font-bold text-purple-600 mb-8">
+                        <p className="text-2xl font-bold text-cyan-400 mb-8">
                             Web3 deserves better signals.
                         </p>
                         <div className="space-y-2 text-lg text-muted-foreground mb-8">
@@ -551,24 +551,24 @@ export default async function SuiteLandingPage() {
 
             {/* CTA Section */}
             <div className="container mx-auto px-4 py-16">
-                <div className="max-w-3xl mx-auto text-center bg-gradient-to-r from-purple-50 to-cyan-50 rounded-lg border border-purple-200 p-12">
+                <div className="max-w-3xl mx-auto text-center bg-card/50 backdrop-blur-sm rounded-lg border border-cyan-400/30 p-12 shadow-lg shadow-cyan-400/10">
                     <h2 className="text-3xl font-bold text-foreground mb-4">
                         Stop guessing.
                     </h2>
-                    <h2 className="text-3xl font-bold text-purple-600 mb-8">
+                    <h2 className="text-3xl font-bold text-cyan-400 mb-8">
                         Start verifying.
                     </h2>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
                         <Link
                             href="/cindex"
-                            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition-colors font-medium"
+                            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-cyan-400 text-slate-950 hover:bg-cyan-300 transition-all font-bold border border-cyan-300 shadow-lg shadow-cyan-400/20 hover:shadow-cyan-400/40"
                         >
                             Explore Verified Companies
                             <ArrowRight className="h-5 w-5" />
                         </Link>
                         <SynergyCTA variant="secondary" />
                     </div>
-                    <p className="text-sm text-muted-foreground italic border-t border-purple-200 pt-6">
+                    <p className="text-sm text-muted-foreground italic border-t border-border pt-6">
                         FABRKNT does not rank narratives.
                         <br />
                         We index reality.
@@ -584,12 +584,12 @@ export default async function SuiteLandingPage() {
                         <div className="md:col-span-2">
                             <Logo size="md" className="mb-4" />
                             <div className="flex items-center gap-2 mb-4">
-                                <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full bg-purple-100 text-purple-800 text-xs font-semibold">
+                                <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-cyan-400/10 text-cyan-400 border border-cyan-400/30 text-xs font-semibold font-mono">
                                     <span className="relative flex h-1.5 w-1.5">
-                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
-                                        <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-purple-500"></span>
+                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                                        <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-cyan-400"></span>
                                     </span>
-                                    Preview
+                                    PREVIEW
                                 </span>
                             </div>
                             <p className="text-sm text-muted-foreground mb-4">
@@ -601,7 +601,7 @@ export default async function SuiteLandingPage() {
                                     href="https://www.fabrknt.com"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="font-semibold text-purple-600 hover:text-purple-700"
+                                    className="font-semibold text-cyan-400 hover:text-cyan-300"
                                 >
                                     www.fabrknt.com
                                 </a>

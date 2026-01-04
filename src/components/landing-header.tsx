@@ -77,7 +77,7 @@ export function LandingHeader() {
             ) : (
               <Link
                 href="/auth/signin"
-                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-cyan-600 text-white rounded-md hover:from-purple-700 hover:to-cyan-700 transition-all text-sm font-medium shadow-lg"
+                className="flex items-center gap-2 px-4 py-2 bg-cyan-400 text-slate-950 rounded-md hover:bg-cyan-300 transition-all text-sm font-bold border border-cyan-300 shadow-lg shadow-cyan-400/20 hover:shadow-cyan-400/40"
               >
                 <LogIn className="h-4 w-4" />
                 <span>Sign In</span>

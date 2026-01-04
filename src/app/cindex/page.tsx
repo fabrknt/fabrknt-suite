@@ -190,12 +190,12 @@ export default async function CindexPage() {
                     <h1 className="text-3xl font-bold text-foreground">
                         INDEX
                     </h1>
-                    <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-100 text-purple-800 text-xs font-semibold">
+                    <span className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-cyan-400/10 text-cyan-400 border border-cyan-400/30 text-xs font-semibold font-mono">
                         <span className="relative flex h-2 w-2">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-purple-500"></span>
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400"></span>
                         </span>
-                        Preview
+                        PREVIEW
                     </span>
                 </div>
                 <p className="text-sm text-muted-foreground mb-2">
@@ -259,7 +259,7 @@ export default async function CindexPage() {
                     <p className="text-sm text-muted-foreground mb-2">
                         Growing Fast
                     </p>
-                    <p className="text-4xl font-bold text-green-600">
+                    <p className="text-4xl font-bold text-cyan-400 font-mono">
                         {companiesList.filter((c) => c.trend === "up").length}
                     </p>
                 </div>
@@ -267,7 +267,7 @@ export default async function CindexPage() {
                     <p className="text-sm text-muted-foreground mb-2">
                         Listed for Sale
                     </p>
-                    <p className="text-4xl font-bold text-purple-600">
+                    <p className="text-4xl font-bold text-cyan-400 font-mono">
                         {companiesList.filter((c) => c.isListed).length}
                     </p>
                 </div>
@@ -281,7 +281,7 @@ export default async function CindexPage() {
                     description="Highest overall index scores"
                     icon={Trophy}
                     companies={topCompanies}
-                    iconColor="text-yellow-600"
+                    iconColor="text-cyan-400"
                     scoreType="overall"
                     scoreLabel="Overall Index"
                 />
@@ -292,7 +292,7 @@ export default async function CindexPage() {
                     description="Highest user growth rate (30 days)"
                     icon={TrendingUp}
                     companies={fastestGrowing}
-                    iconColor="text-green-600"
+                    iconColor="text-cyan-400"
                     scoreType="growth"
                     scoreLabel="Growth Score"
                 />
@@ -303,7 +303,7 @@ export default async function CindexPage() {
                     description="Highest GitHub commit velocity"
                     icon={Github}
                     companies={mostActiveTeams}
-                    iconColor="text-blue-600"
+                    iconColor="text-cyan-400"
                     scoreType="team"
                     scoreLabel="Team Score"
                 />
@@ -314,7 +314,7 @@ export default async function CindexPage() {
                     description="Biggest growth momentum"
                     icon={Star}
                     companies={risingStars}
-                    iconColor="text-purple-600"
+                    iconColor="text-cyan-400"
                     scoreType="momentum"
                     scoreLabel="Momentum Index"
                 />
@@ -355,11 +355,11 @@ export default async function CindexPage() {
             </div>
 
             {/* CTA Section */}
-            <div className="bg-purple-50 border border-purple-200 rounded-lg p-8 text-center">
-                <h3 className="text-2xl font-bold text-purple-900 mb-4">
+            <div className="bg-card/50 backdrop-blur-sm border border-cyan-400/30 rounded-lg p-8 text-center shadow-lg shadow-cyan-400/10">
+                <h3 className="text-2xl font-bold text-cyan-400 mb-4">
                     If it can't be verified, it doesn't count.
                 </h3>
-                <p className="text-purple-800 max-w-2xl mx-auto mb-6">
+                <p className="text-muted-foreground max-w-2xl mx-auto mb-6">
                     All company metrics are automatically verified through
                     on-chain data (contracts, wallets, DAOs) and off-chain
                     sources (GitHub, Discord, Twitter). No manual data entry
@@ -367,7 +367,7 @@ export default async function CindexPage() {
                 </p>
                 <Link
                     href="/cindex/companies"
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition-colors font-medium"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-cyan-400 text-slate-950 hover:bg-cyan-300 transition-all font-bold border border-cyan-300 shadow-lg shadow-cyan-400/20 hover:shadow-cyan-400/40"
                 >
                     Explore All Companies
                     <ArrowRight className="h-5 w-5" />

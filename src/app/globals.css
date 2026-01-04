@@ -4,41 +4,44 @@
 
 @layer base {
   :root {
-    /* Fabrknt Light Mode Design System - MARKETPLACE (Blue Accent) */
-    --background: 0 0% 100%; /* Pure white */
-    --foreground: 222 47% 11%; /* Dark text #1a202c */
+    /* FABRKNT Financial Terminal Design System - Dark Data Platform */
+    --background: 222 47% 4%; /* slate-950 - Deep dark background */
+    --foreground: 210 40% 98%; /* slate-50 - Light text on dark */
 
-    --card: 0 0% 100%; /* White cards */
-    --card-foreground: 222 47% 11%;
+    --card: 222 47% 11%; /* slate-900 - Card backgrounds */
+    --card-foreground: 210 40% 98%; /* slate-50 */
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover: 222 47% 11%; /* slate-900 */
+    --popover-foreground: 210 40% 98%;
 
-    --primary: 217 91% 60%; /* Business blue #3b82f6 */
-    --primary-foreground: 0 0% 100%;
+    --primary: 222 47% 11%; /* slate-900 - Dark authoritative buttons */
+    --primary-foreground: 210 40% 98%;
 
-    --secondary: 217 91% 60%; /* MARKETPLACE Blue #3b82f6 */
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 215 25% 27%; /* slate-700 - Secondary elements */
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 210 40% 96%; /* Light gray background #f7fafc */
-    --muted-foreground: 215 16% 47%; /* Muted text #718096 */
+    --muted: 215 25% 27%; /* slate-700 - Muted backgrounds */
+    --muted-foreground: 215 20% 65%; /* slate-400 - Muted text */
 
-    --accent: 217 91% 60%; /* Business blue */
-    --accent-foreground: 0 0% 100%;
+    --accent: 188 94% 57%; /* cyan-400 - Terminal cyan accent */
+    --accent-foreground: 222 47% 4%; /* Dark text on cyan */
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 84% 60%; /* red-500 - Errors */
     --destructive-foreground: 0 0% 100%;
 
-    --border: 214 32% 91%; /* Light borders #e2e8f0 */
-    --input: 214 32% 91%;
-    --ring: 217 91% 60%;
+    --border: 215 25% 27%; /* slate-700 - Terminal borders */
+    --input: 215 25% 27%;
+    --ring: 188 94% 57%; /* cyan-400 focus ring */
 
-    --radius: 0.5rem;
+    --radius: 0.375rem; /* Slightly sharper corners for terminal feel */
 
-    /* MARKETPLACE brand color */
-    --marketplace-blue: 217 91% 60%; /* #3b82f6 */
-    --marketplace-blue-light: 217 91% 70%;
-    --marketplace-blue-dark: 217 91% 50%;
+    /* Financial Terminal brand colors */
+    --terminal-cyan: 188 94% 57%; /* cyan-400 - Accent/links */
+    --terminal-cyan-glow: 188 94% 67%; /* cyan-300 - Verified glow */
+    --verified-green: 160 84% 39%; /* emerald-500 - Verified badges */
+    --verified-green-bg: 160 100% 6%; /* emerald-950 - Success backgrounds */
+    --warning-amber: 43 96% 56%; /* amber-400 - Warnings */
+    --data-mono: 215 20% 65%; /* slate-400 - Monospace data color */
   }
 }
 

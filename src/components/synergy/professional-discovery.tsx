@@ -177,7 +177,7 @@ export function ProfessionalDiscovery({
           </h1>
           <a
             href="/synergy/connections"
-            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium text-sm"
+            className="px-4 py-2 bg-cyan-400 text-slate-950 rounded-lg hover:bg-cyan-300 transition-all font-bold text-sm border border-cyan-300 shadow-lg shadow-cyan-400/20 hover:shadow-cyan-400/40"
           >
             View Connections →
           </a>
@@ -194,11 +194,11 @@ export function ProfessionalDiscovery({
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div className="bg-card rounded-lg border border-border p-4">
           <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-green-50">
-              <Sparkles className="h-5 w-5 text-green-600" />
+            <div className="p-2 rounded-lg bg-cyan-400/10 border border-cyan-400/30">
+              <Sparkles className="h-5 w-5 text-cyan-400" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-foreground">
+              <p className="text-2xl font-bold text-foreground font-mono">
                 {stats.totalMatches}
               </p>
               <p className="text-sm text-muted-foreground">Recommendations</p>
@@ -208,11 +208,11 @@ export function ProfessionalDiscovery({
 
         <div className="bg-card rounded-lg border border-border p-4">
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-green-50">
-                <TrendingUp className="h-5 w-5 text-green-600" />
+              <div className="p-2 rounded-lg bg-cyan-400/10 border border-cyan-400/30">
+                <TrendingUp className="h-5 w-5 text-cyan-400" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-foreground">
+                <p className="text-2xl font-bold text-foreground font-mono">
                   {stats.avgScore}
                 </p>
                 <p className="text-sm text-muted-foreground">Avg Match Score</p>
@@ -222,11 +222,11 @@ export function ProfessionalDiscovery({
 
         <div className="bg-card rounded-lg border border-border p-4">
           <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-blue-50">
-              <Users className="h-5 w-5 text-blue-600" />
+            <div className="p-2 rounded-lg bg-cyan-400/10 border border-cyan-400/30">
+              <Users className="h-5 w-5 text-cyan-400" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-foreground">
+              <p className="text-2xl font-bold text-foreground font-mono">
                 {existingSwipes.length}
               </p>
               <p className="text-sm text-muted-foreground">Reviewed</p>
@@ -236,11 +236,11 @@ export function ProfessionalDiscovery({
 
         <div className="bg-card rounded-lg border border-border p-4">
           <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-yellow-50">
-              <MessageCircle className="h-5 w-5 text-yellow-600" />
+            <div className="p-2 rounded-lg bg-cyan-400/10 border border-cyan-400/30">
+              <MessageCircle className="h-5 w-5 text-cyan-400" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-foreground">
+              <p className="text-2xl font-bold text-foreground font-mono">
                 {stats.activeChats}
               </p>
               <p className="text-sm text-muted-foreground">Active Chats</p>
