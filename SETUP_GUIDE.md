@@ -1,16 +1,16 @@
-# Match Platform MVP - Setup Guide
+# FABRKNT Platform - Setup Guide
 
-## ✅ Phase 1 Progress (Completed)
+## ✅ Implementation Status (Completed)
 
 ### What's Been Implemented
 
 1. **✅ Prisma Database Schema** (`/prisma/schema.prisma`)
-   - User model (Web3 wallet-based)
-   - Listing model (M&A + partnerships)
-   - Offer model
-   - DataRoomRequest model
-   - Document model
-   - Watchlist model
+   - User model (Web3 wallet-based authentication)
+   - ClaimedProfile model (company profile ownership)
+   - Swipe model (express interest / pass / saved actions)
+   - Match model (mutual interest tracking)
+   - Conversation & Message models (real-time messaging)
+   - Company model (INDEX verification data)
    - Notification model
 
 2. **✅ Database Client** (`/src/lib/db.ts`)
@@ -18,9 +18,9 @@
    - Development logging enabled
 
 3. **✅ Seed Script** (`/prisma/seed.ts`)
-   - 9 test users
-   - 9 listings (6 M&A + 3 partnerships)
-   - All with Intelligence data (PULSE + TRACE)
+   - Demo companies with verified INDEX data
+   - Growth scores, team health scores, overall scores
+   - Realistic on-chain metrics and GitHub data
 
 4. **✅ Web3 Authentication Setup**
    - RainbowKit + Wagmi + Viem installed
@@ -44,7 +44,7 @@
 2. Sign up / Log in
 3. Click "New Project"
 4. Fill in:
-   - **Project name**: `fabrknt-match` (or your choice)
+   - **Project name**: `fabrknt-platform` (or your choice)
    - **Database Password**: Choose a strong password (SAVE THIS!)
    - **Region**: Choose closest to your users (e.g., `us-east-1`)
 5. Click "Create new project"
@@ -84,14 +84,14 @@ pnpm prisma generate
 # Run migration (creates all tables)
 pnpm prisma migrate dev --name init
 
-# Seed database with 9 listings
+# Seed database with demo companies
 pnpm prisma db seed
 ```
 
 Expected output:
 ```
-✅ Created 9 test users
-✅ Created 9 listings (6 M&A + 3 partnerships)
+✅ Created demo companies with verified INDEX data
+✅ Generated realistic metrics and scores
 🎉 Database seeded successfully!
 ```
 
@@ -101,7 +101,7 @@ Expected output:
 2. Sign up / Log in
 3. Click "Create New Project"
 4. Fill in:
-   - **Project name**: `Fabrknt Match`
+   - **Project name**: `FABRKNT Platform`
    - **Homepage URL**: `http://localhost:3000` (change later for production)
 5. Copy the **Project ID**
 6. Update `.env.local`:
@@ -138,14 +138,26 @@ Before proceeding to Phase 2:
 
 ---
 
-## 🎯 What's Next (Phase 2)
+## ✅ Platform Features (Implemented)
 
-Once setup is complete, we'll implement:
+The FABRKNT platform includes:
 
-1. **API Routes** - CRUD operations for listings
-2. **Create Listing Form** - Multi-step wizard (5 steps)
-3. **Edit/Delete Listing** - Seller management
-4. **Data Hooks** - Replace mock data with real API calls
+1. **INDEX** - Web3 Company Verification
+   - Automated verification of on-chain data, GitHub activity, and social metrics
+   - Company directory with verified scores
+   - Growth Score, Team Health Score, Overall Score (0-100)
+
+2. **SYNERGY** - Professional Partnership Discovery
+   - AI-powered compatibility analysis and recommendations
+   - Professional discovery grid with filtering and search
+   - Express interest, pass, or save opportunities
+   - Real-time messaging between matched companies
+   - Connection management and partnership tracking
+
+3. **Authentication & Profile Management**
+   - Web3 wallet-based authentication (RainbowKit)
+   - Claim and manage company profiles
+   - View companies interested in connecting with you
 
 ---
 
@@ -201,6 +213,12 @@ If you encounter issues:
 
 ---
 
-**Status**: ✅ Phase 1 Foundation Complete - Ready for Phase 2 Implementation
+**Status**: ✅ FABRKNT Platform Complete - Professional Discovery & Messaging Implemented
 
-**Last Updated**: 2026-01-02
+**Last Updated**: 2026-01-04
+
+**Current Features**:
+- INDEX: Web3 Company Verification with automated scoring
+- SYNERGY: AI-powered partnership discovery with professional grid UI
+- Real-time messaging between matched companies
+- Wallet-based authentication and profile claiming

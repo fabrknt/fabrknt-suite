@@ -8,7 +8,7 @@ import { getCurrentUser } from "@/lib/auth";
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { matchId: string } }
+  { params }: { params: Promise<{ matchId: string }> }
 ) {
   try {
     const user = await getCurrentUser();
@@ -29,7 +29,7 @@ export async function GET(
       );
     }
 
-    const { matchId } = params;
+    const { matchId } = await params;
 
     // Get the match
     const match = await prisma.match.findUnique({

@@ -1,6 +1,6 @@
-# FABRKNT Suite: Web3 Index & Synergy Platform
+# FABRKNT: Web3 Index & Synergy Platform
 
-**Verify Web3. Before You Trust It.**
+**Verify Web3. Discover Synergy.**
 
 **Pitch decks lie. On-chain data doesn't.**
 
@@ -10,15 +10,15 @@
 
 ## 1. Project Overview
 
-**Project Name:** FABRKNT Suite
+**Project Name:** FABRKNT
 
 **Concept:** A Web3 Index & Synergy platform built for **early verification**. We help **Web3 Corp Dev teams, investors, and founders** verify companies using real on-chain activity, GitHub signals, and social data — fully automated, no self-reporting.
 
-**Products:** Two integrated products: **INDEX** (Web3 Company Verification) and **SYNERGY** (Quiet M&A & Partnerships). INDEX provides automated verification that shows what Web3 companies actually do — not what they say. SYNERGY leverages INDEX data to enable acquisition targets and partnership opportunities — without broadcasting intent.
+**Products:** Two integrated products: **INDEX** (Web3 Company Verification) and **SYNERGY** (Professional Partnership Discovery). INDEX provides automated verification that shows what Web3 companies actually do — not what they say. SYNERGY leverages INDEX data to discover synergy opportunities with verified companies — enabling strategic connections through AI-powered compatibility analysis.
 
-**Architecture:** **Index → Synergy** - Index serves as the data foundation that powers Synergy's synergy and decision-making capabilities. Every Synergy listing is backed by verified Index data, ensuring transparency and trust.
+**Architecture:** **Index → Synergy** - INDEX serves as the data foundation that powers SYNERGY's compatibility analysis and recommendation engine. Every synergy opportunity is backed by verified INDEX data, ensuring transparency and trust.
 
-**Positioning:** **AI × SME Specialization × Integrated Advisory** - Maximizing automation through AI to drastically improve the cost and time efficiency of M&A and partnership processes in the Web3 market, where information asymmetry is high.
+**Positioning:** **AI × Verified Data × Professional Discovery** - Maximizing automation through AI to enable intelligent partnership discovery and strategic connections in the Web3 market, where information asymmetry is high.
 
 ---
 
@@ -37,13 +37,13 @@ The growth rate of SMEs within the Web3 market is particularly noteworthy. While
 
 ### Global Market Positioning
 
-The platform serves the global Web3 ecosystem, focusing on SMEs that require efficient, data-driven M&A and partnership processes. As the market moves from "speculation to utility" and "isolation to integration," an infrastructure where AI bridges the gap between technology and business based on data is indispensable for the development of the global Web3 ecosystem.
+The platform serves the global Web3 ecosystem, focusing on SMEs that require efficient, data-driven partnership discovery and strategic connections. As the market moves from "speculation to utility" and "isolation to integration," an infrastructure where AI bridges the gap between technology and business based on verified data is indispensable for the development of the global Web3 ecosystem.
 
 ---
 
 ## 3. AI Automation & Efficiency
 
-The vision of "maximizing automation through AI" drastically improves the cost and time efficiency of traditional M&A processes in the Web3 market.
+The vision of "maximizing automation through AI" drastically improves the cost and time efficiency of partnership discovery and due diligence processes in the Web3 market.
 
 ### Quantitative Evaluation of AI-Driven Efficiency
 
@@ -95,60 +95,66 @@ The platform operates on a two-tier architecture where **Index** serves as the d
 -   Comprehensive company directory with verified index scores
 -   Transparent, auditable data sources
 
-### 4.2. SYNERGY: Quiet M&A & Partnerships
+### 4.2. SYNERGY: Professional Partnership Discovery
 
-**SYNERGY** enables discovery of acquisition targets and partnership opportunities — without broadcasting intent.
+**SYNERGY** enables discovery of synergy opportunities with verified Web3 companies — powered by AI-driven compatibility analysis.
 
 **Built for:**
 
--   Corp Dev teams scouting quietly
--   Strategic partnerships and integrations
--   Ecosystem collaborations
--   Early M&A conversations
+-   Corp Dev teams seeking strategic partnerships
+-   Technical integrations and ecosystem collaborations
+-   Co-marketing and growth partnerships
+-   Strategic business connections
 
 **Key Features:**
 
--   **Automated Data Import:** Listings automatically pull verified index data from INDEX—no manual entry required
--   **The "Audit View":** Buyers can deep-dive into the raw index data without leaving the SYNERGY interface
--   **AI-Powered Synergy:** Automated compatibility analysis based on **verified index scores**, not narratives
--   **One-Click NDA:** Buyers sign an on-chain message to unlock "Privileged Data" (GitHub private repos, specific smart contract addresses)
--   **Proof of Funds (PoF):** Access to high-value listings is gated by a wallet-balance check to ensure only serious buyers engage
+-   **AI-Powered Recommendations:** Automated compatibility scoring based on **verified INDEX data**, not self-reported metrics
+-   **Professional Discovery Grid:** Browse and filter opportunities with advanced search and ranking capabilities
+-   **Real-Time Messaging:** Connect directly with matched companies through in-platform chat
+-   **Compatibility Analysis:** See detailed synergy assessments including technical fit, audience overlap, and projected impact
+-   **Verified Metrics:** Every opportunity displays live INDEX scores (Growth Score, Team Health Score, Overall Score)
 
-### 4.3. Partnership & Collaboration Synergy
+### 4.3. Partnership Types & Use Cases
 
-Beyond M&A transactions, **Synergy** serves as a comprehensive "synergy platform" for the Web3 ecosystem:
+**SYNERGY** supports diverse partnership opportunities across the Web3 ecosystem:
 
--   **Business Synergy:** Connect companies seeking infrastructure with SMEs possessing specific tech stacks (e.g., Zero-Knowledge Proofs, DePIN)
--   **Technology-Complementary Alliances:** Synergy companies based on complementary capabilities and technical requirements, using Index data to assess compatibility
--   **Partnership Types:** Support for technical, strategic, marketing, and ecosystem partnerships
--   **Post-Alliance Monitoring:** AI continuously analyzes on-chain activity post-partnership using Index data to visualize and evaluate synergies, such as increases in user count or transaction volume
+-   **Technical Integration:** Connect companies with complementary tech stacks (e.g., Zero-Knowledge Proofs, DePIN, Layer 2 solutions)
+-   **Strategic Alliances:** Discover companies based on complementary capabilities and strategic fit, using INDEX data to assess compatibility
+-   **Co-Marketing Partnerships:** Find partners with aligned audiences for collaborative growth campaigns
+-   **Ecosystem Collaborations:** Build connections across protocols, chains, and verticals
+-   **Investment & M&A:** Identify potential acquisition targets or investment opportunities with verified traction
 
-### 4.4. Transaction Protocol (The Deal Protocol)
+### 4.4. M&A Transaction Protocol (Optional)
 
--   **Atomic Escrow:** A smart contract-based swap where the purchase price (Stablecoins) is exchanged for project assets.
+For companies pursuing acquisition transactions, SYNERGY supports on-chain deal execution:
+
+-   **Atomic Escrow:** Smart contract-based swap where purchase price (Stablecoins) is exchanged for project assets
 -   **Asset Packaging:**
-    -   **Smart Contract Ownership:** Transfer of `Admin/Owner` roles.
-    -   **Digital Assets:** ENS domains, GitHub organization access, and Social accounts.
+    -   **Smart Contract Ownership:** Transfer of `Admin/Owner` roles
+    -   **Digital Assets:** ENS domains, GitHub organization access, and social accounts
+
+_Note: Most partnerships begin with discovery and messaging. Transaction protocol is available for M&A deals._
 
 ---
 
 ## 5. Design System & Aesthetics
 
--   **Visual Identity:** Full consistency with `www.fabrknt.com`.
--   **The "Suite Ribbon":** Every Synergy listing features a dedicated data ribbon displaying real-time index signals from Index (growth metrics and team health).
--   **Minimalist Architecture:** The UI feels like a "Financial Terminal"—functional, fast, and devoid of "Crypto-hype" visuals.
+-   **Visual Identity:** Full consistency with `www.fabrknt.com` - professional, data-driven interface
+-   **Verified Metrics Display:** Every synergy opportunity card displays real-time INDEX scores (Growth Score, Team Health Score, Overall Score)
+-   **Professional Architecture:** Clean, functional design optimized for executive decision-making—no "crypto-hype" aesthetics
+-   **Discovery-First UX:** Grid-based layouts with advanced filtering, search, and sorting capabilities
 
 ---
 
 ## 6. Index → Synergy Data Flow
 
-**Index** collects and verifies data, which **Synergy** uses for synergy and decision-making:
+**INDEX** collects and verifies data, which **SYNERGY** uses for AI-powered compatibility analysis and recommendations:
 
-| Index Data         | Used by Synergy For                                                                   | Impact on Synergy & Valuation                                                       |
+| Index Data         | Used by Synergy For                                                                   | Impact on Partnership Discovery                                                     |
 | ------------------ | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| **Growth Metrics** | Verified On-chain ROI / Marketing efficiency + Service activity metrics (DAU/WAU/MAU) | Proves the product is "market-fit", scalable, and actively being used by real users |
-| **Team Health**    | Team contribution score / Developer activity / Code quality                           | Reduces "Key Person Risk" by proving a healthy team and sustainable development     |
-| **Overall Score**  | Automated compatibility analysis and ranking                                          | Enables AI-powered synergy based on verified index scores                           |
+| **Growth Metrics** | Verified On-chain ROI / Marketing efficiency + Service activity metrics (DAU/WAU/MAU) | Proves product-market fit, scalability, and real user traction for partnership decisions |
+| **Team Health**    | Team contribution score / Developer activity / Code quality                           | Validates sustainable development capacity and technical partnership readiness     |
+| **Overall Score**  | Automated compatibility analysis and AI-powered ranking                                          | Enables intelligent opportunity matching based on verified data, not self-reported claims                          |
 
 ---
 
@@ -158,13 +164,13 @@ Beyond M&A transactions, **Synergy** serves as a comprehensive "synergy platform
 
 -   **Frontend:** Next.js 14, Tailwind CSS, Shadcn UI.
 -   **Hosting:** Vercel (optimized for Next.js)
--   **Backend:** Amazon RDS PostgreSQL as the central hub for the Suite.
+-   **Backend:** Amazon RDS PostgreSQL as the central database for INDEX and SYNERGY.
 -   **API:** AWS API Gateway + Lambda for serverless APIs
 -   **Background Workers:** AWS Lambda triggered by EventBridge for data aggregation and monitoring
 -   **Blockchain:** **Escrow:** Custom Solidity/Rust contracts for atomic swaps (deployed via Lambda).
 -   **Validation:** Cross-chain API calls to verify TRACE/PULSE on-chain badges (SBTs) via Lambda.
 -   **Authentication:** Amazon Cognito with wallet-based authentication
--   **Storage:** Amazon S3 for listing assets and documents
+-   **Storage:** Amazon S3 for company assets, logos, and documents
 -   **Monitoring:** Amazon CloudWatch for logs and metrics
 
 ### 7.2. AI Analysis Engine
@@ -232,27 +238,27 @@ Web3 has a trust problem:
 
 ---
 
-## 9. The Fabrknt Ecosystem Vision
+## 9. The FABRKNT Ecosystem Vision
 
-**Fabrknt Suite** operates on a data-driven architecture where **Index** powers **Synergy**.
+**FABRKNT** operates on a data-driven architecture where **INDEX** powers **SYNERGY**.
 
 ### The Index → Synergy Flow
 
-1. **Index** collects and verifies comprehensive company data:
+1. **INDEX** collects and verifies comprehensive company data:
 
     - Growth metrics (on-chain activity, wallet growth, user growth rates)
     - Team health (GitHub activity, contributors, code quality)
-    - Overall index scores (0-100)
+    - Overall verification scores (0-100)
 
-2. **Synergy** leverages Index data to enable trusted transactions:
+2. **SYNERGY** leverages INDEX data to enable intelligent partnership discovery:
 
-    - M&A synergy powered by verified index scores
-    - Partnership synergy based on complementary capabilities
-    - Automated compatibility analysis using index metrics
+    - AI-powered compatibility analysis based on verified INDEX scores
+    - Opportunity recommendations using complementary capabilities
+    - Automated synergy assessment using real-time index metrics
 
-3. **Result:** Buyers, sellers, and partners can transact with complete transparency, seeing authenticated team health and growth metrics for every listing.
+3. **Result:** Companies can discover and connect with strategic partners using complete transparency—seeing authenticated team health and growth metrics for every opportunity.
 
-This data-driven approach eliminates information asymmetry and enables high-trust business transfers and partnerships in Web3, supporting the global consolidation and integration of the Web3 ecosystem. **Index is the foundation; Synergy is the engine that uses that foundation to create connections.**
+This data-driven approach eliminates information asymmetry and enables high-trust business connections in Web3, supporting ecosystem integration and strategic partnerships. **INDEX is the foundation; SYNERGY is the engine that uses that foundation to create connections.**
 
 ---
 
@@ -260,15 +266,16 @@ This data-driven approach eliminates information asymmetry and enables high-trus
 
 ### Phase 1: Core Platform ✅
 
--   Index: Automated company index with growth and team health metrics
--   Synergy: Basic M&A synergy functionality powered by Index data
--   Suite Ribbon component displaying Index metrics
+-   INDEX: Automated company verification with growth and team health metrics
+-   SYNERGY: Professional partnership discovery with AI-powered recommendations
+-   Opportunity cards displaying verified INDEX scores
 
-### Phase 2: Partnership Features ✅
+### Phase 2: Discovery & Messaging Features ✅
 
--   Partnership and collaboration synergy (implemented in code)
--   Enhanced synergy algorithms using Index scores
--   Post-alliance monitoring capabilities leveraging Index data
+-   Professional discovery grid with filtering and search
+-   Real-time messaging system for matched companies
+-   Compatibility analysis and AI-powered synergy scoring
+-   Connection management and partnership tracking
 
 ### Phase 3: AI Enhancement (In Progress)
 
@@ -283,38 +290,46 @@ This data-driven approach eliminates information asymmetry and enables high-trus
 
 ### How It Works
 
-1. **Verify**  
-   We automatically analyze on-chain data, GitHub activity, and social signals.
+1. **Verify**
+   We automatically analyze on-chain data, GitHub activity, and social signals to verify what Web3 companies actually do.
 
-2. **Score**  
-   Companies receive transparent, comparable index scores.
+2. **Index**
+   Companies receive transparent, comparable verification scores based on growth metrics and team health.
 
-3. **Connect**  
-   Use verified data to approach acquisitions and partnerships with confidence.
+3. **Discover**
+   AI-powered recommendations surface synergy opportunities with verified companies—enabling strategic connections through data-driven compatibility analysis.
 
-### For Sellers
+### For Companies Seeking Partnerships
 
-1. Your company is automatically tracked in **INDEX** (if not, add it)
-2. INDEX verifies your growth metrics and team health
-3. Create your listing in **SYNERGY** - index data auto-populates from INDEX
-4. Listings show verified index scores, enabling faster buyer trust
+1. **Get Verified in INDEX**
+   - Your company is automatically tracked (if not, claim your profile)
+   - INDEX verifies your growth metrics, team health, and on-chain activity
+   - Receive a transparent verification score (0-100)
 
-### For Buyers
+2. **Claim Your Profile**
+   - Authenticate via wallet to claim your company profile
+   - Access your synergy dashboard
+   - View companies interested in connecting with you
 
-1. Browse **INDEX** to research companies with verified metrics
-2. Use **SYNERGY** to find acquisition targets and partnership opportunities — without broadcasting intent
-3. View detailed index data (growth metrics, team health) for each opportunity
-4. Access detailed audit views with raw index data
-5. Sign on-chain NDA for privileged data access
-6. Complete transactions via atomic escrow
+3. **Discover Opportunities in SYNERGY**
+   - Browse AI-powered synergy recommendations
+   - Filter by opportunity type (Integration, Co-Marketing, Strategic Alliance, M&A)
+   - View detailed compatibility analysis for each opportunity
+   - See verified INDEX scores for every potential partner
 
-### For Partners
+4. **Express Interest & Connect**
+   - Express interest in promising opportunities
+   - When both companies show mutual interest, unlock direct messaging
+   - Collaborate through in-platform chat
+   - Move partnerships forward with verified data transparency
 
-1. Browse **INDEX** to understand company capabilities
-2. Use **SYNERGY** to find partnership opportunities
-3. Filter by partnership type (technical, strategic, marketing, ecosystem)
-4. Synergy based on complementary capabilities using INDEX data
-5. Monitor post-alliance synergies through INDEX metrics
+### For Researchers & Investors
+
+1. **Explore the INDEX**
+   - Browse the comprehensive directory of verified Web3 companies
+   - Filter by category, growth score, team health, and more
+   - View detailed verification reports with on-chain metrics
+   - Compare companies using standardized, auditable data
 
 ---
 

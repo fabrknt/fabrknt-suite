@@ -107,7 +107,7 @@ export default async function ClaimCompanyPage() {
   return (
     <ClaimCompanyClient
       companies={availableCompanies}
-      user={{ id: user.id, name: user.name, email: user.email }}
+      user={{ id: user.id!, name: user.name || "", email: user.email || "" }}
     />
   );
 }

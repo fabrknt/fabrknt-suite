@@ -8,7 +8,7 @@ import { getCurrentUser } from "@/lib/auth";
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { matchId: string } }
+  { params }: { params: Promise<{ matchId: string }> }
 ) {
   try {
     const user = await getCurrentUser();
@@ -29,7 +29,7 @@ export async function GET(
       );
     }
 
-    const { matchId } = params;
+    const { matchId } = await params;
     const { searchParams } = new URL(request.url);
     const cursor = searchParams.get("cursor");
     const limit = parseInt(searchParams.get("limit") || "50");
@@ -99,7 +99,7 @@ export async function GET(
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: { matchId: string } }
+  { params }: { params: Promise<{ matchId: string }> }
 ) {
   try {
     const user = await getCurrentUser();
@@ -120,7 +120,7 @@ export async function POST(
       );
     }
 
-    const { matchId } = params;
+    const { matchId } = await params;
     const body = await request.json();
     const { content } = body;
 

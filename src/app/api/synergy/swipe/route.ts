@@ -43,10 +43,13 @@ export async function POST(req: NextRequest) {
       });
     }
 
+    // At this point, user is guaranteed to be defined (checked above)
+    const userId = user.id!;
+
     // Verify user owns this company profile
     const claimedProfile = await prisma.claimedProfile.findFirst({
       where: {
-        userId: user.id,
+        userId,
         companySlug,
       },
     });
@@ -61,7 +64,7 @@ export async function POST(req: NextRequest) {
     // Save swipe
     const swipe = await prisma.swipe.create({
       data: {
-        userId: user.id,
+        userId,
         companySlug,
         partnerSlug,
         action,
