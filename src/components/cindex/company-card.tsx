@@ -15,6 +15,13 @@ const categoryColors = {
     gaming: "bg-orange-100 text-orange-700",
 };
 
+const chainColors = {
+    ethereum: "bg-slate-100 text-slate-700",
+    base: "bg-blue-50 text-blue-600",
+    arbitrum: "bg-sky-50 text-sky-600",
+    solana: "bg-violet-50 text-violet-600",
+};
+
 const trendIcons = {
     up: TrendingUp,
     down: TrendingDown,
@@ -30,9 +37,9 @@ const trendColors = {
 export function CompanyCard({ company }: CompanyCardProps) {
     const TrendIcon = trendIcons[company.trend];
     const scoreColor =
-        company.overallScore >= 85
+        company.overallScore >= 40
             ? "text-green-600"
-            : company.overallScore >= 70
+            : company.overallScore >= 10
             ? "text-yellow-600"
             : "text-red-600";
 
@@ -59,14 +66,24 @@ export function CompanyCard({ company }: CompanyCardProps) {
                             <h3 className="font-semibold text-foreground group-hover:text-purple-600 transition-colors">
                                 {company.name}
                             </h3>
-                            <span
-                                className={cn(
-                                    "text-xs px-2 py-0.5 rounded-full",
-                                    categoryColors[company.category]
-                                )}
-                            >
-                                {company.category.toUpperCase()}
-                            </span>
+                            <div className="flex gap-1.5 mt-1">
+                                <span
+                                    className={cn(
+                                        "text-xs px-2 py-0.5 rounded-full",
+                                        categoryColors[company.category]
+                                    )}
+                                >
+                                    {company.category.toUpperCase()}
+                                </span>
+                                <span
+                                    className={cn(
+                                        "text-xs px-2 py-0.5 rounded-full",
+                                        chainColors[company.chain as keyof typeof chainColors] || chainColors.ethereum
+                                    )}
+                                >
+                                    {company.chain.charAt(0).toUpperCase() + company.chain.slice(1)}
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <div className="flex items-center gap-1">
@@ -96,18 +113,18 @@ export function CompanyCard({ company }: CompanyCardProps) {
                     </div>
                     <div>
                         <p className="text-xs text-muted-foreground mb-1">
-                            Team
-                        </p>
-                        <p className="text-2xl font-bold text-foreground">
-                            {company.teamHealth.score}
-                        </p>
-                    </div>
-                    <div>
-                        <p className="text-xs text-muted-foreground mb-1">
                             Growth
                         </p>
                         <p className="text-2xl font-bold text-foreground">
                             {company.growth.score}
+                        </p>
+                    </div>
+                    <div>
+                        <p className="text-xs text-muted-foreground mb-1">
+                            Social
+                        </p>
+                        <p className="text-2xl font-bold text-foreground">
+                            {company.social.score}
                         </p>
                     </div>
                 </div>
@@ -120,12 +137,22 @@ export function CompanyCard({ company }: CompanyCardProps) {
                             {company.teamHealth.activeContributors}
                         </span>
                     </div>
-                    <div className="flex justify-between">
-                        <span>User Growth (30d)</span>
-                        <span className="font-medium text-foreground">
-                            +{company.growth.userGrowthRate}%
-                        </span>
-                    </div>
+                    {company.growth.tvl && company.growth.tvl > 0 && (
+                        <div className="flex justify-between">
+                            <span>Total Value Locked</span>
+                            <span className="font-medium text-foreground">
+                                ${(company.growth.tvl / 1_000_000_000).toFixed(2)}B
+                            </span>
+                        </div>
+                    )}
+                    {company.growth.npmDownloads30d && company.growth.npmDownloads30d > 0 && (
+                        <div className="flex justify-between">
+                            <span>npm Downloads (30d)</span>
+                            <span className="font-medium text-foreground">
+                                {company.growth.npmDownloads30d.toLocaleString()}
+                            </span>
+                        </div>
+                    )}
                     {company.isListed && (
                         <div className="flex justify-between">
                             <span className="text-purple-600 font-medium">

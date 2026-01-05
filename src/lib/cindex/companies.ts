@@ -13,6 +13,7 @@ export interface Company {
     slug: string;
     name: string;
     category: CompanyCategory;
+    chain: string; // 'ethereum' | 'base' | 'arbitrum' | 'solana'
     description: string;
     logo: string;
     website: string;
@@ -34,6 +35,7 @@ export interface Company {
         userGrowthRate: number; // percentage
         tvl?: number; // Total Value Locked (for DeFi)
         volume30d?: number; // Trading volume (for NFT, DeFi)
+        npmDownloads30d?: number; // npm package downloads (for Infrastructure)
     };
 
     // Social metrics
@@ -71,6 +73,7 @@ function transformCompany(company: any): Company {
         slug: company.slug,
         name: company.name,
         category: company.category as CompanyCategory,
+        chain: onchain.chain || "ethereum", // Extract from indexData
         description: company.description || "",
         logo: company.logo || "🏢",
         website: company.website || "",
@@ -106,6 +109,7 @@ function transformCompany(company: any): Company {
                 : 0,
             tvl: onchain.tvl,
             volume30d: onchain.volume30d,
+            npmDownloads30d: indexData?.npm?.downloads30d,
         },
         social: {
             score: company.socialScore,
