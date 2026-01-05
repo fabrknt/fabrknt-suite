@@ -4,6 +4,26 @@ import { prisma } from "@/lib/db";
 import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 
+// Extend NextAuth types
+declare module "next-auth" {
+  interface Session {
+    user: {
+      id: string;
+      name?: string | null;
+      email?: string | null;
+      image?: string | null;
+      githubUsername?: string;
+    };
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    id?: string;
+    githubUsername?: string;
+  }
+}
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
   secret: process.env.AUTH_SECRET,
   adapter: PrismaAdapter(prisma),
@@ -18,15 +38,23 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     }),
   ],
   callbacks: {
-    async jwt({ token, user, account }) {
+    async jwt({ token, user, account, profile }) {
       if (user) {
         token.id = user.id;
+      }
+      // Capture GitHub username from profile when signing in with GitHub
+      if (account?.provider === "github" && profile) {
+        token.githubUsername = (profile as any).login;
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user && token.id) {
         session.user.id = token.id as string;
+        // Add GitHub username to session if available
+        if (token.githubUsername) {
+          session.user.githubUsername = token.githubUsername as string;
+        }
       }
       return session;
     },

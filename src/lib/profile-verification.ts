@@ -11,6 +11,7 @@ export interface VerificationResult {
   verified: boolean;
   error?: string;
   proof?: string;
+  errorType?: 'not_member' | 'private' | 'api_error';
 }
 
 /**
@@ -56,21 +57,12 @@ export async function verifyGitHubOwnership(
 ): Promise<VerificationResult> {
   try {
     const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-    const DEMO_MODE = process.env.NODE_ENV === "development";
-
-    // DEMO MODE: Skip verification in development
-    if (DEMO_MODE && githubUsername.trim()) {
-      console.log(`[DEMO MODE] Bypassing GitHub verification for ${githubUsername} in ${githubOrg}`);
-      return {
-        verified: true,
-        proof: `[DEMO] GitHub user ${githubUsername} verified for ${githubOrg}`,
-      };
-    }
 
     if (!GITHUB_TOKEN) {
       return {
         verified: false,
         error: "GitHub token not configured",
+        errorType: "api_error",
       };
     }
 
@@ -80,7 +72,7 @@ export async function verifyGitHubOwnership(
       {
         headers: {
           Authorization: `Bearer ${GITHUB_TOKEN}`,
-          Accept: "application/vnd.github.v3+json",
+          Accept: "application/vnd.github+json",
         },
       }
     );
@@ -92,20 +84,31 @@ export async function verifyGitHubOwnership(
         proof: `GitHub user ${githubUsername} is a member of ${githubOrg}`,
       };
     } else if (response.status === 404) {
+      // User is not a member of the organization
       return {
         verified: false,
-        error: `User ${githubUsername} is not a member of ${githubOrg}`,
+        error: `You are not a member of the ${githubOrg} GitHub organization`,
+        errorType: "not_member",
+      };
+    } else if (response.status === 403) {
+      // Organization membership is private
+      return {
+        verified: false,
+        error: `Your membership in ${githubOrg} is private. Please make your membership public in your GitHub settings or contact support.`,
+        errorType: "private",
       };
     } else {
       return {
         verified: false,
-        error: `GitHub API error: ${response.statusText}`,
+        error: `Unable to verify GitHub membership. Please try again later. (Status: ${response.status})`,
+        errorType: "api_error",
       };
     }
   } catch (error) {
     return {
       verified: false,
       error: `Failed to verify GitHub ownership: ${error}`,
+      errorType: "api_error",
     };
   }
 }

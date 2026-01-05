@@ -139,6 +139,7 @@ model ClaimedProfile {
   // Verification
   verificationType    String   // 'domain' | 'github' | 'wallet'
   verificationProof   String?  // Proof of verification (TXT record, GitHub commit, signature)
+  githubUsername      String?  // GitHub username used for verification (if type=github)
   verified            Boolean  @default(false)
   verifiedAt          DateTime?
 

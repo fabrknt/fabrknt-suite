@@ -1,9 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Github, Globe, Wallet, Loader2, CheckCircle2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -24,14 +22,46 @@ export function ClaimProfileDialog({
   onSuccess,
 }: ClaimProfileDialogProps) {
   const [loading, setLoading] = useState(false);
-  const [githubUsername, setGithubUsername] = useState("");
+  const [sessionLoading, setSessionLoading] = useState(true);
+  const [githubUsername, setGithubUsername] = useState<string | null>(null);
   const { toast } = useToast();
 
+  // Get GitHub username from session on mount
+  useEffect(() => {
+    async function loadGitHubUsername() {
+      try {
+        setSessionLoading(true);
+        const response = await fetch("/api/auth/session");
+        const session = await response.json();
+
+        if (session?.user) {
+          // Try to get GitHub username from session or fetch from Account table
+          const githubUsername = session.user.githubUsername;
+          if (githubUsername) {
+            setGithubUsername(githubUsername);
+          } else {
+            // Fallback: fetch from profile/claim GET endpoint which checks Account table
+            const statusResponse = await fetch("/api/profile/status");
+            const statusData = await statusResponse.json();
+            if (statusData.githubUsername) {
+              setGithubUsername(statusData.githubUsername);
+            }
+          }
+        }
+      } catch (error) {
+        console.error("Error loading GitHub username:", error);
+      } finally {
+        setSessionLoading(false);
+      }
+    }
+    loadGitHubUsername();
+  }, []);
+
   const handleGitHubClaim = async () => {
-    if (!githubUsername.trim()) {
+    if (!githubUsername) {
       toast({
-        title: "Error",
-        description: "Please enter your GitHub username",
+        title: "GitHub Account Required",
+        description: "Please sign in with GitHub to claim this profile",
         variant: "destructive",
       });
       return;
@@ -40,40 +70,38 @@ export function ClaimProfileDialog({
     setLoading(true);
 
     try {
-      // Claim the profile (MVP: uses same endpoint as claim-company page)
+      // Single API call - verification happens server-side
       const response = await fetch("/api/profile/claim", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          companySlug,
-          verificationType: "github",
-          verificationProof: `GitHub: ${githubUsername.trim()}`,
-        }),
+        body: JSON.stringify({ companySlug }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
+        // Handle specific error types
+        if (data.errorType === "not_member") {
+          throw new Error(
+            `You are not a member of the ${githubOrg || "company's"} GitHub organization. ` +
+            `Please join the organization or contact ${companyName} for access.`
+          );
+        } else if (data.errorType === "private") {
+          throw new Error(
+            `Your membership in ${githubOrg || "the organization"} is private. ` +
+            `Please make it public in your GitHub settings: https://github.com/orgs/${githubOrg}/people`
+          );
+        } else if (data.errorType === "no_github_account") {
+          throw new Error(
+            "No GitHub account linked. Please sign out and sign in with GitHub."
+          );
+        }
         throw new Error(data.error || "Failed to claim company");
-      }
-
-      // Auto-verify for MVP (in production, GitHub org membership would be checked)
-      const verifyResponse = await fetch("/api/profile/verify", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          companySlug,
-          verificationProof: `GitHub verified: ${githubUsername.trim()} (MVP auto-approved)`,
-        }),
-      });
-
-      if (!verifyResponse.ok) {
-        console.error("Auto-verification failed, but claim succeeded");
       }
 
       toast({
         title: "Success!",
-        description: `You've successfully claimed ${companyName}`,
+        description: data.message || `You've successfully claimed ${companyName}`,
       });
 
       onSuccess();
@@ -125,40 +153,68 @@ export function ClaimProfileDialog({
           <div className="space-y-2">
             <h4 className="font-semibold">Verify via GitHub</h4>
             <p className="text-sm text-muted-foreground">
-              Enter your GitHub username to verify you represent{" "}
-              <strong>{companyName}</strong>.
+              Claim <strong>{companyName}</strong> using your GitHub account.
             </p>
           </div>
 
           <div className="space-y-4">
-            <div>
-              <Label htmlFor="github-username">Your GitHub Username</Label>
-              <Input
-                id="github-username"
-                placeholder="octocat"
-                value={githubUsername}
-                onChange={(e) => setGithubUsername(e.target.value)}
-                disabled={loading}
-              />
-              {githubOrg && (
-                <p className="text-xs text-muted-foreground mt-1">
-                  Note: In production, we verify membership in {githubOrg} organization
+            {/* Display GitHub username from session (read-only) */}
+            <div className="bg-muted p-3 rounded-lg">
+              <p className="text-sm font-medium mb-1">Your GitHub Account:</p>
+              {sessionLoading ? (
+                <p className="text-sm text-muted-foreground">
+                  <Loader2 className="h-4 w-4 animate-spin inline mr-2" />
+                  Loading...
+                </p>
+              ) : githubUsername ? (
+                <p className="text-sm">
+                  <a
+                    href={`https://github.com/${githubUsername}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-cyan-400 hover:underline"
+                  >
+                    @{githubUsername}
+                  </a>
+                </p>
+              ) : (
+                <p className="text-sm text-muted-foreground">
+                  No GitHub account linked. Please sign in with GitHub.
                 </p>
               )}
             </div>
 
+            {githubOrg && (
+              <div className="bg-muted p-3 rounded-lg">
+                <p className="text-sm font-medium mb-1">Required Organization:</p>
+                <p className="text-sm">
+                  <a
+                    href={`https://github.com/${githubOrg}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-cyan-400 hover:underline"
+                  >
+                    {githubOrg}
+                  </a>
+                </p>
+                <p className="text-xs text-muted-foreground mt-2">
+                  You must be a public member of this organization to claim this profile.
+                </p>
+              </div>
+            )}
+
             <div className="bg-muted p-3 rounded-lg space-y-2">
               <p className="text-sm font-medium">How it works:</p>
               <ol className="text-sm text-muted-foreground space-y-1 list-decimal list-inside">
-                <li>Enter your GitHub username</li>
-                <li>We verify your identity (MVP: auto-approved)</li>
-                <li>You get access to Synergy partnership features</li>
+                <li>We verify you're signed in with GitHub</li>
+                <li>We check your membership in {githubOrg || "the organization"}</li>
+                <li>If verified, you get instant access to Synergy features</li>
               </ol>
             </div>
 
             <Button
               onClick={handleGitHubClaim}
-              disabled={loading || !githubUsername.trim()}
+              disabled={loading || !githubUsername || sessionLoading}
               className="w-full"
             >
               {loading ? (

@@ -19,10 +19,22 @@ export async function GET() {
       },
     });
 
+    // Get GitHub username from Account table (fallback for UI)
+    const githubAccount = await prisma.account.findFirst({
+      where: {
+        userId: user.id,
+        provider: "github",
+      },
+      select: {
+        providerAccountId: true,
+      },
+    });
+
     return NextResponse.json({
       hasClaimed: !!claimedProfile,
       session: true,
       profile: claimedProfile,
+      githubUsername: githubAccount?.providerAccountId || null,
     });
   } catch (error) {
     console.error("Error checking profile status:", error);
