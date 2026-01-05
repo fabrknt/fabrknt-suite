@@ -88,7 +88,7 @@ export default async function ConnectionsPage() {
           : match.companyASlug;
 
       // Get partner company data
-      const partner = await prisma.company.findUnique({
+      const partnerData = await prisma.company.findUnique({
         where: { slug: partnerSlug },
         select: {
           slug: true,
@@ -101,8 +101,21 @@ export default async function ConnectionsPage() {
           teamHealthScore: true,
           growthScore: true,
           trend: true,
+          indexData: true,
         },
       });
+
+      // Extract chain from indexData with robust fallback
+      const indexData = (partnerData?.indexData as any) || {};
+      let chain = "ethereum"; // default fallback
+      if (indexData?.onchain?.chain && typeof indexData.onchain.chain === 'string' && indexData.onchain.chain.trim()) {
+        chain = indexData.onchain.chain.trim().toLowerCase();
+      }
+
+      const partner = partnerData ? {
+        ...partnerData,
+        chain,
+      } : null;
 
       // Get the swipes that created this match
       const userSwipe = await prisma.swipe.findFirst({

@@ -18,6 +18,7 @@ interface Partner {
   slug: string;
   name: string;
   category: string;
+  chain: string | null;
   description: string | null;
   logo: string | null;
   website: string | null;
@@ -194,7 +195,14 @@ function MatchCard({ match, onClick }: { match: Match; onClick: () => void }) {
           <h3 className="font-semibold truncate group-hover:text-primary transition-colors">
             {partner.name}
           </h3>
-          <p className="text-sm text-muted-foreground capitalize">{partner.category}</p>
+          <div className="flex gap-1.5 mt-1">
+            <span className="text-xs px-2 py-0.5 rounded-full bg-purple-100 text-purple-700 capitalize">
+              {partner.category}
+            </span>
+            <span className="text-xs px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 capitalize">
+              {partner.chain || "ethereum"}
+            </span>
+          </div>
         </div>
         {isSuperLike && (
           <Star className="h-5 w-5 text-blue-500 fill-blue-500 flex-shrink-0" />

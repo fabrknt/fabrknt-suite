@@ -125,11 +125,9 @@ export function OpportunityCard({ opportunity, onAction, disabled = false }: Opp
               <span className={cn("text-xs px-2 py-0.5 rounded-full border", categoryColor)}>
                 {opportunity.partnerCategory.toUpperCase()}
               </span>
-              {opportunity.partnerChain && (
-                <span className="text-xs px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 border border-blue-200 capitalize">
-                  {opportunity.partnerChain}
-                </span>
-              )}
+              <span className="text-xs px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 border border-blue-200 capitalize">
+                {opportunity.partnerChain || "ethereum"}
+              </span>
               <span className={cn("text-xs px-2 py-0.5 rounded-full border", typeColor)}>
                 {typeLabel}
               </span>

@@ -115,7 +115,12 @@ export default async function SynergyDiscoveryPage() {
   const opportunities: OpportunityCardData[] = matches.map((match) => {
     const partner = allCompanies.find((c) => c.slug === match.partnerSlug);
     const indexData = (partner?.indexData as any) || {};
-    const chain = indexData?.onchain?.chain || "ethereum";
+
+    // Extract chain with multiple fallback strategies
+    let chain = "ethereum"; // default fallback
+    if (indexData?.onchain?.chain && typeof indexData.onchain.chain === 'string' && indexData.onchain.chain.trim()) {
+      chain = indexData.onchain.chain.trim().toLowerCase();
+    }
 
     return {
       partnerSlug: match.partnerSlug,
