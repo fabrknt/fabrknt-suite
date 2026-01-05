@@ -290,7 +290,7 @@ export default async function SuiteLandingPage() {
                                     </p>
                                     <p className="text-sm text-muted-foreground">
                                         GitHub commits, contributors, retention,
-                                        code quality
+                                        npm downloads, code quality
                                     </p>
                                 </div>
                             </div>
@@ -401,7 +401,7 @@ export default async function SuiteLandingPage() {
                                 </h3>
                                 <p className="text-sm text-muted-foreground">
                                     Automated analysis of on-chain data,
-                                    GitHub activity, and social signals
+                                    GitHub activity, npm downloads, and social signals
                                 </p>
                             </div>
                             <div className="text-center">

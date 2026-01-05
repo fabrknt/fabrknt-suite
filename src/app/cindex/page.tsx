@@ -223,7 +223,7 @@ export default async function CindexPage() {
                         </h3>
                         <p className="text-sm text-blue-800">
                             We are currently fetching and verifying data from
-                            GitHub, Twitter, and on-chain sources for all
+                            GitHub, Twitter, npm downloads, and on-chain sources for all
                             companies. Some metrics may be incomplete or show as
                             zero until the initial data collection is complete.
                             Index scores will be updated automatically as data
@@ -365,7 +365,7 @@ export default async function CindexPage() {
                 <p className="text-muted-foreground max-w-2xl mx-auto mb-6">
                     All company metrics are automatically verified through
                     on-chain data (contracts, wallets, DAOs) and off-chain
-                    sources (GitHub, Discord, Twitter). No manual data entry
+                    sources (GitHub, npm downloads, Twitter). No manual data entry
                     means trustworthy, objective index.
                 </p>
                 <Link

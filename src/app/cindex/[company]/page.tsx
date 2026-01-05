@@ -516,7 +516,7 @@ export default async function CompanyProfilePage({ params }: PageProps) {
                             </h3>
                             <p className="text-sm text-blue-800">
                                 We are currently fetching and verifying data
-                                from GitHub, Twitter, and on-chain sources. Some
+                                from GitHub, Twitter, npm downloads, and on-chain sources. Some
                                 metrics may be incomplete or show as zero until
                                 the initial data collection is complete. This
                                 page will update automatically as data becomes
@@ -665,7 +665,7 @@ export default async function CompanyProfilePage({ params }: PageProps) {
                             <strong>Automated Data Sources:</strong> All metrics
                             are automatically verified through on-chain data
                             (smart contracts, wallets, DAOs) and off-chain
-                            sources (GitHub, Discord, Twitter).
+                            sources (GitHub, npm downloads, Twitter).
                         </p>
                         <p>
                             <strong>No Manual Input:</strong> Index scores are
