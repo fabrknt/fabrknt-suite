@@ -11,6 +11,11 @@
         "type-check": "tsc --noEmit",
         "fetch:company": "tsx scripts/fetch-company-data.ts",
         "fetch:init-targets": "tsx scripts/fetch-init-target-data.ts",
+        "fetch:incremental": "tsx scripts/fetch-incremental.ts",
+        "twitter:login": "tsx scripts/twitter-manual-login.ts",
+        "update:twitter": "tsx scripts/update-twitter-data.ts",
+        "merge:json": "tsx scripts/merge-json-files.ts",
+        "calculate:scores": "tsx scripts/calculate-scores.ts",
         "seed:demo": "tsx scripts/seed-demo-companies.ts",
         "postinstall": "prisma generate"
     },

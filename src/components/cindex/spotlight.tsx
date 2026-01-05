@@ -22,6 +22,13 @@ const categoryColors = {
     gaming: "bg-orange-100 text-orange-700",
 };
 
+const chainColors = {
+    ethereum: "bg-slate-100 text-slate-700",
+    base: "bg-blue-50 text-blue-600",
+    arbitrum: "bg-sky-50 text-sky-600",
+    solana: "bg-violet-50 text-violet-600",
+};
+
 export function SpotlightSection({
     title,
     description,
@@ -33,14 +40,12 @@ export function SpotlightSection({
 }: SpotlightSectionProps) {
     const getScore = (company: Company) => {
         switch (scoreType) {
-            case "team":
-                return company.teamHealth.score;
             case "growth":
                 return company.growth.score;
             case "momentum":
                 return calculateMomentumIndex(
                     company.growth.score,
-                    company.teamHealth.score,
+                    company.growth.score,
                     company.trend
                 );
             default:
@@ -110,6 +115,14 @@ export function SpotlightSection({
                                                 )}
                                             >
                                                 {company.category.toUpperCase()}
+                                            </span>
+                                            <span
+                                                className={cn(
+                                                    "text-xs px-1.5 py-0.5 rounded",
+                                                    chainColors[(company.chain || 'ethereum') as keyof typeof chainColors] || chainColors.ethereum
+                                                )}
+                                            >
+                                                {(company.chain || 'ethereum').charAt(0).toUpperCase() + (company.chain || 'ethereum').slice(1)}
                                             </span>
                                         </div>
                                         <p className="text-xs text-muted-foreground">
@@ -213,17 +226,11 @@ export function CategoryLeaderCard({
             <p className="text-xs text-muted-foreground line-clamp-2 mb-3">
                 {company.description}
             </p>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-around">
                 <div className="text-center">
                     <p className="text-xs text-muted-foreground">Overall</p>
                     <p className="text-lg font-bold text-green-600">
                         {company.overallScore}
-                    </p>
-                </div>
-                <div className="text-center">
-                    <p className="text-xs text-muted-foreground">Team</p>
-                    <p className="text-lg font-bold text-foreground">
-                        {company.teamHealth.score}
                     </p>
                 </div>
                 <div className="text-center">

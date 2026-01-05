@@ -44,6 +44,13 @@ const categoryColors = {
     gaming: "bg-orange-100 text-orange-700",
 };
 
+const chainColors = {
+    ethereum: "bg-slate-100 text-slate-700",
+    base: "bg-blue-50 text-blue-600",
+    arbitrum: "bg-sky-50 text-sky-600",
+    solana: "bg-violet-50 text-violet-600",
+};
+
 function getCompanySocialLinks(slug: string): {
     github?: string;
     twitter?: string;
@@ -144,29 +151,18 @@ async function getCompanyData(slug: string) {
             growth: {
                 score: company.growthScore,
                 onChainActivity30d: onchain.transactionCount30d || 0,
-                walletGrowth: onchain.uniqueWallets30d
-                    ? Math.round(
-                          (onchain.uniqueWallets30d /
-                              (onchain.uniqueWallets30d + 1000)) *
-                              100
-                      )
-                    : 0,
-                userGrowthRate: onchain.monthlyActiveUsers
-                    ? Math.round((onchain.monthlyActiveUsers / 1000) * 100)
-                    : 0,
+                walletGrowth: 0,
+                userGrowthRate: 0,
                 tvl: onchain.tvl,
                 volume30d: onchain.volume30d,
+                npmDownloads30d: indexData?.npm?.downloads30d,
             },
             social: {
                 score: company.socialScore,
                 twitterFollowers: indexData?.twitter?.followers,
-                discordMembers: indexData?.social?.discordMembers,
-                telegramMembers: indexData?.social?.telegramMembers,
-                communityEngagement: indexData?.twitter?.engagement30d?.likes
-                    ? indexData.twitter.engagement30d.likes +
-                      indexData.twitter.engagement30d.retweets +
-                      indexData.twitter.engagement30d.replies
-                    : company.socialScore,
+                discordMembers: 0,
+                telegramMembers: 0,
+                communityEngagement: company.socialScore,
             },
             news: indexData?.news || [],
             scores: {
@@ -208,11 +204,7 @@ async function getCompanyData(slug: string) {
                         tvlScore: onchain.tvl
                             ? Math.min(onchain.tvl / 1000000, 100)
                             : 0,
-                        webActivityScore: 0,
-                        newsGrowthScore: 0,
-                        partnershipScore: 0,
                         attentionScore: Math.min(company.socialScore, 100),
-                        viralityScore: 0,
                     },
                     wallet: {
                         distributionScore: Math.min(
@@ -372,29 +364,15 @@ export default async function CompanyProfilePage({ params }: PageProps) {
         | "nft"
         | "dao"
         | "gaming";
+    const chain = ((companyData.indexData as any)?.onchain?.chain || "ethereum") as
+        | "ethereum"
+        | "base"
+        | "arbitrum"
+        | "solana";
 
     // Calculate growth score components
     const growthBreakdown = scores?.breakdown?.onchain;
-    const onchainScore = growthBreakdown
-        ? growthBreakdown.userGrowthScore * 0.4 +
-          growthBreakdown.transactionScore * 0.3 +
-          growthBreakdown.tvlScore * 0.3
-        : 0;
-
-    const webNewsScore = growthBreakdown
-        ? Math.max(
-              growthBreakdown.webActivityScore || 0,
-              growthBreakdown.newsGrowthScore || 0
-          )
-        : 0;
-
     const attentionScore = growthBreakdown?.attentionScore || 0;
-
-    // Determine which weight distribution was used
-    const hasLowOnChain = (company.growth.onChainActivity30d || 0) < 10;
-    const onchainWeight = hasLowOnChain ? 0 : 0.4;
-    const webNewsWeight = hasLowOnChain ? 0.7 : 0.3;
-    const attentionWeight = 0.3;
 
     return (
         <div className="min-h-screen bg-muted">
@@ -443,6 +421,14 @@ export default async function CompanyProfilePage({ params }: PageProps) {
                                         )}
                                     >
                                         {category.toUpperCase()}
+                                    </span>
+                                    <span
+                                        className={cn(
+                                            "text-xs px-2 py-1 rounded-full font-medium",
+                                            chainColors[chain]
+                                        )}
+                                    >
+                                        {chain.charAt(0).toUpperCase() + chain.slice(1)}
                                     </span>
                                     <div
                                         className={cn(
@@ -541,36 +527,21 @@ export default async function CompanyProfilePage({ params }: PageProps) {
                 </div>
 
                 {/* Score Breakdown */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {/* Team Health */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* Growth Metrics */}
                     <div className="bg-card rounded-lg border border-border p-6">
-                        <div className="flex items-center justify-between mb-4">
-                            <div className="flex items-center gap-2">
-                                <Github className="h-5 w-5 text-purple-600" />
-                                <h2 className="text-xl font-semibold text-foreground">
-                                    Team Health
-                                </h2>
-                            </div>
-                            {socialLinks.github && (
-                                <a
-                                    href={socialLinks.github}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-purple-600 transition-colors"
-                                    title="View GitHub organization used for calculation"
-                                >
-                                    <Github className="h-4 w-4" />
-                                    <span className="text-xs">Source</span>
-                                    <ExternalLink className="h-3 w-3" />
-                                </a>
-                            )}
+                        <div className="flex items-center gap-2 mb-4">
+                            <Activity className="h-5 w-5 text-purple-600" />
+                            <h2 className="text-xl font-semibold text-foreground">
+                                Growth Metrics
+                            </h2>
                         </div>
                         <div className="mb-6">
                             <p className="text-4xl font-bold text-foreground mb-1">
-                                {company.teamHealth.score}
+                                {company.growth.score}
                             </p>
                             <p className="text-sm text-muted-foreground">
-                                Team vitality score
+                                Growth momentum score
                             </p>
                         </div>
                         <div className="space-y-3">
@@ -613,128 +584,26 @@ export default async function CompanyProfilePage({ params }: PageProps) {
                                     {company.teamHealth.contributorRetention}%
                                 </span>
                             </div>
-                        </div>
-                    </div>
-
-                    {/* Growth Metrics */}
-                    <div className="bg-card rounded-lg border border-border p-6">
-                        <div className="flex items-center gap-2 mb-4">
-                            <Activity className="h-5 w-5 text-purple-600" />
-                            <h2 className="text-xl font-semibold text-foreground">
-                                Growth Metrics
-                            </h2>
-                        </div>
-                        <div className="mb-6">
-                            <p className="text-4xl font-bold text-foreground mb-1">
-                                {company.growth.score}
-                            </p>
-                            <p className="text-sm text-muted-foreground">
-                                Growth momentum score
-                            </p>
-                        </div>
-                        <div className="space-y-3">
-                            <div className="flex justify-between">
-                                <span className="text-sm text-muted-foreground">
-                                    Daily Active Users
-                                </span>
-                                <span className="font-medium text-foreground">
-                                    {formatNumber(
-                                        (companyData.indexData as any)?.onchain
-                                            ?.dailyActiveUsers || 0
-                                    )}
-                                </span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span className="text-sm text-muted-foreground">
-                                    Monthly Active Users
-                                </span>
-                                <span className="font-medium text-foreground">
-                                    {formatNumber(
-                                        (companyData.indexData as any)?.onchain
-                                            ?.monthlyActiveUsers || 0
-                                    )}
-                                </span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span className="text-sm text-muted-foreground">
-                                    Unique Wallets (30d)
-                                </span>
-                                <span className="font-medium text-foreground">
-                                    {formatNumber(
-                                        (companyData.indexData as any)?.onchain
-                                            ?.uniqueWallets30d || 0
-                                    )}
-                                </span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span className="text-sm text-muted-foreground">
-                                    Transactions (30d)
-                                </span>
-                                <span className="font-medium text-foreground">
-                                    {formatNumber(
-                                        company.growth.onChainActivity30d
-                                    )}
-                                </span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span className="text-sm text-muted-foreground">
-                                    Total Value Locked
-                                </span>
-                                <span className="font-medium text-foreground">
-                                    ${formatNumber(company.growth.tvl || 0)}
-                                </span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span className="text-sm text-muted-foreground">
-                                    Volume (30d)
-                                </span>
-                                <span className="font-medium text-foreground">
-                                    $
-                                    {formatNumber(
-                                        company.growth.volume30d || 0
-                                    )}
-                                </span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span className="text-sm text-muted-foreground">
-                                    Web Activity Score
-                                </span>
-                                <span className="font-medium text-foreground">
-                                    {scores?.breakdown?.onchain
-                                        ?.webActivityScore || 0}
-                                    /100
-                                </span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span className="text-sm text-muted-foreground">
-                                    News Growth Score
-                                </span>
-                                <span className="font-medium text-foreground">
-                                    {scores?.breakdown?.onchain
-                                        ?.newsGrowthScore || 0}
-                                    /100
-                                </span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span className="text-sm text-muted-foreground">
-                                    Attention Score
-                                </span>
-                                <span className="font-medium text-foreground">
-                                    {scores?.breakdown?.onchain
-                                        ?.attentionScore || 0}
-                                    /100
-                                </span>
-                            </div>
-                            <div className="flex justify-between border-t border-gray-100 pt-3 mt-3">
-                                <span className="text-sm text-muted-foreground font-medium">
-                                    Partnership Score (Word-of-Mouth)
-                                </span>
-                                <span className="font-semibold text-green-600">
-                                    {scores?.breakdown?.onchain
-                                        ?.partnershipScore || 0}
-                                    /100
-                                </span>
-                            </div>
+                            {company.growth.tvl && (
+                                <div className="flex justify-between">
+                                    <span className="text-sm text-muted-foreground">
+                                        Total Value Locked
+                                    </span>
+                                    <span className="font-medium text-foreground">
+                                        ${formatNumber(company.growth.tvl)}
+                                    </span>
+                                </div>
+                            )}
+                            {company.growth.npmDownloads30d && (
+                                <div className="flex justify-between">
+                                    <span className="text-sm text-muted-foreground">
+                                        npm Downloads (30d)
+                                    </span>
+                                    <span className="font-medium text-foreground">
+                                        {formatNumber(company.growth.npmDownloads30d)}
+                                    </span>
+                                </div>
+                            )}
                         </div>
                     </div>
 
@@ -776,69 +645,6 @@ export default async function CompanyProfilePage({ params }: PageProps) {
                                 <span className="font-medium text-foreground">
                                     {formatNumber(
                                         company.social.twitterFollowers || 0
-                                    )}
-                                </span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span className="text-sm text-muted-foreground">
-                                    Likes (30d)
-                                </span>
-                                <span className="font-medium text-foreground">
-                                    {formatNumber(
-                                        (companyData.indexData as any)?.twitter
-                                            ?.engagement30d?.likes || 0
-                                    )}
-                                </span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span className="text-sm text-muted-foreground">
-                                    Retweets (30d)
-                                </span>
-                                <span className="font-medium text-foreground">
-                                    {formatNumber(
-                                        (companyData.indexData as any)?.twitter
-                                            ?.engagement30d?.retweets || 0
-                                    )}
-                                </span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span className="text-sm text-muted-foreground">
-                                    Replies (30d)
-                                </span>
-                                <span className="font-medium text-foreground">
-                                    {formatNumber(
-                                        (companyData.indexData as any)?.twitter
-                                            ?.engagement30d?.replies || 0
-                                    )}
-                                </span>
-                            </div>
-                            <div className="flex justify-between border-t border-gray-100 pt-3 mt-3">
-                                <span className="text-sm text-muted-foreground font-medium">
-                                    Virality Score (Sharing Rate)
-                                </span>
-                                <span className="font-semibold text-purple-600">
-                                    {scores?.breakdown?.onchain
-                                        ?.viralityScore || 0}
-                                    /100
-                                </span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span className="text-sm text-muted-foreground">
-                                    Discord Members
-                                </span>
-                                <span className="font-medium text-foreground">
-                                    {formatNumber(
-                                        company.social.discordMembers || 0
-                                    )}
-                                </span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span className="text-sm text-muted-foreground">
-                                    Telegram Members
-                                </span>
-                                <span className="font-medium text-foreground">
-                                    {formatNumber(
-                                        company.social.telegramMembers || 0
                                     )}
                                 </span>
                             </div>

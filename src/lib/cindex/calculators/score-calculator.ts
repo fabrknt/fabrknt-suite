@@ -49,7 +49,7 @@ export function calculateGitHubScore(metrics: GitHubTeamMetrics): {
     };
 } {
     // Contributor score: log scale for total and active contributors
-    // Massive difference between 0->1 and 1->5, minor between 100->105
+    // Adjusted for early-stage startups: 30 total and 10 active is excellent
     const logTotal = Math.log10(
         1 + Math.max(0, metrics.totalContributors || 0)
     );
@@ -58,15 +58,15 @@ export function calculateGitHubScore(metrics: GitHubTeamMetrics): {
     );
 
     const contributorScore =
-        normalize(logTotal, 0, 2.0) * 0.6 + // 2.0 = ~100 contributors
-        normalize(logActive, 0, 1.3) * 0.4; // 1.3 = ~20 contributors
+        normalize(logTotal, 0, 1.48) * 0.6 + // 1.48 = ~30 contributors (startup-friendly)
+        normalize(logActive, 0, 1.0) * 0.4; // 1.0 = ~10 contributors (realistic for startups)
 
     // Activity score: based on commits
-    // Great projects have 100+ commits/30d (3.3+/day)
+    // Adjusted for startups: 150+ commits/30d (5/day) is excellent
     const activityScore = normalize(
         Math.max(0, metrics.totalCommits30d || 0),
         0,
-        300
+        150
     );
 
     // Retention score: % of contributors active in last 30d
@@ -104,15 +104,15 @@ export function calculateTwitterScore(metrics: TwitterMetrics): {
     };
 } {
     // Followers score: log scale for followers
-    // 100K = ~50, 500K = ~70, 1M+ = 85+
+    // Adjusted for early-stage startups: 5K = decent, 100K = excellent, 500K+ = exceptional
     // Handle zero followers case
     let followersScore = 0;
     if (metrics.followers > 0) {
         const logFollowers = Math.log10(metrics.followers);
         followersScore = normalize(
             logFollowers,
-            Math.log10(1000), // Lowered benchmark from 10k to 1k
-            Math.log10(1000000) // Lowered from 2M to 1M for more realistic institutional ceiling
+            Math.log10(500), // 500 followers minimum (startup-friendly)
+            Math.log10(500000) // 500K followers for max (more realistic than 1M+)
         );
     }
 
@@ -157,48 +157,7 @@ export function calculateOnChainScore(onchain: Partial<OnChainMetrics>): {
         tvlScore: number;
     };
 } {
-    // User growth score: based on DAU/MAU ratio from unique wallets
-    let userGrowthScore = 0;
-    if (
-        onchain.monthlyActiveUsers &&
-        onchain.dailyActiveUsers &&
-        onchain.monthlyActiveUsers > 0
-    ) {
-        // Cap DAU/MAU ratio at 100% (DAU cannot exceed MAU in normal circumstances)
-        const dauMauRatio = Math.min(
-            100,
-            (onchain.dailyActiveUsers / onchain.monthlyActiveUsers) * 100
-        );
-        // Realistic benchmark: 5% DAU/MAU is excellent for DeFi protocols
-        // (Users don't trade every day, but active protocols see 3-7% ratios)
-        userGrowthScore = normalize(dauMauRatio, 0, 5);
-    } else if (onchain.uniqueWallets30d && onchain.uniqueWallets30d > 0) {
-        // Fallback: use unique wallets as proxy for users
-        // Adjusted benchmark: 10 to 10,000 wallets (was 0 to 100,000)
-        // This way even small protocols with 100 wallets get ~1% score
-        // And protocols with 1,000 wallets get ~10% score
-        userGrowthScore = normalize(
-            onchain.uniqueWallets30d,
-            10,
-            10000
-        );
-    }
-
-    // Transaction score: based on transaction volume
-    let transactionScore = 0;
-    if (onchain.transactionCount30d && onchain.transactionCount30d > 0) {
-        // Adjusted benchmark: 10 to 100,000 transactions (was 0 to 1,000,000)
-        // Even protocols with 100 txs get ~0.1% score
-        // Protocols with 1,000 txs get ~1% score
-        // Protocols with 10,000 txs get ~10% score
-        transactionScore = normalize(
-            onchain.transactionCount30d,
-            10,
-            100000
-        );
-    }
-
-    // TVL score: if available (would need external API like DeFi Llama)
+    // Only use TVL since it's the only metric we can fetch publicly
     let tvlScore = 0;
     if (onchain.tvl && onchain.tvl > 0) {
         // Handle log10(0) edge case
@@ -206,20 +165,20 @@ export function calculateOnChainScore(onchain: Partial<OnChainMetrics>): {
         if (isFinite(logTvl)) {
             tvlScore = normalize(
                 logTvl,
-                Math.log10(1000000),
-                Math.log10(10000000000)
-            ); // $1M to $10B
+                Math.log10(1000000),      // $1M = 0
+                Math.log10(10000000000)   // $10B = 100
+            );
         }
     }
 
-    const overall =
-        userGrowthScore * 0.4 + transactionScore * 0.3 + tvlScore * 0.3;
+    // On-chain score is just TVL score (since we can't fetch user/tx data publicly)
+    const overall = tvlScore;
 
     return {
         score: Math.round(overall),
         breakdown: {
-            userGrowthScore: Math.round(userGrowthScore),
-            transactionScore: Math.round(transactionScore),
+            userGrowthScore: 0, // Not available publicly
+            transactionScore: 0, // Not available publicly
             tvlScore: Math.round(tvlScore),
         },
     };
@@ -459,12 +418,33 @@ export function calculateAttentionScore(twitter: TwitterMetrics): number {
 
     // Fallback: If no engagement data but have followers, use followers as attention proxy
     // Large follower base = accumulated attention over time
-    // Benchmark: 10k to 1M+ followers (Uniswap has 1M+)
+    // Adjusted for Web3 companies: 1K to 200K followers
+    // (50K+ is already significant for B2B infrastructure)
     if (twitter.followers && twitter.followers > 0) {
-        return normalize(twitter.followers, 10000, 1000000);
+        return normalize(twitter.followers, 1000, 200000);
     }
 
     return 0;
+}
+
+/**
+ * Calculate NPM Developer Adoption Score (0-100)
+ * Measures real-world developer usage through package downloads
+ */
+export function calculateNpmScore(npmDownloads30d?: number): number {
+    if (!npmDownloads30d || npmDownloads30d <= 0) return 0;
+
+    // Logarithmic scale for downloads - infrastructure SDKs vary widely
+    // Benchmarks (monthly downloads):
+    // 1K = small but real usage (score ~25)
+    // 10K = solid adoption (score ~50)
+    // 50K = excellent adoption (score ~75)
+    // 200K+ = market leader (score ~100)
+    const logDownloads = Math.log10(npmDownloads30d);
+
+    // normalize from log10(1000) to log10(200000)
+    // 1K downloads = 3.0, 200K downloads = 5.3
+    return normalize(logDownloads, Math.log10(1000), Math.log10(200000));
 }
 
 /**
@@ -538,7 +518,8 @@ export async function calculateIndexScore(
         relationshipType: string;
         confidence: number;
         reasoning: string;
-    }>
+    }>,
+    npmDownloads30d?: number
 ): Promise<IndexScore> {
     const githubScore = calculateGitHubScore(github);
     const twitterScore = calculateTwitterScore(twitter);
@@ -549,53 +530,38 @@ export async function calculateIndexScore(
         news,
         partnershipAnalyses
     );
+    const npmScore = calculateNpmScore(npmDownloads30d);
     const attentionScore = calculateAttentionScore(twitter);
     const viralityScore = twitter.engagement30d
         ? calculateViralityScore(twitter.engagement30d)
         : 0;
 
-    // Initial Weights based on category (Wallet redistributed to GitHub/Growth)
+    // Simplified Weights: Growth + Social only
+    // GitHub is now part of Growth, not separate
     let weights = {
-        github: 0.4,
-        growth: 0.45,
-        social: 0.15,
-        wallet: 0,
+        growth: 0.90,
+        social: 0.10,
     };
 
     const tvl = onchain.tvl || 0;
 
     if (category === "defi") {
-        // High-TVL DeFi: Proven protocols prioritize real growth over development activity
-        if (tvl >= 1_000_000_000) {
-            // $1B+ TVL: Mature protocols with proven product-market fit
-            // Reduce GitHub weight (25%), increase Growth weight (65%)
-            weights = { github: 0.25, growth: 0.65, social: 0.1, wallet: 0 };
-        } else {
-            // Standard DeFi weighting
-            weights = { github: 0.35, growth: 0.55, social: 0.1, wallet: 0 };
-        }
+        // DeFi projects: Growth (on-chain metrics) is dominant
+        weights = { growth: 0.95, social: 0.05 };
     } else if (category === "infrastructure") {
-        weights = { github: 0.55, growth: 0.35, social: 0.1, wallet: 0 };
+        // Infrastructure: Growth (GitHub + npm) is dominant
+        weights = { growth: 0.90, social: 0.10 };
     } else if (category === "gaming" || category === "nft") {
-        weights = { github: 0.3, growth: 0.4, social: 0.3, wallet: 0 };
+        // Gaming/NFT: More social/community driven
+        weights = { growth: 0.75, social: 0.25 };
     }
 
     // --- Signal Presence Detection & Weight Redistribution ---
     const hasTwitter = twitter.followers > 0 || (twitter.tweetCount || 0) > 0;
 
-    // If a project has NO social signal, redistribute Social weight to GitHub/Growth
+    // If a project has NO social signal, redistribute Social weight to Growth
     if (!hasTwitter) {
-        const socialWeight = weights.social;
-        const totalOtherWeight = weights.github + weights.growth;
-        if (totalOtherWeight > 0) {
-            const ratio = weights.github / totalOtherWeight;
-            weights.github += socialWeight * ratio;
-            weights.growth += socialWeight * (1 - ratio);
-        } else {
-            // Fallback: split evenly if both are zero (shouldn't happen)
-            weights.github += socialWeight * 0.5;
-            weights.growth += socialWeight * 0.5;
-        }
+        weights.growth += weights.social;
         weights.social = 0;
     }
 
@@ -613,67 +579,75 @@ export async function calculateIndexScore(
     if (isExceptional) {
         // Exceptional protocols: Top-tier with $1B+ TVL and strong on-chain
         // These protocols have proven product-market fit through real usage
-        // Massively prioritize actual usage metrics (80%)
+        // Massively prioritize actual usage metrics
         combinedGrowthScore =
-            onchainScore.score * 0.8 +
-            Math.max(webScore, indexNewsScore) * 0.08 +
-            partnershipScore * 0.07 +
-            attentionScore * 0.05;
+            onchainScore.score * 0.90 +
+            githubScore.score * 0.10;
     } else if (onchainScore.score >= 70) {
         // Strong on-chain: Established protocols with proven usage
-        // Give much more weight to actual usage metrics (60%)
-        // Reduce weight on marketing/news signals (40%)
+        // Give much more weight to actual usage metrics
         combinedGrowthScore =
-            onchainScore.score * 0.6 +
-            Math.max(webScore, indexNewsScore) * 0.15 +
-            partnershipScore * 0.15 +
-            attentionScore * 0.1;
-    } else if ((onchain.transactionCount30d || 0) < 10) {
-        // Extremely low on-chain: SaaS/Stealth/Pre-launch
-        // Shift weight to Web/Social/Partnership Growth
-        // This is critical for Fabrknt which has no real on-chain activity
+            onchainScore.score * 0.75 +
+            githubScore.score * 0.25;
+    } else if (tvl && tvl >= 1_000_000_000) {
+        // $1B+ TVL but on-chain score <75 (missing some data)
+        // For high-TVL DeFi, TVL is PRIMARY signal even with missing data
+        // Reduce GitHub weight since most DeFi is private
         combinedGrowthScore =
-            Math.max(webScore, indexNewsScore) * 0.35 +
-            partnershipScore * 0.35 +
-            attentionScore * 0.3;
+            onchainScore.score * 0.85 +
+            githubScore.score * 0.15;
+    } else if (tvl && tvl >= 10_000_000) {
+        // Significant TVL ($10M-$1B) but on-chain score <70
+        // Balance on-chain with GitHub
+        combinedGrowthScore =
+            onchainScore.score * 0.60 +
+            githubScore.score * 0.40;
+    } else if ((onchain.transactionCount30d || 0) < 10 && !tvl) {
+        // Extremely low on-chain: Infrastructure/SaaS/Stealth/Pre-launch
+        // ONLY if no TVL data (prevents misclassifying DeFi with missing TX data)
+        // For infrastructure companies, differentiate between base layer and SaaS
+
+        if (npmScore > 0 && npmScore >= 30) {
+            // SaaS/Service Infrastructure (Helius, Pimlico, Gelato)
+            // High npm downloads = strong developer adoption
+            // Lower GitHub weight - service quality matters more than commits
+            combinedGrowthScore =
+                npmScore * 0.80 +                       // Primary: Developer adoption (service usage)
+                githubScore.score * 0.20;               // Secondary: Code development
+        } else if (npmScore > 0) {
+            // Infrastructure with modest npm adoption
+            // Balanced approach
+            combinedGrowthScore =
+                npmScore * 0.55 +
+                githubScore.score * 0.45;
+        } else {
+            // Base Layer Infrastructure (Anza, Espresso, Blockscout)
+            // No npm packages or very low adoption
+            // GitHub is the ONLY signal - core protocol development
+            combinedGrowthScore = githubScore.score;
+        }
     } else {
         // Medium on-chain: Balanced scoring
-        // Growth = (On-Chain * 0.35) + (News * 0.25) + (Partnerships * 0.20) + (Attention * 0.20)
+        // Growth = On-Chain + GitHub (NO Twitter, News, Partnerships)
         combinedGrowthScore =
-            onchainScore.score * 0.35 +
-            Math.max(webScore, indexNewsScore) * 0.25 +
-            partnershipScore * 0.2 +
-            attentionScore * 0.2;
-    }
-
-    // --- Dynamic Weight Shifting for Private Development ---
-    if (github.totalCommits30d < 5) {
-        const originalGithubWeight = weights.github;
-        weights.github = originalGithubWeight * 0.2;
-        const shiftAmount = originalGithubWeight - weights.github;
-
-        // Redistribute public maintenance weight to growth (real world utility)
-        weights.growth += shiftAmount;
+            onchainScore.score * 0.50 +
+            githubScore.score * 0.50;
     }
 
     // Ensure weights sum to 1.0 (normalize if needed due to floating point precision)
-    const totalWeight =
-        weights.github + weights.growth + weights.social + weights.wallet;
+    const totalWeight = weights.growth + weights.social;
     if (totalWeight > 0 && Math.abs(totalWeight - 1.0) > 0.001) {
-        weights.github /= totalWeight;
         weights.growth /= totalWeight;
         weights.social /= totalWeight;
-        weights.wallet /= totalWeight;
     }
 
-    const overall =
-        githubScore.score * weights.github +
+    let overall =
         combinedGrowthScore * weights.growth +
         twitterScore.score * weights.social;
 
     return {
         overall: Math.round(overall),
-        teamHealth: githubScore.score,
+        teamHealth: Math.round(combinedGrowthScore), // For backwards compatibility with DB field
         growthScore: Math.round(combinedGrowthScore),
         walletQuality: 0,
         socialScore: twitterScore.score,

@@ -7,6 +7,9 @@
  * Usage: npx tsx scripts/fetch-init-target-data.ts
  */
 
+import dotenv from "dotenv";
+dotenv.config({ path: ".env.local" });
+
 import { prisma } from "../src/lib/db";
 import INIT_TARGET_COMPANIES, { TargetCompany } from "./init-target-companies";
 

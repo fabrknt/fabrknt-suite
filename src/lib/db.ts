@@ -7,8 +7,11 @@ const globalForPrisma = globalThis as unknown as {
   pool: Pool | undefined;
 };
 
+// Use DATABASE_URL (pooler) for Next.js, DIRECT_URL only for scripts if needed
+const connectionString = process.env.DATABASE_URL;
+
 // Create connection pool
-const pool = globalForPrisma.pool ?? new Pool({ connectionString: process.env.DATABASE_URL });
+const pool = globalForPrisma.pool ?? new Pool({ connectionString });
 if (process.env.NODE_ENV !== 'production') globalForPrisma.pool = pool;
 
 // Create Prisma adapter

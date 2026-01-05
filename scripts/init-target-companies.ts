@@ -67,7 +67,7 @@ export const INIT_TARGET_COMPANIES: TargetCompany[] = [
     chain: "ethereum",
     description: "An emerging Volatility-as-a-Service protocol that enables decentralized index funds with a focus on yield generation",
     website: "https://peapods.finance",
-    twitter: "peapods_finance",
+    twitter: "PeapodsFinance",
   },
 
   // ========================================
@@ -142,7 +142,7 @@ export const INIT_TARGET_COMPANIES: TargetCompany[] = [
     chain: "base",
     description: "Automated liquidity manager built on top of Aerodrome's Slipstream LPs on Base",
     website: "https://concentric.fi",
-    twitter: "concentric_fi",
+    twitter: "ConcentricFi",
   },
   {
     name: "Infinex",
@@ -171,7 +171,7 @@ export const INIT_TARGET_COMPANIES: TargetCompany[] = [
     description: "A market-making protocol that protects liquidity providers from toxic flow (arbitrageurs)",
     website: "https://swaap.finance",
     github: "swaap-labs",
-    twitter: "Swaap_Finance",
+    twitter: "SwaapFinance",
   },
 
   // ========================================
@@ -185,7 +185,7 @@ export const INIT_TARGET_COMPANIES: TargetCompany[] = [
     description: "A real-time data indexing company that has become the subgraph alternative of choice for the Base community",
     website: "https://goldsky.com",
     github: "goldsky-io",
-    twitter: "goldskycom",
+    twitter: "goldskyio",
   },
   {
     name: "Pimlico",
@@ -225,7 +225,7 @@ export const INIT_TARGET_COMPANIES: TargetCompany[] = [
     description: "The open-source explorer team, which remains a small, mission-driven alternative to Etherscan for Base",
     website: "https://base.blockscout.com",
     github: "blockscout",
-    twitter: "blockscoutcom",
+    twitter: "blockscout",
   },
 
   // ========================================
@@ -290,7 +290,7 @@ export const INIT_TARGET_COMPANIES: TargetCompany[] = [
     chain: "arbitrum",
     description: "A specialized Rollup-as-a-Service that helps small teams launch their own Arbitrum Orbit chains in minutes",
     website: "https://zeeve.io",
-    twitter: "zeeve_io",
+    twitter: "0xZeeve",
   },
   {
     name: "Espresso Systems",
@@ -403,7 +403,7 @@ export const INIT_TARGET_COMPANIES: TargetCompany[] = [
     chain: "solana",
     description: "A cloud-based developer platform that simplifies the deployment and monitoring of Solana programs",
     website: "https://ironforge.cloud",
-    twitter: "ironforge_cloud",
+    twitter: "IronforgeCloud",
   },
   {
     name: "Anza",

@@ -46,6 +46,7 @@ async function getAllCompaniesFromDB(): Promise<Company[]> {
                 slug: company.slug,
                 name: company.name,
                 category: company.category as Company["category"],
+                chain: onchain.chain || "ethereum",
                 description: company.description || "",
                 logo: company.logo || "🏢",
                 website: company.website || "",
@@ -123,7 +124,7 @@ function getMostActiveTeams(
     limit: number = 10
 ): Company[] {
     return [...companies]
-        .sort((a, b) => b.teamHealth.score - a.teamHealth.score)
+        .sort((a, b) => b.growth.score - a.growth.score)
         .slice(0, limit);
 }
 
@@ -134,12 +135,12 @@ function getRisingStars(companies: Company[], limit: number = 10): Company[] {
             if (a.trend !== "up" && b.trend === "up") return 1;
             const aMomentum = calculateMomentumIndex(
                 a.growth.score,
-                a.teamHealth.score,
+                a.growth.score,
                 a.trend
             );
             const bMomentum = calculateMomentumIndex(
                 b.growth.score,
-                b.teamHealth.score,
+                b.growth.score,
                 b.trend
             );
             return bMomentum - aMomentum;
@@ -247,12 +248,14 @@ export default async function CindexPage() {
                         Avg Index Score
                     </p>
                     <p className="text-4xl font-bold text-foreground">
-                        {Math.round(
-                            companiesList.reduce(
-                                (sum, c) => sum + c.overallScore,
-                                0
-                            ) / companiesList.length
-                        )}
+                        {companiesList.length > 0
+                            ? Math.round(
+                                  companiesList.reduce(
+                                      (sum, c) => sum + c.overallScore,
+                                      0
+                                  ) / companiesList.length
+                              )
+                            : 0}
                     </p>
                 </div>
                 <div className="bg-card rounded-lg border border-border p-6 text-center">
@@ -304,8 +307,8 @@ export default async function CindexPage() {
                     icon={Github}
                     companies={mostActiveTeams}
                     iconColor="text-cyan-400"
-                    scoreType="team"
-                    scoreLabel="Team Score"
+                    scoreType="growth"
+                    scoreLabel="Growth Score"
                 />
 
                 {/* Rising Stars */}
