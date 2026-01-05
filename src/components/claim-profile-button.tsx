@@ -47,21 +47,26 @@ export function ClaimProfileButton({
   }
 
   if (!session) {
+    if (isProduction) {
+      return (
+        <Button
+          variant="default"
+          disabled
+          className="cursor-not-allowed opacity-50 bg-cyan-400 text-slate-950 hover:bg-cyan-300"
+          title="Sign in is disabled in production"
+        >
+          Sign In to Claim Profile (Disabled)
+        </Button>
+      );
+    }
+
     return (
       <Button
         variant="default"
-        asChild={!isProduction}
-        disabled={isProduction}
-        className={isProduction ? "cursor-not-allowed opacity-50" : ""}
-        title={isProduction ? "Sign in is disabled in production" : undefined}
+        onClick={() => router.push("/auth/signin?callbackUrl=/dashboard/claim-company")}
+        className="bg-cyan-400 text-slate-950 hover:bg-cyan-300 font-bold shadow-lg shadow-cyan-400/20 hover:shadow-cyan-400/40"
       >
-        {isProduction ? (
-          <span>Sign In to Claim Profile (Disabled)</span>
-        ) : (
-          <a href="/auth/signin?callbackUrl=/dashboard/claim-company">
-            Sign In to Claim Profile
-          </a>
-        )}
+        Sign In to Claim Profile
       </Button>
     );
   }
@@ -69,7 +74,11 @@ export function ClaimProfileButton({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="default" size="lg">
+        <Button
+          variant="default"
+          size="lg"
+          className="bg-cyan-400 text-slate-950 hover:bg-cyan-300 font-bold shadow-lg shadow-cyan-400/20 hover:shadow-cyan-400/40"
+        >
           Claim This Profile
         </Button>
       </DialogTrigger>

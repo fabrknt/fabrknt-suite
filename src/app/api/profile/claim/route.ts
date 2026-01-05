@@ -99,12 +99,13 @@ export async function POST(request: NextRequest) {
     }
 
     // Create verified claim
+    // TODO: Add githubUsername field after running migration
     const claim = await prisma.claimedProfile.create({
       data: {
         userId: user.id,
         companySlug,
         verificationType: "github",
-        githubUsername,
+        // githubUsername, // Temporarily commented out until migration runs
         verified: true,
         verifiedAt: new Date(),
         verificationProof: verification.proof,
