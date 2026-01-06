@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Sparkles, TrendingUp, Users, DollarSign, Check, X, Bookmark } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { formatCategory, formatSubcategory } from "@/lib/utils/format";
 
 export interface OpportunityCardData {
   partnerSlug: string;
@@ -124,11 +125,11 @@ export function OpportunityCard({ opportunity, onAction, disabled = false }: Opp
             </h3>
             <div className="flex items-center gap-2 mt-1 flex-wrap">
               <span className={cn("text-xs px-2 py-0.5 rounded-full border", categoryColor)}>
-                {opportunity.partnerCategory.toUpperCase()}
+                {formatCategory(opportunity.partnerCategory)}
               </span>
               {opportunity.partnerSubcategory && (
                 <span className="text-xs px-2 py-0.5 rounded-full bg-cyan-50 text-cyan-700 border border-cyan-200">
-                  {opportunity.partnerSubcategory.replace(/-/g, ' ').toUpperCase()}
+                  {formatSubcategory(opportunity.partnerSubcategory)}
                 </span>
               )}
               <span

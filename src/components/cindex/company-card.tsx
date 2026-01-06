@@ -2,6 +2,7 @@ import Link from "next/link";
 import { TrendingUp, TrendingDown, Minus, ExternalLink } from "lucide-react";
 import { Company } from "@/lib/cindex/companies";
 import { cn } from "@/lib/utils";
+import { formatCategory, formatSubcategory } from "@/lib/utils/format";
 
 interface CompanyCardProps {
     company: Company;
@@ -73,11 +74,11 @@ export function CompanyCard({ company }: CompanyCardProps) {
                                         categoryColors[company.category]
                                     )}
                                 >
-                                    {company.category.toUpperCase()}
+                                    {formatCategory(company.category)}
                                 </span>
                                 {company.subcategory && (
                                     <span className="text-xs px-2 py-0.5 rounded-full bg-cyan-50 text-cyan-700 border border-cyan-200">
-                                        {company.subcategory.replace(/-/g, ' ').toUpperCase()}
+                                        {formatSubcategory(company.subcategory)}
                                     </span>
                                 )}
                                 {company.chains && company.chains.length > 0 && (

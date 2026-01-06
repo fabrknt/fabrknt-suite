@@ -3,6 +3,7 @@ import { ArrowRight, Info } from "lucide-react";
 import { Company } from "@/lib/cindex/companies";
 import { calculateMomentumIndex } from "@/lib/cindex/calculators/score-calculator";
 import { cn } from "@/lib/utils";
+import { formatCategory, formatSubcategory } from "@/lib/utils/format";
 
 interface SpotlightSectionProps {
     title: string;
@@ -114,11 +115,11 @@ export function SpotlightSection({
                                                     ]
                                                 )}
                                             >
-                                                {company.category.toUpperCase()}
+                                                {formatCategory(company.category)}
                                             </span>
                                             {company.subcategory && (
                                                 <span className="text-xs px-1.5 py-0.5 rounded bg-cyan-50 text-cyan-700 border border-cyan-200">
-                                                    {company.subcategory.replace(/-/g, ' ').toUpperCase()}
+                                                    {formatSubcategory(company.subcategory)}
                                                 </span>
                                             )}
                                             {company.chains && company.chains.length > 0 && (

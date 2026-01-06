@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import { formatDistanceToNow } from "date-fns";
+import { formatSubcategory } from "@/lib/utils/format";
 
 interface UserCompany {
   slug: string;
@@ -202,7 +203,7 @@ function MatchCard({ match, onClick }: { match: Match; onClick: () => void }) {
             </span>
             {partner.subcategory && (
               <span className="text-xs px-2 py-0.5 rounded-full bg-cyan-50 text-cyan-700 border border-cyan-200">
-                {partner.subcategory.replace(/-/g, ' ').toUpperCase()}
+                {formatSubcategory(partner.subcategory)}
               </span>
             )}
             <span className="text-xs px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 capitalize">

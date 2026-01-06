@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { cn } from "@/lib/utils";
-import { formatNumber } from "@/lib/utils/format";
+import { formatNumber, formatCategory, formatSubcategory } from "@/lib/utils/format";
 import { NewsSection } from "@/components/cindex/news-section";
 import { ClaimProfileButton } from "@/components/claim-profile-button";
 import type { Metadata } from "next";
@@ -421,11 +421,11 @@ export default async function CompanyProfilePage({ params }: PageProps) {
                                             categoryColors[category]
                                         )}
                                     >
-                                        {category.toUpperCase()}
+                                        {formatCategory(category)}
                                     </span>
                                     {company.subcategory && (
                                         <span className="text-xs px-2 py-1 rounded-full font-medium bg-cyan-50 text-cyan-700 border border-cyan-200">
-                                            {company.subcategory.replace(/-/g, ' ').toUpperCase()}
+                                            {formatSubcategory(company.subcategory)}
                                         </span>
                                     )}
                                     <span

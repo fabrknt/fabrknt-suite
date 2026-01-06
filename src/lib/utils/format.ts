@@ -32,3 +32,29 @@ export function truncateAddress(address: string): string {
   if (address.length <= 10) return address;
   return `${address.slice(0, 6)}...${address.slice(-4)}`;
 }
+
+const categoryLabels: Record<string, string> = {
+  'infrastructure': 'INFRA',
+};
+
+export function formatCategory(category: string): string {
+  const key = category.toLowerCase();
+  if (categoryLabels[key]) {
+    return categoryLabels[key];
+  }
+  return category.toUpperCase();
+}
+
+const subcategoryLabels: Record<string, string> = {
+  'liquid-staking': 'LST',
+  'derivatives': 'PERPS',
+  'dev-tools': 'TOOLS',
+};
+
+export function formatSubcategory(subcategory: string): string {
+  const key = subcategory.toLowerCase();
+  if (subcategoryLabels[key]) {
+    return subcategoryLabels[key];
+  }
+  return subcategory.replace(/-/g, ' ').toUpperCase();
+}
