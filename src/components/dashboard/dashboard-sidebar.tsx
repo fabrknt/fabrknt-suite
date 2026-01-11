@@ -20,6 +20,7 @@ import {
     GitBranch,
     Network,
     Search,
+    DollarSign,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useSession } from "next-auth/react";
@@ -44,6 +45,7 @@ const synergyNav = [
 const curateNav = [
     { name: "Graph", href: "/curate", icon: Network },
     { name: "Explorer", href: "/curate/explorer", icon: Search },
+    { name: "DeFi", href: "/curate/defi", icon: DollarSign },
 ];
 
 interface DashboardSidebarProps {

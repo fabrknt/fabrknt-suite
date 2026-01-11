@@ -19,6 +19,7 @@
         "seed:demo": "tsx scripts/seed-demo-companies.ts",
         "fetch:dependencies": "tsx scripts/fetch-project-dependencies.ts",
         "seed:dependencies": "tsx scripts/seed-dependencies.ts",
+        "fetch:defi": "tsx scripts/fetch-defi-relationships.ts",
         "postinstall": "prisma generate"
     },
     "prisma": {
