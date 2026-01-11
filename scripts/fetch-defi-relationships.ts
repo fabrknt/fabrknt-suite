@@ -47,6 +47,20 @@ interface YieldPool {
     stablecoin?: boolean;
 }
 
+interface PoolDependency {
+    type: "protocol" | "asset" | "oracle" | "chain";
+    name: string;
+    risk: "low" | "medium" | "high";
+}
+
+interface RiskBreakdown {
+    tvlScore: number;        // 0-30: Higher TVL = lower risk
+    apyScore: number;        // 0-25: Sustainable APY = lower risk
+    stableScore: number;     // 0-20: Stablecoins = lower risk
+    ilScore: number;         // 0-15: No IL = lower risk
+    protocolScore: number;   // 0-10: Established protocols = lower risk
+}
+
 interface ProcessedYieldPool {
     id: string;
     chain: string;
@@ -60,6 +74,12 @@ interface ProcessedYieldPool {
     stablecoin: boolean;
     ilRisk: string;
     poolMeta: string;
+    // New fields for curator decision making
+    riskScore: number;           // 1-100, lower = safer
+    riskLevel: "low" | "medium" | "high" | "very_high";
+    riskBreakdown: RiskBreakdown;
+    dependencies: PoolDependency[];
+    underlyingAssets: string[];
 }
 
 interface DefiRelationship {
@@ -276,6 +296,165 @@ function buildSameEcosystemRelationships(protocols: DefiLlamaProtocol[]): DefiRe
     return relationships;
 }
 
+// Established protocols with lower risk profiles
+const ESTABLISHED_PROTOCOLS = new Set([
+    "aave-v3", "aave", "compound-v3", "compound", "maker", "lido", "rocket-pool",
+    "uniswap-v3", "uniswap", "curve-dex", "convex-finance", "yearn-finance",
+    "balancer", "frax", "instadapp", "morpho", "spark", "sky-lending",
+    "jito-liquid-staking", "marinade-finance", "raydium", "orca", "jupiter"
+]);
+
+// Known stablecoins for asset classification
+const STABLECOINS = new Set([
+    "USDC", "USDT", "DAI", "FRAX", "LUSD", "GUSD", "BUSD", "TUSD", "USDP",
+    "USDD", "PYUSD", "GHO", "crvUSD", "DOLA", "MIM", "UST", "SUSD", "RAI",
+    "USDS", "SUSDS", "USD0", "EURC", "EURT", "EURS"
+]);
+
+// Major assets with established track records
+const BLUE_CHIP_ASSETS = new Set([
+    "ETH", "WETH", "STETH", "WSTETH", "RETH", "CBETH", "WEETH",
+    "BTC", "WBTC", "CBBTC", "TBTC",
+    "SOL", "WSOL", "MSOL", "JITOSOL", "BSOL",
+    ...STABLECOINS
+]);
+
+// Protocol dependencies map
+const PROTOCOL_DEPENDENCIES: Record<string, string[]> = {
+    "morpho": ["aave-v3", "compound-v3"],
+    "pendle": ["lido", "rocket-pool", "aave-v3"],
+    "sommelier": ["aave-v3", "uniswap-v3", "compound-v3"],
+    "beefy": ["curve-dex", "convex-finance", "aave-v3"],
+    "yearn-finance": ["curve-dex", "aave-v3", "compound-v3"],
+    "convex-finance": ["curve-dex"],
+    "gearbox": ["curve-dex", "lido", "convex-finance"],
+    "eigenlayer": ["lido", "rocket-pool"],
+    "ether.fi-stake": ["eigenlayer"],
+    "kamino-finance": ["raydium", "orca", "meteora"],
+    "kamino-lend": ["kamino-finance"],
+    "marginfi": ["solend"],
+    "aerodrome": ["velodrome"],
+    "extra-finance": ["aerodrome", "velodrome"],
+};
+
+function parseUnderlyingAssets(symbol: string): string[] {
+    // Parse pool symbol to extract underlying assets
+    // Common formats: "USDC-USDT", "ETH/USDC", "stETH-ETH", "WETH-USDC-0.05%"
+    const cleaned = symbol
+        .replace(/[\(\)]/g, "")
+        .replace(/-\d+(\.\d+)?%/g, "") // Remove percentage fees
+        .replace(/\s+/g, "");
+
+    const separators = /[-\/]/;
+    const parts = cleaned.split(separators).filter(Boolean);
+
+    // Normalize asset names
+    return parts.map(asset => {
+        const upper = asset.toUpperCase();
+        // Map wrapped/staked versions to base assets
+        if (upper === "WETH" || upper === "STETH" || upper === "WSTETH" || upper === "CBETH" || upper === "WEETH") return "ETH";
+        if (upper === "WBTC" || upper === "CBBTC" || upper === "TBTC") return "BTC";
+        if (upper === "WSOL" || upper === "MSOL" || upper === "JITOSOL" || upper === "BSOL") return "SOL";
+        return upper;
+    }).filter((v, i, a) => a.indexOf(v) === i); // Dedupe
+}
+
+function getProtocolDependencies(projectSlug: string, chain: string): PoolDependency[] {
+    const deps: PoolDependency[] = [];
+
+    // Add chain as infrastructure dependency
+    const chainRisk = ["Ethereum", "Solana", "Arbitrum", "Base", "Optimism"].includes(chain) ? "low" : "medium";
+    deps.push({ type: "chain", name: chain, risk: chainRisk as "low" | "medium" | "high" });
+
+    // Add protocol dependencies from our map
+    const protocolDeps = PROTOCOL_DEPENDENCIES[projectSlug] || [];
+    for (const dep of protocolDeps) {
+        const risk = ESTABLISHED_PROTOCOLS.has(dep) ? "low" : "medium";
+        deps.push({ type: "protocol", name: dep, risk: risk as "low" | "medium" | "high" });
+    }
+
+    // All pools depend on oracles (Chainlink is most common)
+    deps.push({ type: "oracle", name: "chainlink", risk: "low" });
+
+    return deps;
+}
+
+function calculateRiskScore(
+    pool: YieldPool,
+    projectSlug: string,
+    underlyingAssets: string[]
+): { score: number; level: "low" | "medium" | "high" | "very_high"; breakdown: RiskBreakdown } {
+    const breakdown: RiskBreakdown = {
+        tvlScore: 0,
+        apyScore: 0,
+        stableScore: 0,
+        ilScore: 0,
+        protocolScore: 0,
+    };
+
+    // TVL Score (0-30): Higher TVL = lower risk
+    // $1B+ = 0, $100M+ = 10, $10M+ = 20, <$10M = 30
+    if (pool.tvlUsd >= 1_000_000_000) breakdown.tvlScore = 0;
+    else if (pool.tvlUsd >= 100_000_000) breakdown.tvlScore = 10;
+    else if (pool.tvlUsd >= 10_000_000) breakdown.tvlScore = 20;
+    else breakdown.tvlScore = 30;
+
+    // APY Score (0-25): Sustainable APY = lower risk
+    // Very high APY is suspicious: >50% = 25, >20% = 15, >10% = 10, <10% = 0
+    // Also penalize if reward APY is majority of total (less sustainable)
+    const rewardRatio = pool.apyReward ? (pool.apyReward / (pool.apy || 1)) : 0;
+    if (pool.apy > 50) breakdown.apyScore = 25;
+    else if (pool.apy > 20) breakdown.apyScore = 15;
+    else if (pool.apy > 10) breakdown.apyScore = 10;
+    else breakdown.apyScore = 0;
+    // Add penalty for high reward dependency
+    if (rewardRatio > 0.7) breakdown.apyScore += 5;
+
+    // Stablecoin Score (0-20): Stablecoins = lower risk
+    const allStable = underlyingAssets.every(a => STABLECOINS.has(a));
+    const hasStable = underlyingAssets.some(a => STABLECOINS.has(a));
+    const allBlueChip = underlyingAssets.every(a => BLUE_CHIP_ASSETS.has(a));
+
+    if (pool.stablecoin || allStable) breakdown.stableScore = 0;
+    else if (hasStable && allBlueChip) breakdown.stableScore = 5;
+    else if (allBlueChip) breakdown.stableScore = 10;
+    else breakdown.stableScore = 20;
+
+    // IL Score (0-15): Impermanent loss risk
+    // Single asset or same-asset pairs = 0, correlated pairs = 5, uncorrelated = 15
+    if (pool.ilRisk === "no") breakdown.ilScore = 0;
+    else if (pool.ilRisk === "yes" && underlyingAssets.length <= 1) breakdown.ilScore = 0;
+    else if (pool.exposure === "single") breakdown.ilScore = 0;
+    else if (underlyingAssets.length === 2) {
+        // Check if assets are correlated (e.g., ETH/stETH, USDC/USDT)
+        const [a, b] = underlyingAssets;
+        const correlated = (a === b) ||
+            (a === "ETH" && b === "ETH") ||
+            (STABLECOINS.has(a) && STABLECOINS.has(b));
+        breakdown.ilScore = correlated ? 5 : 15;
+    } else {
+        breakdown.ilScore = 15;
+    }
+
+    // Protocol Score (0-10): Established protocols = lower risk
+    if (ESTABLISHED_PROTOCOLS.has(projectSlug)) breakdown.protocolScore = 0;
+    else if (pool.tvlUsd > 100_000_000) breakdown.protocolScore = 3; // Large TVL = some trust
+    else breakdown.protocolScore = 10;
+
+    // Calculate total score (0-100, lower = safer)
+    const totalScore = breakdown.tvlScore + breakdown.apyScore + breakdown.stableScore +
+                       breakdown.ilScore + breakdown.protocolScore;
+
+    // Determine risk level
+    let level: "low" | "medium" | "high" | "very_high";
+    if (totalScore <= 20) level = "low";
+    else if (totalScore <= 40) level = "medium";
+    else if (totalScore <= 60) level = "high";
+    else level = "very_high";
+
+    return { score: totalScore, level, breakdown };
+}
+
 function processYieldPools(pools: YieldPool[], protocolSlugs: Set<string>): ProcessedYieldPool[] {
     // Filter pools with meaningful TVL and APY, and map project names to slugs
     const processed: ProcessedYieldPool[] = [];
@@ -286,6 +465,21 @@ function processYieldPools(pools: YieldPool[], protocolSlugs: Set<string>): Proc
 
         // Convert project name to slug format (lowercase, hyphens)
         const projectSlug = pool.project.toLowerCase().replace(/\s+/g, "-");
+
+        // Parse underlying assets from symbol
+        const underlyingAssets = parseUnderlyingAssets(pool.symbol);
+
+        // Calculate risk score
+        const { score, level, breakdown } = calculateRiskScore(pool, projectSlug, underlyingAssets);
+
+        // Get protocol dependencies
+        const dependencies = getProtocolDependencies(projectSlug, pool.chain);
+
+        // Add asset dependencies
+        for (const asset of underlyingAssets) {
+            const assetRisk = BLUE_CHIP_ASSETS.has(asset) ? "low" : STABLECOINS.has(asset) ? "low" : "high";
+            dependencies.push({ type: "asset", name: asset, risk: assetRisk as "low" | "medium" | "high" });
+        }
 
         processed.push({
             id: pool.pool,
@@ -300,6 +494,11 @@ function processYieldPools(pools: YieldPool[], protocolSlugs: Set<string>): Proc
             stablecoin: pool.stablecoin || false,
             ilRisk: pool.ilRisk || "unknown",
             poolMeta: pool.poolMeta || "",
+            riskScore: score,
+            riskLevel: level,
+            riskBreakdown: breakdown,
+            dependencies,
+            underlyingAssets,
         });
     }
 
@@ -461,6 +660,30 @@ async function main() {
                 : `$${(pool.tvlUsd / 1_000_000).toFixed(0)}M`;
             const apyStr = pool.apy.toFixed(2);
             console.log(`   ${pool.project} | ${pool.symbol} | ${pool.chain} | ${apyStr}% APY | ${tvlStr} TVL`);
+        }
+
+        // Print risk score distribution
+        console.log("\n🛡️  RISK SCORE DISTRIBUTION:");
+        const riskCounts = { low: 0, medium: 0, high: 0, very_high: 0 };
+        for (const pool of processedYields) {
+            riskCounts[pool.riskLevel]++;
+        }
+        console.log(`   Low Risk (0-20):      ${riskCounts.low} pools`);
+        console.log(`   Medium Risk (21-40):  ${riskCounts.medium} pools`);
+        console.log(`   High Risk (41-60):    ${riskCounts.high} pools`);
+        console.log(`   Very High Risk (61+): ${riskCounts.very_high} pools`);
+
+        // Print lowest risk pools with decent APY
+        console.log("\n✅ SAFEST POOLS (Low Risk + APY > 3%):");
+        const safePools = processedYields
+            .filter(p => p.riskLevel === "low" && p.apy >= 3)
+            .sort((a, b) => a.riskScore - b.riskScore)
+            .slice(0, 10);
+        for (const pool of safePools) {
+            const tvlStr = pool.tvlUsd > 1_000_000_000
+                ? `$${(pool.tvlUsd / 1_000_000_000).toFixed(1)}B`
+                : `$${(pool.tvlUsd / 1_000_000).toFixed(0)}M`;
+            console.log(`   Risk:${pool.riskScore} | ${pool.project} | ${pool.symbol} | ${pool.apy.toFixed(2)}% APY | ${tvlStr}`);
         }
 
         console.log("\n" + "=".repeat(60));

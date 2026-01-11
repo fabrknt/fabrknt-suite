@@ -8,13 +8,32 @@ import {
     Link2,
     Loader2,
     DollarSign,
-    Filter,
     Percent,
     Coins,
     ArrowUpDown,
     ExternalLink,
     Shield,
+    AlertTriangle,
+    CheckCircle,
+    Info,
+    ChevronDown,
+    ChevronUp,
+    Layers,
 } from "lucide-react";
+
+interface PoolDependency {
+    type: "protocol" | "asset" | "oracle" | "chain";
+    name: string;
+    risk: "low" | "medium" | "high";
+}
+
+interface RiskBreakdown {
+    tvlScore: number;
+    apyScore: number;
+    stableScore: number;
+    ilScore: number;
+    protocolScore: number;
+}
 
 interface DefiProtocol {
     slug: string;
@@ -47,6 +66,11 @@ interface YieldPool {
     stablecoin: boolean;
     ilRisk: string;
     poolMeta: string;
+    riskScore: number;
+    riskLevel: "low" | "medium" | "high" | "very_high";
+    riskBreakdown: RiskBreakdown;
+    dependencies: PoolDependency[];
+    underlyingAssets: string[];
 }
 
 interface DefiGraphData {
@@ -91,6 +115,20 @@ const CHAIN_OPTIONS = [
     { value: "BSC", label: "BSC" },
 ];
 
+const RISK_COLORS = {
+    low: { bg: "bg-green-500/10", text: "text-green-400", border: "border-green-500/30" },
+    medium: { bg: "bg-yellow-500/10", text: "text-yellow-400", border: "border-yellow-500/30" },
+    high: { bg: "bg-orange-500/10", text: "text-orange-400", border: "border-orange-500/30" },
+    very_high: { bg: "bg-red-500/10", text: "text-red-400", border: "border-red-500/30" },
+};
+
+const RISK_LABELS = {
+    low: "Low",
+    medium: "Medium",
+    high: "High",
+    very_high: "Very High",
+};
+
 function formatTvl(tvl: number): string {
     if (tvl >= 1_000_000_000) {
         return `$${(tvl / 1_000_000_000).toFixed(2)}B`;
@@ -108,20 +146,166 @@ function formatApy(apy: number): string {
     return `${apy.toFixed(2)}%`;
 }
 
+function RiskBadge({ level, score }: { level: string; score: number }) {
+    const colors = RISK_COLORS[level as keyof typeof RISK_COLORS] || RISK_COLORS.high;
+    return (
+        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium ${colors.bg} ${colors.text} border ${colors.border}`}>
+            {level === "low" && <CheckCircle className="h-3 w-3" />}
+            {level === "medium" && <Info className="h-3 w-3" />}
+            {(level === "high" || level === "very_high") && <AlertTriangle className="h-3 w-3" />}
+            {score}
+        </span>
+    );
+}
+
+function DependencyChips({ dependencies }: { dependencies: PoolDependency[] }) {
+    const protocols = dependencies.filter(d => d.type === "protocol");
+    const assets = dependencies.filter(d => d.type === "asset");
+    const chain = dependencies.find(d => d.type === "chain");
+
+    return (
+        <div className="flex flex-wrap gap-1">
+            {chain && (
+                <span className="text-xs px-1.5 py-0.5 rounded bg-slate-700 text-slate-300">
+                    {chain.name}
+                </span>
+            )}
+            {protocols.map((p, i) => (
+                <span key={i} className={`text-xs px-1.5 py-0.5 rounded ${
+                    p.risk === "low" ? "bg-green-900/50 text-green-300" :
+                    p.risk === "medium" ? "bg-yellow-900/50 text-yellow-300" :
+                    "bg-red-900/50 text-red-300"
+                }`}>
+                    {p.name}
+                </span>
+            ))}
+            {assets.slice(0, 3).map((a, i) => (
+                <span key={i} className="text-xs px-1.5 py-0.5 rounded bg-purple-900/50 text-purple-300">
+                    {a.name}
+                </span>
+            ))}
+        </div>
+    );
+}
+
+function ExpandedPoolDetails({ pool }: { pool: YieldPool }) {
+    const { riskBreakdown } = pool;
+
+    return (
+        <div className="bg-slate-800/50 p-4 border-t border-slate-700">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Risk Breakdown */}
+                <div>
+                    <h4 className="text-sm font-semibold text-white mb-2 flex items-center gap-2">
+                        <Shield className="h-4 w-4 text-cyan-400" />
+                        Risk Breakdown (Lower = Safer)
+                    </h4>
+                    <div className="space-y-2">
+                        <div className="flex justify-between text-xs">
+                            <span className="text-slate-400">TVL Risk</span>
+                            <span className={riskBreakdown.tvlScore <= 10 ? "text-green-400" : riskBreakdown.tvlScore <= 20 ? "text-yellow-400" : "text-red-400"}>
+                                {riskBreakdown.tvlScore}/30
+                            </span>
+                        </div>
+                        <div className="flex justify-between text-xs">
+                            <span className="text-slate-400">APY Sustainability</span>
+                            <span className={riskBreakdown.apyScore <= 10 ? "text-green-400" : riskBreakdown.apyScore <= 15 ? "text-yellow-400" : "text-red-400"}>
+                                {riskBreakdown.apyScore}/25
+                            </span>
+                        </div>
+                        <div className="flex justify-between text-xs">
+                            <span className="text-slate-400">Asset Volatility</span>
+                            <span className={riskBreakdown.stableScore <= 5 ? "text-green-400" : riskBreakdown.stableScore <= 10 ? "text-yellow-400" : "text-red-400"}>
+                                {riskBreakdown.stableScore}/20
+                            </span>
+                        </div>
+                        <div className="flex justify-between text-xs">
+                            <span className="text-slate-400">IL Risk</span>
+                            <span className={riskBreakdown.ilScore <= 5 ? "text-green-400" : riskBreakdown.ilScore <= 10 ? "text-yellow-400" : "text-red-400"}>
+                                {riskBreakdown.ilScore}/15
+                            </span>
+                        </div>
+                        <div className="flex justify-between text-xs">
+                            <span className="text-slate-400">Protocol Risk</span>
+                            <span className={riskBreakdown.protocolScore <= 3 ? "text-green-400" : riskBreakdown.protocolScore <= 5 ? "text-yellow-400" : "text-red-400"}>
+                                {riskBreakdown.protocolScore}/10
+                            </span>
+                        </div>
+                        <div className="border-t border-slate-700 pt-2 flex justify-between text-sm font-semibold">
+                            <span className="text-white">Total Risk Score</span>
+                            <span className={pool.riskScore <= 20 ? "text-green-400" : pool.riskScore <= 40 ? "text-yellow-400" : "text-red-400"}>
+                                {pool.riskScore}/100
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Dependencies */}
+                <div>
+                    <h4 className="text-sm font-semibold text-white mb-2 flex items-center gap-2">
+                        <Layers className="h-4 w-4 text-cyan-400" />
+                        Dependencies
+                    </h4>
+                    <div className="space-y-2">
+                        {pool.dependencies.filter(d => d.type === "chain").map((d, i) => (
+                            <div key={i} className="flex items-center justify-between text-xs">
+                                <span className="text-slate-400">Chain</span>
+                                <span className={`px-2 py-0.5 rounded ${
+                                    d.risk === "low" ? "bg-green-900/50 text-green-300" : "bg-yellow-900/50 text-yellow-300"
+                                }`}>{d.name}</span>
+                            </div>
+                        ))}
+                        {pool.dependencies.filter(d => d.type === "protocol").length > 0 && (
+                            <div className="flex items-center justify-between text-xs">
+                                <span className="text-slate-400">Protocols</span>
+                                <div className="flex gap-1 flex-wrap justify-end">
+                                    {pool.dependencies.filter(d => d.type === "protocol").map((d, i) => (
+                                        <span key={i} className={`px-2 py-0.5 rounded ${
+                                            d.risk === "low" ? "bg-green-900/50 text-green-300" :
+                                            d.risk === "medium" ? "bg-yellow-900/50 text-yellow-300" :
+                                            "bg-red-900/50 text-red-300"
+                                        }`}>{d.name}</span>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                        <div className="flex items-center justify-between text-xs">
+                            <span className="text-slate-400">Assets</span>
+                            <div className="flex gap-1 flex-wrap justify-end">
+                                {pool.underlyingAssets.map((a, i) => (
+                                    <span key={i} className="px-2 py-0.5 rounded bg-purple-900/50 text-purple-300">
+                                        {a}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="flex items-center justify-between text-xs">
+                            <span className="text-slate-400">Oracle</span>
+                            <span className="px-2 py-0.5 rounded bg-blue-900/50 text-blue-300">Chainlink</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
 type TabType = "yields" | "graph";
-type SortField = "tvl" | "apy";
+type SortField = "tvl" | "apy" | "risk";
 
 export default function DefiRelationshipsPage() {
     const [graphData, setGraphData] = useState<DefiGraphData | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [activeTab, setActiveTab] = useState<TabType>("yields");
+    const [expandedPool, setExpandedPool] = useState<string | null>(null);
 
     // Filters
     const [chain, setChain] = useState("");
-    const [minTvl, setMinTvl] = useState(1_000_000); // $1M default for yields
+    const [minTvl, setMinTvl] = useState(1_000_000);
     const [minApy, setMinApy] = useState(0);
     const [stablecoinOnly, setStablecoinOnly] = useState(false);
+    const [riskFilter, setRiskFilter] = useState<string>("");
     const [sortBy, setSortBy] = useState<SortField>("tvl");
 
     useEffect(() => {
@@ -133,6 +317,7 @@ export default function DefiRelationshipsPage() {
                 params.set("minTvl", minTvl.toString());
                 params.set("minApy", minApy.toString());
                 if (stablecoinOnly) params.set("stablecoinOnly", "true");
+                if (riskFilter) params.set("riskLevel", riskFilter);
                 params.set("sortBy", sortBy);
                 params.set("yieldLimit", "200");
                 params.set("limit", "100");
@@ -151,11 +336,19 @@ export default function DefiRelationshipsPage() {
         }
 
         fetchData();
-    }, [chain, minTvl, minApy, stablecoinOnly, sortBy]);
+    }, [chain, minTvl, minApy, stablecoinOnly, riskFilter, sortBy]);
 
     const handleNodeClick = (node: GraphNode) => {
         window.open(`https://defillama.com/protocol/${node.id}`, "_blank");
     };
+
+    const riskStats = graphData?.yields.reduce(
+        (acc, y) => {
+            acc[y.riskLevel]++;
+            return acc;
+        },
+        { low: 0, medium: 0, high: 0, very_high: 0 }
+    );
 
     return (
         <div className="space-y-6">
@@ -171,23 +364,38 @@ export default function DefiRelationshipsPage() {
                         PREVIEW
                     </span>
                 </div>
-                <p className="text-sm text-muted-foreground mb-2">DeFi Yields & Protocol Relationships</p>
+                <p className="text-sm text-muted-foreground mb-2">DeFi Yields with Risk Scoring</p>
                 <p className="text-muted-foreground">
-                    Discover yield opportunities and explore how DeFi protocols depend on each other.
+                    Discover yield opportunities with risk assessment and dependency analysis to inform your position strategy.
                 </p>
             </div>
 
-            {/* Data Source Notice */}
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                <div className="flex items-start gap-3">
-                    <DollarSign className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
-                    <div>
-                        <h3 className="text-sm font-semibold text-green-900 mb-1">Powered by DeFiLlama</h3>
-                        <p className="text-sm text-green-800">
-                            Real-time yield data from {graphData?.metadata.totalYieldPools?.toLocaleString() || "7,000+"}
-                            {" "}pools across {graphData?.metadata.chains?.length || "85"} chains.
-                            Data refreshed regularly.
-                        </p>
+            {/* Risk Legend */}
+            <div className="bg-slate-900 border border-slate-700 rounded-lg p-4">
+                <div className="flex flex-wrap items-center gap-4 text-sm">
+                    <span className="text-slate-400 font-medium">Risk Levels:</span>
+                    <div className="flex items-center gap-1">
+                        <span className={`px-2 py-0.5 rounded ${RISK_COLORS.low.bg} ${RISK_COLORS.low.text} border ${RISK_COLORS.low.border}`}>
+                            <CheckCircle className="h-3 w-3 inline mr-1" />
+                            Low (0-20)
+                        </span>
+                        <span className="text-slate-500">Established protocols, high TVL</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                        <span className={`px-2 py-0.5 rounded ${RISK_COLORS.medium.bg} ${RISK_COLORS.medium.text} border ${RISK_COLORS.medium.border}`}>
+                            Medium (21-40)
+                        </span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                        <span className={`px-2 py-0.5 rounded ${RISK_COLORS.high.bg} ${RISK_COLORS.high.text} border ${RISK_COLORS.high.border}`}>
+                            High (41-60)
+                        </span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                        <span className={`px-2 py-0.5 rounded ${RISK_COLORS.very_high.bg} ${RISK_COLORS.very_high.text} border ${RISK_COLORS.very_high.border}`}>
+                            <AlertTriangle className="h-3 w-3 inline mr-1" />
+                            Very High (61+)
+                        </span>
                     </div>
                 </div>
             </div>
@@ -229,9 +437,7 @@ export default function DefiRelationshipsPage() {
                             className="bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-cyan-500"
                         >
                             {CHAIN_OPTIONS.map((opt) => (
-                                <option key={opt.value} value={opt.value}>
-                                    {opt.label}
-                                </option>
+                                <option key={opt.value} value={opt.value}>{opt.label}</option>
                             ))}
                         </select>
                     </div>
@@ -247,12 +453,26 @@ export default function DefiRelationshipsPage() {
                             <option value="1000000">TVL &gt; $1M</option>
                             <option value="10000000">TVL &gt; $10M</option>
                             <option value="100000000">TVL &gt; $100M</option>
-                            <option value="1000000000">TVL &gt; $1B</option>
                         </select>
                     </div>
 
                     {activeTab === "yields" && (
                         <>
+                            <div className="flex items-center gap-2">
+                                <Shield className="h-4 w-4 text-slate-500" />
+                                <select
+                                    value={riskFilter}
+                                    onChange={(e) => setRiskFilter(e.target.value)}
+                                    className="bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-cyan-500"
+                                >
+                                    <option value="">All Risk Levels</option>
+                                    <option value="low">Low Risk Only</option>
+                                    <option value="medium">Medium Risk</option>
+                                    <option value="high">High Risk</option>
+                                    <option value="very_high">Very High Risk</option>
+                                </select>
+                            </div>
+
                             <div className="flex items-center gap-2">
                                 <Percent className="h-4 w-4 text-slate-500" />
                                 <select
@@ -261,10 +481,9 @@ export default function DefiRelationshipsPage() {
                                     className="bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-cyan-500"
                                 >
                                     <option value="0">Any APY</option>
-                                    <option value="1">APY &gt; 1%</option>
+                                    <option value="3">APY &gt; 3%</option>
                                     <option value="5">APY &gt; 5%</option>
                                     <option value="10">APY &gt; 10%</option>
-                                    <option value="20">APY &gt; 20%</option>
                                 </select>
                             </div>
 
@@ -277,6 +496,7 @@ export default function DefiRelationshipsPage() {
                                 >
                                     <option value="tvl">Sort by TVL</option>
                                     <option value="apy">Sort by APY</option>
+                                    <option value="risk">Sort by Risk (Safest)</option>
                                 </select>
                             </div>
 
@@ -285,7 +505,7 @@ export default function DefiRelationshipsPage() {
                                     type="checkbox"
                                     checked={stablecoinOnly}
                                     onChange={(e) => setStablecoinOnly(e.target.checked)}
-                                    className="w-4 h-4 rounded border-slate-700 bg-slate-900 text-cyan-500 focus:ring-cyan-500"
+                                    className="w-4 h-4 rounded border-slate-700 bg-slate-900 text-cyan-500"
                                 />
                                 <Coins className="h-4 w-4 text-slate-500" />
                                 <span className="text-sm text-slate-400">Stablecoins Only</span>
@@ -309,52 +529,46 @@ export default function DefiRelationshipsPage() {
                 <div className="flex flex-col items-center justify-center h-[400px] bg-slate-900 rounded-lg border border-border">
                     <Network className="h-12 w-12 text-slate-600 mb-4" />
                     <p className="text-slate-400 mb-2">No DeFi data available</p>
-                    <code className="bg-slate-800 px-3 py-2 rounded mt-2 text-cyan-400 text-sm">
-                        npm run fetch:defi
-                    </code>
+                    <code className="bg-slate-800 px-3 py-2 rounded mt-2 text-cyan-400 text-sm">npm run fetch:defi</code>
                 </div>
             ) : activeTab === "yields" ? (
                 <>
                     {/* Stats */}
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                         <div className="bg-card border border-border rounded-lg p-4">
                             <div className="flex items-center gap-2 text-slate-400 mb-1">
                                 <Percent className="h-4 w-4" />
-                                <span className="text-xs">Yield Pools</span>
+                                <span className="text-xs">Pools</span>
                             </div>
-                            <div className="text-2xl font-bold text-white">
-                                {graphData.yields.length.toLocaleString()}
-                            </div>
+                            <div className="text-2xl font-bold text-white">{graphData.yields.length}</div>
                         </div>
-                        <div className="bg-card border border-border rounded-lg p-4">
-                            <div className="flex items-center gap-2 text-slate-400 mb-1">
-                                <TrendingUp className="h-4 w-4" />
-                                <span className="text-xs">Avg APY (Top 20)</span>
+                        <div className="bg-card border border-green-500/30 rounded-lg p-4">
+                            <div className="flex items-center gap-2 text-green-400 mb-1">
+                                <CheckCircle className="h-4 w-4" />
+                                <span className="text-xs">Low Risk</span>
                             </div>
-                            <div className="text-2xl font-bold text-green-400">
-                                {formatApy(
-                                    graphData.yields.slice(0, 20).reduce((acc, y) => acc + y.apy, 0) /
-                                        Math.min(20, graphData.yields.length) || 0
-                                )}
-                            </div>
+                            <div className="text-2xl font-bold text-green-400">{riskStats?.low || 0}</div>
                         </div>
-                        <div className="bg-card border border-border rounded-lg p-4">
-                            <div className="flex items-center gap-2 text-slate-400 mb-1">
-                                <DollarSign className="h-4 w-4" />
-                                <span className="text-xs">Total TVL (Shown)</span>
+                        <div className="bg-card border border-yellow-500/30 rounded-lg p-4">
+                            <div className="flex items-center gap-2 text-yellow-400 mb-1">
+                                <Info className="h-4 w-4" />
+                                <span className="text-xs">Medium</span>
                             </div>
-                            <div className="text-2xl font-bold text-cyan-400">
-                                {formatTvl(graphData.yields.reduce((acc, y) => acc + y.tvlUsd, 0))}
-                            </div>
+                            <div className="text-2xl font-bold text-yellow-400">{riskStats?.medium || 0}</div>
                         </div>
-                        <div className="bg-card border border-border rounded-lg p-4">
-                            <div className="flex items-center gap-2 text-slate-400 mb-1">
-                                <Coins className="h-4 w-4" />
-                                <span className="text-xs">Stablecoin Pools</span>
+                        <div className="bg-card border border-orange-500/30 rounded-lg p-4">
+                            <div className="flex items-center gap-2 text-orange-400 mb-1">
+                                <AlertTriangle className="h-4 w-4" />
+                                <span className="text-xs">High</span>
                             </div>
-                            <div className="text-2xl font-bold text-yellow-400">
-                                {graphData.yields.filter((y) => y.stablecoin).length}
+                            <div className="text-2xl font-bold text-orange-400">{riskStats?.high || 0}</div>
+                        </div>
+                        <div className="bg-card border border-red-500/30 rounded-lg p-4">
+                            <div className="flex items-center gap-2 text-red-400 mb-1">
+                                <AlertTriangle className="h-4 w-4" />
+                                <span className="text-xs">Very High</span>
                             </div>
+                            <div className="text-2xl font-bold text-red-400">{riskStats?.very_high || 0}</div>
                         </div>
                     </div>
 
@@ -364,107 +578,72 @@ export default function DefiRelationshipsPage() {
                             <table className="w-full">
                                 <thead className="bg-slate-800/50">
                                     <tr>
-                                        <th className="text-left px-4 py-3 text-xs font-semibold text-slate-400 uppercase">
-                                            Pool
-                                        </th>
-                                        <th className="text-left px-4 py-3 text-xs font-semibold text-slate-400 uppercase">
-                                            Chain
-                                        </th>
-                                        <th className="text-right px-4 py-3 text-xs font-semibold text-slate-400 uppercase">
-                                            TVL
-                                        </th>
-                                        <th className="text-right px-4 py-3 text-xs font-semibold text-slate-400 uppercase">
-                                            APY
-                                        </th>
-                                        <th className="text-right px-4 py-3 text-xs font-semibold text-slate-400 uppercase hidden md:table-cell">
-                                            Base
-                                        </th>
-                                        <th className="text-right px-4 py-3 text-xs font-semibold text-slate-400 uppercase hidden md:table-cell">
-                                            Reward
-                                        </th>
-                                        <th className="text-center px-4 py-3 text-xs font-semibold text-slate-400 uppercase">
-                                            Type
-                                        </th>
-                                        <th className="text-center px-4 py-3 text-xs font-semibold text-slate-400 uppercase">
-                                            Link
-                                        </th>
+                                        <th className="text-left px-4 py-3 text-xs font-semibold text-slate-400 uppercase">Pool</th>
+                                        <th className="text-left px-4 py-3 text-xs font-semibold text-slate-400 uppercase">Chain</th>
+                                        <th className="text-right px-4 py-3 text-xs font-semibold text-slate-400 uppercase">TVL</th>
+                                        <th className="text-right px-4 py-3 text-xs font-semibold text-slate-400 uppercase">APY</th>
+                                        <th className="text-center px-4 py-3 text-xs font-semibold text-slate-400 uppercase">Risk</th>
+                                        <th className="text-left px-4 py-3 text-xs font-semibold text-slate-400 uppercase hidden lg:table-cell">Dependencies</th>
+                                        <th className="text-center px-4 py-3 text-xs font-semibold text-slate-400 uppercase">Details</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-slate-800">
-                                    {graphData.yields.map((pool, idx) => (
-                                        <tr
-                                            key={pool.id}
-                                            className="hover:bg-slate-800/30 transition-colors"
-                                        >
-                                            <td className="px-4 py-3">
-                                                <div className="flex flex-col">
-                                                    <span className="text-white font-medium text-sm">
-                                                        {pool.project}
+                                    {graphData.yields.map((pool) => (
+                                        <>
+                                            <tr key={pool.id} className="hover:bg-slate-800/30 transition-colors">
+                                                <td className="px-4 py-3">
+                                                    <div className="flex flex-col">
+                                                        <span className="text-white font-medium text-sm">{pool.project}</span>
+                                                        <span className="text-slate-500 text-xs font-mono">
+                                                            {pool.symbol}
+                                                            {pool.stablecoin && (
+                                                                <span className="ml-1 text-yellow-400">(Stable)</span>
+                                                            )}
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                                <td className="px-4 py-3">
+                                                    <span className="text-sm text-slate-400">{pool.chain}</span>
+                                                </td>
+                                                <td className="px-4 py-3 text-right">
+                                                    <span className="text-sm text-white font-medium">{formatTvl(pool.tvlUsd)}</span>
+                                                </td>
+                                                <td className="px-4 py-3 text-right">
+                                                    <span className={`text-sm font-bold ${
+                                                        pool.apy >= 20 ? "text-orange-400" :
+                                                        pool.apy >= 10 ? "text-yellow-400" :
+                                                        pool.apy >= 5 ? "text-green-400" : "text-slate-400"
+                                                    }`}>
+                                                        {formatApy(pool.apy)}
                                                     </span>
-                                                    <span className="text-slate-500 text-xs font-mono">
-                                                        {pool.symbol}
-                                                        {pool.poolMeta && (
-                                                            <span className="text-slate-600 ml-1">
-                                                                ({pool.poolMeta})
-                                                            </span>
+                                                </td>
+                                                <td className="px-4 py-3 text-center">
+                                                    <RiskBadge level={pool.riskLevel} score={pool.riskScore} />
+                                                </td>
+                                                <td className="px-4 py-3 hidden lg:table-cell">
+                                                    <DependencyChips dependencies={pool.dependencies} />
+                                                </td>
+                                                <td className="px-4 py-3 text-center">
+                                                    <button
+                                                        onClick={() => setExpandedPool(expandedPool === pool.id ? null : pool.id)}
+                                                        className="text-cyan-400 hover:text-cyan-300 transition-colors p-1"
+                                                    >
+                                                        {expandedPool === pool.id ? (
+                                                            <ChevronUp className="h-4 w-4" />
+                                                        ) : (
+                                                            <ChevronDown className="h-4 w-4" />
                                                         )}
-                                                    </span>
-                                                </div>
-                                            </td>
-                                            <td className="px-4 py-3">
-                                                <span className="text-sm text-slate-400">{pool.chain}</span>
-                                            </td>
-                                            <td className="px-4 py-3 text-right">
-                                                <span className="text-sm text-white font-medium">
-                                                    {formatTvl(pool.tvlUsd)}
-                                                </span>
-                                            </td>
-                                            <td className="px-4 py-3 text-right">
-                                                <span
-                                                    className={`text-sm font-bold ${
-                                                        pool.apy >= 20
-                                                            ? "text-orange-400"
-                                                            : pool.apy >= 10
-                                                            ? "text-yellow-400"
-                                                            : pool.apy >= 5
-                                                            ? "text-green-400"
-                                                            : "text-slate-400"
-                                                    }`}
-                                                >
-                                                    {formatApy(pool.apy)}
-                                                </span>
-                                            </td>
-                                            <td className="px-4 py-3 text-right hidden md:table-cell">
-                                                <span className="text-sm text-slate-500">
-                                                    {formatApy(pool.apyBase)}
-                                                </span>
-                                            </td>
-                                            <td className="px-4 py-3 text-right hidden md:table-cell">
-                                                <span className="text-sm text-purple-400">
-                                                    {pool.apyReward > 0 ? `+${formatApy(pool.apyReward)}` : "-"}
-                                                </span>
-                                            </td>
-                                            <td className="px-4 py-3 text-center">
-                                                {pool.stablecoin ? (
-                                                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs bg-yellow-500/10 text-yellow-400 border border-yellow-500/30">
-                                                        <Shield className="h-3 w-3" />
-                                                        Stable
-                                                    </span>
-                                                ) : (
-                                                    <span className="text-xs text-slate-600">-</span>
-                                                )}
-                                            </td>
-                                            <td className="px-4 py-3 text-center">
-                                                <a
-                                                    href={`https://defillama.com/yields/pool/${pool.id}`}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className="text-cyan-400 hover:text-cyan-300 transition-colors"
-                                                >
-                                                    <ExternalLink className="h-4 w-4" />
-                                                </a>
-                                            </td>
-                                        </tr>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            {expandedPool === pool.id && (
+                                                <tr key={`${pool.id}-expanded`}>
+                                                    <td colSpan={7} className="p-0">
+                                                        <ExpandedPoolDetails pool={pool} />
+                                                    </td>
+                                                </tr>
+                                            )}
+                                        </>
                                     ))}
                                 </tbody>
                             </table>
@@ -478,25 +657,21 @@ export default function DefiRelationshipsPage() {
                 </>
             ) : (
                 <>
-                    {/* Graph View */}
+                    {/* Graph View - Same as before */}
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                         <div className="bg-card border border-border rounded-lg p-4">
                             <div className="flex items-center gap-2 text-slate-400 mb-1">
                                 <Network className="h-4 w-4" />
                                 <span className="text-xs">Protocols</span>
                             </div>
-                            <div className="text-2xl font-bold text-white">
-                                {graphData.metadata.totalProtocols}
-                            </div>
+                            <div className="text-2xl font-bold text-white">{graphData.metadata.totalProtocols}</div>
                         </div>
                         <div className="bg-card border border-border rounded-lg p-4">
                             <div className="flex items-center gap-2 text-slate-400 mb-1">
                                 <Link2 className="h-4 w-4" />
                                 <span className="text-xs">Relationships</span>
                             </div>
-                            <div className="text-2xl font-bold text-cyan-400">
-                                {graphData.metadata.totalRelationships}
-                            </div>
+                            <div className="text-2xl font-bold text-cyan-400">{graphData.metadata.totalRelationships}</div>
                         </div>
                         <div className="bg-card border border-border rounded-lg p-4 col-span-2 md:col-span-1">
                             <div className="flex items-center gap-2 text-slate-400 mb-1">
@@ -505,37 +680,24 @@ export default function DefiRelationshipsPage() {
                             </div>
                             <div className="flex flex-wrap gap-1">
                                 {graphData.protocols.slice(0, 3).map((p) => (
-                                    <span
-                                        key={p.slug}
-                                        className="text-xs bg-slate-800 text-white px-2 py-0.5 rounded"
-                                    >
-                                        {p.name}
-                                    </span>
+                                    <span key={p.slug} className="text-xs bg-slate-800 text-white px-2 py-0.5 rounded">{p.name}</span>
                                 ))}
                             </div>
                         </div>
                     </div>
 
-                    {/* Legend */}
                     <div className="flex flex-wrap gap-4 text-sm">
                         {Object.entries(RELATIONSHIP_LABELS).map(([type, label]) => (
                             <div key={type} className="flex items-center gap-2">
-                                <div
-                                    className="w-3 h-3 rounded-full"
-                                    style={{ backgroundColor: RELATIONSHIP_COLORS[type] }}
-                                />
+                                <div className="w-3 h-3 rounded-full" style={{ backgroundColor: RELATIONSHIP_COLORS[type] }} />
                                 <span className="text-slate-400">{label}</span>
                             </div>
                         ))}
                     </div>
 
-                    {/* Graph */}
                     {graphData.nodes.length > 0 ? (
                         <DependencyGraph
-                            data={{
-                                nodes: graphData.nodes,
-                                links: graphData.links,
-                            }}
+                            data={{ nodes: graphData.nodes, links: graphData.links }}
                             onNodeClick={handleNodeClick}
                             height={500}
                         />
@@ -543,42 +705,6 @@ export default function DefiRelationshipsPage() {
                         <div className="flex flex-col items-center justify-center h-[400px] bg-slate-900 rounded-lg border border-border">
                             <Network className="h-12 w-12 text-slate-600 mb-4" />
                             <p className="text-slate-400">No protocols match the current filters</p>
-                        </div>
-                    )}
-
-                    {/* Top Relationships */}
-                    {graphData.relationships.length > 0 && (
-                        <div className="bg-card border border-border rounded-lg p-4">
-                            <h2 className="text-lg font-semibold text-white mb-3 flex items-center gap-2">
-                                <Link2 className="h-5 w-5 text-cyan-400" />
-                                Top DeFi Relationships
-                            </h2>
-                            <div className="space-y-2">
-                                {graphData.relationships.slice(0, 10).map((rel, idx) => (
-                                    <div
-                                        key={idx}
-                                        className="flex items-center justify-between bg-slate-800/50 rounded-lg px-3 py-2"
-                                    >
-                                        <div className="flex items-center gap-2">
-                                            <span className="text-white font-medium">{rel.source}</span>
-                                            <span className="text-slate-500">→</span>
-                                            <span className="text-cyan-400">{rel.target}</span>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                            <span
-                                                className="text-xs px-2 py-0.5 rounded"
-                                                style={{
-                                                    backgroundColor: `${RELATIONSHIP_COLORS[rel.type]}20`,
-                                                    color: RELATIONSHIP_COLORS[rel.type],
-                                                }}
-                                            >
-                                                {RELATIONSHIP_LABELS[rel.type]}
-                                            </span>
-                                            <span className="text-slate-500 text-sm">{formatTvl(rel.weight)}</span>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
                         </div>
                     )}
                 </>

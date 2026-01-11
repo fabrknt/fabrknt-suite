@@ -25,6 +25,20 @@ interface DefiRelationship {
     evidence: string;
 }
 
+interface PoolDependency {
+    type: "protocol" | "asset" | "oracle" | "chain";
+    name: string;
+    risk: "low" | "medium" | "high";
+}
+
+interface RiskBreakdown {
+    tvlScore: number;
+    apyScore: number;
+    stableScore: number;
+    ilScore: number;
+    protocolScore: number;
+}
+
 interface YieldPool {
     id: string;
     chain: string;
@@ -38,6 +52,11 @@ interface YieldPool {
     stablecoin: boolean;
     ilRisk: string;
     poolMeta: string;
+    riskScore: number;
+    riskLevel: "low" | "medium" | "high" | "very_high";
+    riskBreakdown: RiskBreakdown;
+    dependencies: PoolDependency[];
+    underlyingAssets: string[];
 }
 
 interface DefiRelationshipData {
@@ -82,7 +101,9 @@ export async function GET(request: Request) {
     const minApy = parseFloat(searchParams.get("minApy") || "0");
     const maxApy = parseFloat(searchParams.get("maxApy") || "10000");
     const stablecoinOnly = searchParams.get("stablecoinOnly") === "true";
-    const sortBy = searchParams.get("sortBy") || "tvl"; // tvl, apy
+    const riskLevel = searchParams.get("riskLevel"); // low, medium, high, very_high
+    const maxRiskScore = parseInt(searchParams.get("maxRiskScore") || "100");
+    const sortBy = searchParams.get("sortBy") || "tvl"; // tvl, apy, risk
     const yieldLimit = parseInt(searchParams.get("yieldLimit") || "100");
 
     const data = loadDefiData();
@@ -163,9 +184,20 @@ export async function GET(request: Request) {
         filteredYields = filteredYields.filter(y => y.tvlUsd >= minTvl);
     }
 
+    // Risk filtering
+    if (riskLevel) {
+        filteredYields = filteredYields.filter(y => y.riskLevel === riskLevel);
+    }
+
+    if (maxRiskScore < 100) {
+        filteredYields = filteredYields.filter(y => y.riskScore <= maxRiskScore);
+    }
+
     // Sort yields
     if (sortBy === "apy") {
         filteredYields = filteredYields.sort((a, b) => b.apy - a.apy);
+    } else if (sortBy === "risk") {
+        filteredYields = filteredYields.sort((a, b) => a.riskScore - b.riskScore);
     } else {
         filteredYields = filteredYields.sort((a, b) => b.tvlUsd - a.tvlUsd);
     }
