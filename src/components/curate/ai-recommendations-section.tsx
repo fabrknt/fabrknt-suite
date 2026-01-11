@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Sparkles, RefreshCw, TrendingUp, TrendingDown, Minus, Target, AlertCircle } from "lucide-react";
+import { Sparkles, RefreshCw, TrendingUp, TrendingDown, Minus, Target, AlertCircle, X } from "lucide-react";
 
 interface PoolRecommendation {
     poolId: string;
@@ -170,13 +170,36 @@ export function AIRecommendationsSection({
                     <button
                         onClick={fetchRecommendations}
                         className="p-1.5 text-slate-400 hover:text-white transition-colors"
-                        title="Refresh"
+                        title="Refresh recommendations"
                     >
                         <RefreshCw className="h-4 w-4" />
+                    </button>
+                    <button
+                        onClick={() => {
+                            setRecommendations([]);
+                            setSummary("");
+                        }}
+                        className="p-1.5 text-slate-400 hover:text-red-400 transition-colors"
+                        title="Clear recommendations"
+                    >
+                        <X className="h-4 w-4" />
                     </button>
                 </div>
             </div>
 
+            {recommendations.length === 0 ? (
+                <div className="bg-slate-800/50 border border-slate-700/50 rounded-lg p-6 text-center">
+                    <p className="text-slate-400 text-sm">
+                        No recommendations loaded.{" "}
+                        <button
+                            onClick={fetchRecommendations}
+                            className="text-cyan-400 hover:text-cyan-300 underline"
+                        >
+                            Generate recommendations
+                        </button>
+                    </p>
+                </div>
+            ) : (
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-3">
                 {recommendations.slice(0, 5).map((rec) => (
                     <div
@@ -237,6 +260,7 @@ export function AIRecommendationsSection({
                     </div>
                 ))}
             </div>
+            )}
         </div>
     );
 }
