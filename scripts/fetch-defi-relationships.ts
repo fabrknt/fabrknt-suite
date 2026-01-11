@@ -31,13 +31,35 @@ interface DefiLlamaProtocol {
 }
 
 interface YieldPool {
+    pool: string;          // Unique pool ID
     chain: string;
     project: string;
     symbol: string;
     tvlUsd: number;
     apy: number;
+    apyBase?: number;
+    apyReward?: number;
+    rewardTokens?: string[];
     underlyingTokens?: string[];
     poolMeta?: string;
+    ilRisk?: string;       // IL risk level
+    exposure?: string;     // single, multi
+    stablecoin?: boolean;
+}
+
+interface ProcessedYieldPool {
+    id: string;
+    chain: string;
+    project: string;
+    projectSlug: string;
+    symbol: string;
+    tvlUsd: number;
+    apy: number;
+    apyBase: number;
+    apyReward: number;
+    stablecoin: boolean;
+    ilRisk: string;
+    poolMeta: string;
 }
 
 interface DefiRelationship {
@@ -66,11 +88,14 @@ interface DefiProtocolData {
 interface DefiRelationshipData {
     protocols: Record<string, DefiProtocolData>;
     relationships: DefiRelationship[];
+    yields: ProcessedYieldPool[];
     metadata: {
         fetchedAt: string;
         totalProtocols: number;
         totalRelationships: number;
+        totalYieldPools: number;
         categories: string[];
+        chains: string[];
     };
 }
 
@@ -251,13 +276,47 @@ function buildSameEcosystemRelationships(protocols: DefiLlamaProtocol[]): DefiRe
     return relationships;
 }
 
+function processYieldPools(pools: YieldPool[], protocolSlugs: Set<string>): ProcessedYieldPool[] {
+    // Filter pools with meaningful TVL and APY, and map project names to slugs
+    const processed: ProcessedYieldPool[] = [];
+
+    for (const pool of pools) {
+        // Skip pools with very low TVL or invalid APY
+        if (pool.tvlUsd < 100_000 || pool.apy <= 0 || pool.apy > 10000) continue;
+
+        // Convert project name to slug format (lowercase, hyphens)
+        const projectSlug = pool.project.toLowerCase().replace(/\s+/g, "-");
+
+        processed.push({
+            id: pool.pool,
+            chain: pool.chain,
+            project: pool.project,
+            projectSlug,
+            symbol: pool.symbol,
+            tvlUsd: pool.tvlUsd,
+            apy: pool.apy,
+            apyBase: pool.apyBase || 0,
+            apyReward: pool.apyReward || 0,
+            stablecoin: pool.stablecoin || false,
+            ilRisk: pool.ilRisk || "unknown",
+            poolMeta: pool.poolMeta || "",
+        });
+    }
+
+    // Sort by TVL descending
+    return processed.sort((a, b) => b.tvlUsd - a.tvlUsd);
+}
+
 async function main() {
     console.log("\n🔍 DeFi Protocol Relationship Analyzer\n");
     console.log("=".repeat(60));
 
     try {
         // Fetch data
-        const protocols = await fetchProtocols();
+        const [protocols, yieldPools] = await Promise.all([
+            fetchProtocols(),
+            fetchYieldPools(),
+        ]);
 
         // Filter to relevant DeFi protocols (TVL > $1M)
         const defiProtocols = protocols.filter(p =>
@@ -312,15 +371,26 @@ async function main() {
         // Get unique categories
         const categories = [...new Set(defiProtocols.map(p => p.category))].sort();
 
+        // Process yield pools
+        const protocolSlugs = new Set(Object.keys(protocolData));
+        const processedYields = processYieldPools(yieldPools, protocolSlugs);
+        console.log(`   📊 Processed ${processedYields.length} yield pools with >$100K TVL`);
+
+        // Get unique chains from yields
+        const chains = [...new Set(processedYields.map(y => y.chain))].sort();
+
         // Build final data
         const data: DefiRelationshipData = {
             protocols: protocolData,
             relationships,
+            yields: processedYields,
             metadata: {
                 fetchedAt: new Date().toISOString(),
                 totalProtocols: Object.keys(protocolData).length,
                 totalRelationships: relationships.length,
+                totalYieldPools: processedYields.length,
                 categories,
+                chains,
             },
         };
 
@@ -340,7 +410,9 @@ async function main() {
         console.log("=".repeat(60));
         console.log(`   Protocols: ${data.metadata.totalProtocols}`);
         console.log(`   Relationships: ${data.metadata.totalRelationships}`);
+        console.log(`   Yield Pools: ${data.metadata.totalYieldPools}`);
         console.log(`   Categories: ${categories.length}`);
+        console.log(`   Chains: ${chains.length}`);
 
         // Print top relationships by TVL
         console.log("\n🔗 TOP RELATIONSHIPS (by TVL):");
@@ -364,6 +436,31 @@ async function main() {
         const sortedCategories = [...categoryCounts.entries()].sort((a, b) => b[1] - a[1]);
         for (const [cat, count] of sortedCategories.slice(0, 15)) {
             console.log(`   ${cat}: ${count} protocols`);
+        }
+
+        // Print top yield pools
+        console.log("\n💰 TOP YIELD POOLS (by TVL):");
+        const topYields = processedYields.slice(0, 15);
+        for (const pool of topYields) {
+            const tvlStr = pool.tvlUsd > 1_000_000_000
+                ? `$${(pool.tvlUsd / 1_000_000_000).toFixed(1)}B`
+                : `$${(pool.tvlUsd / 1_000_000).toFixed(0)}M`;
+            const apyStr = pool.apy.toFixed(2);
+            console.log(`   ${pool.project} | ${pool.symbol} | ${pool.chain} | ${tvlStr} TVL | ${apyStr}% APY`);
+        }
+
+        // Print top APY pools (with significant TVL)
+        console.log("\n🔥 TOP APY POOLS (TVL > $10M):");
+        const highApyPools = processedYields
+            .filter(p => p.tvlUsd > 10_000_000)
+            .sort((a, b) => b.apy - a.apy)
+            .slice(0, 15);
+        for (const pool of highApyPools) {
+            const tvlStr = pool.tvlUsd > 1_000_000_000
+                ? `$${(pool.tvlUsd / 1_000_000_000).toFixed(1)}B`
+                : `$${(pool.tvlUsd / 1_000_000).toFixed(0)}M`;
+            const apyStr = pool.apy.toFixed(2);
+            console.log(`   ${pool.project} | ${pool.symbol} | ${pool.chain} | ${apyStr}% APY | ${tvlStr} TVL`);
         }
 
         console.log("\n" + "=".repeat(60));

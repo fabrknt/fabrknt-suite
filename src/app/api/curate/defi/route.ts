@@ -25,14 +25,32 @@ interface DefiRelationship {
     evidence: string;
 }
 
+interface YieldPool {
+    id: string;
+    chain: string;
+    project: string;
+    projectSlug: string;
+    symbol: string;
+    tvlUsd: number;
+    apy: number;
+    apyBase: number;
+    apyReward: number;
+    stablecoin: boolean;
+    ilRisk: string;
+    poolMeta: string;
+}
+
 interface DefiRelationshipData {
     protocols: Record<string, DefiProtocolData>;
     relationships: DefiRelationship[];
+    yields: YieldPool[];
     metadata: {
         fetchedAt: string;
         totalProtocols: number;
         totalRelationships: number;
+        totalYieldPools: number;
         categories: string[];
+        chains: string[];
     };
 }
 
@@ -59,17 +77,27 @@ export async function GET(request: Request) {
     const minTvl = parseInt(searchParams.get("minTvl") || "0");
     const limit = parseInt(searchParams.get("limit") || "100");
 
+    // Yields filters
+    const yieldsOnly = searchParams.get("yieldsOnly") === "true";
+    const minApy = parseFloat(searchParams.get("minApy") || "0");
+    const maxApy = parseFloat(searchParams.get("maxApy") || "10000");
+    const stablecoinOnly = searchParams.get("stablecoinOnly") === "true";
+    const sortBy = searchParams.get("sortBy") || "tvl"; // tvl, apy
+    const yieldLimit = parseInt(searchParams.get("yieldLimit") || "100");
+
     const data = loadDefiData();
 
     if (!data) {
         return NextResponse.json({
             protocols: [],
             relationships: [],
+            yields: [],
             nodes: [],
             links: [],
             metadata: {
                 totalProtocols: 0,
                 totalRelationships: 0,
+                totalYieldPools: 0,
                 message: "DeFi relationship data not found. Run 'npm run fetch:defi' to fetch data.",
             },
         });
@@ -110,6 +138,41 @@ export async function GET(request: Request) {
         filteredRelationships = filteredRelationships.filter(r => r.type === type);
     }
 
+    // Filter yields
+    let filteredYields = data.yields || [];
+
+    if (chain) {
+        filteredYields = filteredYields.filter(y =>
+            y.chain.toLowerCase() === chain.toLowerCase()
+        );
+    }
+
+    if (minApy > 0) {
+        filteredYields = filteredYields.filter(y => y.apy >= minApy);
+    }
+
+    if (maxApy < 10000) {
+        filteredYields = filteredYields.filter(y => y.apy <= maxApy);
+    }
+
+    if (stablecoinOnly) {
+        filteredYields = filteredYields.filter(y => y.stablecoin);
+    }
+
+    if (minTvl > 0) {
+        filteredYields = filteredYields.filter(y => y.tvlUsd >= minTvl);
+    }
+
+    // Sort yields
+    if (sortBy === "apy") {
+        filteredYields = filteredYields.sort((a, b) => b.apy - a.apy);
+    } else {
+        filteredYields = filteredYields.sort((a, b) => b.tvlUsd - a.tvlUsd);
+    }
+
+    // Limit yields
+    filteredYields = filteredYields.slice(0, yieldLimit);
+
     // Build graph data for visualization
     const nodes = filteredProtocols.map(p => ({
         id: p.slug,
@@ -136,12 +199,15 @@ export async function GET(request: Request) {
     return NextResponse.json({
         protocols: filteredProtocols,
         relationships: filteredRelationships,
+        yields: filteredYields,
         nodes,
         links,
         metadata: {
             totalProtocols: filteredProtocols.length,
             totalRelationships: filteredRelationships.length,
+            totalYieldPools: filteredYields.length,
             categories: data.metadata.categories,
+            chains: data.metadata.chains || [],
             fetchedAt: data.metadata.fetchedAt,
         },
     });
