@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Logo } from "@/components/logo";
 import { useSession, signOut } from "next-auth/react";
-import { LogIn, LogOut, Github } from "lucide-react";
+import { LogIn, LogOut, Github, Vault } from "lucide-react";
 
 export function CurateLayoutClient({
     children,
@@ -11,7 +12,9 @@ export function CurateLayoutClient({
     children: React.ReactNode;
 }) {
     const { data: session, status } = useSession();
+    const pathname = usePathname();
     const isProduction = process.env.NODE_ENV === "production";
+    const isVaultsPage = pathname?.startsWith("/curate/vaults");
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-muted to-background">
@@ -19,7 +22,33 @@ export function CurateLayoutClient({
             <header className="border-b border-border bg-card sticky top-0 z-50">
                 <div className="container mx-auto px-4 py-3">
                     <div className="flex items-center justify-between">
-                        <Logo size="sm" />
+                        <div className="flex items-center gap-6">
+                            <Logo size="sm" />
+                            {/* Navigation */}
+                            <nav className="hidden md:flex items-center gap-1">
+                                <Link
+                                    href="/curate"
+                                    className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                                        pathname === "/curate"
+                                            ? "bg-muted text-foreground"
+                                            : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                                    }`}
+                                >
+                                    Yields
+                                </Link>
+                                <Link
+                                    href="/curate/vaults"
+                                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                                        isVaultsPage
+                                            ? "bg-muted text-foreground"
+                                            : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                                    }`}
+                                >
+                                    <Vault className="h-4 w-4" />
+                                    Vaults
+                                </Link>
+                            </nav>
+                        </div>
                         <div className="flex items-center gap-4">
                             {/* Social Links */}
                             <a
