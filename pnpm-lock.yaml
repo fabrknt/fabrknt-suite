@@ -29,6 +29,15 @@ dependencies:
   '@metamask/sdk':
     specifier: ^0.34.0
     version: 0.34.0
+  '@morpho-org/blue-sdk':
+    specifier: ^5.11.0
+    version: 5.11.0(@morpho-org/morpho-ts@2.4.6)
+  '@morpho-org/blue-sdk-viem':
+    specifier: ^4.2.0
+    version: 4.2.0(@morpho-org/blue-sdk@5.11.0)(@morpho-org/morpho-ts@2.4.6)(viem@2.43.4)
+  '@morpho-org/morpho-ts':
+    specifier: ^2.4.6
+    version: 2.4.6
   '@nivo/bar':
     specifier: ^0.84.0
     version: 0.84.0(prop-types@15.8.1)(react-dom@19.2.3)(react@19.2.3)
@@ -78,7 +87,7 @@ dependencies:
     specifier: ^1.87.6
     version: 1.98.4(typescript@5.9.3)
   '@tanstack/react-query':
-    specifier: ^5.17.0
+    specifier: ^5.90.16
     version: 5.90.16(react@19.2.3)
   '@vercel/analytics':
     specifier: ^1.6.1
@@ -101,6 +110,9 @@ dependencies:
   date-fns:
     specifier: ^3.6.0
     version: 3.6.0
+  decimal.js:
+    specifier: ^10.6.0
+    version: 10.6.0
   framer-motion:
     specifier: ^12.23.26
     version: 12.23.26(react-dom@19.2.3)(react@19.2.3)
@@ -1284,6 +1296,35 @@ packages:
       uuid: 9.0.1
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /@morpho-org/blue-sdk-viem@4.2.0(@morpho-org/blue-sdk@5.11.0)(@morpho-org/morpho-ts@2.4.6)(viem@2.43.4):
+    resolution: {integrity: sha512-Ja+N0S7huwXqQODFtoJp15EqVdOoa37XLZYVQS+ZNUNR6tZJRES76Sh+RVtIEmg4utyCEFg5If+Hl3qKTOWFbA==}
+    peerDependencies:
+      '@morpho-org/blue-sdk': ^5.10.0
+      '@morpho-org/morpho-ts': ^2.4.6
+      viem: ^2.0.0
+    dependencies:
+      '@morpho-org/blue-sdk': 5.11.0(@morpho-org/morpho-ts@2.4.6)
+      '@morpho-org/morpho-ts': 2.4.6
+      viem: 2.43.4(typescript@5.9.3)(zod@3.25.76)
+    dev: false
+
+  /@morpho-org/blue-sdk@5.11.0(@morpho-org/morpho-ts@2.4.6):
+    resolution: {integrity: sha512-W9ArJ+JuXXnX0vswu9myB8hXXAAn8Oo7qh2yCb8Uz1Z0FHjqQpOIjUoG+TSNjouGH88MDdQAVgwlcNgh708laA==}
+    peerDependencies:
+      '@morpho-org/morpho-ts': ^2.4.6
+    dependencies:
+      '@morpho-org/morpho-ts': 2.4.6
+      '@noble/hashes': 1.8.0
+      '@types/lodash.isplainobject': 4.0.9
+      '@types/lodash.mergewith': 4.6.9
+      lodash.isplainobject: 4.0.6
+      lodash.mergewith: 4.6.2
+    dev: false
+
+  /@morpho-org/morpho-ts@2.4.6:
+    resolution: {integrity: sha512-LWglkfjjU5xXOwNg8dog9g7+k42rBbgvx6xf1SBje8ZQOurhC+BB0yh/Jl/ArcTf/siiFeXDKievEhETZEo4jg==}
     dev: false
 
   /@mrleebo/prisma-ast@0.12.1:
@@ -3751,6 +3792,18 @@ packages:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
     dev: true
 
+  /@types/lodash.isplainobject@4.0.9:
+    resolution: {integrity: sha512-QC8nKcap5hRrbtIaPRjUMlcXXnLeayqQZPSaWJDx3xeuN17+2PW5wkmEJ4+lZgNnQRlSPzxjTYKCfV1uTnPaEg==}
+    dependencies:
+      '@types/lodash': 4.17.21
+    dev: false
+
+  /@types/lodash.mergewith@4.6.9:
+    resolution: {integrity: sha512-fgkoCAOF47K7sxrQ7Mlud2TH023itugZs2bUg8h/KzT+BnZNrR2jAOmaokbLunHNnobXVWOezAeNn/lZqwxkcw==}
+    dependencies:
+      '@types/lodash': 4.17.21
+    dev: false
+
   /@types/lodash@4.17.21:
     resolution: {integrity: sha512-FOvQ0YPD5NOfPgMzJihoT+Za5pdkDJWcbpuj1DjaKZIr/gxodQjY/uWEFlTNqW2ugXHUiL8lRQgw63dzKHZdeQ==}
     dev: false
@@ -5915,6 +5968,10 @@ packages:
     resolution: {integrity: sha512-qIMFpTMZmny+MMIitAB6D7iVPEorVw6YQRWkvarTkT4tBeSLLiHzcwj6q0MmYSFCiVpiqPJTJEYIrpcPzVEIvg==}
     dev: false
 
+  /decimal.js@10.6.0:
+    resolution: {integrity: sha512-YpgQiITW3JXGntzdUmyUR1V812Hn8T1YVXhCu+wO3OpS4eU9l4YdD3qjyiKdV6mvV29zapkMeD390UVEf2lkUg==}
+    dev: false
+
   /dedent@1.7.1:
     resolution: {integrity: sha512-9JmrhGZpOlEgOLdQgSm0zxFaYoQon408V1v49aqTWuXENVlnCuY9JBZcXZiCsZQWDjTm5Qf/nIvAy77mXDAjEg==}
     peerDependencies:
@@ -7706,9 +7763,17 @@ packages:
       p-locate: 5.0.0
     dev: true
 
+  /lodash.isplainobject@4.0.6:
+    resolution: {integrity: sha512-oSXzaWypCMHkPC3NvBEaPHf0KsA5mvPrOPgQWDsbg8n7orZ290M0BmC/jgRZ4vcJ6DTAhjrsSYgdsW/F+MFOBA==}
+    dev: false
+
   /lodash.merge@4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
     dev: true
+
+  /lodash.mergewith@4.6.2:
+    resolution: {integrity: sha512-GK3g5RPZWTRSeLSpgP8Xhra+pnjBC56q9FZYe1d5RN3TJ35dbkGy3YqBSMbyCrlbi+CM9Z3Jk5yTL7RCsqboyQ==}
+    dev: false
 
   /lodash@4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}

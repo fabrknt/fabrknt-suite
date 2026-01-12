@@ -88,6 +88,9 @@ model User {
   yieldWatchlist  YieldWatchlist[]
   yieldPreferences UserYieldPreferences?
 
+  // Morpho vaults
+  morphoVaults    MorphoVault[]
+
   @@index([walletAddress])
   @@index([email])
 }
@@ -398,5 +401,73 @@ model PoolInsightCache {
 
   @@index([poolId])
   @@index([expiresAt])
+}
+
+// Morpho Vault - User-deployed Morpho vaults
+model MorphoVault {
+  id              String   @id @default(cuid())
+  userId          String
+
+  // Chain and contract info
+  chainId         Int
+  vaultAddress    String   @unique
+  factoryVersion  String   @default("v1.1") // "v1.1" or "v2"
+
+  // Asset info
+  asset           String   // Underlying token address
+  assetSymbol     String   // e.g., "USDC"
+
+  // Vault metadata
+  name            String
+  symbol          String
+
+  // Deployment timestamp
+  deployedAt      DateTime @default(now())
+  txHash          String?
+
+  // Curator settings
+  curatorAddress  String?
+  performanceFee  Float    @default(0)
+  managementFee   Float    @default(0)
+
+  // Tracking (updated periodically)
+  tvl             Float    @default(0)
+  totalEarned     Float    @default(0)
+  lastSyncedAt    DateTime?
+
+  // Relations
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  allocations     VaultAllocation[]
+
+  @@index([userId])
+  @@index([chainId, vaultAddress])
+}
+
+// Vault Allocation - Market allocations within a Morpho vault
+model VaultAllocation {
+  id              String   @id @default(cuid())
+  vaultId         String
+
+  // Morpho market info
+  marketId        String   // Morpho market unique key
+  marketName      String?  // e.g., "USDC/WETH"
+
+  // Allocation settings
+  allocationCap   Float    // Max allocation percentage (0-100)
+  enabled         Boolean  @default(true)
+
+  // Current state (updated periodically)
+  currentAmount   Float    @default(0)
+  currentApy      Float?
+
+  // Timestamps
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  vault           MorphoVault @relation(fields: [vaultId], references: [id], onDelete: Cascade)
+
+  @@unique([vaultId, marketId])
+  @@index([vaultId])
 }
 
