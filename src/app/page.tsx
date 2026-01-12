@@ -620,19 +620,32 @@ export default function CuratePage() {
                 <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
 
                 <div className="relative">
+                    {/* Feature Badges */}
+                    <div className="flex gap-2 mb-4">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-gradient-to-r from-purple-500/10 to-purple-500/5 text-purple-400 border border-purple-500/30 text-xs font-semibold">
+                            <div className="w-1.5 h-1.5 bg-purple-400 rounded-full" />
+                            SOLANA
+                        </span>
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-gradient-to-r from-cyan-500/10 to-cyan-500/5 text-cyan-400 border border-cyan-500/30 text-xs font-semibold">
+                            <Sparkles className="h-3 w-3" />
+                            AI-POWERED
+                        </span>
+                    </div>
+
                     <div className="flex items-start justify-between">
                         <div>
                             <h1 className="text-2xl font-bold text-white mb-2">
                                 Solana Yield Intelligence
                             </h1>
-                            <p className="text-slate-400 text-sm max-w-md">
-                                Risk-scored Solana yields with APY stability analysis, liquidity metrics, and cross-protocol comparison.
+                            <p className="text-slate-400 text-sm max-w-lg">
+                                Cross-protocol yield comparison, intelligent risk scoring, and AI-powered recommendations.
+                                Compare Kamino, Marginfi, Meteora, and more in one place.
                             </p>
                         </div>
 
                         {/* Quick Stats */}
                         {!loading && (
-                            <div className="flex gap-6">
+                            <div className="hidden md:flex gap-6">
                                 <div className="text-right">
                                     <p className="text-2xl font-bold text-white">{formatTvl(summaryStats.totalTvl)}</p>
                                     <p className="text-xs text-slate-500">TVL Tracked</p>
@@ -648,6 +661,24 @@ export default function CuratePage() {
                             </div>
                         )}
                     </div>
+
+                    {/* Mobile Stats */}
+                    {!loading && (
+                        <div className="flex md:hidden gap-4 mt-4 pt-4 border-t border-slate-700/50">
+                            <div>
+                                <p className="text-lg font-bold text-white">{formatTvl(summaryStats.totalTvl)}</p>
+                                <p className="text-xs text-slate-500">TVL Tracked</p>
+                            </div>
+                            <div>
+                                <p className="text-lg font-bold text-white">{summaryStats.poolCount}</p>
+                                <p className="text-xs text-slate-500">Pools</p>
+                            </div>
+                            <div>
+                                <p className="text-lg font-bold text-green-400">{summaryStats.lowRiskCount}</p>
+                                <p className="text-xs text-slate-500">Low Risk</p>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
 
