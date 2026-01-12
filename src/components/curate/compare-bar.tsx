@@ -1,15 +1,16 @@
 "use client";
 
-import { X, GitCompare } from "lucide-react";
+import { X, GitCompare, History } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface CompareBarProps {
     count: number;
     onCompare: () => void;
+    onBacktest: () => void;
     onClear: () => void;
 }
 
-export function CompareBar({ count, onCompare, onClear }: CompareBarProps) {
+export function CompareBar({ count, onCompare, onBacktest, onClear }: CompareBarProps) {
     return (
         <AnimatePresence>
             {count >= 2 && (
@@ -33,6 +34,14 @@ export function CompareBar({ count, onCompare, onClear }: CompareBarProps) {
                         >
                             <X className="h-4 w-4" />
                             Clear
+                        </button>
+
+                        <button
+                            onClick={onBacktest}
+                            className="flex items-center gap-2 px-4 py-1.5 bg-purple-500 hover:bg-purple-400 text-white font-medium text-sm rounded-full transition-colors"
+                        >
+                            <History className="h-4 w-4" />
+                            Backtest
                         </button>
 
                         <button

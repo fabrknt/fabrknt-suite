@@ -4,7 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Logo } from "@/components/logo";
 import { useSession, signOut } from "next-auth/react";
-import { LogIn, LogOut, Github, Vault } from "lucide-react";
+import { LogIn, LogOut, Github } from "lucide-react";
+import { SolanaConnectButton } from "@/components/solana";
 
 export function CurateLayoutClient({
     children,
@@ -13,8 +14,6 @@ export function CurateLayoutClient({
 }) {
     const { data: session, status } = useSession();
     const pathname = usePathname();
-    const isProduction = process.env.NODE_ENV === "production";
-    const isVaultsPage = pathname?.startsWith("/curate/vaults");
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-muted to-background">
@@ -27,25 +26,14 @@ export function CurateLayoutClient({
                             {/* Navigation */}
                             <nav className="hidden md:flex items-center gap-1">
                                 <Link
-                                    href="/curate"
+                                    href="/"
                                     className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-                                        pathname === "/curate"
+                                        pathname === "/" || pathname === "/curate"
                                             ? "bg-muted text-foreground"
                                             : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                                     }`}
                                 >
                                     Yields
-                                </Link>
-                                <Link
-                                    href="/curate/vaults"
-                                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-                                        isVaultsPage
-                                            ? "bg-muted text-foreground"
-                                            : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-                                    }`}
-                                >
-                                    <Vault className="h-4 w-4" />
-                                    Vaults
                                 </Link>
                             </nav>
                         </div>
@@ -79,6 +67,9 @@ export function CurateLayoutClient({
                             {/* Divider */}
                             <div className="hidden sm:block h-5 w-px bg-border" />
 
+                            {/* Solana Wallet */}
+                            <SolanaConnectButton className="!bg-gradient-to-r !from-purple-500 !to-cyan-500 !rounded-lg !px-4 !py-2 !text-sm !font-medium hover:!opacity-90 !transition-opacity" />
+
                             {/* Auth UI */}
                             {status === "loading" ? (
                                 <div className="h-8 w-8 rounded-full bg-muted animate-pulse" />
@@ -102,18 +93,8 @@ export function CurateLayoutClient({
                                 </div>
                             ) : (
                                 <Link
-                                    href={isProduction ? "#" : "/auth/signin"}
-                                    className={`flex items-center gap-2 px-4 py-2 rounded-md transition-colors text-sm font-medium ${
-                                        isProduction
-                                            ? "bg-gray-400 text-gray-600 cursor-not-allowed opacity-50"
-                                            : "bg-cyan-500 text-white hover:bg-cyan-400"
-                                    }`}
-                                    onClick={(e) => {
-                                        if (isProduction) {
-                                            e.preventDefault();
-                                        }
-                                    }}
-                                    title={isProduction ? "Sign in is disabled in production" : "Sign In"}
+                                    href="/auth/signin"
+                                    className="flex items-center gap-2 px-4 py-2 rounded-md bg-cyan-500 text-white hover:bg-cyan-400 transition-colors text-sm font-medium"
                                 >
                                     <LogIn className="h-4 w-4" />
                                     <span className="hidden sm:inline">Sign In</span>

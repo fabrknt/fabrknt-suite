@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import { getPointsProgram, isConcentratedLiquidity } from "@/lib/solana/yield-context";
+import { getProtocolSlug } from "@/lib/solana/protocols";
 
 // Cache for 5 minutes (300 seconds)
 export const revalidate = 300;
@@ -38,6 +40,13 @@ interface YieldPool {
     ilRisk?: string;
     exposure?: string;
     stablecoin?: boolean;
+    // Additional fields from DefiLlama
+    apyPct1D?: number;
+    apyPct7D?: number;
+    apyPct30D?: number;
+    mu?: number; // Mean APY
+    sigma?: number; // Standard deviation of APY
+    apyMean30d?: number;
 }
 
 interface PoolDependency {
@@ -69,6 +78,38 @@ interface LiquidityRisk {
     exitabilityRating: "excellent" | "good" | "moderate" | "poor" | "very_poor";
 }
 
+// Yield source breakdown
+interface YieldBreakdown {
+    base: number;
+    reward: number;
+    hasPoints: boolean;
+    pointsProgram: string | null;
+    sources: string[];
+}
+
+// TVL trend data
+interface TvlTrend {
+    change7d: number | null;
+    change30d: number | null;
+    trend: "growing" | "stable" | "declining" | "unknown";
+    isHealthy: boolean;
+}
+
+// Volatility metrics
+interface VolatilityMetrics {
+    sigma: number;
+    sharpeRatio: number;
+    volatilityLevel: "low" | "medium" | "high" | "very_high";
+}
+
+// IL Risk indicator
+interface ILRiskInfo {
+    hasILRisk: boolean;
+    level: "none" | "low" | "medium" | "high" | "very_high";
+    isConcentratedLiquidity: boolean;
+    poolType: string | null;
+}
+
 interface ProcessedYieldPool {
     id: string;
     chain: string;
@@ -89,6 +130,11 @@ interface ProcessedYieldPool {
     underlyingAssets: string[];
     apyStability: null; // Historical data not fetched at runtime
     liquidityRisk: LiquidityRisk;
+    // New Solana-specific metrics
+    yieldBreakdown: YieldBreakdown;
+    tvlTrend: TvlTrend;
+    volatilityMetrics: VolatilityMetrics | null;
+    ilRiskInfo: ILRiskInfo;
 }
 
 interface DefiProtocolData {
@@ -157,6 +203,142 @@ const PROTOCOL_DEPENDENCIES: Record<string, string[]> = {
     "convex-finance": ["curve-dex"],
     "kamino-finance": ["raydium", "orca", "meteora"],
 };
+
+// Calculate yield breakdown
+function calculateYieldBreakdown(
+    apyBase: number,
+    apyReward: number,
+    project: string
+): YieldBreakdown {
+    const sources: string[] = [];
+    const protocolSlug = getProtocolSlug(project);
+
+    if (apyBase > 0) sources.push("base");
+    if (apyReward > 0) sources.push("reward");
+
+    // Check for active points program
+    let hasPoints = false;
+    let pointsProgram: string | null = null;
+
+    if (protocolSlug) {
+        const points = getPointsProgram(protocolSlug);
+        if (points?.active) {
+            hasPoints = true;
+            pointsProgram = points.name;
+            sources.push("points");
+        }
+    }
+
+    return {
+        base: apyBase,
+        reward: apyReward,
+        hasPoints,
+        pointsProgram,
+        sources,
+    };
+}
+
+// Calculate TVL trend from APY percent changes
+function calculateTvlTrend(
+    apyPct7D: number | undefined,
+    apyPct30D: number | undefined
+): TvlTrend {
+    // Note: DefiLlama provides APY changes, not TVL changes directly
+    // We use APY trend as a proxy for pool health
+    const change7d = apyPct7D ?? null;
+    const change30d = apyPct30D ?? null;
+
+    let trend: TvlTrend["trend"] = "unknown";
+    if (change30d !== null) {
+        if (change30d > 10) trend = "growing";
+        else if (change30d < -20) trend = "declining";
+        else trend = "stable";
+    }
+
+    const isHealthy = change30d === null || change30d > -30;
+
+    return {
+        change7d,
+        change30d,
+        trend,
+        isHealthy,
+    };
+}
+
+// Calculate volatility metrics
+function calculateVolatilityMetrics(
+    sigma: number | undefined,
+    avgApy: number
+): VolatilityMetrics | null {
+    if (sigma === undefined || sigma === null) return null;
+
+    // Risk-free rate for Solana staking is ~7%
+    const riskFreeRate = 7;
+    const sharpeRatio = sigma > 0 ? (avgApy - riskFreeRate) / sigma : 0;
+
+    let volatilityLevel: VolatilityMetrics["volatilityLevel"];
+    if (sigma < 1) volatilityLevel = "low";
+    else if (sigma < 5) volatilityLevel = "medium";
+    else if (sigma < 15) volatilityLevel = "high";
+    else volatilityLevel = "very_high";
+
+    return {
+        sigma: Math.round(sigma * 100) / 100,
+        sharpeRatio: Math.round(sharpeRatio * 100) / 100,
+        volatilityLevel,
+    };
+}
+
+// Calculate IL risk info
+function calculateILRiskInfo(
+    pool: YieldPool,
+    underlyingAssets: string[]
+): ILRiskInfo {
+    const project = pool.project.toLowerCase();
+
+    // Check if it's a concentrated liquidity pool
+    const clInfo = isConcentratedLiquidity(project);
+    const isConcentratedLiquidityPool = clInfo !== null;
+
+    // Also check for project patterns indicating concentrated liquidity
+    const isCLMM = project.includes("concentrated") ||
+                   project.includes("clmm") ||
+                   project.includes("whirlpool") ||
+                   project === "kamino-liquidity";
+
+    const hasILRisk = pool.ilRisk === "yes" ||
+                     (pool.exposure === "multi" && underlyingAssets.length > 1) ||
+                     isConcentratedLiquidityPool ||
+                     isCLMM;
+
+    // Determine IL risk level
+    let level: ILRiskInfo["level"] = "none";
+
+    if (!hasILRisk) {
+        level = "none";
+    } else if (isConcentratedLiquidityPool || isCLMM) {
+        // Concentrated liquidity has higher IL risk
+        const isVolatilePair = underlyingAssets.some(a =>
+            !STABLECOINS.has(a) && !["SOL", "ETH", "BTC"].includes(a)
+        );
+        level = isVolatilePair ? "very_high" : "high";
+    } else if (underlyingAssets.length >= 2) {
+        // Check if it's a stable pair
+        const allStable = underlyingAssets.every(a => STABLECOINS.has(a));
+        const hasStable = underlyingAssets.some(a => STABLECOINS.has(a));
+
+        if (allStable) level = "low";
+        else if (hasStable) level = "medium";
+        else level = "high";
+    }
+
+    return {
+        hasILRisk,
+        level,
+        isConcentratedLiquidity: isConcentratedLiquidityPool || isCLMM,
+        poolType: clInfo?.type || (isCLMM ? "clmm" : null),
+    };
+}
 
 // Fetch with Next.js cache
 async function fetchProtocols(): Promise<DefiLlamaProtocol[]> {
@@ -361,6 +543,16 @@ function processYieldPools(pools: YieldPool[]): ProcessedYieldPool[] {
 
         const liquidityRisk = calculateLiquidityRisk(pool.tvlUsd, projectSlug);
 
+        // Calculate new Solana-specific metrics
+        const yieldBreakdown = calculateYieldBreakdown(
+            pool.apyBase || 0,
+            pool.apyReward || 0,
+            pool.project
+        );
+        const tvlTrend = calculateTvlTrend(pool.apyPct7D, pool.apyPct30D);
+        const volatilityMetrics = calculateVolatilityMetrics(pool.sigma, pool.apy);
+        const ilRiskInfo = calculateILRiskInfo(pool, underlyingAssets);
+
         processed.push({
             id: pool.pool,
             chain: pool.chain,
@@ -381,6 +573,11 @@ function processYieldPools(pools: YieldPool[]): ProcessedYieldPool[] {
             underlyingAssets,
             apyStability: null,
             liquidityRisk,
+            // New Solana-specific metrics
+            yieldBreakdown,
+            tvlTrend,
+            volatilityMetrics,
+            ilRiskInfo,
         });
     }
 

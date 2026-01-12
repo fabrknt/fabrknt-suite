@@ -6,7 +6,6 @@ import { motion, AnimatePresence } from "framer-motion";
 
 interface UserPreferences {
     riskTolerance: "conservative" | "moderate" | "aggressive";
-    preferredChains: string[];
     minApy: number;
     maxApy: number;
     stablecoinOnly: boolean;
@@ -21,20 +20,8 @@ interface UserPreferencesPanelProps {
     isLoggedIn?: boolean;
 }
 
-const CHAIN_OPTIONS = [
-    "Ethereum",
-    "Arbitrum",
-    "Base",
-    "Optimism",
-    "Polygon",
-    "Solana",
-    "Avalanche",
-    "BSC",
-];
-
 const DEFAULT_PREFERENCES: UserPreferences = {
     riskTolerance: "moderate",
-    preferredChains: [],
     minApy: 0,
     maxApy: 50,
     stablecoinOnly: false,
@@ -67,15 +54,6 @@ export function UserPreferencesPanel({
         } finally {
             setSaving(false);
         }
-    };
-
-    const toggleChain = (chain: string) => {
-        setPreferences((prev) => ({
-            ...prev,
-            preferredChains: prev.preferredChains.includes(chain)
-                ? prev.preferredChains.filter((c) => c !== chain)
-                : [...prev.preferredChains, chain],
-        }));
     };
 
     return (
@@ -144,33 +122,6 @@ export function UserPreferencesPanel({
                                         : preferences.riskTolerance === "moderate"
                                         ? "Balance between risk and reward"
                                         : "Accept higher risk for potentially higher returns"}
-                                </p>
-                            </div>
-
-                            {/* Preferred Chains */}
-                            <div>
-                                <label className="block text-sm font-medium text-white mb-3">
-                                    Preferred Chains
-                                </label>
-                                <div className="flex flex-wrap gap-2">
-                                    {CHAIN_OPTIONS.map((chain) => (
-                                        <button
-                                            key={chain}
-                                            onClick={() => toggleChain(chain)}
-                                            className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${
-                                                preferences.preferredChains.includes(chain)
-                                                    ? "bg-cyan-500/20 text-cyan-400 border border-cyan-500/50"
-                                                    : "bg-slate-800 text-slate-400 border border-slate-700 hover:border-slate-600"
-                                            }`}
-                                        >
-                                            {chain}
-                                        </button>
-                                    ))}
-                                </div>
-                                <p className="text-xs text-slate-500 mt-2">
-                                    {preferences.preferredChains.length === 0
-                                        ? "All chains included"
-                                        : `${preferences.preferredChains.length} chain(s) selected`}
                                 </p>
                             </div>
 
