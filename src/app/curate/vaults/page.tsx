@@ -116,7 +116,7 @@ function VaultsPageContent() {
     if (!session?.user) {
         return (
             <div className="space-y-6">
-                <Header onCreateClick={() => {}} showCreate={false} />
+                <Header onCreateClick={() => {}} showCreate={false} showWalletButton={true} />
                 <div className="flex flex-col items-center justify-center h-96 bg-slate-900/50 border border-slate-800 rounded-xl">
                     <Wallet className="h-12 w-12 text-slate-600 mb-4" />
                     <h3 className="text-lg font-medium text-white mb-2">Sign in Required</h3>
@@ -139,6 +139,7 @@ function VaultsPageContent() {
             <Header
                 onCreateClick={() => setShowWizard(true)}
                 showCreate={isConnected}
+                showWalletButton={true}
                 onRefresh={handleRefresh}
                 refreshing={refreshing}
                 vaultCount={vaults.length}
@@ -224,12 +225,14 @@ function Header({
     onRefresh,
     refreshing,
     vaultCount,
+    showWalletButton = false,
 }: {
     onCreateClick: () => void;
     showCreate: boolean;
     onRefresh?: () => void;
     refreshing?: boolean;
     vaultCount?: number;
+    showWalletButton?: boolean;
 }) {
     return (
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border border-slate-700/50 p-6">
@@ -269,7 +272,7 @@ function Header({
                             <RefreshCw className={`h-5 w-5 ${refreshing ? "animate-spin" : ""}`} />
                         </button>
                     )}
-                    <ConnectButton />
+                    {showWalletButton && <ConnectButton />}
                     {showCreate && (
                         <button
                             onClick={onCreateClick}
