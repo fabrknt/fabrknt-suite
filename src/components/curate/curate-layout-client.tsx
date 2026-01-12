@@ -36,30 +36,17 @@ export function CurateLayoutClient({
                                 >
                                     Yields
                                 </Link>
-                                {isProduction ? (
-                                    <span
-                                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium text-muted-foreground/50 cursor-not-allowed"
-                                        title="Coming Soon"
-                                    >
-                                        <Vault className="h-4 w-4" />
-                                        Vaults
-                                        <span className="text-[10px] px-1.5 py-0.5 bg-muted rounded-full">
-                                            Soon
-                                        </span>
-                                    </span>
-                                ) : (
-                                    <Link
-                                        href="/curate/vaults"
-                                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-                                            isVaultsPage
-                                                ? "bg-muted text-foreground"
-                                                : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-                                        }`}
-                                    >
-                                        <Vault className="h-4 w-4" />
-                                        Vaults
-                                    </Link>
-                                )}
+                                <Link
+                                    href="/curate/vaults"
+                                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                                        isVaultsPage
+                                            ? "bg-muted text-foreground"
+                                            : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                                    }`}
+                                >
+                                    <Vault className="h-4 w-4" />
+                                    Vaults
+                                </Link>
                             </nav>
                         </div>
                         <div className="flex items-center gap-4">

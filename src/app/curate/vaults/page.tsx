@@ -51,6 +51,7 @@ interface VaultData {
 function VaultsPageContent() {
     const { data: session, status: sessionStatus } = useSession();
     const { isConnected } = useAccount();
+    const isProduction = process.env.NODE_ENV === "production";
 
     const [vaults, setVaults] = useState<VaultData[]>([]);
     const [loading, setLoading] = useState(true);
@@ -138,11 +139,12 @@ function VaultsPageContent() {
         <div className="space-y-6">
             <Header
                 onCreateClick={() => setShowWizard(true)}
-                showCreate={isConnected}
+                showCreate={isConnected && !isProduction}
                 showWalletButton={true}
                 onRefresh={handleRefresh}
                 refreshing={refreshing}
                 vaultCount={vaults.length}
+                isProduction={isProduction}
             />
 
             {/* Wallet Connection Notice */}
@@ -180,7 +182,7 @@ function VaultsPageContent() {
                     ))}
                 </div>
             ) : (
-                <EmptyState onCreateClick={() => setShowWizard(true)} canCreate={isConnected} />
+                <EmptyState onCreateClick={() => setShowWizard(true)} canCreate={isConnected && !isProduction} isProduction={isProduction} />
             )}
 
             {/* Vault Creation Wizard */}
@@ -226,6 +228,7 @@ function Header({
     refreshing,
     vaultCount,
     showWalletButton = false,
+    isProduction = false,
 }: {
     onCreateClick: () => void;
     showCreate: boolean;
@@ -233,6 +236,7 @@ function Header({
     refreshing?: boolean;
     vaultCount?: number;
     showWalletButton?: boolean;
+    isProduction?: boolean;
 }) {
     return (
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border border-slate-700/50 p-6">
@@ -273,7 +277,7 @@ function Header({
                         </button>
                     )}
                     {showWalletButton && <ConnectButton />}
-                    {showCreate && (
+                    {showCreate ? (
                         <button
                             onClick={onCreateClick}
                             className="flex items-center gap-2 px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white font-medium rounded-lg transition-colors"
@@ -281,7 +285,15 @@ function Header({
                             <Plus className="h-4 w-4" />
                             Create Vault
                         </button>
-                    )}
+                    ) : isProduction ? (
+                        <span className="flex items-center gap-2 px-4 py-2 bg-slate-700 text-slate-400 font-medium rounded-lg cursor-not-allowed">
+                            <Plus className="h-4 w-4" />
+                            Create Vault
+                            <span className="text-[10px] px-1.5 py-0.5 bg-slate-600 text-slate-300 rounded-full">
+                                Soon
+                            </span>
+                        </span>
+                    ) : null}
                 </div>
             </div>
         </div>
@@ -292,9 +304,11 @@ function Header({
 function EmptyState({
     onCreateClick,
     canCreate,
+    isProduction = false,
 }: {
     onCreateClick: () => void;
     canCreate: boolean;
+    isProduction?: boolean;
 }) {
     return (
         <div className="flex flex-col items-center justify-center py-16 bg-slate-900/50 border border-slate-800 rounded-xl">
@@ -314,6 +328,16 @@ function EmptyState({
                     <Plus className="h-5 w-5" />
                     Create Your First Vault
                 </button>
+            ) : isProduction ? (
+                <div className="text-center">
+                    <span className="flex items-center gap-2 px-6 py-3 bg-slate-700 text-slate-400 font-medium rounded-lg cursor-not-allowed">
+                        <Plus className="h-5 w-5" />
+                        Create Your First Vault
+                        <span className="text-xs px-2 py-0.5 bg-slate-600 text-slate-300 rounded-full">
+                            Coming Soon
+                        </span>
+                    </span>
+                </div>
             ) : (
                 <div className="text-center">
                     <p className="text-slate-500 text-sm mb-4">Connect wallet to create a vault</p>
