@@ -12,14 +12,21 @@ export function getWagmiConfig(): Config {
 
     if (!wagmiConfigCache) {
         // Lazy import chains to avoid SSR issues
-        const { mainnet, base, polygon, optimism } = require("wagmi/chains");
+        const { mainnet, base, polygon, optimism, sepolia, baseSepolia, optimismSepolia } = require("wagmi/chains");
+
+        const isProduction = process.env.NODE_ENV === "production";
+
+        // Use mainnets in production, testnets in development
+        const chains = isProduction
+            ? [mainnet, base, polygon, optimism]
+            : [sepolia, baseSepolia, optimismSepolia, mainnet, base];
 
         wagmiConfigCache = getDefaultConfig({
             appName: "Fabrknt Synergy",
             projectId:
                 process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID ||
                 "YOUR_PROJECT_ID",
-            chains: [mainnet, base, polygon, optimism],
+            chains: chains as any,
             ssr: true, // Enable server-side rendering support
         });
     }
