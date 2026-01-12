@@ -15,8 +15,6 @@ import {
     Bookmark,
     Search,
     Sparkles,
-    Target,
-    Zap,
     BarChart3,
     Calculator,
     LineChart,
@@ -311,101 +309,6 @@ function ExpandedPoolDetails({ pool }: { pool: YieldPool }) {
 type SortField = "tvl" | "apy" | "risk";
 type TabType = "all" | "watchlist";
 
-// Curated Pick Card Component
-const ACCENT_STYLES = {
-    green: {
-        card: "hover:border-green-500/50 hover:shadow-green-500/10",
-        badge: "bg-green-500/20 text-green-400 border-green-500/30",
-    },
-    blue: {
-        card: "hover:border-blue-500/50 hover:shadow-blue-500/10",
-        badge: "bg-blue-500/20 text-blue-400 border-blue-500/30",
-    },
-    yellow: {
-        card: "hover:border-yellow-500/50 hover:shadow-yellow-500/10",
-        badge: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
-    },
-};
-
-function CuratedPickCard({ pool, label, icon: Icon, accentColor, onExpand }: {
-    pool: YieldPool;
-    label: string;
-    icon: React.ElementType;
-    accentColor: keyof typeof ACCENT_STYLES;
-    onExpand: (id: string) => void;
-}) {
-    const styles = ACCENT_STYLES[accentColor];
-
-    return (
-        <div
-            onClick={() => onExpand(pool.id)}
-            className={`group relative bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 rounded-xl p-4 cursor-pointer transition-all hover:shadow-lg ${styles.card}`}
-        >
-            {/* Label badge */}
-            <div className={`absolute -top-2 left-3 px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wide border ${styles.badge}`}>
-                <Icon className="inline h-3 w-3 mr-1" />
-                {label}
-            </div>
-
-            <div className="mt-2">
-                {/* Project & Symbol */}
-                <div className="flex items-center justify-between mb-3">
-                    <div>
-                        <h4 className="text-white font-semibold">{pool.project}</h4>
-                        <p className="text-xs text-slate-500">{pool.symbol}</p>
-                    </div>
-                    <span className="text-xs text-slate-500 bg-slate-800 px-2 py-1 rounded">{pool.chain}</span>
-                </div>
-
-                {/* Stats */}
-                <div className="grid grid-cols-3 gap-3">
-                    <div>
-                        <p className="text-[10px] text-slate-500 uppercase">TVL</p>
-                        <p className="text-sm text-white font-medium">{formatTvl(pool.tvlUsd)}</p>
-                    </div>
-                    <div>
-                        <p className="text-[10px] text-slate-500 uppercase">APY</p>
-                        <p className={`text-sm font-semibold ${pool.apy >= 5 ? "text-green-400" : "text-white"}`}>
-                            {formatApy(pool.apy)}
-                        </p>
-                    </div>
-                    <div>
-                        <p className="text-[10px] text-slate-500 uppercase">Risk</p>
-                        <div className="flex items-center gap-1">
-                            <span className={`text-sm font-semibold ${RISK_COLORS[pool.riskLevel]}`}>
-                                {pool.riskScore}
-                            </span>
-                            <div className="flex-1 h-1 bg-slate-700 rounded-full overflow-hidden">
-                                <div
-                                    className={`h-full ${pool.riskScore <= 20 ? "bg-green-500" : pool.riskScore <= 40 ? "bg-yellow-500" : "bg-red-500"}`}
-                                    style={{ width: `${pool.riskScore}%` }}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* APY Trend */}
-                {pool.apyStability && (
-                    <div className="mt-3 pt-3 border-t border-slate-700/50 flex items-center justify-between text-xs">
-                        <span className="text-slate-500">30d Trend</span>
-                        <span className={`flex items-center gap-1 ${
-                            pool.apyStability.trend === "up" ? "text-green-400" :
-                            pool.apyStability.trend === "down" ? "text-red-400" : "text-slate-400"
-                        }`}>
-                            {pool.apyStability.trend === "up" && <TrendingUp className="h-3 w-3" />}
-                            {pool.apyStability.trend === "down" && <TrendingDown className="h-3 w-3" />}
-                            {pool.apyStability.trend === "stable" && <Minus className="h-3 w-3" />}
-                            {pool.apyStability.trend === "up" ? "Rising" :
-                             pool.apyStability.trend === "down" ? "Falling" : "Stable"}
-                        </span>
-                    </div>
-                )}
-            </div>
-        </div>
-    );
-}
-
 export default function CuratePage() {
     const { data: session } = useSession();
     const [graphData, setGraphData] = useState<DefiGraphData | null>(null);
@@ -689,23 +592,6 @@ export default function CuratePage() {
                             </div>
                         </div>
 
-                        {/* Stats - proof of coverage */}
-                        {heroStats && (
-                            <div className="flex lg:flex-col gap-6 lg:gap-3 lg:text-right">
-                                <div>
-                                    <p className="text-2xl font-bold text-white">{formatTvl(heroStats.totalTvl)}</p>
-                                    <p className="text-xs text-slate-500">TVL analyzed</p>
-                                </div>
-                                <div>
-                                    <p className="text-2xl font-bold text-white">{heroStats.totalPools}</p>
-                                    <p className="text-xs text-slate-500">Pools tracked</p>
-                                </div>
-                                <div>
-                                    <p className="text-2xl font-bold text-green-400">{heroStats.lowRiskCount}</p>
-                                    <p className="text-xs text-slate-500">Low risk</p>
-                                </div>
-                            </div>
-                        )}
                     </div>
                 </div>
             </div>
@@ -745,52 +631,13 @@ export default function CuratePage() {
                 </Link>
             </div>
 
-            {/* Curated Picks Section */}
-            {!loading && (curatedPicks.bestRiskAdjusted || curatedPicks.topStable || curatedPicks.highestApy) && (
-                <div>
-                    <div className="flex items-center gap-2 mb-3">
-                        <Sparkles className="h-4 w-4 text-yellow-400" />
-                        <h2 className="text-sm font-semibold text-white">Curated Picks</h2>
-                        <span className="text-xs text-slate-500">— Algorithmically selected opportunities</span>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        {curatedPicks.bestRiskAdjusted && (
-                            <CuratedPickCard
-                                pool={curatedPicks.bestRiskAdjusted}
-                                label="Best Risk-Adjusted"
-                                icon={Target}
-                                accentColor="green"
-                                onExpand={handleExpandFromPick}
-                            />
-                        )}
-                        {curatedPicks.topStable && (
-                            <CuratedPickCard
-                                pool={curatedPicks.topStable}
-                                label="Top Stablecoin"
-                                icon={Shield}
-                                accentColor="blue"
-                                onExpand={handleExpandFromPick}
-                            />
-                        )}
-                        {curatedPicks.highestApy && (
-                            <CuratedPickCard
-                                pool={curatedPicks.highestApy}
-                                label="Sustainable Yield"
-                                icon={Zap}
-                                accentColor="yellow"
-                                onExpand={handleExpandFromPick}
-                            />
-                        )}
-                    </div>
-                </div>
-            )}
-
-            {/* AI Recommendations Section */}
+            {/* Smart Picks Section - shows curated picks or AI recommendations */}
             <AIRecommendationsSection
                 hasPreferences={hasPreferences}
                 onSetPreferences={() => setPreferencesOpen(true)}
                 onPoolClick={handleExpandFromPick}
                 isLoggedIn={!!session?.user}
+                curatedPicks={curatedPicks}
             />
 
             {/* All Pools Section */}
