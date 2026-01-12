@@ -276,8 +276,23 @@ function Header({
                             <RefreshCw className={`h-5 w-5 ${refreshing ? "animate-spin" : ""}`} />
                         </button>
                     )}
-                    {showWalletButton && <ConnectButton />}
-                    {showCreate ? (
+                    {showWalletButton && (
+                        isProduction ? (
+                            <span
+                                className="flex items-center gap-2 px-4 py-2 bg-slate-700 text-slate-400 font-medium rounded-lg cursor-not-allowed"
+                                title="Wallet connection coming soon"
+                            >
+                                <Wallet className="h-4 w-4" />
+                                Connect Wallet
+                                <span className="text-[10px] px-1.5 py-0.5 bg-slate-600 text-slate-300 rounded-full">
+                                    Soon
+                                </span>
+                            </span>
+                        ) : (
+                            <ConnectButton />
+                        )
+                    )}
+                    {showCreate && (
                         <button
                             onClick={onCreateClick}
                             className="flex items-center gap-2 px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white font-medium rounded-lg transition-colors"
@@ -285,15 +300,7 @@ function Header({
                             <Plus className="h-4 w-4" />
                             Create Vault
                         </button>
-                    ) : isProduction ? (
-                        <span className="flex items-center gap-2 px-4 py-2 bg-slate-700 text-slate-400 font-medium rounded-lg cursor-not-allowed">
-                            <Plus className="h-4 w-4" />
-                            Create Vault
-                            <span className="text-[10px] px-1.5 py-0.5 bg-slate-600 text-slate-300 rounded-full">
-                                Soon
-                            </span>
-                        </span>
-                    ) : null}
+                    )}
                 </div>
             </div>
         </div>
@@ -320,7 +327,21 @@ function EmptyState({
                 Create your first MetaMorpho vault to start earning yield. Vaults are fully permissionless and customizable.
             </p>
 
-            {canCreate ? (
+            {isProduction ? (
+                <div className="text-center">
+                    <p className="text-slate-500 text-sm mb-4">Connect wallet to create a vault</p>
+                    <span
+                        className="inline-flex items-center gap-2 px-6 py-3 bg-slate-700 text-slate-400 font-medium rounded-lg cursor-not-allowed"
+                        title="Wallet connection coming soon"
+                    >
+                        <Wallet className="h-5 w-5" />
+                        Connect Wallet
+                        <span className="text-xs px-2 py-0.5 bg-slate-600 text-slate-300 rounded-full">
+                            Coming Soon
+                        </span>
+                    </span>
+                </div>
+            ) : canCreate ? (
                 <button
                     onClick={onCreateClick}
                     className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 text-white font-medium rounded-lg transition-all shadow-lg shadow-purple-500/25"
@@ -328,16 +349,6 @@ function EmptyState({
                     <Plus className="h-5 w-5" />
                     Create Your First Vault
                 </button>
-            ) : isProduction ? (
-                <div className="text-center">
-                    <span className="flex items-center gap-2 px-6 py-3 bg-slate-700 text-slate-400 font-medium rounded-lg cursor-not-allowed">
-                        <Plus className="h-5 w-5" />
-                        Create Your First Vault
-                        <span className="text-xs px-2 py-0.5 bg-slate-600 text-slate-300 rounded-full">
-                            Coming Soon
-                        </span>
-                    </span>
-                </div>
             ) : (
                 <div className="text-center">
                     <p className="text-slate-500 text-sm mb-4">Connect wallet to create a vault</p>
