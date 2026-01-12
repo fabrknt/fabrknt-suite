@@ -98,7 +98,7 @@ export default function LandingPage() {
                         {/* Stats */}
                         <div className="flex flex-wrap justify-center gap-8 mb-10 text-sm">
                             <div className="text-center">
-                                <p className="text-2xl font-bold text-cyan-400">5,000+</p>
+                                <p className="text-2xl font-bold text-cyan-400">200+</p>
                                 <p className="text-muted-foreground">Pools Analyzed</p>
                             </div>
                             <div className="text-center">

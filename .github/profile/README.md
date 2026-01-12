@@ -13,7 +13,7 @@ We build intelligent tools for DeFi yield curators, investors, and protocol team
 - **AI Recommendations** — Personalized pool suggestions based on your risk profile
 - **Smart Risk Insights** — Natural language analysis of risks and opportunities
 - **Portfolio Optimizer** — AI-driven allocation across yield pools
-- **Risk Scoring** — Composite scores (0-100) for 5,000+ pools
+- **Risk Scoring** — Composite scores (0-100) for 200+ pools
 - **APY Stability** — 30-day trend analysis and volatility metrics
 - **Liquidity Analysis** — Exit-ability ratings and slippage estimates
 

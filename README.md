@@ -81,7 +81,7 @@ Beyond AI features, CURATE provides comprehensive yield intelligence:
 
 ## Data Coverage
 
-- **5,000+** yield pools analyzed
+- **200+** yield pools analyzed
 - **30-day** APY trends
 - **Real-time** risk scoring
 - Data sourced from DeFiLlama APIs
@@ -119,7 +119,7 @@ Beyond AI features, CURATE provides comprehensive yield intelligence:
 
 ### For Users
 
-1. **Browse Pools** — Explore 5,000+ yield pools with risk scoring (no login required)
+1. **Browse Pools** — Explore 200+ yield pools with risk scoring (no login required)
 2. **Sign In** — Unlock AI-powered features
 3. **Set Preferences** — Configure your risk tolerance and preferences
 4. **Get AI Recommendations** — Receive personalized pool suggestions
