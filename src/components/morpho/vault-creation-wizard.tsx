@@ -107,6 +107,13 @@ export function VaultCreationWizard({ onClose, onSuccess }: VaultCreationWizardP
         }
     }, [isConfirmed, receipt, txHash, selectedChain, selectedAsset, selectedAssetDetails, vaultName, vaultSymbol, onSuccess]);
 
+    // Handle transaction rejection/error - go back to confirm step
+    useEffect(() => {
+        if (writeError && step === "deploying") {
+            setStep("confirm");
+        }
+    }, [writeError, step]);
+
     // Switch chain if needed
     const handleChainSelect = (newChainId: number) => {
         setSelectedChain(newChainId);
