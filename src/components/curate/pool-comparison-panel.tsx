@@ -1,7 +1,8 @@
 "use client";
 
-import { X, CheckCircle, AlertTriangle, Info } from "lucide-react";
+import { X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { GuidedComparison } from "./learning";
 
 interface PoolDependency {
     type: "protocol" | "asset" | "oracle" | "chain";
@@ -183,6 +184,13 @@ export function PoolComparisonPanel({ pools, isOpen, onClose }: PoolComparisonPa
                         </div>
 
                         <div className="p-4 pb-8">
+                            {/* Guided Comparison Insights */}
+                            {pools.length >= 2 && (
+                                <div className="mb-6">
+                                    <GuidedComparison pools={pools} />
+                                </div>
+                            )}
+
                             {/* Pool Headers */}
                             <div className="grid grid-cols-4 gap-2 mb-4">
                                 <div />

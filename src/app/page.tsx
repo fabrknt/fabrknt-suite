@@ -36,6 +36,12 @@ import { SolanaMetricsPanel } from "@/components/curate/solana-yield-metrics";
 import { LSTComparison } from "@/components/curate/lst-comparison";
 import { AlternativeYields } from "@/components/curate/alternative-yields";
 import { CurateLayoutClient } from "@/components/curate/curate-layout-client";
+import {
+    ApySustainabilityToggle,
+    ILSimulatorEnhanced,
+    RiskScoreExplainer,
+    DiscoveryPrompts,
+} from "@/components/curate/learning";
 import { getProtocolSlug } from "@/lib/solana/protocols";
 
 interface PoolDependency {
@@ -173,8 +179,9 @@ function formatSafeAllocation(amount: number): string {
 
 function ExpandedPoolDetails({ pool }: { pool: YieldPool }) {
     const { data: session } = useSession();
-    const { riskBreakdown, apyStability, liquidityRisk } = pool;
+    const { riskBreakdown, liquidityRisk } = pool;
     const protocolSlug = getProtocolSlug(pool.project);
+    const hasILRisk = pool.ilRiskInfo?.hasILRisk && pool.ilRiskInfo.level !== "none";
 
     return (
         <div className="bg-slate-800/50 px-4 py-5 border-t border-slate-700/50">
@@ -185,113 +192,95 @@ function ExpandedPoolDetails({ pool }: { pool: YieldPool }) {
                 </div>
             )}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {/* Risk Breakdown */}
-                <div>
-                    <h4 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
-                        <Shield className="h-4 w-4 text-cyan-400" />
-                        Risk Breakdown
+            {/* Learning Components Row */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                {/* Risk Score Explainer */}
+                <RiskScoreExplainer
+                    riskScore={pool.riskScore}
+                    riskLevel={pool.riskLevel}
+                    breakdown={riskBreakdown}
+                    tvlUsd={pool.tvlUsd}
+                    apy={pool.apy}
+                    apyBase={pool.apyBase}
+                    apyReward={pool.apyReward}
+                    stablecoin={pool.stablecoin}
+                    ilRisk={pool.ilRisk}
+                    project={pool.project}
+                    underlyingAssets={pool.underlyingAssets}
+                />
+
+                {/* APY Sustainability Toggle */}
+                <ApySustainabilityToggle
+                    totalApy={pool.apy}
+                    baseApy={pool.apyBase}
+                    rewardApy={pool.apyReward}
+                    poolSymbol={pool.symbol}
+                />
+
+                {/* Liquidity Info */}
+                <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+                    <h4 className="text-sm font-medium text-white mb-3 flex items-center gap-2">
+                        <Droplet className="h-4 w-4 text-cyan-400" />
+                        Liquidity & Exit
                     </h4>
-                    <div className="space-y-2 text-xs">
-                        <div className="flex justify-between">
-                            <span className="text-slate-400">TVL Risk</span>
-                            <span className={riskBreakdown.tvlScore <= 10 ? "text-green-400" : riskBreakdown.tvlScore <= 20 ? "text-yellow-400" : "text-red-400"}>
-                                {riskBreakdown.tvlScore}/30
-                            </span>
-                        </div>
-                        <div className="flex justify-between">
-                            <span className="text-slate-400">APY Sustainability</span>
-                            <span className={riskBreakdown.apyScore <= 10 ? "text-green-400" : riskBreakdown.apyScore <= 15 ? "text-yellow-400" : "text-red-400"}>
-                                {riskBreakdown.apyScore}/25
-                            </span>
-                        </div>
-                        <div className="flex justify-between">
-                            <span className="text-slate-400">Asset Volatility</span>
-                            <span className={riskBreakdown.stableScore <= 5 ? "text-green-400" : riskBreakdown.stableScore <= 10 ? "text-yellow-400" : "text-red-400"}>
-                                {riskBreakdown.stableScore}/20
-                            </span>
-                        </div>
-                        <div className="flex justify-between">
-                            <span className="text-slate-400">IL Risk</span>
-                            <span className={riskBreakdown.ilScore <= 5 ? "text-green-400" : riskBreakdown.ilScore <= 10 ? "text-yellow-400" : "text-red-400"}>
-                                {riskBreakdown.ilScore}/15
-                            </span>
-                        </div>
-                        <div className="flex justify-between">
-                            <span className="text-slate-400">Protocol</span>
-                            <span className={riskBreakdown.protocolScore <= 3 ? "text-green-400" : riskBreakdown.protocolScore <= 5 ? "text-yellow-400" : "text-red-400"}>
-                                {riskBreakdown.protocolScore}/10
-                            </span>
-                        </div>
-                        <div className="border-t border-slate-700 pt-2 flex justify-between font-medium">
-                            <span className="text-white">Total</span>
-                            <span className={pool.riskScore <= 20 ? "text-green-400" : pool.riskScore <= 40 ? "text-yellow-400" : "text-red-400"}>
-                                {pool.riskScore}/100
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                {/* APY History Chart */}
-                <div className="lg:col-span-2">
-                    <ApyHistoryChart poolId={pool.id} />
-                </div>
-
-                {/* Liquidity & Dependencies */}
-                <div className="space-y-4">
-                    {/* Liquidity */}
-                    <div>
-                        <h4 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
-                            <Droplet className="h-4 w-4 text-cyan-400" />
-                            Liquidity
-                        </h4>
-                        {liquidityRisk ? (
-                            <div className="space-y-2 text-xs">
-                                <div className="flex justify-between">
-                                    <span className="text-slate-400">Score</span>
-                                    <span className={liquidityRisk.score <= 20 ? "text-green-400" : liquidityRisk.score <= 40 ? "text-yellow-400" : "text-orange-400"}>
-                                        {liquidityRisk.score}/100
-                                    </span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span className="text-slate-400">Exitability</span>
-                                    <span className="text-slate-300 capitalize">{liquidityRisk.exitabilityRating.replace("_", " ")}</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span className="text-slate-400">Safe Allocation</span>
-                                    <span className="text-slate-300">{formatSafeAllocation(liquidityRisk.maxSafeAllocation)}</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span className="text-slate-400">Slippage @$100K</span>
-                                    <span className={liquidityRisk.slippageEstimates.at100k < 0.5 ? "text-green-400" : "text-yellow-400"}>
-                                        {liquidityRisk.slippageEstimates.at100k}%
-                                    </span>
+                    {liquidityRisk ? (
+                        <div className="space-y-3">
+                            <div className="flex justify-between items-center">
+                                <span className="text-xs text-slate-400">Exitability</span>
+                                <span className={`text-sm font-medium capitalize ${
+                                    liquidityRisk.exitabilityRating === "excellent" || liquidityRisk.exitabilityRating === "good"
+                                        ? "text-green-400"
+                                        : liquidityRisk.exitabilityRating === "moderate"
+                                        ? "text-yellow-400"
+                                        : "text-orange-400"
+                                }`}>
+                                    {liquidityRisk.exitabilityRating.replace("_", " ")}
+                                </span>
+                            </div>
+                            <div className="flex justify-between items-center">
+                                <span className="text-xs text-slate-400">Safe allocation</span>
+                                <span className="text-sm text-white">{formatSafeAllocation(liquidityRisk.maxSafeAllocation)}</span>
+                            </div>
+                            <div className="flex justify-between items-center">
+                                <span className="text-xs text-slate-400">Slippage @$100K</span>
+                                <span className={`text-sm ${liquidityRisk.slippageEstimates.at100k < 0.5 ? "text-green-400" : "text-yellow-400"}`}>
+                                    {liquidityRisk.slippageEstimates.at100k}%
+                                </span>
+                            </div>
+                            <div className="pt-2 border-t border-slate-700/50">
+                                <div className="flex flex-wrap gap-1">
+                                    {pool.underlyingAssets.map((a, i) => (
+                                        <span key={i} className="text-xs px-2 py-0.5 rounded bg-slate-700 text-slate-300">
+                                            {a}
+                                        </span>
+                                    ))}
                                 </div>
                             </div>
-                        ) : (
-                            <p className="text-xs text-slate-500">No data</p>
-                        )}
-                    </div>
-
-                    {/* Dependencies */}
-                    <div>
-                        <h4 className="text-sm font-semibold text-white mb-2 flex items-center gap-2">
-                            <Layers className="h-4 w-4 text-cyan-400" />
-                            Assets
-                        </h4>
-                        <div className="flex flex-wrap gap-1">
-                            {pool.underlyingAssets.map((a, i) => (
-                                <span key={i} className="text-xs px-2 py-0.5 rounded bg-slate-700 text-slate-300">
-                                    {a}
-                                </span>
-                            ))}
                         </div>
-                    </div>
+                    ) : (
+                        <p className="text-xs text-slate-500">No liquidity data available</p>
+                    )}
                 </div>
             </div>
 
+            {/* APY History Chart */}
+            <div className="mb-6">
+                <ApyHistoryChart poolId={pool.id} />
+            </div>
+
+            {/* IL Simulator - only show for LP pools with IL risk */}
+            {hasILRisk && pool.underlyingAssets.length >= 2 && (
+                <div className="mb-6">
+                    <ILSimulatorEnhanced
+                        poolSymbol={pool.symbol}
+                        poolApy={pool.apy}
+                        underlyingAssets={pool.underlyingAssets}
+                    />
+                </div>
+            )}
+
             {/* Solana Yield Metrics */}
-            <div className="mt-6">
+            <div className="mb-6">
                 <SolanaMetricsPanel
                     yieldBreakdown={pool.yieldBreakdown}
                     tvlTrend={pool.tvlTrend}
@@ -302,7 +291,7 @@ function ExpandedPoolDetails({ pool }: { pool: YieldPool }) {
             </div>
 
             {/* AI Insights */}
-            <div className="mt-6">
+            <div>
                 <PoolAIInsights poolId={pool.id} isLoggedIn={!!session?.user} />
             </div>
         </div>
@@ -711,6 +700,27 @@ export default function CuratePage() {
                     </div>
                 </div>
             </div>
+
+            {/* Discovery Prompts - Learning through exploration */}
+            {graphData?.yields && graphData.yields.length > 0 && (
+                <DiscoveryPrompts
+                    pools={graphData.yields.map(p => ({
+                        id: p.id,
+                        project: p.project,
+                        symbol: p.symbol,
+                        tvlUsd: p.tvlUsd,
+                        apy: p.apy,
+                        apyBase: p.apyBase,
+                        apyReward: p.apyReward,
+                        riskScore: p.riskScore,
+                        riskLevel: p.riskLevel,
+                        stablecoin: p.stablecoin,
+                        category: p.yieldBreakdown?.sources?.includes("restaking") ? "restaking" :
+                                  p.yieldBreakdown?.sources?.includes("perp") ? "perp_lp" : undefined,
+                    }))}
+                    onExplore={handleExpandFromPick}
+                />
+            )}
 
             {/* Smart Picks Section - shows curated picks or AI recommendations */}
             <AIRecommendationsSection
