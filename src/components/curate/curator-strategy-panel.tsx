@@ -328,6 +328,20 @@ export function CuratorStrategyPanel({ curatorSlug, isOpen, onClose }: CuratorSt
                                                                 </div>
                                                             )}
                                                         </div>
+                                                        {/* Reasoning section */}
+                                                        {alloc.reasoning && (
+                                                            <div className="mt-3 pt-3 border-t border-slate-700/50 space-y-2 text-xs">
+                                                                <div className="flex items-start gap-2">
+                                                                    <Lightbulb className="h-3.5 w-3.5 text-cyan-400 mt-0.5 flex-shrink-0" />
+                                                                    <p className="text-slate-300">{alloc.reasoning.whyThisAsset}</p>
+                                                                </div>
+                                                                <div className="pl-5 space-y-1 text-slate-400">
+                                                                    <p><span className="text-slate-500">Allocation: </span>{alloc.reasoning.whyThisPercent}</p>
+                                                                    <p><span className="text-slate-500">Risk: </span>{alloc.reasoning.riskMitigation}</p>
+                                                                    <p><span className="text-yellow-500/70">Tradeoff: </span>{alloc.reasoning.tradeoff}</p>
+                                                                </div>
+                                                            </div>
+                                                        )}
                                                     </div>
                                                 );
                                             })}

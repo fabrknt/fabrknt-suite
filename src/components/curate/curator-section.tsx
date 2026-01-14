@@ -6,12 +6,20 @@ import { CuratorCard } from "./curator-card";
 import { CuratorStrategyPanel } from "./curator-strategy-panel";
 import { CuratorProfile } from "@/lib/curate/curators";
 
+interface AllocationReasoning {
+    whyThisAsset: string;
+    whyThisPercent: string;
+    riskMitigation: string;
+    tradeoff: string;
+}
+
 interface StrategyAllocation {
     pool: string;
     asset: string;
     allocation: number;
     apy: number;
     riskLevel: "low" | "medium" | "high";
+    reasoning?: AllocationReasoning;
 }
 
 interface StrategyMetrics {
@@ -124,11 +132,8 @@ export function CuratorSection() {
                 <div className="p-4 border-b border-slate-800">
                     <div className="flex items-center gap-2">
                         <Users className="h-5 w-5 text-purple-400" />
-                        <h3 className="text-lg font-semibold text-white">Choose a Strategy</h3>
+                        <h3 className="text-lg font-semibold text-white">Follow proven strategies from top DeFi curators</h3>
                     </div>
-                    <p className="text-sm text-slate-400 mt-1">
-                        Follow proven allocation strategies from top DeFi curators
-                    </p>
                 </div>
 
                 {/* Curator Cards */}

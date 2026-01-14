@@ -6,6 +6,13 @@
 
 import { getCurator, CuratorProfile } from "./curators";
 
+export interface AllocationReasoning {
+    whyThisAsset: string;      // Why this asset was chosen
+    whyThisPercent: string;    // Why this specific allocation %
+    riskMitigation: string;    // How this position manages risk
+    tradeoff: string;          // What you give up for this choice
+}
+
 export interface StrategyAllocation {
     pool: string;
     asset: string;
@@ -13,6 +20,7 @@ export interface StrategyAllocation {
     apy: number;
     riskLevel: "low" | "medium" | "high";
     poolId?: string; // DeFiLlama pool ID if available
+    reasoning?: AllocationReasoning; // Educational content explaining the choice
 }
 
 export interface StrategyChange {
@@ -70,6 +78,12 @@ const GAUNTLET_KAMINO_STRATEGY: CuratorStrategy = {
             allocation: 40,
             apy: 6.8,
             riskLevel: "low",
+            reasoning: {
+                whyThisAsset: "USDC is the most liquid stablecoin on Solana with deep lending markets",
+                whyThisPercent: "40% creates a stable anchor - large enough to reduce portfolio volatility significantly",
+                riskMitigation: "Stablecoins don't lose value in market downturns, protecting your principal",
+                tradeoff: "Lower yield than volatile assets, but consistent and predictable returns",
+            },
         },
         {
             pool: "SOL Lending",
@@ -77,6 +91,12 @@ const GAUNTLET_KAMINO_STRATEGY: CuratorStrategy = {
             allocation: 25,
             apy: 5.2,
             riskLevel: "low",
+            reasoning: {
+                whyThisAsset: "SOL is the native asset with highest demand for borrowing (trading, leverage)",
+                whyThisPercent: "25% gives meaningful exposure to Solana ecosystem growth without overconcentration",
+                riskMitigation: "Lending is lower risk than LPing - no impermanent loss, just utilization risk",
+                tradeoff: "SOL price volatility affects your portfolio value, even though lending itself is safe",
+            },
         },
         {
             pool: "JitoSOL Vault",
@@ -84,6 +104,12 @@ const GAUNTLET_KAMINO_STRATEGY: CuratorStrategy = {
             allocation: 15,
             apy: 7.5,
             riskLevel: "medium",
+            reasoning: {
+                whyThisAsset: "JitoSOL earns staking rewards + MEV tips, boosting yield above regular SOL",
+                whyThisPercent: "15% is a yield enhancer - enough to boost returns without dominating risk",
+                riskMitigation: "Liquid staking tokens maintain SOL exposure with better capital efficiency",
+                tradeoff: "Additional smart contract risk from Jito protocol, slightly less liquid than native SOL",
+            },
         },
         {
             pool: "ETH Lending",
@@ -91,6 +117,12 @@ const GAUNTLET_KAMINO_STRATEGY: CuratorStrategy = {
             allocation: 10,
             apy: 4.1,
             riskLevel: "low",
+            reasoning: {
+                whyThisAsset: "ETH provides cross-chain diversification - not correlated 1:1 with SOL",
+                whyThisPercent: "10% adds diversification without overexposing to bridged asset risks",
+                riskMitigation: "Different asset class reduces correlation - when SOL drops, ETH might not",
+                tradeoff: "Lower APY than SOL markets, and bridged ETH has additional bridge risk",
+            },
         },
         {
             pool: "USDT Lending",
@@ -98,6 +130,12 @@ const GAUNTLET_KAMINO_STRATEGY: CuratorStrategy = {
             allocation: 10,
             apy: 5.9,
             riskLevel: "low",
+            reasoning: {
+                whyThisAsset: "USDT diversifies stablecoin exposure - if USDC depegs, USDT might hold",
+                whyThisPercent: "10% provides stablecoin diversification without fragmenting too much",
+                riskMitigation: "Two stablecoins reduce single-issuer risk (remember USDC depeg in March 2023)",
+                tradeoff: "Some consider USDT riskier than USDC due to reserve transparency concerns",
+            },
         },
     ],
     profile: {
@@ -149,6 +187,12 @@ const GAUNTLET_MORPHO_STRATEGY: CuratorStrategy = {
             allocation: 50,
             apy: 8.2,
             riskLevel: "low",
+            reasoning: {
+                whyThisAsset: "USDC on Ethereum has the deepest liquidity and strongest institutional demand",
+                whyThisPercent: "50% majority in stables reflects conservative Morpho vault positioning",
+                riskMitigation: "Stablecoin majority protects against ETH price volatility",
+                tradeoff: "Missing potential ETH upside, but capital is protected in downturns",
+            },
         },
         {
             pool: "Gauntlet WETH Prime",
@@ -156,6 +200,12 @@ const GAUNTLET_MORPHO_STRATEGY: CuratorStrategy = {
             allocation: 30,
             apy: 4.5,
             riskLevel: "low",
+            reasoning: {
+                whyThisAsset: "WETH lending has consistent demand from DeFi protocols and traders",
+                whyThisPercent: "30% provides ETH exposure while keeping overall portfolio conservative",
+                riskMitigation: "Lending WETH is safer than LPing - you maintain full ETH exposure without IL",
+                tradeoff: "Lower APY than stablecoin lending, but you benefit if ETH appreciates",
+            },
         },
         {
             pool: "Gauntlet wstETH",
@@ -163,6 +213,12 @@ const GAUNTLET_MORPHO_STRATEGY: CuratorStrategy = {
             allocation: 20,
             apy: 5.8,
             riskLevel: "medium",
+            reasoning: {
+                whyThisAsset: "wstETH earns staking yield + lending yield, compounding returns",
+                whyThisPercent: "20% as yield booster - liquid staking tokens enhance overall APY",
+                riskMitigation: "Lido's wstETH is the most battle-tested liquid staking token on Ethereum",
+                tradeoff: "Additional Lido smart contract risk, and wstETH can trade at slight discount",
+            },
         },
     ],
     profile: {
@@ -198,6 +254,12 @@ const STEAKHOUSE_MORPHO_STRATEGY: CuratorStrategy = {
             allocation: 60,
             apy: 7.8,
             riskLevel: "low",
+            reasoning: {
+                whyThisAsset: "USDC is the gold standard for institutional stablecoin exposure",
+                whyThisPercent: "60% heavy weighting reflects Steakhouse's ultra-conservative treasury management approach",
+                riskMitigation: "Maximum capital preservation - ideal for treasuries that can't afford drawdowns",
+                tradeoff: "Very conservative - sacrificing yield for near-zero volatility",
+            },
         },
         {
             pool: "Steakhouse USDT",
@@ -205,6 +267,12 @@ const STEAKHOUSE_MORPHO_STRATEGY: CuratorStrategy = {
             allocation: 25,
             apy: 6.5,
             riskLevel: "low",
+            reasoning: {
+                whyThisAsset: "USDT provides issuer diversification from USDC's Circle dependency",
+                whyThisPercent: "25% balances diversification needs while keeping USDC dominant",
+                riskMitigation: "If Circle faces issues, USDT position remains unaffected",
+                tradeoff: "Tether's reserve transparency is lower, but trading volume is highest globally",
+            },
         },
         {
             pool: "Steakhouse DAI",
@@ -212,6 +280,12 @@ const STEAKHOUSE_MORPHO_STRATEGY: CuratorStrategy = {
             allocation: 15,
             apy: 5.2,
             riskLevel: "low",
+            reasoning: {
+                whyThisAsset: "DAI is decentralized - not dependent on any single company's banking relationships",
+                whyThisPercent: "15% adds decentralization without overexposing to smart contract complexity",
+                riskMitigation: "If regulators target centralized stablecoins, DAI remains operational",
+                tradeoff: "Lower APY than USDC/USDT, and DAI has had minor depegs during extreme volatility",
+            },
         },
     ],
     profile: {
@@ -247,6 +321,12 @@ const RE7_MORPHO_STRATEGY: CuratorStrategy = {
             allocation: 35,
             apy: 5.5,
             riskLevel: "medium",
+            reasoning: {
+                whyThisAsset: "WETH is the core ETH exposure - betting on Ethereum ecosystem growth",
+                whyThisPercent: "35% makes ETH the anchor position for an aggressive ETH-focused strategy",
+                riskMitigation: "Lending rather than LPing limits downside to ETH price movements only",
+                tradeoff: "Full ETH price exposure - portfolio moves with ETH market",
+            },
         },
         {
             pool: "RE7 wstETH",
@@ -254,6 +334,12 @@ const RE7_MORPHO_STRATEGY: CuratorStrategy = {
             allocation: 30,
             apy: 6.8,
             riskLevel: "medium",
+            reasoning: {
+                whyThisAsset: "wstETH compounds staking + lending yield for maximum ETH returns",
+                whyThisPercent: "30% amplifies ETH exposure through liquid staking leverage",
+                riskMitigation: "Lido's wstETH is the most liquid and battle-tested LST",
+                tradeoff: "Layered smart contract risk (Lido + Morpho), but higher yield justifies it",
+            },
         },
         {
             pool: "RE7 USDC",
@@ -261,6 +347,12 @@ const RE7_MORPHO_STRATEGY: CuratorStrategy = {
             allocation: 20,
             apy: 9.2,
             riskLevel: "medium",
+            reasoning: {
+                whyThisAsset: "USDC provides dry powder and reduces portfolio correlation to ETH",
+                whyThisPercent: "20% is minimal stable allocation - just enough for rebalancing flexibility",
+                riskMitigation: "When ETH drops, this 20% maintains value for buying opportunities",
+                tradeoff: "Lower allocation than conservative strategies, accepting more volatility",
+            },
         },
         {
             pool: "RE7 cbETH",
@@ -268,6 +360,12 @@ const RE7_MORPHO_STRATEGY: CuratorStrategy = {
             allocation: 15,
             apy: 7.5,
             riskLevel: "high",
+            reasoning: {
+                whyThisAsset: "cbETH (Coinbase ETH) adds LST diversification from Lido's wstETH",
+                whyThisPercent: "15% yield enhancer - smaller position due to higher risk profile",
+                riskMitigation: "Diversifying LST providers reduces single-protocol dependency",
+                tradeoff: "cbETH is less liquid than wstETH and has additional Coinbase custody considerations",
+            },
         },
     ],
     profile: {

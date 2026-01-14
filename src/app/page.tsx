@@ -448,7 +448,7 @@ export default function CuratePage() {
     const chain = SOLANA_CHAIN;
     const [minTvl, setMinTvl] = useState(1_000_000);
     const [stablecoinOnly, setStablecoinOnly] = useState(false);
-    const [riskFilter, setRiskFilter] = useState<string>("low");
+    const [riskFilter, setRiskFilter] = useState<string>("");
     const [sortBy, setSortBy] = useState<SortField>("tvl");
     const [protocolFilter, setProtocolFilter] = useState<string | null>(null);
 
@@ -669,11 +669,19 @@ export default function CuratePage() {
                     /* INSIGHTS TAB - Strategy selection */
                     insights: (
                         <div className="space-y-6">
-                            {/* Compact Stats Bar */}
+                            {/* Curator Strategies - Primary focus */}
+                            <CuratorSection />
+                        </div>
+                    ),
+
+                    /* EXPLORE TAB - Browse all pools */
+                    explore: (
+                        <div className="space-y-6">
+                            {/* Stats Bar */}
                             <div className="flex flex-wrap items-center gap-4 p-4 bg-slate-900/50 border border-slate-800 rounded-xl">
                                 <div className="flex items-center gap-2">
                                     <span className="text-2xl font-bold text-white">{heroStats?.totalPools || summaryStats.poolCount}+</span>
-                                    <span className="text-sm text-slate-400">pools analyzed</span>
+                                    <span className="text-sm text-slate-400">pools</span>
                                 </div>
                                 <div className="w-px h-8 bg-slate-700 hidden sm:block" />
                                 <div className="flex items-center gap-2">
@@ -683,18 +691,10 @@ export default function CuratePage() {
                                 <div className="w-px h-8 bg-slate-700 hidden sm:block" />
                                 <div className="flex items-center gap-2 text-xs text-slate-500">
                                     <Shield className="h-4 w-4 text-cyan-500" />
-                                    <span>Risk-adjusted insights for Solana DeFi</span>
+                                    <span>Solana DeFi yield opportunities</span>
                                 </div>
                             </div>
 
-                            {/* Curator Strategies - Primary focus */}
-                            <CuratorSection />
-                        </div>
-                    ),
-
-                    /* EXPLORE TAB - Browse all pools */
-                    explore: (
-                        <div className="space-y-6">
                             {/* Pool Table Header */}
             <div id="pool-table-section" className="flex items-center justify-between">
                 <div className="flex items-center gap-2">

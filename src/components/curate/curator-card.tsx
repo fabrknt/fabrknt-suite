@@ -1,8 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { Shield, TrendingUp, ChevronRight } from "lucide-react";
+import { Shield, TrendingUp, ChevronRight, ChevronDown, Lightbulb } from "lucide-react";
 import { CuratorProfile } from "@/lib/curate/curators";
+
+interface AllocationReasoning {
+    whyThisAsset: string;
+    whyThisPercent: string;
+    riskMitigation: string;
+    tradeoff: string;
+}
 
 interface StrategyAllocation {
     pool: string;
@@ -10,6 +17,7 @@ interface StrategyAllocation {
     allocation: number;
     apy: number;
     riskLevel: "low" | "medium" | "high";
+    reasoning?: AllocationReasoning;
 }
 
 interface StrategyMetrics {
@@ -52,6 +60,7 @@ const ALLOC_RISK_COLORS = {
 
 export function CuratorCard({ curator, strategyMetrics, onViewStrategy }: CuratorCardProps) {
     const [investmentAmount, setInvestmentAmount] = useState<string>("10000");
+    const [expandedAllocation, setExpandedAllocation] = useState<number | null>(null);
 
     const amount = Number(investmentAmount) || 0;
     const expectedYield = amount * ((strategyMetrics?.avgApy || 0) / 100);
@@ -94,20 +103,52 @@ export function CuratorCard({ curator, strategyMetrics, onViewStrategy }: Curato
                 )}
             </div>
 
-            {/* Allocations - all visible */}
+            {/* Allocations - expandable with reasoning */}
             {displayAllocations.length > 0 && (
                 <div className="px-4 pb-3">
                     <div className="text-xs text-slate-500 mb-2">Allocation</div>
-                    <div className="space-y-1.5">
+                    <div className="space-y-1">
                         {displayAllocations.map((alloc, idx) => (
-                            <div key={idx} className="flex items-center justify-between text-sm">
-                                <div className="flex items-center gap-2">
-                                    <span className="text-white font-medium w-10">{alloc.allocation}%</span>
-                                    <span className="text-slate-300">{alloc.asset}</span>
-                                </div>
-                                <span className={`text-xs ${ALLOC_RISK_COLORS[alloc.riskLevel]}`}>
-                                    {alloc.apy}%
-                                </span>
+                            <div key={idx}>
+                                <button
+                                    onClick={() => setExpandedAllocation(expandedAllocation === idx ? null : idx)}
+                                    className="w-full flex items-center justify-between text-sm py-1 hover:bg-slate-700/30 rounded px-1 -mx-1 transition-colors"
+                                >
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-white font-medium w-10">{alloc.allocation}%</span>
+                                        <span className="text-slate-300">{alloc.asset}</span>
+                                        {alloc.reasoning && (
+                                            <ChevronDown className={`h-3 w-3 text-slate-500 transition-transform ${expandedAllocation === idx ? "rotate-180" : ""}`} />
+                                        )}
+                                    </div>
+                                    <span className={`text-xs ${ALLOC_RISK_COLORS[alloc.riskLevel]}`}>
+                                        {alloc.apy}%
+                                    </span>
+                                </button>
+                                {/* Expanded reasoning */}
+                                {expandedAllocation === idx && alloc.reasoning && (
+                                    <div className="mt-1 mb-2 ml-1 pl-3 border-l-2 border-cyan-500/30 space-y-2 text-xs">
+                                        <div>
+                                            <div className="flex items-center gap-1 text-cyan-400 mb-0.5">
+                                                <Lightbulb className="h-3 w-3" />
+                                                <span className="font-medium">Why {alloc.asset}?</span>
+                                            </div>
+                                            <p className="text-slate-400">{alloc.reasoning.whyThisAsset}</p>
+                                        </div>
+                                        <div>
+                                            <span className="text-slate-500">Why {alloc.allocation}%: </span>
+                                            <span className="text-slate-400">{alloc.reasoning.whyThisPercent}</span>
+                                        </div>
+                                        <div>
+                                            <span className="text-slate-500">Risk mitigation: </span>
+                                            <span className="text-slate-400">{alloc.reasoning.riskMitigation}</span>
+                                        </div>
+                                        <div>
+                                            <span className="text-yellow-500/70">Tradeoff: </span>
+                                            <span className="text-slate-400">{alloc.reasoning.tradeoff}</span>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         ))}
                     </div>

@@ -28,6 +28,7 @@ export async function GET() {
                         allocation: a.allocation,
                         apy: a.apy,
                         riskLevel: a.riskLevel,
+                        reasoning: a.reasoning,
                     })),
                 } : undefined;
 
