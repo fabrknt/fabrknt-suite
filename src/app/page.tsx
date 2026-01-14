@@ -44,6 +44,7 @@ import {
 } from "@/components/curate/learning";
 import { YieldSpreadsPanel } from "@/components/curate/yield-spreads-panel";
 import { CuratorSection } from "@/components/curate/curator-section";
+import { TabNavigation, TabContent, TabId } from "@/components/curate/tab-navigation";
 import { getProtocolSlug } from "@/lib/solana/protocols";
 
 interface PoolDependency {
@@ -414,7 +415,10 @@ export default function CuratePage() {
     const [error, setError] = useState<string | null>(null);
     const [expandedPool, setExpandedPool] = useState<string | null>(null);
 
-    // Tab state
+    // Main navigation tab state (2 tabs: dashboard, explore)
+    const [mainTab, setMainTab] = useState<TabId>("dashboard");
+
+    // Pool list tab state (all vs watchlist)
     const [activeTab, setActiveTab] = useState<TabType>("all");
 
     // Watchlist state
@@ -641,124 +645,120 @@ export default function CuratePage() {
         }
     };
 
+    // Helper to filter pools from explore tab
+    const filterPoolsByProtocol = (protocol?: string) => {
+        if (protocol) {
+            setProtocolFilter(protocol);
+            setRiskFilter(""); // Show all risks when filtering by protocol
+        }
+        setMainTab("dashboard");
+        // Scroll to pool table after a short delay
+        setTimeout(() => {
+            document.getElementById("pool-table-section")?.scrollIntoView({ behavior: "smooth" });
+        }, 100);
+    };
+
     return (
         <CurateLayoutClient>
         <div className="space-y-6">
-            {/* Hero Section */}
-            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border border-slate-700/50 p-6 md:p-8">
-                {/* Background glow */}
-                <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-                <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
+            {/* Tab Navigation */}
+            <TabNavigation activeTab={mainTab} onTabChange={setMainTab} />
 
-                <div className="relative">
-                    <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-                        <div className="max-w-2xl">
-                            {/* Badges */}
-                            <div className="flex flex-wrap gap-2 mb-3">
-                                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px] font-medium uppercase tracking-wide">
-                                    Solana
-                                </span>
-                                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-green-500/10 text-green-400 border border-green-500/20 text-[10px] font-medium uppercase tracking-wide">
-                                    <Shield className="h-2.5 w-2.5" />
-                                    Non-Custodial
-                                </span>
-                                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-green-500/10 text-green-400 border border-green-500/20 text-[10px] font-medium uppercase tracking-wide">
-                                    Read-Only
-                                </span>
+            <TabContent activeTab={mainTab}>
+                {{
+                    /* DASHBOARD TAB - Home + Pools combined */
+                    dashboard: (
+                        <div className="space-y-6">
+                            {/* Hero Section */}
+                            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border border-slate-700/50 p-6 md:p-8">
+                                {/* Background glow */}
+                                <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+                                <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
+
+                                <div className="relative">
+                                    <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+                                        <div className="max-w-2xl">
+                                            {/* Badges */}
+                                            <div className="flex flex-wrap gap-2 mb-3">
+                                                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px] font-medium uppercase tracking-wide">
+                                                    Solana
+                                                </span>
+                                                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-green-500/10 text-green-400 border border-green-500/20 text-[10px] font-medium uppercase tracking-wide">
+                                                    <Shield className="h-2.5 w-2.5" />
+                                                    Non-Custodial
+                                                </span>
+                                                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-green-500/10 text-green-400 border border-green-500/20 text-[10px] font-medium uppercase tracking-wide">
+                                                    Read-Only
+                                                </span>
+                                            </div>
+
+                                            {/* Main headline - outcome focused */}
+                                            <h1 className="text-2xl md:text-3xl font-bold text-white mb-3">
+                                                {heroStats?.totalPools || summaryStats.poolCount}+ pools analyzed.{" "}
+                                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
+                                                    {heroStats?.lowRiskCount || summaryStats.lowRiskCount} you can trust.
+                                                </span>
+                                            </h1>
+
+                                            {/* Value prop - what painful decision it replaces */}
+                                            <p className="text-slate-400 text-sm md:text-base leading-relaxed">
+                                                An AI yield analyst that filters Solana DeFi by{" "}
+                                                <span className="text-slate-300">risk-adjusted return</span>, not raw APY.
+                                                Stop chasing numbers. Start allocating with confidence.
+                                            </p>
+
+                                            {/* How it works - quick proof */}
+                                            <div className="flex flex-wrap gap-x-4 gap-y-1 mt-4 text-xs text-slate-500">
+                                                <span className="flex items-center gap-1">
+                                                    <Shield className="h-3 w-3 text-cyan-500" />
+                                                    Risk scoring
+                                                </span>
+                                                <span className="flex items-center gap-1">
+                                                    <TrendingUp className="h-3 w-3 text-green-500" />
+                                                    APY stability analysis
+                                                </span>
+                                                <span className="flex items-center gap-1">
+                                                    <Sparkles className="h-3 w-3 text-purple-500" />
+                                                    AI recommendations
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
                             </div>
 
-                            {/* Main headline - outcome focused */}
-                            <h1 className="text-2xl md:text-3xl font-bold text-white mb-3">
-                                {heroStats?.totalPools || summaryStats.poolCount}+ pools analyzed.{" "}
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
-                                    {heroStats?.lowRiskCount || summaryStats.lowRiskCount} you can trust.
-                                </span>
-                            </h1>
+                            {/* Discovery Prompts - Learning through exploration */}
+                            {graphData?.yields && graphData.yields.length > 0 && (
+                                <DiscoveryPrompts
+                                    pools={graphData.yields.map(p => ({
+                                        id: p.id,
+                                        project: p.project,
+                                        symbol: p.symbol,
+                                        tvlUsd: p.tvlUsd,
+                                        apy: p.apy,
+                                        apyBase: p.apyBase,
+                                        apyReward: p.apyReward,
+                                        riskScore: p.riskScore,
+                                        riskLevel: p.riskLevel,
+                                        stablecoin: p.stablecoin,
+                                        category: p.yieldBreakdown?.sources?.includes("restaking") ? "restaking" :
+                                                  p.yieldBreakdown?.sources?.includes("perp") ? "perp_lp" : undefined,
+                                    }))}
+                                    onExplore={handleExpandFromPick}
+                                />
+                            )}
 
-                            {/* Value prop - what painful decision it replaces */}
-                            <p className="text-slate-400 text-sm md:text-base leading-relaxed">
-                                An AI yield analyst that filters Solana DeFi by{" "}
-                                <span className="text-slate-300">risk-adjusted return</span>, not raw APY.
-                                Stop chasing numbers. Start allocating with confidence.
-                            </p>
+                            {/* Smart Picks Section - shows curated picks or AI recommendations */}
+                            <AIRecommendationsSection
+                                hasPreferences={hasPreferences}
+                                onSetPreferences={() => setPreferencesOpen(true)}
+                                onPoolClick={handleExpandFromPick}
+                                isLoggedIn={!!session?.user}
+                                curatedPicks={curatedPicks}
+                            />
 
-                            {/* How it works - quick proof */}
-                            <div className="flex flex-wrap gap-x-4 gap-y-1 mt-4 text-xs text-slate-500">
-                                <span className="flex items-center gap-1">
-                                    <Shield className="h-3 w-3 text-cyan-500" />
-                                    Risk scoring
-                                </span>
-                                <span className="flex items-center gap-1">
-                                    <TrendingUp className="h-3 w-3 text-green-500" />
-                                    APY stability analysis
-                                </span>
-                                <span className="flex items-center gap-1">
-                                    <Sparkles className="h-3 w-3 text-purple-500" />
-                                    AI recommendations
-                                </span>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            {/* Discovery Prompts - Learning through exploration */}
-            {graphData?.yields && graphData.yields.length > 0 && (
-                <DiscoveryPrompts
-                    pools={graphData.yields.map(p => ({
-                        id: p.id,
-                        project: p.project,
-                        symbol: p.symbol,
-                        tvlUsd: p.tvlUsd,
-                        apy: p.apy,
-                        apyBase: p.apyBase,
-                        apyReward: p.apyReward,
-                        riskScore: p.riskScore,
-                        riskLevel: p.riskLevel,
-                        stablecoin: p.stablecoin,
-                        category: p.yieldBreakdown?.sources?.includes("restaking") ? "restaking" :
-                                  p.yieldBreakdown?.sources?.includes("perp") ? "perp_lp" : undefined,
-                    }))}
-                    onExplore={handleExpandFromPick}
-                />
-            )}
-
-            {/* Smart Picks Section - shows curated picks or AI recommendations */}
-            <AIRecommendationsSection
-                hasPreferences={hasPreferences}
-                onSetPreferences={() => setPreferencesOpen(true)}
-                onPoolClick={handleExpandFromPick}
-                isLoggedIn={!!session?.user}
-                curatedPicks={curatedPicks}
-            />
-
-            {/* Protocol Comparison Section */}
-            <ProtocolComparison onProtocolClick={(slug) => {
-                setProtocolFilter(slug);
-                setRiskFilter(""); // Show all risks when filtering by protocol
-                // Scroll to pool table
-                setTimeout(() => {
-                    document.getElementById("pool-table-section")?.scrollIntoView({ behavior: "smooth" });
-                }, 100);
-            }} />
-
-            {/* LST Comparison Section */}
-            <LSTComparison />
-
-            {/* Restaking & Perp LP Section */}
-            <AlternativeYields />
-
-            {/* Yield Opportunities - Cross-protocol arbitrage detection */}
-            <YieldSpreadsPanel />
-
-            {/* Curator Strategies - Learn from professional curators */}
-            <CuratorSection />
-
-            {/* DeFi Tools Section with Quick IL Calculator */}
-            <QuickILCalculator />
-
-            {/* All Pools Section */}
+                            {/* All Pools Section */}
             <div id="pool-table-section" className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                     <BarChart3 className="h-4 w-4 text-slate-500" />
@@ -1054,14 +1054,42 @@ export default function CuratePage() {
                 </div>
             )}
 
-            {/* Compare Bar */}
-            <CompareBar
-                count={selectedPoolIds.size}
-                onCompare={() => setComparisonOpen(true)}
-                onBacktest={() => setBacktestOpen(true)}
-                onClear={() => setSelectedPoolIds(new Set())}
-            />
+                            {/* Compare Bar */}
+                            <CompareBar
+                                count={selectedPoolIds.size}
+                                onCompare={() => setComparisonOpen(true)}
+                                onBacktest={() => setBacktestOpen(true)}
+                                onClear={() => setSelectedPoolIds(new Set())}
+                            />
+                        </div>
+                    ),
 
+                    /* EXPLORE TAB - Discover + Curators combined */
+                    explore: (
+                        <div className="space-y-6">
+                            {/* Protocol Comparison Section */}
+                            <ProtocolComparison onProtocolClick={(slug) => filterPoolsByProtocol(slug)} />
+
+                            {/* LST Comparison Section */}
+                            <LSTComparison />
+
+                            {/* Restaking & Perp LP Section */}
+                            <AlternativeYields />
+
+                            {/* Yield Opportunities - Cross-protocol arbitrage detection */}
+                            <YieldSpreadsPanel />
+
+                            {/* Curator Strategies - Learn from professional curators */}
+                            <CuratorSection />
+
+                            {/* DeFi Tools Section with Quick IL Calculator */}
+                            <QuickILCalculator />
+                        </div>
+                    ),
+                }}
+            </TabContent>
+
+            {/* Modals - Outside of tabs so they work everywhere */}
             {/* Comparison Panel */}
             <PoolComparisonPanel
                 pools={selectedPools}
