@@ -79,8 +79,8 @@ export function CuratorStrategyPanel({ curatorSlug, isOpen, onClose }: CuratorSt
             if (!response.ok) throw new Error("Failed to fetch curator data");
             const result = await response.json();
             setData(result);
-            // Auto-select first platform
-            if (result.strategies.length > 0 && !selectedPlatform) {
+            // Always select first platform for the new curator
+            if (result.strategies.length > 0) {
                 setSelectedPlatform(result.strategies[0].platform);
             }
         } catch (err) {
