@@ -186,44 +186,201 @@ const GAUNTLET_MORPHO_STRATEGY: CuratorStrategy = {
     dataSource: "curated",
 };
 
+// Steakhouse Financial Strategy
+const STEAKHOUSE_MORPHO_STRATEGY: CuratorStrategy = {
+    curatorId: "steakhouse",
+    platform: "morpho",
+    chain: "Ethereum",
+    allocations: [
+        {
+            pool: "Steakhouse USDC",
+            asset: "USDC",
+            allocation: 60,
+            apy: 7.8,
+            riskLevel: "low",
+        },
+        {
+            pool: "Steakhouse USDT",
+            asset: "USDT",
+            allocation: 25,
+            apy: 6.5,
+            riskLevel: "low",
+        },
+        {
+            pool: "Steakhouse DAI",
+            asset: "DAI",
+            allocation: 15,
+            apy: 5.2,
+            riskLevel: "low",
+        },
+    ],
+    profile: {
+        riskTolerance: "conservative",
+        focusAssets: ["USDC", "USDT", "DAI"],
+        avgApy: 7.0,
+        avgRiskScore: 15,
+        diversificationScore: 55,
+    },
+    recentChanges: [
+        {
+            date: "2025-01-12",
+            type: "increase",
+            pool: "Steakhouse USDC",
+            oldAllocation: 55,
+            newAllocation: 60,
+            reason: "Consolidating into primary stablecoin position",
+        },
+    ],
+    lastUpdated: "2025-01-14",
+    dataSource: "curated",
+};
+
+// RE7 Capital Strategy - More aggressive
+const RE7_MORPHO_STRATEGY: CuratorStrategy = {
+    curatorId: "re7",
+    platform: "morpho",
+    chain: "Ethereum",
+    allocations: [
+        {
+            pool: "RE7 WETH",
+            asset: "WETH",
+            allocation: 35,
+            apy: 5.5,
+            riskLevel: "medium",
+        },
+        {
+            pool: "RE7 wstETH",
+            asset: "wstETH",
+            allocation: 30,
+            apy: 6.8,
+            riskLevel: "medium",
+        },
+        {
+            pool: "RE7 USDC",
+            asset: "USDC",
+            allocation: 20,
+            apy: 9.2,
+            riskLevel: "medium",
+        },
+        {
+            pool: "RE7 cbETH",
+            asset: "cbETH",
+            allocation: 15,
+            apy: 7.5,
+            riskLevel: "high",
+        },
+    ],
+    profile: {
+        riskTolerance: "aggressive",
+        focusAssets: ["WETH", "wstETH", "USDC", "cbETH"],
+        avgApy: 7.1,
+        avgRiskScore: 45,
+        diversificationScore: 70,
+    },
+    recentChanges: [
+        {
+            date: "2025-01-11",
+            type: "new",
+            pool: "RE7 cbETH",
+            oldAllocation: 0,
+            newAllocation: 15,
+            reason: "Adding Coinbase ETH for yield diversification",
+        },
+        {
+            date: "2025-01-08",
+            type: "increase",
+            pool: "RE7 USDC",
+            oldAllocation: 15,
+            newAllocation: 20,
+            reason: "Higher borrow rates from increased leverage demand",
+        },
+    ],
+    lastUpdated: "2025-01-14",
+    dataSource: "curated",
+};
+
 // Strategy registry
 const STRATEGIES: Record<string, CuratorStrategy[]> = {
     gauntlet: [GAUNTLET_KAMINO_STRATEGY, GAUNTLET_MORPHO_STRATEGY],
+    steakhouse: [STEAKHOUSE_MORPHO_STRATEGY],
+    re7: [RE7_MORPHO_STRATEGY],
 };
 
 // Generate AI-like insight (static for now, will use real AI in Phase 2)
 function generateInsight(curator: CuratorProfile, strategies: CuratorStrategy[]): CuratorInsight {
-    const kaminoStrategy = strategies.find(s => s.platform === "kamino");
-    const morphoStrategy = strategies.find(s => s.platform === "morpho");
+    // Get primary strategy (prefer Solana, fallback to first available)
+    const primaryStrategy = strategies.find(s => s.chain === "Solana") || strategies[0];
+    if (!primaryStrategy) {
+        return {
+            curatorId: curator.slug,
+            strategyAnalysis: `${curator.name} strategy data coming soon.`,
+            keyTakeaways: [],
+            riskAssessment: "Assessment pending.",
+            howToReplicate: [],
+            considerations: ["Strategy data is being curated."],
+            generatedAt: new Date().toISOString(),
+        };
+    }
 
-    const stableAllocation = kaminoStrategy?.allocations
-        .filter(a => ["USDC", "USDT"].includes(a.asset))
-        .reduce((sum, a) => sum + a.allocation, 0) || 0;
+    // Calculate stablecoin allocation
+    const stablecoins = ["USDC", "USDT", "DAI", "FRAX", "LUSD"];
+    const stableAllocation = primaryStrategy.allocations
+        .filter(a => stablecoins.includes(a.asset))
+        .reduce((sum, a) => sum + a.allocation, 0);
 
-    const recentShift = kaminoStrategy?.recentChanges[0];
+    // Total allocations across all strategies
+    const totalPools = strategies.reduce((sum, s) => sum + s.allocations.length, 0);
+
+    // Recent change
+    const recentChange = primaryStrategy.recentChanges[0];
+
+    // Risk profile description
+    const riskDescriptions = {
+        conservative: "prioritizes capital preservation with stable, predictable yields",
+        moderate: "balances risk and reward with diversified positions",
+        aggressive: "targets higher yields with increased risk tolerance",
+    };
+
+    // Generate dynamic analysis based on curator
+    const riskTolerance = primaryStrategy.profile.riskTolerance;
+    const analysisBase = `${curator.name} ${riskDescriptions[riskTolerance]}.`;
+    const stableNote = stableAllocation > 50
+        ? ` With ${stableAllocation}% in stablecoins, they maintain a defensive posture.`
+        : stableAllocation > 0
+        ? ` They hold ${stableAllocation}% in stablecoins for stability.`
+        : ` They focus primarily on volatile assets for yield maximization.`;
+    const recentNote = recentChange
+        ? ` Recent activity: ${recentChange.reason?.toLowerCase() || "portfolio rebalancing"}.`
+        : "";
 
     return {
         curatorId: curator.slug,
-        strategyAnalysis: `${curator.name} maintains a ${kaminoStrategy?.profile.riskTolerance || "moderate"} risk approach across their allocations. With ${stableAllocation}% in stablecoins on Kamino, they prioritize capital preservation while still capturing attractive yields. ${recentShift ? `Recent rebalancing toward ${recentShift.pool} suggests anticipation of ${recentShift.reason?.toLowerCase() || "market changes"}.` : ""}`,
+        strategyAnalysis: analysisBase + stableNote + recentNote,
         keyTakeaways: [
-            `Heavy stablecoin allocation (${stableAllocation}%) indicates risk-off positioning`,
-            `Diversified across ${(kaminoStrategy?.allocations.length || 0) + (morphoStrategy?.allocations.length || 0)} pools for risk distribution`,
-            `Average APY of ${kaminoStrategy?.profile.avgApy.toFixed(1)}% on Solana, ${morphoStrategy?.profile.avgApy.toFixed(1)}% on Ethereum`,
-            `Focus on established, liquid assets (USDC, SOL, ETH)`,
+            stableAllocation > 0
+                ? `${stableAllocation}% stablecoin allocation — ${stableAllocation > 50 ? "defensive positioning" : "balanced exposure"}`
+                : `No stablecoin exposure — yield-maximizing approach`,
+            `Diversified across ${totalPools} pools for risk distribution`,
+            `Average APY: ${primaryStrategy.profile.avgApy.toFixed(1)}% | Risk Score: ${primaryStrategy.profile.avgRiskScore}`,
+            `Focus assets: ${primaryStrategy.profile.focusAssets.join(", ")}`,
         ],
-        riskAssessment: `${curator.name}'s strategy emphasizes safety over maximum yield. Average risk score of ${kaminoStrategy?.profile.avgRiskScore || 20} is well below market average. Suitable for users seeking stable, predictable returns.`,
-        howToReplicate: kaminoStrategy?.allocations.map((alloc, idx) => ({
+        riskAssessment: riskTolerance === "conservative"
+            ? `${curator.name}'s strategy emphasizes safety over maximum yield. Risk score of ${primaryStrategy.profile.avgRiskScore} is well below market average. Suitable for users seeking stable returns.`
+            : riskTolerance === "moderate"
+            ? `${curator.name} balances yield and safety with a risk score of ${primaryStrategy.profile.avgRiskScore}. Good for users comfortable with moderate volatility.`
+            : `${curator.name} targets higher yields with elevated risk (score: ${primaryStrategy.profile.avgRiskScore}). For users who can tolerate significant volatility.`,
+        howToReplicate: primaryStrategy.allocations.map((alloc, idx) => ({
             step: idx + 1,
             action: `Allocate ${alloc.allocation}% to ${alloc.pool}`,
             pool: alloc.pool,
             allocation: alloc.allocation,
-        })) || [],
+        })),
         considerations: [
             "Past performance does not guarantee future results",
-            "Gauntlet may rebalance without notice",
-            "Gas/transaction costs not included in APY",
-            "This is advisory information, not financial advice",
-            "Verify current rates before executing any strategy",
+            `${curator.name} may rebalance positions without notice`,
+            "Gas/transaction costs not included in APY figures",
+            "This is informational content, not financial advice",
+            "Always verify current rates before executing any strategy",
         ],
         generatedAt: new Date().toISOString(),
     };

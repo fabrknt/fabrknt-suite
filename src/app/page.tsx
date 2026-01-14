@@ -44,6 +44,7 @@ import {
 } from "@/components/curate/learning";
 import { YieldSpreadsPanel } from "@/components/curate/yield-spreads-panel";
 import { CuratorSection } from "@/components/curate/curator-section";
+import { QuickStartStrategies } from "@/components/curate/quick-start-strategies";
 import { TabNavigation, TabContent, TabId, MobileTabSpacer } from "@/components/curate/tab-navigation";
 import { getProtocolSlug } from "@/lib/solana/protocols";
 
@@ -725,6 +726,9 @@ export default function CuratePage() {
 
                             {/* Curator Strategies - Learn from experts */}
                             <CuratorSection />
+
+                            {/* Quick Start Strategies - Pre-built allocations */}
+                            <QuickStartStrategies />
 
                             {/* Yield Opportunities - Arbitrage insights */}
                             <YieldSpreadsPanel />

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { X, Shield, TrendingUp, TrendingDown, Minus, Lightbulb, AlertTriangle, Loader2, Copy, Check } from "lucide-react";
+import { X, TrendingUp, TrendingDown, Minus, Lightbulb, AlertTriangle, Loader2, Copy, Check, DollarSign } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CuratorProfile } from "@/lib/curate/curators";
 import { CuratorStrategy, CuratorInsight } from "@/lib/curate/curator-strategies";
@@ -50,12 +50,20 @@ function AllocationBar({ allocation }: { allocation: number }) {
     );
 }
 
+function formatDollar(amount: number): string {
+    if (amount >= 1000000) return `$${(amount / 1000000).toFixed(2)}M`;
+    if (amount >= 1000) return `$${(amount / 1000).toFixed(1)}K`;
+    return `$${amount.toLocaleString()}`;
+}
+
 export function CuratorStrategyPanel({ curatorSlug, isOpen, onClose }: CuratorStrategyPanelProps) {
     const [data, setData] = useState<CuratorData | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [selectedPlatform, setSelectedPlatform] = useState<string | null>(null);
     const [copied, setCopied] = useState(false);
+    const [investmentAmount, setInvestmentAmount] = useState<string>("10000");
+    const [showDollarAmounts, setShowDollarAmounts] = useState(true);
 
     useEffect(() => {
         if (isOpen && curatorSlug) {
@@ -86,10 +94,17 @@ export function CuratorStrategyPanel({ curatorSlug, isOpen, onClose }: CuratorSt
 
     const handleCopyStrategy = () => {
         if (!currentStrategy) return;
-        const text = currentStrategy.allocations
-            .map(a => `${a.allocation}% - ${a.pool} (${a.asset}) @ ${a.apy}% APY`)
-            .join("\n");
-        navigator.clipboard.writeText(text);
+        const amount = Number(investmentAmount) || 0;
+        const lines = currentStrategy.allocations.map(a => {
+            const dollarAmount = amount > 0 ? amount * (a.allocation / 100) : null;
+            const base = `${a.allocation}% - ${a.pool} (${a.asset}) @ ${a.apy}% APY`;
+            return dollarAmount ? `${base} → ${formatDollar(dollarAmount)}` : base;
+        });
+        if (amount > 0) {
+            lines.unshift(`${data?.profile.name} Strategy - ${formatDollar(amount)} allocation:`);
+            lines.push(`\nExpected yield: +${formatDollar(amount * (currentStrategy.profile.avgApy / 100))}/year`);
+        }
+        navigator.clipboard.writeText(lines.join("\n"));
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
     };
@@ -168,6 +183,57 @@ export function CuratorStrategyPanel({ curatorSlug, isOpen, onClose }: CuratorSt
                                         </div>
                                     )}
 
+                                    {/* Follow This Strategy - Investment Calculator */}
+                                    <div className="bg-gradient-to-r from-cyan-500/10 to-purple-500/10 rounded-xl p-4 mb-6 border border-cyan-500/20">
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <DollarSign className="h-4 w-4 text-cyan-400" />
+                                            <h3 className="text-sm font-medium text-cyan-300">Follow This Strategy</h3>
+                                        </div>
+                                        <p className="text-xs text-slate-400 mb-3">
+                                            Enter your investment amount to see exactly how to allocate
+                                        </p>
+                                        <div className="flex items-center gap-3">
+                                            <div className="relative flex-1">
+                                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">$</span>
+                                                <input
+                                                    type="text"
+                                                    value={investmentAmount}
+                                                    onChange={(e) => {
+                                                        const value = e.target.value.replace(/[^0-9]/g, "");
+                                                        setInvestmentAmount(value);
+                                                    }}
+                                                    className="w-full bg-slate-800 border border-slate-600 rounded-lg py-2 pl-7 pr-3 text-white focus:outline-none focus:border-cyan-500 transition-colors"
+                                                    placeholder="10000"
+                                                />
+                                            </div>
+                                            <div className="flex gap-1">
+                                                {["1000", "5000", "10000", "50000"].map((preset) => (
+                                                    <button
+                                                        key={preset}
+                                                        onClick={() => setInvestmentAmount(preset)}
+                                                        className={`px-2 py-1 text-xs rounded transition-colors ${
+                                                            investmentAmount === preset
+                                                                ? "bg-cyan-500/20 text-cyan-400 border border-cyan-500/30"
+                                                                : "bg-slate-700 text-slate-400 border border-slate-600 hover:border-slate-500"
+                                                        }`}
+                                                    >
+                                                        ${Number(preset).toLocaleString()}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                        {investmentAmount && Number(investmentAmount) > 0 && (
+                                            <div className="mt-4 pt-4 border-t border-slate-700/50">
+                                                <div className="flex items-center justify-between text-sm">
+                                                    <span className="text-slate-400">Expected Annual Yield</span>
+                                                    <span className="text-green-400 font-semibold">
+                                                        +{formatDollar(Number(investmentAmount) * (currentStrategy.profile.avgApy / 100))}/year
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+
                                     {/* Strategy Profile */}
                                     <div className="bg-slate-800/50 rounded-lg p-4 mb-6 border border-slate-700">
                                         <div className="flex items-center justify-between mb-3">
@@ -207,7 +273,11 @@ export function CuratorStrategyPanel({ curatorSlug, isOpen, onClose }: CuratorSt
                                     {/* Allocations */}
                                     <div className="mb-6">
                                         <div className="flex items-center justify-between mb-3">
-                                            <h3 className="text-sm font-medium text-slate-300">Current Allocations</h3>
+                                            <h3 className="text-sm font-medium text-slate-300">
+                                                {investmentAmount && Number(investmentAmount) > 0
+                                                    ? `Your ${formatDollar(Number(investmentAmount))} Allocation`
+                                                    : "Allocation Breakdown"}
+                                            </h3>
                                             <button
                                                 onClick={handleCopyStrategy}
                                                 className="flex items-center gap-1 text-xs text-slate-400 hover:text-white transition-colors"
@@ -217,29 +287,50 @@ export function CuratorStrategyPanel({ curatorSlug, isOpen, onClose }: CuratorSt
                                             </button>
                                         </div>
                                         <div className="space-y-2">
-                                            {currentStrategy.allocations.map((alloc, idx) => (
-                                                <div
-                                                    key={idx}
-                                                    className="bg-slate-800/50 rounded-lg p-3 border border-slate-700"
-                                                >
-                                                    <div className="flex items-center justify-between mb-2">
-                                                        <div>
-                                                            <div className="text-sm font-medium text-white">{alloc.pool}</div>
-                                                            <div className="text-xs text-slate-400">{alloc.asset}</div>
+                                            {currentStrategy.allocations.map((alloc, idx) => {
+                                                const dollarAmount = investmentAmount && Number(investmentAmount) > 0
+                                                    ? Number(investmentAmount) * (alloc.allocation / 100)
+                                                    : null;
+                                                const annualYield = dollarAmount
+                                                    ? dollarAmount * (alloc.apy / 100)
+                                                    : null;
+
+                                                return (
+                                                    <div
+                                                        key={idx}
+                                                        className="bg-slate-800/50 rounded-lg p-3 border border-slate-700"
+                                                    >
+                                                        <div className="flex items-center justify-between mb-2">
+                                                            <div>
+                                                                <div className="text-sm font-medium text-white">{alloc.pool}</div>
+                                                                <div className="text-xs text-slate-400">{alloc.asset}</div>
+                                                            </div>
+                                                            <div className="text-right">
+                                                                <div className="text-sm font-semibold text-green-400">{alloc.apy}% APY</div>
+                                                                <span className={`text-xs px-1.5 py-0.5 rounded border ${RISK_COLORS[alloc.riskLevel]}`}>
+                                                                    {alloc.riskLevel}
+                                                                </span>
+                                                            </div>
                                                         </div>
-                                                        <div className="text-right">
-                                                            <div className="text-sm font-semibold text-green-400">{alloc.apy}% APY</div>
-                                                            <span className={`text-xs px-1.5 py-0.5 rounded border ${RISK_COLORS[alloc.riskLevel]}`}>
-                                                                {alloc.riskLevel}
-                                                            </span>
+                                                        <div className="flex items-center justify-between">
+                                                            <div className="flex items-center gap-3">
+                                                                <AllocationBar allocation={alloc.allocation} />
+                                                                <span className="text-sm text-white font-medium">{alloc.allocation}%</span>
+                                                            </div>
+                                                            {dollarAmount !== null && (
+                                                                <div className="text-right">
+                                                                    <div className="text-sm font-semibold text-cyan-400">
+                                                                        {formatDollar(dollarAmount)}
+                                                                    </div>
+                                                                    <div className="text-xs text-green-400/70">
+                                                                        +{formatDollar(annualYield!)}/yr
+                                                                    </div>
+                                                                </div>
+                                                            )}
                                                         </div>
                                                     </div>
-                                                    <div className="flex items-center gap-3">
-                                                        <AllocationBar allocation={alloc.allocation} />
-                                                        <span className="text-sm text-white font-medium">{alloc.allocation}%</span>
-                                                    </div>
-                                                </div>
-                                            ))}
+                                                );
+                                            })}
                                         </div>
                                     </div>
 

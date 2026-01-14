@@ -6,6 +6,13 @@ import { CuratorCard } from "./curator-card";
 import { CuratorStrategyPanel } from "./curator-strategy-panel";
 import { CuratorProfile } from "@/lib/curate/curators";
 
+interface StrategyMetrics {
+    avgApy: number;
+    riskScore: number;
+    riskTolerance: "conservative" | "moderate" | "aggressive";
+    topAssets: string[];
+}
+
 interface CuratorSummary {
     id: string;
     name: string;
@@ -22,10 +29,16 @@ interface CuratorSummary {
         chain: string;
         role: string;
     }[];
+    strategyMetrics?: StrategyMetrics;
+}
+
+interface CuratorWithMetrics {
+    profile: CuratorProfile;
+    strategyMetrics?: StrategyMetrics;
 }
 
 export function CuratorSection() {
-    const [curators, setCurators] = useState<CuratorProfile[]>([]);
+    const [curators, setCurators] = useState<CuratorWithMetrics[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [selectedCurator, setSelectedCurator] = useState<string | null>(null);
@@ -39,26 +52,29 @@ export function CuratorSection() {
                 const data = await response.json();
 
                 // Transform summary data to full profile format for the card
-                const profiles: CuratorProfile[] = data.curators.map((c: CuratorSummary) => ({
-                    id: c.id,
-                    name: c.name,
-                    slug: c.slug,
-                    description: c.description,
-                    website: c.website,
-                    twitter: c.twitter,
-                    trustScore: c.trustScore,
-                    aum: c.aum,
-                    trackRecord: c.trackRecord,
-                    platforms: c.platforms.map((p: { protocol: string; chain: string; role: string }) => ({
-                        protocol: p.protocol,
-                        chain: p.chain,
-                        role: p.role as "vault_curator" | "risk_curator" | "strategy_advisor",
-                        description: "",
-                    })),
-                    highlights: [], // Will be loaded when viewing full profile
+                const curatorsWithMetrics: CuratorWithMetrics[] = data.curators.map((c: CuratorSummary) => ({
+                    profile: {
+                        id: c.id,
+                        name: c.name,
+                        slug: c.slug,
+                        description: c.description,
+                        website: c.website,
+                        twitter: c.twitter,
+                        trustScore: c.trustScore,
+                        aum: c.aum,
+                        trackRecord: c.trackRecord,
+                        platforms: c.platforms.map((p: { protocol: string; chain: string; role: string }) => ({
+                            protocol: p.protocol,
+                            chain: p.chain,
+                            role: p.role as "vault_curator" | "risk_curator" | "strategy_advisor",
+                            description: "",
+                        })),
+                        highlights: [],
+                    },
+                    strategyMetrics: c.strategyMetrics,
                 }));
 
-                setCurators(profiles);
+                setCurators(curatorsWithMetrics);
                 setError(null);
             } catch (err) {
                 setError(err instanceof Error ? err.message : "Failed to load curators");
@@ -109,11 +125,12 @@ export function CuratorSection() {
                 {/* Curator Cards */}
                 <div className="p-4">
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                        {curators.map((curator) => (
+                        {curators.map(({ profile, strategyMetrics }) => (
                             <CuratorCard
-                                key={curator.id}
-                                curator={curator}
-                                onViewStrategy={() => setSelectedCurator(curator.slug)}
+                                key={profile.id}
+                                curator={profile}
+                                strategyMetrics={strategyMetrics}
+                                onViewStrategy={() => setSelectedCurator(profile.slug)}
                             />
                         ))}
                     </div>
