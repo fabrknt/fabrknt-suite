@@ -1,19 +1,36 @@
 "use client";
 
 import { ReactNode } from "react";
-import { LayoutDashboard, Compass } from "lucide-react";
+import { Lightbulb, Search, BookOpen } from "lucide-react";
 
-export type TabId = "dashboard" | "explore";
+export type TabId = "insights" | "explore" | "learn";
 
 interface Tab {
     id: TabId;
     label: string;
     icon: ReactNode;
+    description: string;
 }
 
 const TABS: Tab[] = [
-    { id: "dashboard", label: "Dashboard", icon: <LayoutDashboard className="h-5 w-5" /> },
-    { id: "explore", label: "Explore", icon: <Compass className="h-5 w-5" /> },
+    {
+        id: "insights",
+        label: "Insights",
+        icon: <Lightbulb className="h-5 w-5" />,
+        description: "What matters now"
+    },
+    {
+        id: "explore",
+        label: "Explore",
+        icon: <Search className="h-5 w-5" />,
+        description: "Browse all pools"
+    },
+    {
+        id: "learn",
+        label: "Learn",
+        icon: <BookOpen className="h-5 w-5" />,
+        description: "Understand DeFi"
+    },
 ];
 
 interface TabNavigationProps {
@@ -47,12 +64,12 @@ export function TabNavigation({ activeTab, onTabChange }: TabNavigationProps) {
                 {/* Gradient blur background */}
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/98 to-slate-900/90 backdrop-blur-xl" />
 
-                <div className="relative flex items-center justify-around px-6 py-3 pb-safe">
+                <div className="relative flex items-center justify-around px-4 py-2 pb-safe">
                     {TABS.map((tab) => (
                         <button
                             key={tab.id}
                             onClick={() => onTabChange(tab.id)}
-                            className={`flex flex-col items-center gap-1.5 px-8 py-2 rounded-xl transition-all ${
+                            className={`flex flex-col items-center gap-1 px-4 py-2 rounded-xl transition-all min-w-[72px] ${
                                 activeTab === tab.id
                                     ? "text-cyan-400 bg-cyan-500/10"
                                     : "text-slate-500 hover:text-slate-300"
@@ -61,18 +78,13 @@ export function TabNavigation({ activeTab, onTabChange }: TabNavigationProps) {
                             <span className={`transition-transform ${activeTab === tab.id ? "scale-110" : ""}`}>
                                 {tab.icon}
                             </span>
-                            <span className="text-xs font-medium">{tab.label}</span>
+                            <span className="text-[10px] font-medium">{tab.label}</span>
                         </button>
                     ))}
                 </div>
             </div>
         </>
     );
-}
-
-// Spacer component to add at the END of page content (prevents content from being hidden by bottom tabs)
-export function MobileTabSpacer() {
-    return <div className="md:hidden h-24" />;
 }
 
 interface TabContentProps {
@@ -86,4 +98,9 @@ export function TabContent({ activeTab, children }: TabContentProps) {
             {children[activeTab]}
         </div>
     );
+}
+
+// Spacer component to add at the END of page content (prevents content from being hidden by bottom tabs)
+export function MobileTabSpacer() {
+    return <div className="md:hidden h-20" />;
 }

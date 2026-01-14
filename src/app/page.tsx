@@ -415,8 +415,8 @@ export default function CuratePage() {
     const [error, setError] = useState<string | null>(null);
     const [expandedPool, setExpandedPool] = useState<string | null>(null);
 
-    // Main navigation tab state (2 tabs: dashboard, explore)
-    const [mainTab, setMainTab] = useState<TabId>("dashboard");
+    // Main navigation tab state (3 tabs: insights, explore, learn)
+    const [mainTab, setMainTab] = useState<TabId>("insights");
 
     // Pool list tab state (all vs watchlist)
     const [activeTab, setActiveTab] = useState<TabType>("all");
@@ -645,13 +645,13 @@ export default function CuratePage() {
         }
     };
 
-    // Helper to filter pools from explore tab
+    // Helper to filter pools and navigate to explore tab
     const filterPoolsByProtocol = (protocol?: string) => {
         if (protocol) {
             setProtocolFilter(protocol);
             setRiskFilter(""); // Show all risks when filtering by protocol
         }
-        setMainTab("dashboard");
+        setMainTab("explore");
         // Scroll to pool table after a short delay
         setTimeout(() => {
             document.getElementById("pool-table-section")?.scrollIntoView({ behavior: "smooth" });
@@ -666,69 +666,28 @@ export default function CuratePage() {
 
             <TabContent activeTab={mainTab}>
                 {{
-                    /* DASHBOARD TAB - Home + Pools combined */
-                    dashboard: (
+                    /* INSIGHTS TAB - Curated insights and recommendations */
+                    insights: (
                         <div className="space-y-6">
-                            {/* Hero Section */}
-                            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border border-slate-700/50 p-6 md:p-8">
-                                {/* Background glow */}
-                                <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-                                <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
-
-                                <div className="relative">
-                                    <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-                                        <div className="max-w-2xl">
-                                            {/* Badges */}
-                                            <div className="flex flex-wrap gap-2 mb-3">
-                                                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px] font-medium uppercase tracking-wide">
-                                                    Solana
-                                                </span>
-                                                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-green-500/10 text-green-400 border border-green-500/20 text-[10px] font-medium uppercase tracking-wide">
-                                                    <Shield className="h-2.5 w-2.5" />
-                                                    Non-Custodial
-                                                </span>
-                                                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-green-500/10 text-green-400 border border-green-500/20 text-[10px] font-medium uppercase tracking-wide">
-                                                    Read-Only
-                                                </span>
-                                            </div>
-
-                                            {/* Main headline - outcome focused */}
-                                            <h1 className="text-2xl md:text-3xl font-bold text-white mb-3">
-                                                {heroStats?.totalPools || summaryStats.poolCount}+ pools analyzed.{" "}
-                                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
-                                                    {heroStats?.lowRiskCount || summaryStats.lowRiskCount} you can trust.
-                                                </span>
-                                            </h1>
-
-                                            {/* Value prop - what painful decision it replaces */}
-                                            <p className="text-slate-400 text-sm md:text-base leading-relaxed">
-                                                An AI yield analyst that filters Solana DeFi by{" "}
-                                                <span className="text-slate-300">risk-adjusted return</span>, not raw APY.
-                                                Stop chasing numbers. Start allocating with confidence.
-                                            </p>
-
-                                            {/* How it works - quick proof */}
-                                            <div className="flex flex-wrap gap-x-4 gap-y-1 mt-4 text-xs text-slate-500">
-                                                <span className="flex items-center gap-1">
-                                                    <Shield className="h-3 w-3 text-cyan-500" />
-                                                    Risk scoring
-                                                </span>
-                                                <span className="flex items-center gap-1">
-                                                    <TrendingUp className="h-3 w-3 text-green-500" />
-                                                    APY stability analysis
-                                                </span>
-                                                <span className="flex items-center gap-1">
-                                                    <Sparkles className="h-3 w-3 text-purple-500" />
-                                                    AI recommendations
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                    </div>
+                            {/* Compact Stats Bar */}
+                            <div className="flex flex-wrap items-center gap-4 p-4 bg-slate-900/50 border border-slate-800 rounded-xl">
+                                <div className="flex items-center gap-2">
+                                    <span className="text-2xl font-bold text-white">{heroStats?.totalPools || summaryStats.poolCount}+</span>
+                                    <span className="text-sm text-slate-400">pools analyzed</span>
+                                </div>
+                                <div className="w-px h-8 bg-slate-700 hidden sm:block" />
+                                <div className="flex items-center gap-2">
+                                    <span className="text-2xl font-bold text-green-400">{heroStats?.lowRiskCount || summaryStats.lowRiskCount}</span>
+                                    <span className="text-sm text-slate-400">low risk</span>
+                                </div>
+                                <div className="w-px h-8 bg-slate-700 hidden sm:block" />
+                                <div className="flex items-center gap-2 text-xs text-slate-500">
+                                    <Shield className="h-4 w-4 text-cyan-500" />
+                                    <span>Risk-adjusted insights for Solana DeFi</span>
                                 </div>
                             </div>
 
-                            {/* Discovery Prompts - Learning through exploration */}
+                            {/* Discovery Prompts - Guided exploration */}
                             {graphData?.yields && graphData.yields.length > 0 && (
                                 <DiscoveryPrompts
                                     pools={graphData.yields.map(p => ({
@@ -745,20 +704,37 @@ export default function CuratePage() {
                                         category: p.yieldBreakdown?.sources?.includes("restaking") ? "restaking" :
                                                   p.yieldBreakdown?.sources?.includes("perp") ? "perp_lp" : undefined,
                                     }))}
-                                    onExplore={handleExpandFromPick}
+                                    onExplore={(poolId) => {
+                                        handleExpandFromPick(poolId);
+                                        setMainTab("explore");
+                                    }}
                                 />
                             )}
 
-                            {/* Smart Picks Section - shows curated picks or AI recommendations */}
+                            {/* AI Recommendations - Personalized picks */}
                             <AIRecommendationsSection
                                 hasPreferences={hasPreferences}
                                 onSetPreferences={() => setPreferencesOpen(true)}
-                                onPoolClick={handleExpandFromPick}
+                                onPoolClick={(poolId) => {
+                                    handleExpandFromPick(poolId);
+                                    setMainTab("explore");
+                                }}
                                 isLoggedIn={!!session?.user}
                                 curatedPicks={curatedPicks}
                             />
 
-                            {/* All Pools Section */}
+                            {/* Curator Strategies - Learn from experts */}
+                            <CuratorSection />
+
+                            {/* Yield Opportunities - Arbitrage insights */}
+                            <YieldSpreadsPanel />
+                        </div>
+                    ),
+
+                    /* EXPLORE TAB - Browse all pools */
+                    explore: (
+                        <div className="space-y-6">
+                            {/* Pool Table Header */}
             <div id="pool-table-section" className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                     <BarChart3 className="h-4 w-4 text-slate-500" />
@@ -1064,25 +1040,27 @@ export default function CuratePage() {
                         </div>
                     ),
 
-                    /* EXPLORE TAB - Discover + Curators combined */
-                    explore: (
+                    /* LEARN TAB - Educational content */
+                    learn: (
                         <div className="space-y-6">
-                            {/* Protocol Comparison Section */}
+                            {/* Section Header */}
+                            <div className="p-4 bg-gradient-to-r from-purple-500/10 to-cyan-500/10 border border-purple-500/20 rounded-xl">
+                                <h2 className="text-lg font-semibold text-white mb-1">Understand DeFi</h2>
+                                <p className="text-sm text-slate-400">
+                                    Compare protocols, understand risks, and make informed decisions.
+                                </p>
+                            </div>
+
+                            {/* Protocol Comparison - Educational */}
                             <ProtocolComparison onProtocolClick={(slug) => filterPoolsByProtocol(slug)} />
 
-                            {/* LST Comparison Section */}
+                            {/* LST Comparison - Educational */}
                             <LSTComparison />
 
-                            {/* Restaking & Perp LP Section */}
+                            {/* Alternative Yields - Educational */}
                             <AlternativeYields />
 
-                            {/* Yield Opportunities - Cross-protocol arbitrage detection */}
-                            <YieldSpreadsPanel />
-
-                            {/* Curator Strategies - Learn from professional curators */}
-                            <CuratorSection />
-
-                            {/* DeFi Tools Section with Quick IL Calculator */}
+                            {/* IL Calculator - Tool */}
                             <QuickILCalculator />
                         </div>
                     ),
