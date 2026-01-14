@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Shield, TrendingUp, ChevronDown, ChevronUp } from "lucide-react";
+import { Shield, TrendingUp, ChevronRight } from "lucide-react";
 import { CuratorProfile } from "@/lib/curate/curators";
 
 interface StrategyAllocation {
@@ -52,13 +52,11 @@ const ALLOC_RISK_COLORS = {
 
 export function CuratorCard({ curator, strategyMetrics, onViewStrategy }: CuratorCardProps) {
     const [investmentAmount, setInvestmentAmount] = useState<string>("10000");
-    const [showAllAllocations, setShowAllAllocations] = useState(false);
 
     const amount = Number(investmentAmount) || 0;
     const expectedYield = amount * ((strategyMetrics?.avgApy || 0) / 100);
 
     const displayAllocations = strategyMetrics?.allocations || [];
-    const visibleAllocations = showAllAllocations ? displayAllocations : displayAllocations.slice(0, 3);
 
     return (
         <div className="bg-slate-800/50 border border-slate-700 rounded-xl overflow-hidden hover:border-slate-600 transition-all">
@@ -96,12 +94,12 @@ export function CuratorCard({ curator, strategyMetrics, onViewStrategy }: Curato
                 )}
             </div>
 
-            {/* Allocations - visible directly */}
+            {/* Allocations - all visible */}
             {displayAllocations.length > 0 && (
                 <div className="px-4 pb-3">
                     <div className="text-xs text-slate-500 mb-2">Allocation</div>
                     <div className="space-y-1.5">
-                        {visibleAllocations.map((alloc, idx) => (
+                        {displayAllocations.map((alloc, idx) => (
                             <div key={idx} className="flex items-center justify-between text-sm">
                                 <div className="flex items-center gap-2">
                                     <span className="text-white font-medium w-10">{alloc.allocation}%</span>
@@ -113,21 +111,6 @@ export function CuratorCard({ curator, strategyMetrics, onViewStrategy }: Curato
                             </div>
                         ))}
                     </div>
-                    {displayAllocations.length > 3 && (
-                        <button
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                setShowAllAllocations(!showAllAllocations);
-                            }}
-                            className="flex items-center gap-1 text-xs text-slate-400 hover:text-white mt-2 transition-colors"
-                        >
-                            {showAllAllocations ? (
-                                <>Show less <ChevronUp className="h-3 w-3" /></>
-                            ) : (
-                                <>+{displayAllocations.length - 3} more <ChevronDown className="h-3 w-3" /></>
-                            )}
-                        </button>
-                    )}
                 </div>
             )}
 
@@ -161,7 +144,7 @@ export function CuratorCard({ curator, strategyMetrics, onViewStrategy }: Curato
                 className="w-full px-4 py-2.5 bg-slate-900/30 border-t border-slate-700/50 text-sm text-cyan-400 hover:text-cyan-300 hover:bg-slate-800/50 transition-colors flex items-center justify-center gap-1"
             >
                 Full Details & How to Replicate
-                <ChevronDown className="h-4 w-4 rotate-[-90deg]" />
+                <ChevronRight className="h-4 w-4" />
             </button>
         </div>
     );

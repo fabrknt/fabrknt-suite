@@ -666,7 +666,7 @@ export default function CuratePage() {
 
             <TabContent activeTab={mainTab}>
                 {{
-                    /* INSIGHTS TAB - Curated insights and recommendations */
+                    /* INSIGHTS TAB - Strategy selection */
                     insights: (
                         <div className="space-y-6">
                             {/* Compact Stats Bar */}
@@ -687,47 +687,8 @@ export default function CuratePage() {
                                 </div>
                             </div>
 
-                            {/* Curator Strategies - Primary strategy selection */}
+                            {/* Curator Strategies - Primary focus */}
                             <CuratorSection />
-
-                            {/* Discovery Prompts - Guided exploration */}
-                            {graphData?.yields && graphData.yields.length > 0 && (
-                                <DiscoveryPrompts
-                                    pools={graphData.yields.map(p => ({
-                                        id: p.id,
-                                        project: p.project,
-                                        symbol: p.symbol,
-                                        tvlUsd: p.tvlUsd,
-                                        apy: p.apy,
-                                        apyBase: p.apyBase,
-                                        apyReward: p.apyReward,
-                                        riskScore: p.riskScore,
-                                        riskLevel: p.riskLevel,
-                                        stablecoin: p.stablecoin,
-                                        category: p.yieldBreakdown?.sources?.includes("restaking") ? "restaking" :
-                                                  p.yieldBreakdown?.sources?.includes("perp") ? "perp_lp" : undefined,
-                                    }))}
-                                    onExplore={(poolId) => {
-                                        handleExpandFromPick(poolId);
-                                        setMainTab("explore");
-                                    }}
-                                />
-                            )}
-
-                            {/* Yield Opportunities - Arbitrage insights */}
-                            <YieldSpreadsPanel />
-
-                            {/* AI Recommendations - Personalized picks (de-emphasized) */}
-                            <AIRecommendationsSection
-                                hasPreferences={hasPreferences}
-                                onSetPreferences={() => setPreferencesOpen(true)}
-                                onPoolClick={(poolId) => {
-                                    handleExpandFromPick(poolId);
-                                    setMainTab("explore");
-                                }}
-                                isLoggedIn={!!session?.user}
-                                curatedPicks={curatedPicks}
-                            />
                         </div>
                     ),
 
@@ -1047,7 +1008,7 @@ export default function CuratePage() {
                             <div className="p-4 bg-gradient-to-r from-purple-500/10 to-cyan-500/10 border border-purple-500/20 rounded-xl">
                                 <h2 className="text-lg font-semibold text-white mb-1">Understand DeFi</h2>
                                 <p className="text-sm text-slate-400">
-                                    Compare protocols, understand risks, and make informed decisions.
+                                    Compare protocols, understand risks, and find opportunities.
                                 </p>
                             </div>
 
@@ -1056,6 +1017,9 @@ export default function CuratePage() {
 
                             {/* LST Comparison - Educational */}
                             <LSTComparison />
+
+                            {/* Yield Opportunities - Cross-protocol spreads */}
+                            <YieldSpreadsPanel />
 
                             {/* Alternative Yields - Educational */}
                             <AlternativeYields />
