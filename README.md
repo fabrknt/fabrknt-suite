@@ -1,6 +1,6 @@
-# FABRKNT: Risk-First DeFi Yield Intelligence
+# FABRKNT: Insight-Driven DeFi Yield Intelligence
 
-**Find sustainable yields, not just high APYs.**
+**DeFi insights, not just data.**
 
 **Domain:** [www.fabrknt.com](https://www.fabrknt.com)
 
@@ -8,44 +8,97 @@
 
 ## What is Fabrknt?
 
-Fabrknt is a DeFi yield intelligence platform focused on **Solana**. Instead of chasing the highest APY, we help you find sustainable, low-risk yield opportunities through rigorous analysis and AI-powered insights.
+Fabrknt is an **insight-driven** DeFi yield intelligence platform focused on **Solana**. Unlike data-heavy analytics tools built for pros, Fabrknt surfaces the insights you need to make informed decisions—without overwhelming you with raw data.
 
-**Our approach:** Risk-adjusted yield analysis, not raw APY chasing.
+**Our philosophy:** Insights over data dumps. Guidance over complexity.
+
+---
+
+## Navigation
+
+The app is organized into three main sections:
+
+| Tab | Purpose | What You'll Find |
+|-----|---------|------------------|
+| **Insights** | "What matters now" | AI picks, curator strategies, yield opportunities, discovery prompts |
+| **Explore** | "I want to browse" | Full pool table with filters, search, watchlist |
+| **Learn** | "Help me understand" | Protocol comparisons, LST comparisons, IL calculator |
+
+**Mobile:** Bottom tab navigation with hamburger menu for site links.
 
 ---
 
 ## Core Features
 
-### Smart Picks
-AI-curated pool recommendations based on risk-adjusted analysis:
-- **Algorithmic picks** for all users (no login required)
+### Insights Tab
+
+#### AI Recommendations
+Personalized pool recommendations based on risk-adjusted analysis:
+- **Curated picks** for all users (no login required)
 - **Personalized recommendations** based on your preferences (requires login)
 - Ranked by risk-adjusted returns, not raw APY
 
-### Top Protocols
+#### Curator Strategies
+Learn from professional DeFi curators:
+- **Gauntlet**, **Steakhouse Financial**, **RE7 Labs** profiles
+- View their allocation strategies across protocols
+- AI-generated strategy analysis and key takeaways
+- Understand how experts approach risk management
+
+#### Yield Opportunities
+Cross-protocol arbitrage detection:
+- Identify APY spreads between similar pools
+- Risk-adjusted spread calculations
+- Net spread after estimated transaction costs
+- Confidence scoring (high/medium/low)
+
+#### Discovery Prompts
+Guided exploration for learning:
+- "What's the safest stablecoin yield?"
+- "Which pools have sustainable APY?"
+- Click to explore and learn
+
+### Explore Tab
+
+#### Pool Table
+Comprehensive pool listing with intelligent defaults:
+- **Low-risk pools by default** (risk score <= 20)
+- APY change alerts (badges when APY drops 20%+ or rises 30%+)
+- Filter by protocol, risk level, TVL
+- Sort by TVL, APY, risk score
+- Watchlist for tracking favorites
+
+#### Pool Comparison
+Compare up to 3 pools side-by-side:
+- Risk breakdown comparison
+- APY sustainability analysis
+- Historical performance via backtesting
+
+### Learn Tab
+
+#### Protocol Comparison
 Compare major Solana protocols at a glance:
 - **Kamino**, **Marginfi**, **Meteora**, **Save**, and more
 - Protocol-level TVL, average APY, pool counts
-- Click to filter the pool table by protocol
+- Click to filter pools by protocol
 
-### LST Comparison
+#### LST Comparison
 Deep dive into Solana liquid staking tokens:
 - Compare Jito, Marinade, and other LSTs
 - MEV yield breakdown and validator decentralization
 - Peg stability and instant unstake availability
 
-### Quick IL Calculator
-Inline impermanent loss estimation:
-- Enter price change to see potential IL
-- Formula: `IL = 2 * sqrt(price_ratio) / (1 + price_ratio) - 1`
-- Educational context for LP decisions
+#### Alternative Yields
+Explore advanced yield strategies:
+- **Restaking** opportunities
+- **Perp LP** positions
+- Risk considerations for each type
 
-### Pool Table
-Comprehensive pool listing with intelligent defaults:
-- **Low-risk pools by default** (risk score <= 20)
-- APY change alerts (badges when APY drops 20%+ or rises 30%+)
-- Filter by protocol, risk level, chain
-- Sort by TVL, APY, risk score
+#### IL Calculator
+Impermanent loss estimation:
+- Enter price change to see potential IL
+- Concentrated liquidity (CLMM) support
+- Position simulator with APY projections
 
 ---
 
@@ -97,8 +150,8 @@ Our composite risk score (0-100) evaluates:
 
 ## Pages
 
-- **/** — Yields dashboard with Smart Picks, protocols, and pool table
-- **/tools** — IL Calculator and Position Simulator
+- **/** — Main app with Insights, Explore, and Learn tabs
+- **/tools** — IL Calculator and Position Simulator (full page)
 - **/how-it-works** — Methodology and risk scoring explanation
 - **/about** — Team and mission
 
@@ -118,10 +171,11 @@ Our composite risk score (0-100) evaluates:
 
 ### For Users
 
-1. **Browse Pools** — Explore yield pools filtered by low risk by default
-2. **Compare Protocols** — Click protocol cards to filter the table
-3. **Check IL** — Use Quick IL Calculator for LP positions
-4. **Sign In** — Unlock personalized AI recommendations
+1. **Start with Insights** — See AI picks and curator strategies
+2. **Explore Discovery Prompts** — Learn through guided questions
+3. **Browse Pools** — Use Explore tab when ready to dive deeper
+4. **Learn** — Compare protocols and understand risks
+5. **Sign In** — Unlock personalized AI recommendations
 
 ### Development
 
@@ -169,6 +223,9 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 - `GET /api/curate/defi` — Yield pools with risk scoring
 - `GET /api/curate/defi/history/{poolId}` — Historical APY data
 - `GET /api/curate/protocols` — Protocol aggregation and comparison
+- `GET /api/curate/spreads` — Yield spread opportunities
+- `GET /api/curate/curators` — Curator profiles
+- `GET /api/curate/curators/{slug}` — Curator strategies and insights
 
 ### Authenticated Endpoints
 
@@ -198,4 +255,4 @@ Banking & enterprise software background. AWS certified, Stanford blockchain cer
 
 ---
 
-**Sustainable DeFi yields through intelligent risk analysis.**
+**DeFi insights, not just data.**
