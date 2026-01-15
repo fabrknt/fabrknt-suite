@@ -2,6 +2,7 @@
 
 import { useEffect, useState, Fragment, useCallback, useMemo } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import {
     TrendingUp,
@@ -418,13 +419,23 @@ function QuickILCalculator() {
 
 export default function CuratePage() {
     const { data: session } = useSession();
+    const searchParams = useSearchParams();
     const [graphData, setGraphData] = useState<DefiGraphData | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [expandedPool, setExpandedPool] = useState<string | null>(null);
 
+    // Read tab from URL params
+    const urlTab = searchParams.get("tab") as TabId | null;
+    const urlSubtab = searchParams.get("subtab");
+
     // Main navigation tab state (3 tabs: insights, explore, learn)
-    const [mainTab, setMainTab] = useState<TabId>("insights");
+    const [mainTab, setMainTab] = useState<TabId>(() => {
+        if (urlTab && ["insights", "explore", "learn"].includes(urlTab)) {
+            return urlTab;
+        }
+        return "insights";
+    });
 
     // Pool list tab state (all vs watchlist)
     const [activeTab, setActiveTab] = useState<TabType>("all");
@@ -462,6 +473,13 @@ export default function CuratePage() {
 
     // Hero stats (unfiltered totals)
     const [heroStats, setHeroStats] = useState<{ totalPools: number; totalTvl: number; lowRiskCount: number } | null>(null);
+
+    // Sync tab state with URL params when they change
+    useEffect(() => {
+        if (urlTab && ["insights", "explore", "learn"].includes(urlTab)) {
+            setMainTab(urlTab);
+        }
+    }, [urlTab]);
 
     // Fetch hero stats (unfiltered)
     useEffect(() => {
@@ -1003,7 +1021,7 @@ export default function CuratePage() {
 
                     /* LEARN TAB - Educational content */
                     learn: (
-                        <LearnTabs>
+                        <LearnTabs defaultTab={urlSubtab as "principles" | "practice" | "compare" | undefined}>
                             {{
                                 principles: (
                                     <div className="space-y-6">
