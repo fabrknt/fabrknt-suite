@@ -20,6 +20,7 @@ import {
     Grid3X3,
     Droplet,
     Link as LinkIcon,
+    ArrowRight,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -43,27 +44,35 @@ export default function HowItWorksPage() {
                     <h2 className="text-xl font-semibold text-white mb-6">The Learning Flow</h2>
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                         {[
-                            { icon: BookOpen, label: "1. Learn Principles", desc: "6 mental models curators use" },
-                            { icon: Users, label: "2. Study Curators", desc: "See how experts allocate & why" },
-                            { icon: Hammer, label: "3. Practice", desc: "Build strategies with feedback" },
-                            { icon: Activity, label: "4. Test", desc: "Stress test with scenarios" },
+                            { icon: BookOpen, label: "1. Learn Principles", desc: "6 mental models curators use", href: "/?tab=learn&subtab=principles" },
+                            { icon: Users, label: "2. Study Curators", desc: "See how experts allocate & why", href: "/?tab=insights" },
+                            { icon: Hammer, label: "3. Practice", desc: "Build strategies with feedback", href: "/?tab=learn&subtab=practice" },
+                            { icon: Activity, label: "4. Test", desc: "Stress test with scenarios", href: "/?tab=learn&subtab=practice" },
                         ].map((step, i) => (
-                            <div key={i} className="text-center p-4 bg-slate-800/50 rounded-lg">
-                                <div className="w-12 h-12 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <Link key={i} href={step.href} className="text-center p-4 bg-slate-800/50 rounded-lg hover:bg-slate-700/50 transition-colors group">
+                                <div className="w-12 h-12 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:bg-purple-500/30 transition-colors">
                                     <step.icon className="h-6 w-6 text-purple-400" />
                                 </div>
                                 <h3 className="text-white font-medium mb-1">{step.label}</h3>
                                 <p className="text-xs text-slate-400">{step.desc}</p>
-                            </div>
+                            </Link>
                         ))}
                     </div>
                 </section>
 
                 {/* Curation Principles */}
                 <section className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 rounded-xl p-8">
-                    <div className="flex items-center gap-3 mb-6">
-                        <BookOpen className="h-6 w-6 text-cyan-400" />
-                        <h2 className="text-xl font-semibold text-white">6 Curation Principles</h2>
+                    <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center gap-3">
+                            <BookOpen className="h-6 w-6 text-cyan-400" />
+                            <h2 className="text-xl font-semibold text-white">6 Curation Principles</h2>
+                        </div>
+                        <Link
+                            href="/?tab=learn&subtab=principles"
+                            className="flex items-center gap-1 text-sm text-cyan-400 hover:text-cyan-300 transition-colors"
+                        >
+                            View all <ArrowRight className="h-4 w-4" />
+                        </Link>
                     </div>
                     <p className="text-slate-300 mb-6">
                         These mental models guide how professional curators make allocation decisions:
@@ -92,9 +101,17 @@ export default function HowItWorksPage() {
 
                 {/* Curator Strategies */}
                 <section className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 rounded-xl p-8">
-                    <div className="flex items-center gap-3 mb-6">
-                        <Users className="h-6 w-6 text-purple-400" />
-                        <h2 className="text-xl font-semibold text-white">Learn from Curators</h2>
+                    <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center gap-3">
+                            <Users className="h-6 w-6 text-purple-400" />
+                            <h2 className="text-xl font-semibold text-white">Learn from Curators</h2>
+                        </div>
+                        <Link
+                            href="/?tab=insights"
+                            className="flex items-center gap-1 text-sm text-purple-400 hover:text-purple-300 transition-colors"
+                        >
+                            View strategies <ArrowRight className="h-4 w-4" />
+                        </Link>
                     </div>
                     <p className="text-slate-300 mb-6">
                         See how professional curators like Gauntlet, Steakhouse, and RE7 allocate capital:
@@ -133,9 +150,17 @@ export default function HowItWorksPage() {
 
                 {/* Strategy Builder */}
                 <section className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 rounded-xl p-8">
-                    <div className="flex items-center gap-3 mb-6">
-                        <Hammer className="h-6 w-6 text-green-400" />
-                        <h2 className="text-xl font-semibold text-white">Strategy Builder</h2>
+                    <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center gap-3">
+                            <Hammer className="h-6 w-6 text-green-400" />
+                            <h2 className="text-xl font-semibold text-white">Strategy Builder</h2>
+                        </div>
+                        <Link
+                            href="/?tab=learn&subtab=practice"
+                            className="flex items-center gap-1 text-sm text-green-400 hover:text-green-300 transition-colors"
+                        >
+                            Try it <ArrowRight className="h-4 w-4" />
+                        </Link>
                     </div>
                     <p className="text-slate-300 mb-6">
                         Practice building your own allocation strategy with real-time feedback:
@@ -158,9 +183,17 @@ export default function HowItWorksPage() {
 
                 {/* Scenario Simulator */}
                 <section className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 rounded-xl p-8">
-                    <div className="flex items-center gap-3 mb-6">
-                        <Activity className="h-6 w-6 text-orange-400" />
-                        <h2 className="text-xl font-semibold text-white">Scenario Simulator</h2>
+                    <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center gap-3">
+                            <Activity className="h-6 w-6 text-orange-400" />
+                            <h2 className="text-xl font-semibold text-white">Scenario Simulator</h2>
+                        </div>
+                        <Link
+                            href="/?tab=learn&subtab=practice"
+                            className="flex items-center gap-1 text-sm text-orange-400 hover:text-orange-300 transition-colors"
+                        >
+                            Try it <ArrowRight className="h-4 w-4" />
+                        </Link>
                     </div>
                     <p className="text-slate-300 mb-6">
                         Stress test your strategy before committing capital:
@@ -183,7 +216,15 @@ export default function HowItWorksPage() {
 
                 {/* Data Pipeline */}
                 <section className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 rounded-xl p-8">
-                    <h2 className="text-xl font-semibold text-white mb-6">Data Pipeline</h2>
+                    <div className="flex items-center justify-between mb-6">
+                        <h2 className="text-xl font-semibold text-white">Data Pipeline</h2>
+                        <Link
+                            href="/?tab=explore"
+                            className="flex items-center gap-1 text-sm text-cyan-400 hover:text-cyan-300 transition-colors"
+                        >
+                            Explore pools <ArrowRight className="h-4 w-4" />
+                        </Link>
+                    </div>
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                         {[
                             { icon: Database, label: "1. Collect", desc: "Aggregate pool data from protocols" },
@@ -204,9 +245,17 @@ export default function HowItWorksPage() {
 
                 {/* Risk Scoring */}
                 <section className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 rounded-xl p-8">
-                    <div className="flex items-center gap-3 mb-6">
-                        <Shield className="h-6 w-6 text-green-400" />
-                        <h2 className="text-xl font-semibold text-white">Risk Scoring Model</h2>
+                    <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center gap-3">
+                            <Shield className="h-6 w-6 text-green-400" />
+                            <h2 className="text-xl font-semibold text-white">Risk Scoring Model</h2>
+                        </div>
+                        <Link
+                            href="/?tab=explore"
+                            className="flex items-center gap-1 text-sm text-green-400 hover:text-green-300 transition-colors"
+                        >
+                            See risk scores <ArrowRight className="h-4 w-4" />
+                        </Link>
                     </div>
                     <p className="text-slate-300 mb-6">
                         Every pool receives a risk score from 0-100 based on five weighted factors:
