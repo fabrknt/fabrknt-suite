@@ -1,28 +1,37 @@
 # FABRKNT
 
-**DeFi insights, not just data.**
+**Learn DeFi curation from proven strategies.**
 
 ---
 
-We build insight-driven tools for the Solana DeFi ecosystem. Our mission is to make DeFi accessible by surfacing the insights that matter—without overwhelming users with raw data.
+We build learning tools for the Solana DeFi ecosystem. Our mission is to teach users *how to think* about yield strategies—not just show them data.
 
 ## What We're Building
 
-**[fabrknt.com](https://www.fabrknt.com)** — A yield intelligence platform that helps you find sustainable DeFi opportunities through:
+**[fabrknt.com](https://www.fabrknt.com)** — A DeFi curation learning platform that helps you build real allocation skills:
 
-- **AI-Powered Recommendations** — Risk-adjusted pool picks, not just highest APY
-- **Curator Strategies** — Learn from how pros like Gauntlet allocate capital
-- **Yield Opportunities** — Cross-protocol spread detection with net-of-cost analysis
+- **Curation Principles** — Six mental models that guide professional curators
+- **Curator Strategies** — See how Gauntlet, Steakhouse, and RE7 allocate—and *why*
+- **Strategy Builder** — Practice building allocations with real-time feedback
+- **Scenario Simulator** — Stress test strategies before committing capital
 - **Educational Tools** — Protocol comparisons, LST analysis, IL calculators
 
 ## Our Philosophy
 
-| Traditional Analytics | FABRKNT |
-|-----------------------|---------|
-| Data dumps | Actionable insights |
-| Built for pros | Accessible to all |
-| Raw metrics | Risk-adjusted analysis |
-| You figure it out | We guide you |
+| Data Platforms | FABRKNT |
+|----------------|---------|
+| Show APY numbers | Teach if APY is sustainable |
+| Display risk scores | Explain why risks matter |
+| List protocols | Compare strategies side-by-side |
+| Raw data dumps | Explained reasoning |
+| Dashboards to browse | Skills to develop |
+
+## Learning Flow
+
+1. **Understand the principles** — Learn the 6 mental models curators use
+2. **Study curator strategies** — See how experts apply these principles
+3. **Practice building** — Create your own strategy with feedback
+4. **Test before deploying** — Run scenarios to validate your approach
 
 ## Tech Stack
 
@@ -35,4 +44,4 @@ Next.js · React · TypeScript · Tailwind CSS · Anthropic Claude · PostgreSQL
 
 ---
 
-*Building at the intersection of institutional finance and DeFi.*
+*Learn how top curators think. Build strategies with confidence.*
