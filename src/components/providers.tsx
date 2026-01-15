@@ -6,6 +6,7 @@ import { WagmiProvider } from "wagmi";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { AuthProvider } from "./providers/session-provider";
 import { SolanaProvider } from "./providers/solana-provider";
+import { AllocationProvider } from "@/contexts/allocation-context";
 import { queryClient } from "@/lib/query-client";
 import { getWagmiConfig } from "@/lib/wagmi-config";
 import "@rainbow-me/rainbowkit/styles.css";
@@ -26,18 +27,24 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
     // Always wrap with AuthProvider, but conditionally render Web3 providers
     if (!mounted || !config) {
-        return <AuthProvider>{children}</AuthProvider>;
+        return (
+            <AuthProvider>
+                <AllocationProvider>{children}</AllocationProvider>
+            </AuthProvider>
+        );
     }
 
     return (
         <AuthProvider>
-            <SolanaProvider>
-                <WagmiProvider config={config}>
-                    <QueryClientProvider client={queryClient}>
-                        <RainbowKitProvider locale="en">{children}</RainbowKitProvider>
-                    </QueryClientProvider>
-                </WagmiProvider>
-            </SolanaProvider>
+            <AllocationProvider>
+                <SolanaProvider>
+                    <WagmiProvider config={config}>
+                        <QueryClientProvider client={queryClient}>
+                            <RainbowKitProvider locale="en">{children}</RainbowKitProvider>
+                        </QueryClientProvider>
+                    </WagmiProvider>
+                </SolanaProvider>
+            </AllocationProvider>
         </AuthProvider>
     );
 }

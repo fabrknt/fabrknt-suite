@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { QuickStart, RiskTolerance } from "./quick-start";
 import {
     RecommendationDisplay,
@@ -8,6 +8,7 @@ import {
 } from "./recommendation-display";
 import { ExecutionSteps } from "./execution-steps";
 import { generateRecommendation } from "@/lib/curate/recommendation-engine";
+import { useAllocation } from "@/contexts/allocation-context";
 import {
     ArrowLeft,
     CheckCircle,
@@ -25,16 +26,31 @@ interface ActionableFlowProps {
 }
 
 export function ActionableFlow({ onExplore, onLearn }: ActionableFlowProps) {
-    const [step, setStep] = useState<FlowStep>("input");
+    const { allocation: savedAllocation, riskTolerance: savedRisk, setAllocation, clearAllocation, hasAllocation } = useAllocation();
+
+    // Initialize from context if allocation exists
+    const [step, setStep] = useState<FlowStep>(() => hasAllocation ? "recommendation" : "input");
     const [isLoading, setIsLoading] = useState(false);
-    const [amount, setAmount] = useState<number>(0);
-    const [riskTolerance, setRiskTolerance] = useState<RiskTolerance>("moderate");
-    const [recommendation, setRecommendation] = useState<AllocationRecommendation | null>(null);
+    const [amount, setAmount] = useState<number>(() => savedAllocation?.summary.totalAmount || 0);
+    const [riskTolerance, setRiskToleranceState] = useState<RiskTolerance>(() => savedRisk || "moderate");
+    const [recommendation, setRecommendation] = useState<AllocationRecommendation | null>(savedAllocation);
+
+    // Sync with context when it changes
+    useEffect(() => {
+        if (savedAllocation && savedRisk) {
+            setRecommendation(savedAllocation);
+            setAmount(savedAllocation.summary.totalAmount);
+            setRiskToleranceState(savedRisk);
+            if (step === "input") {
+                setStep("recommendation");
+            }
+        }
+    }, [savedAllocation, savedRisk]);
 
     const handleSubmit = async (inputAmount: number, risk: RiskTolerance) => {
         setIsLoading(true);
         setAmount(inputAmount);
-        setRiskTolerance(risk);
+        setRiskToleranceState(risk);
 
         // Simulate a brief loading state for UX
         await new Promise(resolve => setTimeout(resolve, 1000));
@@ -42,6 +58,10 @@ export function ActionableFlow({ onExplore, onLearn }: ActionableFlowProps) {
         // Generate recommendation
         const rec = generateRecommendation(inputAmount, risk);
         setRecommendation(rec);
+
+        // Save to context for other tabs
+        setAllocation(rec, risk);
+
         setStep("recommendation");
         setIsLoading(false);
     };
@@ -54,6 +74,7 @@ export function ActionableFlow({ onExplore, onLearn }: ActionableFlowProps) {
     const handleReset = () => {
         setStep("input");
         setRecommendation(null);
+        clearAllocation();
     };
 
     const handleProceedToExecution = () => {

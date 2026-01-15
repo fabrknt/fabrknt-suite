@@ -56,6 +56,10 @@ import { WhyLearnCuration } from "@/components/curate/why-learn-curation";
 import { StrategyBuilder } from "@/components/curate/strategy-builder";
 import { TabNavigation, TabContent, TabId, MobileTabSpacer } from "@/components/curate/tab-navigation";
 import { ActionableFlow } from "@/components/curate/actionable-flow";
+import { AllocationBanner } from "@/components/curate/allocation-banner";
+import { AllocationComparison } from "@/components/curate/allocation-comparison";
+import { BackToAllocationButton } from "@/components/curate/back-to-allocation-button";
+import { useAllocation } from "@/contexts/allocation-context";
 import { getProtocolSlug } from "@/lib/solana/protocols";
 
 interface PoolDependency {
@@ -422,6 +426,7 @@ function QuickILCalculator() {
 function CuratePageContent() {
     const { data: session } = useSession();
     const searchParams = useSearchParams();
+    const { isPoolInAllocation, hasAllocation } = useAllocation();
     const [graphData, setGraphData] = useState<DefiGraphData | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -705,6 +710,10 @@ function CuratePageContent() {
                     /* INSIGHTS TAB - Strategy selection */
                     insights: (
                         <div className="space-y-6">
+                            {/* Allocation banner - show if user has allocation */}
+                            <AllocationBanner onNavigateToAllocation={() => setMainTab("start")} />
+                            {/* Allocation comparison - show if user has allocation */}
+                            <AllocationComparison />
                             {/* Welcome banner - dismissible one-time intro */}
                             <WelcomeBanner />
                             {/* Curation principles - quick reference */}
@@ -717,6 +726,8 @@ function CuratePageContent() {
                     /* EXPLORE TAB - Browse all pools */
                     explore: (
                         <div className="space-y-6">
+                            {/* Allocation banner - show if user has allocation */}
+                            <AllocationBanner onNavigateToAllocation={() => setMainTab("start")} />
                             {/* Explore Hero */}
                             <ExploreHero
                                 poolCount={heroStats?.totalPools || summaryStats.poolCount}
@@ -923,6 +934,11 @@ function CuratePageContent() {
                                                                 IL Risk
                                                             </span>
                                                         )}
+                                                        {isPoolInAllocation(pool.id) && (
+                                                            <span className="text-[10px] px-1 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                                                                In your allocation
+                                                            </span>
+                                                        )}
                                                     </div>
                                                 </div>
                                             </div>
@@ -1032,6 +1048,8 @@ function CuratePageContent() {
                     /* LEARN TAB - Educational content */
                     learn: (
                         <>
+                        {/* Allocation banner - show if user has allocation */}
+                        <AllocationBanner onNavigateToAllocation={() => setMainTab("start")} />
                         <LearnHero />
                         <LearnTabs defaultTab={urlSubtab as "principles" | "practice" | "compare" | undefined}>
                             {{
@@ -1095,6 +1113,9 @@ function CuratePageContent() {
                 onClose={() => setBacktestOpen(false)}
                 selectedPoolIds={Array.from(selectedPoolIds)}
             />
+
+            {/* Back to allocation floating button */}
+            <BackToAllocationButton currentTab={mainTab} onNavigate={() => setMainTab("start")} />
 
             {/* Mobile bottom tab spacer - prevents content from being hidden */}
             <MobileTabSpacer />

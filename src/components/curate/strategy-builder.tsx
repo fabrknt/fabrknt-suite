@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import {
     Hammer,
     Plus,
@@ -14,7 +14,9 @@ import {
     RotateCcw,
     Eye,
     FileText,
+    Zap,
 } from "lucide-react";
+import { useAllocation } from "@/contexts/allocation-context";
 import {
     UserStrategy,
     UserAllocation,
@@ -195,10 +197,50 @@ function PoolPicker({ availablePools, onAddPool }: PoolPickerProps) {
 }
 
 export function StrategyBuilder() {
+    const { allocation: savedAllocation, riskTolerance: savedRisk, hasAllocation } = useAllocation();
+
     const [strategy, setStrategy] = useState<UserStrategy>(() =>
         createEmptyStrategy("moderate", 10000)
     );
     const [showComparison, setShowComparison] = useState(false);
+    const [loadedFromAllocation, setLoadedFromAllocation] = useState(false);
+
+    // Function to load from saved allocation
+    const loadFromAllocation = () => {
+        if (!savedAllocation || !savedRisk) return;
+
+        const newAllocations: UserAllocation[] = savedAllocation.allocations.map(alloc => {
+            // Try to find matching pool in BUILDER_POOLS
+            const matchingPool = BUILDER_POOLS.find(p =>
+                p.name.toLowerCase().includes(alloc.poolName.toLowerCase()) ||
+                alloc.poolName.toLowerCase().includes(p.name.toLowerCase())
+            );
+
+            return {
+                poolId: matchingPool?.id || alloc.poolId,
+                poolName: alloc.poolName,
+                asset: alloc.asset,
+                allocation: alloc.allocation,
+                apy: alloc.apy,
+                riskLevel: alloc.riskLevel,
+                protocol: alloc.protocol,
+            };
+        });
+
+        const riskPref = savedRisk === "conservative" ? "conservative" :
+                        savedRisk === "aggressive" ? "aggressive" : "moderate";
+
+        setStrategy({
+            id: `user-strategy-${Date.now()}`,
+            name: "My Allocation",
+            riskPreference: riskPref,
+            totalAmount: savedAllocation.summary.totalAmount,
+            allocations: newAllocations,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+        });
+        setLoadedFromAllocation(true);
+    };
 
     // Calculate what pools are already selected
     const selectedPoolIds = new Set(strategy.allocations.map(a => a.poolId));
@@ -271,6 +313,7 @@ export function StrategyBuilder() {
 
     const handleReset = () => {
         setStrategy(createEmptyStrategy(strategy.riskPreference, strategy.totalAmount));
+        setLoadedFromAllocation(false);
     };
 
     // Calculate expected yield
@@ -305,6 +348,25 @@ export function StrategyBuilder() {
                     </span>
                 </div>
             </div>
+
+            {/* Load from Get Started banner */}
+            {hasAllocation && !loadedFromAllocation && (
+                <div className="flex items-center justify-between p-4 bg-cyan-500/10 border border-cyan-500/20 rounded-xl">
+                    <div className="flex items-center gap-3">
+                        <Zap className="h-5 w-5 text-cyan-400" />
+                        <div>
+                            <p className="text-sm text-white font-medium">Start with your Get Started allocation?</p>
+                            <p className="text-xs text-slate-400">Load your personalized allocation and modify it</p>
+                        </div>
+                    </div>
+                    <button
+                        onClick={loadFromAllocation}
+                        className="px-4 py-2 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 rounded-lg text-sm text-cyan-400 transition-colors"
+                    >
+                        Load my allocation
+                    </button>
+                </div>
+            )}
 
             <div className="grid gap-6 lg:grid-cols-3">
                 {/* Left column - Builder */}
