@@ -16,7 +16,7 @@ FABRKNT is a **DeFi curation learning platform** focused on **Solana**. Unlike d
 
 ## Navigation
 
-The app is organized into three main tabs:
+The app is organized into three main tabs, each with a consistent hero section showing the tab purpose and trust badges:
 
 | Tab | Purpose | What You'll Find |
 |-----|---------|------------------|
@@ -101,6 +101,20 @@ Card-based tool picker for cleaner navigation:
 - **Alternative Yields** — Restaking, perp LP, advanced strategies
 - **IL Calculator** — Impermanent loss estimation
 
+### How It Works Page
+
+Comprehensive guide covering all features with direct links:
+- Learning Flow (4-step progression)
+- 6 Curation Principles explained
+- Curator Strategies overview
+- Strategy Builder & Scenario Simulator
+- Pool Comparison & Backtest
+- Compare Tools (Protocol, LST, Yield Spreads, Alternative Yields, IL Calculator)
+- AI Features (Portfolio Optimizer, AI Insights)
+- Watchlist functionality
+- Data Pipeline & Risk Scoring methodology
+- Trust & Security principles
+
 ---
 
 ## Learning Flow
@@ -158,14 +172,25 @@ Our composite risk score (0-100) evaluates:
 | **Non-Custodial** | Your keys, your funds. We never touch assets |
 | **Transparent** | Our methodology is open. See [How It Works](/how-it-works) |
 
+Trust badges are displayed at the top of every section throughout the app, so users always know FABRKNT is safe to use.
+
 ---
 
 ## Pages
 
 - **/** — Main app with Insights, Explore, and Learn tabs
 - **/tools** — IL Calculator and Position Simulator (full page)
-- **/how-it-works** — Methodology and risk scoring explanation
+- **/how-it-works** — Complete feature guide with links to each function
 - **/about** — Team and mission
+
+### URL Navigation
+
+Direct links to specific tabs and features:
+- `/?tab=insights` — Insights tab (curator strategies)
+- `/?tab=explore` — Explore tab (pool browser)
+- `/?tab=learn&subtab=principles` — Learn > Principles
+- `/?tab=learn&subtab=practice` — Learn > Practice (Strategy Builder)
+- `/?tab=learn&subtab=compare` — Learn > Compare (Tools)
 
 ---
 
