@@ -21,6 +21,13 @@ import {
     Droplet,
     Link as LinkIcon,
     ArrowRight,
+    GitCompare,
+    LineChart,
+    Bookmark,
+    Sparkles,
+    Calculator,
+    Coins,
+    Building2,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -211,6 +218,167 @@ export default function HowItWorksPage() {
                                 <p className="text-xs text-slate-400">{scenario.change}</p>
                             </div>
                         ))}
+                    </div>
+                </section>
+
+                {/* Pool Comparison & Backtest */}
+                <section className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 rounded-xl p-8">
+                    <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center gap-3">
+                            <GitCompare className="h-6 w-6 text-blue-400" />
+                            <h2 className="text-xl font-semibold text-white">Pool Comparison & Backtest</h2>
+                        </div>
+                        <Link
+                            href="/?tab=explore"
+                            className="flex items-center gap-1 text-sm text-blue-400 hover:text-blue-300 transition-colors"
+                        >
+                            Try it <ArrowRight className="h-4 w-4" />
+                        </Link>
+                    </div>
+                    <p className="text-slate-300 mb-6">
+                        Compare pools side-by-side and test historical performance before committing capital:
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+                            <div className="flex items-center gap-2 mb-2">
+                                <GitCompare className="h-4 w-4 text-blue-400" />
+                                <h3 className="text-white font-medium">Compare Up to 3 Pools</h3>
+                            </div>
+                            <p className="text-sm text-slate-400">
+                                Select pools from the Explore tab and compare risk breakdown, APY sustainability, and key metrics side-by-side.
+                            </p>
+                        </div>
+                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+                            <div className="flex items-center gap-2 mb-2">
+                                <LineChart className="h-4 w-4 text-blue-400" />
+                                <h3 className="text-white font-medium">Historical Backtest</h3>
+                            </div>
+                            <p className="text-sm text-slate-400">
+                                See how pools performed over 7, 30, or 90 days. Choose compounding options (daily, weekly, none) to estimate returns.
+                            </p>
+                        </div>
+                    </div>
+                    <div className="mt-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+                        <p className="text-xs text-blue-300">
+                            <strong>How to use:</strong> In Explore tab, click the compare icon on any pool to add it to comparison. Click "Compare" button when ready.
+                        </p>
+                    </div>
+                </section>
+
+                {/* Compare Tools */}
+                <section className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 rounded-xl p-8">
+                    <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center gap-3">
+                            <Building2 className="h-6 w-6 text-purple-400" />
+                            <h2 className="text-xl font-semibold text-white">Compare Tools</h2>
+                        </div>
+                        <Link
+                            href="/?tab=learn&subtab=compare"
+                            className="flex items-center gap-1 text-sm text-purple-400 hover:text-purple-300 transition-colors"
+                        >
+                            Open tools <ArrowRight className="h-4 w-4" />
+                        </Link>
+                    </div>
+                    <p className="text-slate-300 mb-6">
+                        Specialized tools to analyze different aspects of Solana DeFi:
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {[
+                            { icon: Building2, name: "Protocol Comparison", desc: "Compare Kamino, Marginfi, Meteora and other protocols by TVL, pools, and average APY" },
+                            { icon: Coins, name: "LST Comparison", desc: "Compare liquid staking tokens: APY breakdown, validator count, MEV boost, peg stability" },
+                            { icon: TrendingUp, name: "Yield Spreads", desc: "Find APY differences for the same asset across protocols—spot arbitrage opportunities" },
+                            { icon: Layers, name: "Alternative Yields", desc: "Explore restaking and perp LP yields beyond traditional lending" },
+                            { icon: Calculator, name: "IL Calculator", desc: "Calculate impermanent loss for any price change scenario, including concentrated liquidity" },
+                        ].map((tool, i) => (
+                            <div key={i} className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+                                <div className="flex items-center gap-2 mb-2">
+                                    <tool.icon className="h-4 w-4 text-purple-400" />
+                                    <h3 className="text-white font-medium text-sm">{tool.name}</h3>
+                                </div>
+                                <p className="text-xs text-slate-400">{tool.desc}</p>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
+                {/* AI Features */}
+                <section className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 rounded-xl p-8">
+                    <div className="flex items-center gap-3 mb-6">
+                        <Sparkles className="h-6 w-6 text-yellow-400" />
+                        <h2 className="text-xl font-semibold text-white">AI-Powered Features</h2>
+                        <span className="text-xs px-2 py-0.5 bg-yellow-500/20 text-yellow-400 rounded border border-yellow-500/30">
+                            Login Required
+                        </span>
+                    </div>
+                    <p className="text-slate-300 mb-6">
+                        Sign in to unlock AI-powered analysis and personalized recommendations:
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+                            <div className="flex items-center gap-2 mb-2">
+                                <Brain className="h-4 w-4 text-yellow-400" />
+                                <h3 className="text-white font-medium">Portfolio Optimizer</h3>
+                            </div>
+                            <p className="text-sm text-slate-400 mb-3">
+                                Input your investment amount and risk tolerance. AI suggests a diversified allocation across pools with expected yields and risk warnings.
+                            </p>
+                            <p className="text-xs text-slate-500">
+                                Access: Click "Optimize" button in the Explore tab header.
+                            </p>
+                        </div>
+                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+                            <div className="flex items-center gap-2 mb-2">
+                                <Sparkles className="h-4 w-4 text-yellow-400" />
+                                <h3 className="text-white font-medium">AI Pool Insights</h3>
+                            </div>
+                            <p className="text-sm text-slate-400 mb-3">
+                                Get plain-English analysis of any pool: risk explanation, APY sustainability assessment, comparison vs similar pools, and actionable verdict.
+                            </p>
+                            <p className="text-xs text-slate-500">
+                                Access: Click "AI Insights" on any expanded pool card.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Watchlist */}
+                <section className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 rounded-xl p-8">
+                    <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center gap-3">
+                            <Bookmark className="h-6 w-6 text-cyan-400" />
+                            <h2 className="text-xl font-semibold text-white">Watchlist</h2>
+                        </div>
+                        <Link
+                            href="/?tab=explore"
+                            className="flex items-center gap-1 text-sm text-cyan-400 hover:text-cyan-300 transition-colors"
+                        >
+                            Try it <ArrowRight className="h-4 w-4" />
+                        </Link>
+                    </div>
+                    <p className="text-slate-300 mb-4">
+                        Save pools you're interested in and track them over time:
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="text-center p-4 bg-slate-800/50 rounded-lg">
+                            <Bookmark className="h-6 w-6 text-cyan-400 mx-auto mb-2" />
+                            <p className="text-sm text-white font-medium mb-1">Save Pools</p>
+                            <p className="text-xs text-slate-400">Click bookmark icon on any pool</p>
+                        </div>
+                        <div className="text-center p-4 bg-slate-800/50 rounded-lg">
+                            <AlertTriangle className="h-6 w-6 text-orange-400 mx-auto mb-2" />
+                            <p className="text-sm text-white font-medium mb-1">APY Alerts</p>
+                            <p className="text-xs text-slate-400">See badges when APY changes significantly</p>
+                        </div>
+                        <div className="text-center p-4 bg-slate-800/50 rounded-lg">
+                            <BarChart3 className="h-6 w-6 text-green-400 mx-auto mb-2" />
+                            <p className="text-sm text-white font-medium mb-1">Quick Filter</p>
+                            <p className="text-xs text-slate-400">Toggle between All and Watchlist view</p>
+                        </div>
+                    </div>
+                    <div className="mt-4 p-3 bg-cyan-500/10 border border-cyan-500/20 rounded-lg">
+                        <p className="text-xs text-cyan-300">
+                            <strong>Note:</strong> Watchlist is stored locally in your browser. Sign in to sync across devices.
+                        </p>
                     </div>
                 </section>
 
