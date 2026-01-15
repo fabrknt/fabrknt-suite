@@ -94,36 +94,38 @@ export function ActionableFlow({ onExplore, onLearn }: ActionableFlowProps) {
         <div className="min-h-[80vh] py-8">
             {/* Progress Steps */}
             <div className="max-w-2xl mx-auto mb-8 px-4">
-                <div className="flex items-center justify-between relative">
-                    {/* Progress line */}
-                    <div className="absolute left-0 right-0 top-4 h-0.5 bg-slate-700" />
+                <div className="relative">
+                    {/* Progress line - positioned to connect circle centers */}
+                    <div className="absolute left-[16.67%] right-[16.67%] top-4 h-0.5 bg-slate-700" />
                     <div
-                        className="absolute left-0 top-4 h-0.5 bg-gradient-to-r from-cyan-500 to-purple-500 transition-all"
-                        style={{ width: `${(currentStepIndex / (steps.length - 1)) * 100}%` }}
+                        className="absolute left-[16.67%] top-4 h-0.5 bg-gradient-to-r from-cyan-500 to-purple-500 transition-all"
+                        style={{ width: `${(currentStepIndex / (steps.length - 1)) * 66.67}%` }}
                     />
 
-                    {steps.map((s, idx) => (
-                        <div key={s.key} className="relative flex flex-col items-center">
-                            <div className={`w-8 h-8 rounded-full flex items-center justify-center z-10 ${
-                                idx < currentStepIndex
-                                    ? "bg-green-500 text-white"
-                                    : idx === currentStepIndex
-                                    ? "bg-gradient-to-r from-cyan-500 to-purple-500 text-white"
-                                    : "bg-slate-800 border-2 border-slate-600 text-slate-500"
-                            }`}>
-                                {idx < currentStepIndex ? (
-                                    <CheckCircle className="h-5 w-5" />
-                                ) : (
-                                    <span className="text-sm font-medium">{idx + 1}</span>
-                                )}
+                    <div className="flex">
+                        {steps.map((s, idx) => (
+                            <div key={s.key} className="flex-1 flex flex-col items-center relative">
+                                <div className={`w-8 h-8 rounded-full flex items-center justify-center z-10 ${
+                                    idx < currentStepIndex
+                                        ? "bg-green-500 text-white"
+                                        : idx === currentStepIndex
+                                        ? "bg-gradient-to-r from-cyan-500 to-purple-500 text-white"
+                                        : "bg-slate-800 border-2 border-slate-600 text-slate-500"
+                                }`}>
+                                    {idx < currentStepIndex ? (
+                                        <CheckCircle className="h-5 w-5" />
+                                    ) : (
+                                        <span className="text-sm font-medium">{idx + 1}</span>
+                                    )}
+                                </div>
+                                <span className={`text-xs mt-2 text-center ${
+                                    idx <= currentStepIndex ? "text-white" : "text-slate-500"
+                                }`}>
+                                    {s.label}
+                                </span>
                             </div>
-                            <span className={`text-xs mt-2 ${
-                                idx <= currentStepIndex ? "text-white" : "text-slate-500"
-                            }`}>
-                                {s.label}
-                            </span>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             </div>
 
