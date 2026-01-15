@@ -1,6 +1,6 @@
-# FABRKNT: Learn DeFi Curation from Proven Strategies
+# FABRKNT: Get Personalized DeFi Allocations
 
-**Learn how top curators think. Build strategies with confidence.**
+**Get your personalized Solana yield allocation in 30 seconds.**
 
 **Domain:** [www.fabrknt.com](https://www.fabrknt.com)
 
@@ -8,18 +8,31 @@
 
 ## What is FABRKNT?
 
-FABRKNT is a **DeFi curation learning platform** focused on **Solana**. Unlike data-heavy analytics tools, FABRKNT teaches you *how to think* about yield strategies by showing you how professional curators allocate capital—and why.
+FABRKNT gives you **personalized DeFi allocations** for **Solana**. Tell us your investment amount and risk tolerance, and we'll show you exactly where to put your money—with step-by-step execution instructions.
 
-**Our philosophy:** Understanding over copying. Judgment over data dumps.
+Want to learn instead? FABRKNT also teaches you *how to think* about yield strategies by showing you how professional curators allocate capital—and why.
+
+**Our philosophy:** Actionable recommendations over data dumps.
+
+---
+
+## Quick Start (30 Seconds)
+
+1. **Enter your preferences** — Investment amount and risk tolerance (Safe/Balanced/Growth)
+2. **Get your allocation** — Personalized recommendations with expected yields
+3. **Execute** — Step-by-step instructions with protocol links
+
+[Get Started →](https://www.fabrknt.com/?tab=start)
 
 ---
 
 ## Navigation
 
-The app is organized into three main tabs, each with a consistent hero section showing the tab purpose and trust badges:
+The app is organized into four tabs:
 
 | Tab | Purpose | What You'll Find |
 |-----|---------|------------------|
+| **Get Started** | "Your allocation in 30 seconds" | Quick start flow with personalized recommendations |
 | **Insights** | "Learn from the best" | Curation principles, curator strategies with reasoning |
 | **Explore** | "Browse all pools" | Full pool table with filters, search, watchlist, backtesting |
 | **Learn** | "Build your skills" | Principles, Strategy Builder, comparison tools |
@@ -29,6 +42,29 @@ The app is organized into three main tabs, each with a consistent hero section s
 ---
 
 ## Core Features
+
+### Get Started Tab (Primary Flow)
+
+The fastest way to get a DeFi allocation:
+
+#### Step 1: Your Preferences
+- Enter investment amount ($100 to any amount)
+- Select risk tolerance:
+  - **Safe** (4-7% APY) — Stablecoin-heavy, minimal risk
+  - **Balanced** (7-12% APY) — Mix of stable and growth
+  - **Growth** (12-25%+ APY) — Higher risk, higher potential
+
+#### Step 2: Your Allocation
+- Personalized pool recommendations
+- Expected APY and annual yield
+- Risk breakdown and warnings
+- "Why this allocation" insights
+
+#### Step 3: Execute
+- Step-by-step instructions for each position
+- Direct links to protocols (Kamino, Marginfi, Meteora, etc.)
+- Copy-paste amounts
+- Progress tracking (mark steps completed)
 
 ### Insights Tab
 
@@ -186,6 +222,7 @@ Trust badges are displayed at the top of every section throughout the app, so us
 ### URL Navigation
 
 Direct links to specific tabs and features:
+- `/?tab=start` — Get Started (personalized allocation flow)
 - `/?tab=insights` — Insights tab (curator strategies)
 - `/?tab=explore` — Explore tab (pool browser)
 - `/?tab=learn&subtab=principles` — Learn > Principles
@@ -208,6 +245,14 @@ Direct links to specific tabs and features:
 
 ### For Users
 
+**Option A: Get Your Allocation (30 seconds)**
+1. Go to [fabrknt.com](https://www.fabrknt.com)
+2. Enter your investment amount
+3. Select your risk tolerance
+4. Get personalized recommendations
+5. Follow step-by-step execution instructions
+
+**Option B: Learn to Curate**
 1. **Start with Principles** — Learn the 6 mental models in the Insights tab
 2. **Study Curator Strategies** — See how experts apply these principles
 3. **Practice Building** — Use the Strategy Builder in the Learn tab

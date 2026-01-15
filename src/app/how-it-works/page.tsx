@@ -41,14 +41,56 @@ export default function HowItWorksPage() {
                         How FABRKNT Works
                     </h1>
                     <p className="text-lg text-slate-400 max-w-2xl mx-auto">
-                        Learn DeFi curation through curator strategies, mental models, and hands-on practice.
-                        Here's how we help you build real allocation skills.
+                        Get personalized DeFi allocations in 30 seconds, or learn to build your own strategies.
                     </p>
                 </div>
 
+                {/* Quick Start - Primary CTA */}
+                <section className="bg-gradient-to-br from-cyan-900/30 to-purple-900/30 border border-cyan-500/30 rounded-xl p-8">
+                    <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center gap-3">
+                            <Zap className="h-6 w-6 text-cyan-400" />
+                            <h2 className="text-xl font-semibold text-white">Get Started in 30 Seconds</h2>
+                        </div>
+                        <Link
+                            href="/?tab=start"
+                            className="flex items-center gap-1 px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-medium rounded-lg transition-colors"
+                        >
+                            Start Now <ArrowRight className="h-4 w-4" />
+                        </Link>
+                    </div>
+                    <p className="text-slate-300 mb-6">
+                        Tell us your investment amount and risk tolerance. We'll show you exactly where to put your money with step-by-step execution instructions.
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="text-center p-4 bg-slate-800/50 rounded-lg">
+                            <div className="w-10 h-10 bg-cyan-500/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                                <span className="text-lg font-bold text-cyan-400">1</span>
+                            </div>
+                            <h3 className="text-white font-medium mb-1">Your Preferences</h3>
+                            <p className="text-xs text-slate-400">Enter amount and risk level</p>
+                        </div>
+                        <div className="text-center p-4 bg-slate-800/50 rounded-lg">
+                            <div className="w-10 h-10 bg-cyan-500/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                                <span className="text-lg font-bold text-cyan-400">2</span>
+                            </div>
+                            <h3 className="text-white font-medium mb-1">Your Allocation</h3>
+                            <p className="text-xs text-slate-400">See personalized recommendations</p>
+                        </div>
+                        <div className="text-center p-4 bg-slate-800/50 rounded-lg">
+                            <div className="w-10 h-10 bg-cyan-500/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                                <span className="text-lg font-bold text-cyan-400">3</span>
+                            </div>
+                            <h3 className="text-white font-medium mb-1">Execute</h3>
+                            <p className="text-xs text-slate-400">Step-by-step instructions</p>
+                        </div>
+                    </div>
+                </section>
+
                 {/* Learning Flow */}
                 <section className="bg-gradient-to-br from-purple-900/20 to-slate-800 border border-purple-500/30 rounded-xl p-8">
-                    <h2 className="text-xl font-semibold text-white mb-6">The Learning Flow</h2>
+                    <h2 className="text-xl font-semibold text-white mb-2">Want to Learn Instead?</h2>
+                    <p className="text-slate-400 mb-6">Build your own curation skills through our learning flow:</p>
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                         {[
                             { icon: BookOpen, label: "1. Learn Principles", desc: "6 mental models curators use", href: "/?tab=learn&subtab=principles" },
@@ -522,23 +564,29 @@ export default function HowItWorksPage() {
                 {/* CTA */}
                 <section className="text-center py-8 border-t border-slate-800">
                     <h2 className="text-xl font-semibold text-white mb-4">
-                        Ready to learn?
+                        Ready to get started?
                     </h2>
                     <p className="text-slate-400 mb-6">
-                        Start with the curation principles, then explore how curators apply them.
+                        Get your personalized allocation in 30 seconds, or explore on your own.
                     </p>
-                    <div className="flex items-center justify-center gap-4">
+                    <div className="flex flex-wrap items-center justify-center gap-4">
                         <Link
-                            href="/"
-                            className="px-6 py-3 bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-medium rounded-lg transition-colors"
+                            href="/?tab=start"
+                            className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-400 hover:to-purple-400 text-white font-medium rounded-lg transition-colors"
                         >
-                            Start Learning
+                            Get My Allocation
                         </Link>
                         <Link
-                            href="/about"
+                            href="/?tab=explore"
                             className="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 rounded-lg transition-colors"
                         >
-                            About Us
+                            Browse Pools
+                        </Link>
+                        <Link
+                            href="/?tab=learn&subtab=principles"
+                            className="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 rounded-lg transition-colors"
+                        >
+                            Learn Curation
                         </Link>
                     </div>
                 </section>

@@ -55,6 +55,7 @@ import { ToolPicker } from "@/components/curate/tool-picker";
 import { WhyLearnCuration } from "@/components/curate/why-learn-curation";
 import { StrategyBuilder } from "@/components/curate/strategy-builder";
 import { TabNavigation, TabContent, TabId, MobileTabSpacer } from "@/components/curate/tab-navigation";
+import { ActionableFlow } from "@/components/curate/actionable-flow";
 import { getProtocolSlug } from "@/lib/solana/protocols";
 
 interface PoolDependency {
@@ -430,12 +431,12 @@ export default function CuratePage() {
     const urlTab = searchParams.get("tab") as TabId | null;
     const urlSubtab = searchParams.get("subtab");
 
-    // Main navigation tab state (3 tabs: insights, explore, learn)
+    // Main navigation tab state (4 tabs: start, insights, explore, learn)
     const [mainTab, setMainTab] = useState<TabId>(() => {
-        if (urlTab && ["insights", "explore", "learn"].includes(urlTab)) {
+        if (urlTab && ["start", "insights", "explore", "learn"].includes(urlTab)) {
             return urlTab;
         }
-        return "insights";
+        return "start";
     });
 
     // Pool list tab state (all vs watchlist)
@@ -477,7 +478,7 @@ export default function CuratePage() {
 
     // Sync tab state with URL params when they change
     useEffect(() => {
-        if (urlTab && ["insights", "explore", "learn"].includes(urlTab)) {
+        if (urlTab && ["start", "insights", "explore", "learn"].includes(urlTab)) {
             setMainTab(urlTab);
         }
     }, [urlTab]);
@@ -693,6 +694,14 @@ export default function CuratePage() {
 
             <TabContent activeTab={mainTab}>
                 {{
+                    /* START TAB - Actionable recommendations flow */
+                    start: (
+                        <ActionableFlow
+                            onExplore={() => setMainTab("explore")}
+                            onLearn={() => setMainTab("learn")}
+                        />
+                    ),
+
                     /* INSIGHTS TAB - Strategy selection */
                     insights: (
                         <div className="space-y-6">

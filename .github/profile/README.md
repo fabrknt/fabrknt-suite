@@ -1,16 +1,21 @@
 # FABRKNT
 
-**Learn DeFi curation from proven strategies.**
+**Get personalized DeFi allocations in 30 seconds.**
 
 ---
 
-We build learning tools for the Solana DeFi ecosystem. Our mission is to teach users *how to think* about yield strategies—not just show them data.
+We help Solana users find the right yield strategies. Tell us your amount and risk tolerance—we'll show you exactly where to put your money.
 
 ## What We're Building
 
-**[fabrknt.com](https://www.fabrknt.com)** — A DeFi curation learning platform that helps you build real allocation skills:
+**[fabrknt.com](https://www.fabrknt.com)** — Personalized DeFi allocations for Solana:
 
-### Learn
+### Get Started (30 seconds)
+- **Enter your preferences** — Amount and risk tolerance (Safe/Balanced/Growth)
+- **Get your allocation** — Personalized recommendations with expected yields
+- **Execute** — Step-by-step instructions with protocol links
+
+### Learn (Optional)
 - **Curation Principles** — Six mental models that guide professional curators
 - **Curator Strategies** — See how Gauntlet, Steakhouse, and RE7 allocate—and *why*
 - **Strategy Builder** — Practice building allocations with real-time feedback (A-F grading)
@@ -44,18 +49,24 @@ We build learning tools for the Solana DeFi ecosystem. Our mission is to teach u
 
 | Data Platforms | FABRKNT |
 |----------------|---------|
-| Show APY numbers | Teach if APY is sustainable |
+| Show APY numbers | Tell you which ones to use |
 | Display risk scores | Explain why risks matter |
-| List protocols | Compare strategies side-by-side |
-| Raw data dumps | Explained reasoning |
-| Dashboards to browse | Skills to develop |
+| List protocols | Give you actionable steps |
+| Raw data dumps | Personalized recommendations |
+| Dashboards to browse | Allocations to execute |
 
-## Learning Flow
+## Two Ways to Use FABRKNT
 
-1. **Understand the principles** — Learn the 6 mental models curators use
-2. **Study curator strategies** — See how experts apply these principles
-3. **Practice building** — Create your own strategy with feedback
-4. **Test before deploying** — Run scenarios to validate your approach
+**Option A: Get Your Allocation (30 seconds)**
+1. Enter amount and risk tolerance
+2. Get personalized recommendations
+3. Follow step-by-step execution
+
+**Option B: Learn to Curate**
+1. Learn the 6 mental models curators use
+2. Study how experts apply these principles
+3. Practice building with feedback
+4. Test before deploying
 
 ## Tech Stack
 
@@ -68,4 +79,4 @@ Next.js · React · TypeScript · Tailwind CSS · Anthropic Claude · PostgreSQL
 
 ---
 
-*Learn how top curators think. Build strategies with confidence.*
+*Get your personalized Solana yield allocation in 30 seconds.*

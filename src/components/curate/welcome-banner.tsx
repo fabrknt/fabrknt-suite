@@ -45,8 +45,7 @@ export function WelcomeBanner() {
                         Learn DeFi curation from proven strategies
                     </h2>
                     <p className="text-sm text-slate-400 leading-relaxed mb-3">
-                        See how top curators allocate capital, understand their reasoning, and practice building your own strategies. Explore curator strategies below, or visit the{" "}
-                        <span className="text-cyan-400">Learn</span> tab to build your own.
+                        Want a quick allocation? Try <span className="text-cyan-400">Get Started</span> for personalized recommendations in 30 seconds. Or explore how top curators allocate capital below and learn their reasoning.
                     </p>
                     {/* Trust badges */}
                     <div className="flex items-center gap-4 text-xs text-slate-500">

@@ -1,9 +1,9 @@
 "use client";
 
 import { ReactNode } from "react";
-import { Lightbulb, Search, BookOpen } from "lucide-react";
+import { Lightbulb, Search, BookOpen, Zap } from "lucide-react";
 
-export type TabId = "insights" | "explore" | "learn";
+export type TabId = "start" | "insights" | "explore" | "learn";
 
 interface Tab {
     id: TabId;
@@ -14,10 +14,16 @@ interface Tab {
 
 const TABS: Tab[] = [
     {
+        id: "start",
+        label: "Get Started",
+        icon: <Zap className="h-5 w-5" />,
+        description: "Get your allocation"
+    },
+    {
         id: "insights",
         label: "Insights",
         icon: <Lightbulb className="h-5 w-5" />,
-        description: "What matters now"
+        description: "Learn from curators"
     },
     {
         id: "explore",
@@ -29,7 +35,7 @@ const TABS: Tab[] = [
         id: "learn",
         label: "Learn",
         icon: <BookOpen className="h-5 w-5" />,
-        description: "Understand DeFi"
+        description: "Build your skills"
     },
 ];
 
