@@ -19,6 +19,7 @@ import {
     Zap,
     Eye,
     Rocket,
+    Heart,
 } from "lucide-react";
 
 type FlowStep = "input" | "recommendation";
@@ -29,7 +30,7 @@ interface ActionableFlowProps {
 }
 
 export function ActionableFlow({ onExplore, onLearn }: ActionableFlowProps) {
-    const { allocation: savedAllocation, riskTolerance: savedRisk, setAllocation, clearAllocation, hasAllocation, paperHistory, saveToPaperHistory, allPoolsCompleted } = useAllocation();
+    const { allocation: savedAllocation, riskTolerance: savedRisk, setAllocation, clearAllocation, hasAllocation, paperHistory, saveToPaperHistory, allPoolsCompleted, trackingDays, getAllPerformanceMetrics } = useAllocation();
 
     // Check if current allocation is saved to paper portfolio
     const isAllocationSaved = savedAllocation && paperHistory.some(
@@ -91,10 +92,16 @@ export function ActionableFlow({ onExplore, onLearn }: ActionableFlowProps) {
         clearAllocation();
     };
 
-    // Journey progress: Try (got allocation) → Track (saved to paper) → Trade (execute)
+    // Check if trust is earned (14+ days tracking with positive/stable performance)
+    const performanceMetrics = getAllPerformanceMetrics();
+    const hasTrustEarned = trackingDays >= 14 && performanceMetrics.length > 0 &&
+        performanceMetrics.some(m => m.apyTrend === "up" || m.apyTrend === "stable");
+
+    // Journey progress: Try → Track → Trust → Trade
     const journeyState = {
         tryComplete: step === "recommendation",
         trackComplete: isAllocationSaved,
+        trustComplete: hasTrustEarned,
         tradeComplete: allPoolsCompleted,
     };
 
@@ -144,30 +151,51 @@ export function ActionableFlow({ onExplore, onLearn }: ActionableFlowProps) {
                             }`}>Track</span>
                         </div>
                         <ArrowRight className={`h-4 w-4 text-slate-600 ${!journeyState.tryComplete && "opacity-50"}`} />
-                        {/* Trade */}
+                        {/* Trust */}
                         <div className={`flex items-center gap-2 ${!journeyState.trackComplete && "opacity-50"}`}>
+                            <div className={`w-9 h-9 rounded-full flex items-center justify-center transition-all ${
+                                journeyState.trustComplete
+                                    ? "bg-green-500"
+                                    : journeyState.trackComplete
+                                    ? "bg-gradient-to-r from-purple-500 to-pink-500 ring-2 ring-purple-400/50 ring-offset-2 ring-offset-slate-900"
+                                    : "bg-slate-700"
+                            }`}>
+                                {journeyState.trustComplete ? (
+                                    <CheckCircle className="h-5 w-5 text-white" />
+                                ) : (
+                                    <Heart className={`h-5 w-5 ${journeyState.trackComplete ? "text-white" : "text-slate-500"}`} />
+                                )}
+                            </div>
+                            <span className={`text-sm font-medium ${
+                                journeyState.trustComplete ? "text-green-400" : journeyState.trackComplete ? "text-purple-400" : "text-slate-500"
+                            }`}>Trust</span>
+                        </div>
+                        <ArrowRight className={`h-4 w-4 text-slate-600 ${!journeyState.trackComplete && "opacity-50"}`} />
+                        {/* Trade */}
+                        <div className={`flex items-center gap-2 ${!journeyState.trustComplete && "opacity-50"}`}>
                             <div className={`w-9 h-9 rounded-full flex items-center justify-center transition-all ${
                                 journeyState.tradeComplete
                                     ? "bg-green-500"
-                                    : journeyState.trackComplete
+                                    : journeyState.trustComplete
                                     ? "bg-gradient-to-r from-cyan-500 to-purple-500 ring-2 ring-cyan-400/50 ring-offset-2 ring-offset-slate-900"
                                     : "bg-slate-700"
                             }`}>
                                 {journeyState.tradeComplete ? (
                                     <CheckCircle className="h-5 w-5 text-white" />
                                 ) : (
-                                    <Rocket className={`h-5 w-5 ${journeyState.trackComplete ? "text-white" : "text-slate-500"}`} />
+                                    <Rocket className={`h-5 w-5 ${journeyState.trustComplete ? "text-white" : "text-slate-500"}`} />
                                 )}
                             </div>
                             <span className={`text-sm font-medium ${
-                                journeyState.tradeComplete ? "text-green-400" : journeyState.trackComplete ? "text-cyan-400" : "text-slate-500"
+                                journeyState.tradeComplete ? "text-green-400" : journeyState.trustComplete ? "text-cyan-400" : "text-slate-500"
                             }`}>Trade</span>
                         </div>
                     </div>
                     <p className="text-center text-sm text-slate-400 mt-3">
                         {!journeyState.tryComplete && "Get your personalized allocation to start"}
                         {journeyState.tryComplete && !journeyState.trackComplete && "Save to Paper Portfolio to track performance"}
-                        {journeyState.trackComplete && !journeyState.tradeComplete && "Track performance, then execute when ready"}
+                        {journeyState.trackComplete && !journeyState.trustComplete && `Track for ${14 - trackingDays > 0 ? `${14 - trackingDays} more days` : "a few more days"} to build trust`}
+                        {journeyState.trustComplete && !journeyState.tradeComplete && "Trust earned! Execute when you're ready"}
                         {journeyState.tradeComplete && "All positions executed! Track your portfolio performance."}
                     </p>
                 </div>

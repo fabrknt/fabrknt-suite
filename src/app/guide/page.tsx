@@ -37,6 +37,7 @@ import {
     FlaskConical,
     Eye,
     Rocket,
+    Heart,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -151,27 +152,34 @@ export default function GuidePage() {
                     <p className="text-slate-300 mb-6">
                         New to DeFi? Test strategies without risking real money. Track your paper portfolio, then invest when ready.
                     </p>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="text-center p-4 bg-slate-800/50 rounded-lg border border-purple-500/20">
-                            <div className="w-10 h-10 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-2">
-                                <Zap className="h-5 w-5 text-purple-400" />
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <div className="text-center p-3 bg-slate-800/50 rounded-lg border border-purple-500/20">
+                            <div className="w-9 h-9 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                                <Zap className="h-4 w-4 text-purple-400" />
                             </div>
-                            <h3 className="text-white font-medium mb-1">1. Try</h3>
-                            <p className="text-xs text-slate-400">Get a free allocation recommendation</p>
+                            <h3 className="text-white font-medium text-sm mb-1">Try</h3>
+                            <p className="text-xs text-slate-400">Get allocation</p>
                         </div>
-                        <div className="text-center p-4 bg-slate-800/50 rounded-lg border border-purple-500/20">
-                            <div className="w-10 h-10 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-2">
-                                <Eye className="h-5 w-5 text-purple-400" />
+                        <div className="text-center p-3 bg-slate-800/50 rounded-lg border border-purple-500/20">
+                            <div className="w-9 h-9 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                                <Eye className="h-4 w-4 text-purple-400" />
                             </div>
-                            <h3 className="text-white font-medium mb-1">2. Track</h3>
-                            <p className="text-xs text-slate-400">Save to Paper Portfolio and watch performance</p>
+                            <h3 className="text-white font-medium text-sm mb-1">Track</h3>
+                            <p className="text-xs text-slate-400">14+ days</p>
                         </div>
-                        <div className="text-center p-4 bg-slate-800/50 rounded-lg border border-cyan-500/20">
-                            <div className="w-10 h-10 bg-cyan-500/20 rounded-full flex items-center justify-center mx-auto mb-2">
-                                <Rocket className="h-5 w-5 text-cyan-400" />
+                        <div className="text-center p-3 bg-slate-800/50 rounded-lg border border-pink-500/20">
+                            <div className="w-9 h-9 bg-pink-500/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                                <Heart className="h-4 w-4 text-pink-400" />
                             </div>
-                            <h3 className="text-white font-medium mb-1">3. Trade</h3>
-                            <p className="text-xs text-slate-400">Execute with real money when ready</p>
+                            <h3 className="text-white font-medium text-sm mb-1">Trust</h3>
+                            <p className="text-xs text-slate-400">See it work</p>
+                        </div>
+                        <div className="text-center p-3 bg-slate-800/50 rounded-lg border border-cyan-500/20">
+                            <div className="w-9 h-9 bg-cyan-500/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                                <Rocket className="h-4 w-4 text-cyan-400" />
+                            </div>
+                            <h3 className="text-white font-medium text-sm mb-1">Trade</h3>
+                            <p className="text-xs text-slate-400">Execute</p>
                         </div>
                     </div>
                     <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
