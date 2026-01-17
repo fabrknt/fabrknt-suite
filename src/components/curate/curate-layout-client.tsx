@@ -5,10 +5,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Logo } from "@/components/logo";
 import { useSession, signOut } from "next-auth/react";
-import { LogIn, LogOut, Github, Menu, X, TrendingUp, HelpCircle, Info } from "lucide-react";
+import { LogIn, LogOut, Github, Menu, X, HelpCircle, Info } from "lucide-react";
 
 const NAV_LINKS = [
-    { href: "/", label: "Yields", icon: TrendingUp, matchPaths: ["/", "/curate"] },
     { href: "/guide", label: "Guide", icon: HelpCircle, matchPaths: ["/guide"] },
     { href: "/about", label: "About", icon: Info, matchPaths: ["/about"] },
 ];
