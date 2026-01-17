@@ -131,7 +131,7 @@ export function QuickStart({ onSubmit, isLoading }: QuickStartProps) {
             {/* Header */}
             <div className="text-center mb-8">
                 <p className="text-slate-500 text-sm mb-4">
-                    Stop browsing dashboards. Start deploying capital.
+                    Stop browsing dashboards. Start planning your strategy.
                 </p>
                 <div className="inline-flex items-center gap-2 px-3 py-1 bg-cyan-500/10 border border-cyan-500/20 rounded-full text-cyan-400 text-sm mb-4">
                     <Clock className="h-4 w-4" />
@@ -141,7 +141,7 @@ export function QuickStart({ onSubmit, isLoading }: QuickStartProps) {
                     Get Your Personalized DeFi Allocation
                 </h1>
                 <p className="text-slate-400 text-lg">
-                    Tell us your investment and risk preference. We&apos;ll show you exactly where to put your money.
+                    See exactly where to put your money. Not ready? Save it and track performance first.
                 </p>
             </div>
 
