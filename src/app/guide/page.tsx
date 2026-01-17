@@ -55,12 +55,12 @@ export default function GuidePage() {
                     </p>
                 </div>
 
-                {/* Table of Contents */}
+                {/* Table of Contents - Follows Try → Track → Trust → Trade journey */}
                 <nav className="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
                     <div className="space-y-4">
-                        {/* Start */}
+                        {/* Try */}
                         <div>
-                            <p className="text-[10px] text-cyan-500 uppercase tracking-wider mb-2 font-medium">Start</p>
+                            <p className="text-[10px] text-cyan-500 uppercase tracking-wider mb-2 font-medium">Try</p>
                             <div className="flex flex-wrap gap-2">
                                 <a href="#get-started" className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 border border-cyan-500/20 rounded-lg transition-colors">
                                     <Zap className="h-3.5 w-3.5" />
@@ -69,16 +69,14 @@ export default function GuidePage() {
                             </div>
                         </div>
 
-                        {/* Learn */}
+                        {/* Track */}
                         <div>
-                            <p className="text-[10px] text-purple-500 uppercase tracking-wider mb-2 font-medium">Learn</p>
+                            <p className="text-[10px] text-purple-500 uppercase tracking-wider mb-2 font-medium">Track</p>
                             <div className="flex flex-wrap gap-2">
                                 {[
-                                    { id: "learning-flow", label: "Learning Flow", icon: ArrowRight },
-                                    { id: "principles", label: "Principles", icon: BookOpen },
-                                    { id: "curators", label: "Curators", icon: Users },
-                                    { id: "strategy-builder", label: "Strategy Builder", icon: Hammer },
-                                    { id: "scenario-simulator", label: "Scenarios", icon: Activity },
+                                    { id: "paper-portfolio", label: "Paper Portfolio", icon: FlaskConical },
+                                    { id: "insights-dashboard", label: "Insights", icon: Target },
+                                    { id: "allocation-history", label: "History", icon: History },
                                 ].map((item) => (
                                     <a key={item.id} href={`#${item.id}`} className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm bg-purple-500/10 text-purple-400 hover:bg-purple-500/20 border border-purple-500/20 rounded-lg transition-colors">
                                         <item.icon className="h-3.5 w-3.5" />
@@ -88,14 +86,13 @@ export default function GuidePage() {
                             </div>
                         </div>
 
-                        {/* Tools */}
+                        {/* Trust & Trade */}
                         <div>
-                            <p className="text-[10px] text-green-500 uppercase tracking-wider mb-2 font-medium">Tools</p>
+                            <p className="text-[10px] text-green-500 uppercase tracking-wider mb-2 font-medium">Trust & Trade</p>
                             <div className="flex flex-wrap gap-2">
                                 {[
-                                    { id: "pool-comparison", label: "Pool Comparison", icon: GitCompare },
-                                    { id: "compare-tools", label: "Compare Tools", icon: Building2 },
-                                    { id: "apy-history", label: "APY Charts", icon: LineChart },
+                                    { id: "allocation-comparison", label: "Compare vs Curators", icon: GitCompare },
+                                    { id: "curators", label: "Curator Strategies", icon: Users },
                                 ].map((item) => (
                                     <a key={item.id} href={`#${item.id}`} className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm bg-green-500/10 text-green-400 hover:bg-green-500/20 border border-green-500/20 rounded-lg transition-colors">
                                         <item.icon className="h-3.5 w-3.5" />
@@ -105,16 +102,16 @@ export default function GuidePage() {
                             </div>
                         </div>
 
-                        {/* Track */}
+                        {/* Go Deeper */}
                         <div>
-                            <p className="text-[10px] text-orange-500 uppercase tracking-wider mb-2 font-medium">Track</p>
+                            <p className="text-[10px] text-orange-500 uppercase tracking-wider mb-2 font-medium">Go Deeper</p>
                             <div className="flex flex-wrap gap-2">
                                 {[
-                                    { id: "paper-portfolio", label: "Paper Portfolio", icon: FlaskConical },
-                                    { id: "insights-dashboard", label: "Insights", icon: Target },
-                                    { id: "allocation-history", label: "History", icon: History },
-                                    { id: "watchlist", label: "Watchlist", icon: Bookmark },
-                                    { id: "ai-features", label: "AI Features", icon: Sparkles },
+                                    { id: "learning-flow", label: "Learning Flow", icon: ArrowRight },
+                                    { id: "principles", label: "Principles", icon: BookOpen },
+                                    { id: "strategy-builder", label: "Strategy Builder", icon: Hammer },
+                                    { id: "compare-tools", label: "Compare Tools", icon: Wrench },
+                                    { id: "pool-comparison", label: "Pool Comparison", icon: GitCompare },
                                 ].map((item) => (
                                     <a key={item.id} href={`#${item.id}`} className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm bg-orange-500/10 text-orange-400 hover:bg-orange-500/20 border border-orange-500/20 rounded-lg transition-colors">
                                         <item.icon className="h-3.5 w-3.5" />
@@ -129,6 +126,8 @@ export default function GuidePage() {
                             <p className="text-[10px] text-slate-500 uppercase tracking-wider mb-2 font-medium">Reference</p>
                             <div className="flex flex-wrap gap-2">
                                 {[
+                                    { id: "watchlist", label: "Watchlist", icon: Bookmark },
+                                    { id: "ai-features", label: "AI Features", icon: Sparkles },
                                     { id: "risk-scoring", label: "Risk Scoring", icon: Shield },
                                     { id: "data-pipeline", label: "Data Pipeline", icon: Database },
                                     { id: "security", label: "Security", icon: Shield },
@@ -234,29 +233,304 @@ export default function GuidePage() {
                             <p className="text-xs text-slate-400">Track it or invest right away</p>
                         </div>
                     </div>
-                    <div className="mt-6 p-4 bg-slate-800/30 rounded-lg border border-cyan-500/20">
+                    <div className="mt-6 p-4 bg-green-500/10 rounded-lg border border-green-500/20">
+                        <div className="flex items-start gap-3">
+                            <Shield className="h-5 w-5 text-green-400 shrink-0 mt-0.5" />
+                            <div>
+                                <h3 className="text-white font-medium mb-1">Your security</h3>
+                                <p className="text-sm text-slate-400">
+                                    We never touch your funds, request wallet signing, or execute transactions on your behalf. FABRKNT is non-custodial and read-only.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="mt-4 p-4 bg-slate-800/30 rounded-lg border border-cyan-500/20">
                         <h3 className="text-white font-medium mb-2">Your allocation persists across all tabs:</h3>
                         <ul className="text-sm text-slate-400 space-y-1">
-                            <li>• <strong className="text-cyan-400">Insights:</strong> Save to Paper Portfolio and compare vs professional curators</li>
+                            <li>• <strong className="text-cyan-400">Insights:</strong> Save to Paper Portfolio and track performance over time</li>
                             <li>• <strong className="text-cyan-400">Explore:</strong> Pools in your allocation are highlighted; find alternatives</li>
-                            <li>• <strong className="text-cyan-400">Learn:</strong> Load your allocation into Strategy Builder to customize</li>
+                            <li>• <strong className="text-cyan-400">Practice:</strong> Load your allocation into Strategy Builder to customize</li>
+                            <li>• <strong className="text-cyan-400">Compare:</strong> Compare your allocation vs professional curators</li>
                         </ul>
                     </div>
                 </section>
 
+                {/* ===== TRACK SECTION ===== */}
+
+                {/* Paper Portfolio */}
+                <section id="paper-portfolio" className="bg-gradient-to-br from-purple-900/20 to-slate-800 border border-purple-500/30 rounded-xl p-8 scroll-mt-20">
+                    <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center gap-3">
+                            <FlaskConical className="h-6 w-6 text-purple-400" />
+                            <h2 className="text-xl font-semibold text-white">Paper Portfolio</h2>
+                            <span className="text-xs px-2 py-0.5 bg-purple-500/20 text-purple-400 rounded border border-purple-500/30">
+                                No sign-in required
+                            </span>
+                        </div>
+                        <Link
+                            href="/?tab=start"
+                            className="flex items-center gap-1 text-sm text-purple-400 hover:text-purple-300 transition-colors"
+                        >
+                            Try it <ArrowRight className="h-4 w-4" />
+                        </Link>
+                    </div>
+                    <p className="text-slate-300 mb-6">
+                        Track allocations over time without investing real money. Perfect for learning DeFi or testing strategies before committing capital. The <strong className="text-purple-400">Paper Portfolio Dashboard</strong> shows your performance at a glance.
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+                            <div className="flex items-center gap-2 mb-2">
+                                <Target className="h-4 w-4 text-cyan-400" />
+                                <h3 className="text-white font-medium">Visual Dashboard</h3>
+                            </div>
+                            <p className="text-sm text-slate-400">
+                                See Paper Value, Est. Yield, Avg APY, and Trust Progress in one view.
+                            </p>
+                        </div>
+                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+                            <div className="flex items-center gap-2 mb-2">
+                                <TrendingUp className="h-4 w-4 text-green-400" />
+                                <h3 className="text-white font-medium">APY Sparklines</h3>
+                            </div>
+                            <p className="text-sm text-slate-400">
+                                Visual trend indicators show if your portfolio APY is rising, falling, or stable.
+                            </p>
+                        </div>
+                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+                            <div className="flex items-center gap-2 mb-2">
+                                <Heart className="h-4 w-4 text-pink-400" />
+                                <h3 className="text-white font-medium">Trust Progress</h3>
+                            </div>
+                            <p className="text-sm text-slate-400">
+                                Track 14+ days to build trust. See a progress ring showing days remaining.
+                            </p>
+                        </div>
+                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+                            <div className="flex items-center gap-2 mb-2">
+                                <History className="h-4 w-4 text-purple-400" />
+                                <h3 className="text-white font-medium">Multiple Allocations</h3>
+                            </div>
+                            <p className="text-sm text-slate-400">
+                                Save up to 10 allocations. Compare how different strategies perform.
+                            </p>
+                        </div>
+                    </div>
+                    <div className="p-4 bg-purple-500/10 border border-purple-500/20 rounded-lg">
+                        <h4 className="text-white font-medium mb-2">How to use Paper Portfolio:</h4>
+                        <ol className="text-sm text-slate-400 space-y-1 list-decimal list-inside">
+                            <li>Get an allocation from the <Link href="/?tab=start" className="text-purple-400 hover:underline">Get Started</Link> tab</li>
+                            <li>Your allocation is auto-saved to Paper Portfolio</li>
+                            <li>See your <strong className="text-purple-400">Paper Portfolio Dashboard</strong> right after getting your allocation</li>
+                            <li>Check back daily to see performance tracking and APY trends</li>
+                            <li>After 14+ days of stable/positive performance, trust is earned</li>
+                            <li>When confident, execute the strategy with real funds</li>
+                        </ol>
+                    </div>
+                    <div className="mt-4 p-3 bg-slate-800/50 border border-slate-700/50 rounded-lg">
+                        <p className="text-xs text-slate-400">
+                            <strong className="text-slate-300">Note:</strong> Paper Portfolio is stored in your browser. Sign in to sync across devices and keep permanent records.
+                        </p>
+                    </div>
+                </section>
+
+                {/* Insights Dashboard */}
+                <section id="insights-dashboard" className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 rounded-xl p-8 scroll-mt-20">
+                    <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center gap-3">
+                            <Target className="h-6 w-6 text-cyan-400" />
+                            <h2 className="text-xl font-semibold text-white">Insights Dashboard</h2>
+                        </div>
+                        <Link
+                            href="/?tab=insights"
+                            className="flex items-center gap-1 text-sm text-cyan-400 hover:text-cyan-300 transition-colors"
+                        >
+                            View insights <ArrowRight className="h-4 w-4" />
+                        </Link>
+                    </div>
+                    <p className="text-slate-300 mb-6">
+                        Track your allocation performance and stay informed about market conditions:
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+                            <div className="flex items-center gap-2 mb-2">
+                                <Bell className="h-4 w-4 text-orange-400" />
+                                <h3 className="text-white font-medium">Rebalance Alerts</h3>
+                            </div>
+                            <p className="text-sm text-slate-400">
+                                Get notified when your allocation drifts from targets or when pools in your allocation have significant APY changes.
+                            </p>
+                        </div>
+                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+                            <div className="flex items-center gap-2 mb-2">
+                                <Newspaper className="h-4 w-4 text-cyan-400" />
+                                <h3 className="text-white font-medium">Market Context</h3>
+                            </div>
+                            <p className="text-sm text-slate-400">
+                                Weekly market trends, protocol updates, and yield environment analysis to help you understand current conditions.
+                            </p>
+                        </div>
+                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+                            <div className="flex items-center gap-2 mb-2">
+                                <BarChart3 className="h-4 w-4 text-green-400" />
+                                <h3 className="text-white font-medium">Performance Tracking</h3>
+                            </div>
+                            <p className="text-sm text-slate-400">
+                                Track how our recommendations perform over time with transparent metrics and historical data.
+                            </p>
+                        </div>
+                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+                            <div className="flex items-center gap-2 mb-2">
+                                <Users className="h-4 w-4 text-purple-400" />
+                                <h3 className="text-white font-medium">Curator Strategies</h3>
+                            </div>
+                            <p className="text-sm text-slate-400">
+                                Learn from professional curators like Gauntlet, Steakhouse, and RE7—see their allocations and reasoning.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Allocation History */}
+                <section id="allocation-history" className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 rounded-xl p-8 scroll-mt-20">
+                    <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center gap-3">
+                            <History className="h-6 w-6 text-purple-400" />
+                            <h2 className="text-xl font-semibold text-white">Allocation History</h2>
+                        </div>
+                        <Link
+                            href="/?tab=insights"
+                            className="flex items-center gap-1 text-sm text-purple-400 hover:text-purple-300 transition-colors"
+                        >
+                            View history <ArrowRight className="h-4 w-4" />
+                        </Link>
+                    </div>
+                    <p className="text-slate-300 mb-6">
+                        Keep track of all your saved allocations over time:
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="text-center p-4 bg-slate-800/50 rounded-lg">
+                            <History className="h-6 w-6 text-purple-400 mx-auto mb-2" />
+                            <p className="text-sm text-white font-medium mb-1">Save Allocations</p>
+                            <p className="text-xs text-slate-400">Store your allocations with notes for future reference</p>
+                        </div>
+                        <div className="text-center p-4 bg-slate-800/50 rounded-lg">
+                            <TrendingUp className="h-6 w-6 text-green-400 mx-auto mb-2" />
+                            <p className="text-sm text-white font-medium mb-1">Track Changes</p>
+                            <p className="text-xs text-slate-400">See how pool performance evolved since you saved</p>
+                        </div>
+                        <div className="text-center p-4 bg-slate-800/50 rounded-lg">
+                            <GitCompare className="h-6 w-6 text-cyan-400 mx-auto mb-2" />
+                            <p className="text-sm text-white font-medium mb-1">Compare Versions</p>
+                            <p className="text-xs text-slate-400">Compare old allocations against current recommendations</p>
+                        </div>
+                    </div>
+                </section>
+
+                {/* ===== TRUST & TRADE SECTION ===== */}
+
+                {/* Allocation Comparison */}
+                <section id="allocation-comparison" className="bg-gradient-to-br from-green-900/20 to-slate-800 border border-green-500/30 rounded-xl p-8 scroll-mt-20">
+                    <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center gap-3">
+                            <GitCompare className="h-6 w-6 text-green-400" />
+                            <h2 className="text-xl font-semibold text-white">Compare vs Curators</h2>
+                        </div>
+                        <Link
+                            href="/?tab=compare"
+                            className="flex items-center gap-1 text-sm text-green-400 hover:text-green-300 transition-colors"
+                        >
+                            Compare now <ArrowRight className="h-4 w-4" />
+                        </Link>
+                    </div>
+                    <p className="text-slate-300 mb-6">
+                        Compare your allocation against professional curators to build trust in your strategy:
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+                            <h3 className="text-white font-medium mb-2">Side-by-Side View</h3>
+                            <p className="text-sm text-slate-400">
+                                See your allocation next to Gauntlet, Steakhouse, or RE7 curators.
+                            </p>
+                        </div>
+                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+                            <h3 className="text-white font-medium mb-2">Difference Highlights</h3>
+                            <p className="text-sm text-slate-400">
+                                Spot where you diverge from pros: different pools, different weights.
+                            </p>
+                        </div>
+                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+                            <h3 className="text-white font-medium mb-2">Learn Why</h3>
+                            <p className="text-sm text-slate-400">
+                                Understand curator reasoning and incorporate insights into your strategy.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Curator Strategies */}
+                <section id="curators" className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 rounded-xl p-8 scroll-mt-20">
+                    <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center gap-3">
+                            <Users className="h-6 w-6 text-green-400" />
+                            <h2 className="text-xl font-semibold text-white">Learn from Curators</h2>
+                        </div>
+                        <Link
+                            href="/?tab=insights"
+                            className="flex items-center gap-1 text-sm text-green-400 hover:text-green-300 transition-colors"
+                        >
+                            View strategies <ArrowRight className="h-4 w-4" />
+                        </Link>
+                    </div>
+                    <p className="text-slate-300 mb-6">
+                        See how professional curators like Gauntlet, Steakhouse, and RE7 allocate capital:
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+                            <h3 className="text-white font-medium mb-2">Allocation Reasoning</h3>
+                            <p className="text-sm text-slate-400">
+                                Every position includes why they chose it, why that percentage,
+                                and what tradeoffs they accepted.
+                            </p>
+                        </div>
+                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+                            <h3 className="text-white font-medium mb-2">Principle Badges</h3>
+                            <p className="text-sm text-slate-400">
+                                See which mental models each allocation demonstrates. Connect
+                                theory to real decisions.
+                            </p>
+                        </div>
+                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+                            <h3 className="text-white font-medium mb-2">Historical Performance</h3>
+                            <p className="text-sm text-slate-400">
+                                Track record metrics: returns, max drawdown, Sharpe ratio,
+                                and benchmark comparisons.
+                            </p>
+                        </div>
+                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+                            <h3 className="text-white font-medium mb-2">Risk Profiles</h3>
+                            <p className="text-sm text-slate-400">
+                                Conservative, moderate, or aggressive—understand each curator&apos;s
+                                approach to risk.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                {/* ===== GO DEEPER SECTION ===== */}
+
                 {/* Learning Flow */}
-                <section id="learning-flow" className="bg-gradient-to-br from-purple-900/20 to-slate-800 border border-purple-500/30 rounded-xl p-8 scroll-mt-20">
-                    <h2 className="text-xl font-semibold text-white mb-2">Want to Learn Instead?</h2>
+                <section id="learning-flow" className="bg-gradient-to-br from-orange-900/20 to-slate-800 border border-orange-500/30 rounded-xl p-8 scroll-mt-20">
+                    <h2 className="text-xl font-semibold text-white mb-2">Want to Learn More?</h2>
                     <p className="text-slate-400 mb-6">Build your own curation skills through our learning flow:</p>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         {[
                             { icon: Users, label: "1. Study Curators", desc: "See how experts allocate & why", href: "/?tab=insights" },
-                            { icon: Hammer, label: "2. Practice", desc: "Build strategies with feedback", href: "/?tab=learn&subtab=practice" },
-                            { icon: Wrench, label: "3. Compare", desc: "Analyze with specialized tools", href: "/?tab=learn&subtab=compare" },
+                            { icon: Hammer, label: "2. Practice", desc: "Build strategies with feedback", href: "/?tab=practice" },
+                            { icon: Wrench, label: "3. Compare", desc: "Analyze with specialized tools", href: "/?tab=compare" },
                         ].map((step, i) => (
                             <Link key={i} href={step.href} className="text-center p-4 bg-slate-800/50 rounded-lg hover:bg-slate-700/50 transition-colors group">
-                                <div className="w-12 h-12 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:bg-purple-500/30 transition-colors">
-                                    <step.icon className="h-6 w-6 text-purple-400" />
+                                <div className="w-12 h-12 bg-orange-500/20 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:bg-orange-500/30 transition-colors">
+                                    <step.icon className="h-6 w-6 text-orange-400" />
                                 </div>
                                 <h3 className="text-white font-medium mb-1">{step.label}</h3>
                                 <p className="text-xs text-slate-400">{step.desc}</p>
@@ -296,65 +570,16 @@ export default function GuidePage() {
                     </div>
                 </section>
 
-                {/* Curator Strategies */}
-                <section id="curators" className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 rounded-xl p-8 scroll-mt-20">
-                    <div className="flex items-center justify-between mb-6">
-                        <div className="flex items-center gap-3">
-                            <Users className="h-6 w-6 text-purple-400" />
-                            <h2 className="text-xl font-semibold text-white">Learn from Curators</h2>
-                        </div>
-                        <Link
-                            href="/?tab=insights"
-                            className="flex items-center gap-1 text-sm text-purple-400 hover:text-purple-300 transition-colors"
-                        >
-                            View strategies <ArrowRight className="h-4 w-4" />
-                        </Link>
-                    </div>
-                    <p className="text-slate-300 mb-6">
-                        See how professional curators like Gauntlet, Steakhouse, and RE7 allocate capital:
-                    </p>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
-                            <h3 className="text-white font-medium mb-2">Allocation Reasoning</h3>
-                            <p className="text-sm text-slate-400">
-                                Every position includes why they chose it, why that percentage,
-                                and what tradeoffs they accepted.
-                            </p>
-                        </div>
-                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
-                            <h3 className="text-white font-medium mb-2">Principle Badges</h3>
-                            <p className="text-sm text-slate-400">
-                                See which mental models each allocation demonstrates. Connect
-                                theory to real decisions.
-                            </p>
-                        </div>
-                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
-                            <h3 className="text-white font-medium mb-2">Historical Performance</h3>
-                            <p className="text-sm text-slate-400">
-                                Track record metrics: returns, max drawdown, Sharpe ratio,
-                                and benchmark comparisons.
-                            </p>
-                        </div>
-                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
-                            <h3 className="text-white font-medium mb-2">Risk Profiles</h3>
-                            <p className="text-sm text-slate-400">
-                                Conservative, moderate, or aggressive—understand each curator's
-                                approach to risk.
-                            </p>
-                        </div>
-                    </div>
-                </section>
-
                 {/* Strategy Builder */}
                 <section id="strategy-builder" className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 rounded-xl p-8 scroll-mt-20">
                     <div className="flex items-center justify-between mb-6">
                         <div className="flex items-center gap-3">
-                            <Hammer className="h-6 w-6 text-green-400" />
+                            <Hammer className="h-6 w-6 text-purple-400" />
                             <h2 className="text-xl font-semibold text-white">Strategy Builder</h2>
                         </div>
                         <Link
-                            href="/?tab=learn&subtab=practice"
-                            className="flex items-center gap-1 text-sm text-green-400 hover:text-green-300 transition-colors"
+                            href="/?tab=practice"
+                            className="flex items-center gap-1 text-sm text-purple-400 hover:text-purple-300 transition-colors"
                         >
                             Try it <ArrowRight className="h-4 w-4" />
                         </Link>
@@ -382,12 +607,12 @@ export default function GuidePage() {
                 <section id="scenario-simulator" className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 rounded-xl p-8 scroll-mt-20">
                     <div className="flex items-center justify-between mb-6">
                         <div className="flex items-center gap-3">
-                            <Activity className="h-6 w-6 text-orange-400" />
+                            <Activity className="h-6 w-6 text-purple-400" />
                             <h2 className="text-xl font-semibold text-white">Scenario Simulator</h2>
                         </div>
                         <Link
-                            href="/?tab=learn&subtab=practice"
-                            className="flex items-center gap-1 text-sm text-orange-400 hover:text-orange-300 transition-colors"
+                            href="/?tab=practice"
+                            className="flex items-center gap-1 text-sm text-purple-400 hover:text-purple-300 transition-colors"
                         >
                             Try it <ArrowRight className="h-4 w-4" />
                         </Link>
@@ -459,12 +684,12 @@ export default function GuidePage() {
                 <section id="compare-tools" className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 rounded-xl p-8 scroll-mt-20">
                     <div className="flex items-center justify-between mb-6">
                         <div className="flex items-center gap-3">
-                            <Building2 className="h-6 w-6 text-purple-400" />
+                            <Wrench className="h-6 w-6 text-green-400" />
                             <h2 className="text-xl font-semibold text-white">Compare Tools</h2>
                         </div>
                         <Link
-                            href="/?tab=learn&subtab=compare"
-                            className="flex items-center gap-1 text-sm text-purple-400 hover:text-purple-300 transition-colors"
+                            href="/?tab=compare"
+                            className="flex items-center gap-1 text-sm text-green-400 hover:text-green-300 transition-colors"
                         >
                             Open tools <ArrowRight className="h-4 w-4" />
                         </Link>
@@ -483,7 +708,7 @@ export default function GuidePage() {
                         ].map((tool, i) => (
                             <div key={i} className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
                                 <div className="flex items-center gap-2 mb-2">
-                                    <tool.icon className="h-4 w-4 text-purple-400" />
+                                    <tool.icon className="h-4 w-4 text-green-400" />
                                     <h3 className="text-white font-medium text-sm">{tool.name}</h3>
                                 </div>
                                 <p className="text-xs text-slate-400">{tool.desc}</p>
@@ -492,164 +717,7 @@ export default function GuidePage() {
                     </div>
                 </section>
 
-                {/* Paper Portfolio */}
-                <section id="paper-portfolio" className="bg-gradient-to-br from-purple-900/20 to-slate-800 border border-purple-500/30 rounded-xl p-8 scroll-mt-20">
-                    <div className="flex items-center justify-between mb-6">
-                        <div className="flex items-center gap-3">
-                            <FlaskConical className="h-6 w-6 text-purple-400" />
-                            <h2 className="text-xl font-semibold text-white">Paper Portfolio</h2>
-                            <span className="text-xs px-2 py-0.5 bg-purple-500/20 text-purple-400 rounded border border-purple-500/30">
-                                No sign-in required
-                            </span>
-                        </div>
-                        <Link
-                            href="/?tab=insights"
-                            className="flex items-center gap-1 text-sm text-purple-400 hover:text-purple-300 transition-colors"
-                        >
-                            Try it <ArrowRight className="h-4 w-4" />
-                        </Link>
-                    </div>
-                    <p className="text-slate-300 mb-6">
-                        Track allocations over time without investing real money. Perfect for learning DeFi or testing strategies before committing capital.
-                    </p>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
-                            <div className="flex items-center gap-2 mb-2">
-                                <FlaskConical className="h-4 w-4 text-purple-400" />
-                                <h3 className="text-white font-medium">Save Allocations</h3>
-                            </div>
-                            <p className="text-sm text-slate-400">
-                                Save any allocation to your Paper Portfolio with optional notes. Keep up to 10 saved allocations.
-                            </p>
-                        </div>
-                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
-                            <div className="flex items-center gap-2 mb-2">
-                                <TrendingUp className="h-4 w-4 text-green-400" />
-                                <h3 className="text-white font-medium">Track Performance</h3>
-                            </div>
-                            <p className="text-sm text-slate-400">
-                                Watch how your saved allocations would have performed over a week, a month, or longer.
-                            </p>
-                        </div>
-                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
-                            <div className="flex items-center gap-2 mb-2">
-                                <History className="h-4 w-4 text-cyan-400" />
-                                <h3 className="text-white font-medium">Load & Compare</h3>
-                            </div>
-                            <p className="text-sm text-slate-400">
-                                Restore any saved allocation to compare with current recommendations and see what changed.
-                            </p>
-                        </div>
-                    </div>
-                    <div className="p-4 bg-purple-500/10 border border-purple-500/20 rounded-lg">
-                        <h4 className="text-white font-medium mb-2">How to use Paper Portfolio:</h4>
-                        <ol className="text-sm text-slate-400 space-y-1 list-decimal list-inside">
-                            <li>Get an allocation from the <Link href="/?tab=start" className="text-purple-400 hover:underline">Get Started</Link> tab</li>
-                            <li>Go to the <Link href="/?tab=insights" className="text-purple-400 hover:underline">Insights</Link> tab and find Paper Portfolio section</li>
-                            <li>Click &quot;Save&quot; to add your current allocation (add notes if you want)</li>
-                            <li>Check back later to see how the pools performed</li>
-                            <li>When confident, execute the strategy with real funds</li>
-                        </ol>
-                    </div>
-                    <div className="mt-4 p-3 bg-slate-800/50 border border-slate-700/50 rounded-lg">
-                        <p className="text-xs text-slate-400">
-                            <strong className="text-slate-300">Note:</strong> Paper Portfolio is stored in your browser. Sign in to sync across devices and keep permanent records.
-                        </p>
-                    </div>
-                </section>
-
-                {/* Insights Dashboard */}
-                <section id="insights-dashboard" className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 rounded-xl p-8 scroll-mt-20">
-                    <div className="flex items-center justify-between mb-6">
-                        <div className="flex items-center gap-3">
-                            <Target className="h-6 w-6 text-cyan-400" />
-                            <h2 className="text-xl font-semibold text-white">Insights Dashboard</h2>
-                        </div>
-                        <Link
-                            href="/?tab=insights"
-                            className="flex items-center gap-1 text-sm text-cyan-400 hover:text-cyan-300 transition-colors"
-                        >
-                            View insights <ArrowRight className="h-4 w-4" />
-                        </Link>
-                    </div>
-                    <p className="text-slate-300 mb-6">
-                        Track your allocation performance and stay informed about market conditions:
-                    </p>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
-                            <div className="flex items-center gap-2 mb-2">
-                                <Newspaper className="h-4 w-4 text-cyan-400" />
-                                <h3 className="text-white font-medium">Market Context</h3>
-                            </div>
-                            <p className="text-sm text-slate-400">
-                                Weekly market trends, protocol updates, and yield environment analysis to help you understand current conditions.
-                            </p>
-                        </div>
-                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
-                            <div className="flex items-center gap-2 mb-2">
-                                <Bell className="h-4 w-4 text-orange-400" />
-                                <h3 className="text-white font-medium">Rebalance Alerts</h3>
-                            </div>
-                            <p className="text-sm text-slate-400">
-                                Get notified when your allocation drifts from targets or when pools in your allocation have significant APY changes.
-                            </p>
-                        </div>
-                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
-                            <div className="flex items-center gap-2 mb-2">
-                                <GitCompare className="h-4 w-4 text-purple-400" />
-                                <h3 className="text-white font-medium">Allocation Comparison</h3>
-                            </div>
-                            <p className="text-sm text-slate-400">
-                                Compare your allocation against professional curators to see how your strategy differs and learn from experts.
-                            </p>
-                        </div>
-                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
-                            <div className="flex items-center gap-2 mb-2">
-                                <BarChart3 className="h-4 w-4 text-green-400" />
-                                <h3 className="text-white font-medium">Performance Tracking</h3>
-                            </div>
-                            <p className="text-sm text-slate-400">
-                                Track how our recommendations perform over time with transparent metrics and historical data.
-                            </p>
-                        </div>
-                    </div>
-                </section>
-
-                {/* Allocation History */}
-                <section id="allocation-history" className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 rounded-xl p-8 scroll-mt-20">
-                    <div className="flex items-center justify-between mb-6">
-                        <div className="flex items-center gap-3">
-                            <History className="h-6 w-6 text-purple-400" />
-                            <h2 className="text-xl font-semibold text-white">Allocation History</h2>
-                        </div>
-                        <Link
-                            href="/?tab=insights"
-                            className="flex items-center gap-1 text-sm text-purple-400 hover:text-purple-300 transition-colors"
-                        >
-                            View history <ArrowRight className="h-4 w-4" />
-                        </Link>
-                    </div>
-                    <p className="text-slate-300 mb-6">
-                        Keep track of all your saved allocations over time:
-                    </p>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="text-center p-4 bg-slate-800/50 rounded-lg">
-                            <History className="h-6 w-6 text-purple-400 mx-auto mb-2" />
-                            <p className="text-sm text-white font-medium mb-1">Save Allocations</p>
-                            <p className="text-xs text-slate-400">Store your allocations with notes for future reference</p>
-                        </div>
-                        <div className="text-center p-4 bg-slate-800/50 rounded-lg">
-                            <TrendingUp className="h-6 w-6 text-green-400 mx-auto mb-2" />
-                            <p className="text-sm text-white font-medium mb-1">Track Changes</p>
-                            <p className="text-xs text-slate-400">See how pool performance evolved since you saved</p>
-                        </div>
-                        <div className="text-center p-4 bg-slate-800/50 rounded-lg">
-                            <GitCompare className="h-6 w-6 text-cyan-400 mx-auto mb-2" />
-                            <p className="text-sm text-white font-medium mb-1">Compare Versions</p>
-                            <p className="text-xs text-slate-400">Compare old allocations against current recommendations</p>
-                        </div>
-                    </div>
-                </section>
+                {/* ===== REFERENCE SECTION ===== */}
 
                 {/* APY History */}
                 <section id="apy-history" className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 rounded-xl p-8 scroll-mt-20">
@@ -930,7 +998,7 @@ export default function GuidePage() {
                             Browse Pools
                         </Link>
                         <Link
-                            href="/?tab=learn"
+                            href="/?tab=practice"
                             className="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 rounded-lg transition-colors"
                         >
                             Practice Building

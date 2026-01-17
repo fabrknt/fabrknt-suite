@@ -76,7 +76,7 @@ Explore 200+ yield opportunities
 
 **Option 2: Learn Curation**
 Understand how curators think
-→ Goes to Learn tab
+→ Goes to Practice tab
 
 ---
 
@@ -95,7 +95,7 @@ Side-by-side comparison with a matching curator (by risk profile)
 **"In your allocation" Badge** (Explore tab)
 Pools in user's allocation are highlighted in the pool table
 
-**Load My Allocation** (Learn > Practice)
+**Load My Allocation** (Practice tab)
 One-click import into Strategy Builder for customization
 
 **Back to Allocation Button** (floating, all tabs except Start)

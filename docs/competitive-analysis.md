@@ -109,7 +109,9 @@ The DeFi yield space has several categories of players:
 
 3. **Education built-in** — Compare your allocation to curators. Understand *why*, not just *what*.
 
-4. **Connected experience** — Allocation persists across tabs. Customize in Explore, validate in Insights, refine in Learn.
+4. **Connected experience** — Allocation persists across tabs. Customize in Explore, compare vs curators in Compare, refine in Practice.
+
+5. **Paper Portfolio Dashboard** — Track allocations risk-free for 14+ days before committing real capital. Visual performance metrics build trust.
 
 ---
 
@@ -120,7 +122,7 @@ The DeFi yield space has several categories of players:
 | **No track record** | Hard to trust new platform | Backtest allocations, show historical performance |
 | **Manual execution** | Friction vs. vaults | Partner with protocols for one-click execution |
 | **Solana only** | Limited market | Expand to EVM chains (Ethereum, Base, Arbitrum) |
-| **No position tracking** | Users leave after deploying | Add portfolio monitoring / rebalance alerts |
+| **Paper trading only** | Users want real position tracking | Add real portfolio monitoring after deployment |
 | **Free tier sustainability** | No revenue | Premium features (alerts, advanced AI, API access) |
 
 ---
@@ -132,8 +134,9 @@ The DeFi yield space has several categories of players:
 | Actionable (not just data) | No track record |
 | Non-custodial | Manual execution friction |
 | Educational | Solana only |
-| Free | No position tracking |
-| Fast (30 seconds) | New entrant, low awareness |
+| Free | New entrant, low awareness |
+| Fast (30 seconds) | Paper trading only (no real portfolio tracking) |
+| Paper Portfolio Dashboard | |
 
 **Bottom line:** FABRKNT occupies a unique space—more actionable than data platforms, more transparent than vaults, more accessible than institutional curators. The main challenges are proving reliability and reducing execution friction.
 

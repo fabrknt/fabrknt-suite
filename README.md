@@ -28,16 +28,17 @@ Want to learn instead? FABRKNT also teaches you *how to think* about yield strat
 
 ## Navigation
 
-The app is organized into four connected tabs:
+The app is organized into five connected tabs:
 
 | Tab | Purpose | What You'll Find |
 |-----|---------|------------------|
-| **Get Started** | "Your allocation in 30 seconds" | Quick start flow with personalized recommendations |
-| **Insights** | "Understand why" | Compare your allocation vs curators, see their reasoning |
+| **Get Started** | "Your allocation in 30 seconds" | Quick start flow with personalized recommendations + Paper Portfolio Dashboard |
+| **Insights** | "Understand why" | Rebalance alerts, market context, curator strategies, performance tracking |
 | **Explore** | "Find alternatives" | Browse pools, swap out positions from your allocation |
-| **Learn** | "Build your own" | Principles, Strategy Builder pre-filled with your allocation |
+| **Practice** | "Build your own" | Strategy Builder pre-filled with your allocation, scenario testing |
+| **Compare** | "Analyze options" | Allocation comparison vs curators, protocol/LST tools, IL calculator |
 
-**Connected Experience:** Your allocation persists across all tabs. See your pools highlighted in Explore, compare to curators in Insights, or load it into the Strategy Builder to customize.
+**Connected Experience:** Your allocation persists across all tabs. See your pools highlighted in Explore, compare to curators in Compare, or load it into the Strategy Builder to customize.
 
 **Mobile:** Bottom tab navigation with hamburger menu for site links.
 
@@ -68,19 +69,35 @@ The fastest way to get a DeFi allocation:
 - Copy-paste amounts
 - Progress tracking (mark steps completed)
 
+#### Paper Portfolio Dashboard
+After getting your allocation, you'll see the Paper Portfolio Dashboard:
+- **Paper Value** — Total amount being tracked
+- **Estimated Yield** — Expected earnings to date
+- **Average APY** — Weighted APY across all positions
+- **Trust Progress** — 14-day ring showing progress toward building trust
+- **APY Sparklines** — Visual trend indicators (rising, falling, stable)
+
+The "Try → Track → Trust → Trade" journey:
+1. **Try** — Get your personalized allocation
+2. **Track** — Allocation auto-saves to Paper Portfolio
+3. **Trust** — Watch performance for 14+ days
+4. **Trade** — Execute with confidence when ready
+
 ### Connected Tabs Experience
 
 Once you have an allocation, all tabs work together:
 
 | Feature | Where | Description |
 |---------|-------|-------------|
-| **Allocation Banner** | Insights, Explore, Learn | Summary bar showing your allocation with "View allocation" link |
-| **Your Allocation vs Curator** | Insights | Side-by-side comparison with matching curator (by risk profile) |
+| **Paper Portfolio Dashboard** | Get Started | Visual performance tracking with APY trends, yield estimates, trust progress |
+| **Allocation Banner** | Insights, Explore, Practice, Compare | Summary bar showing your allocation with "View allocation" link |
+| **Your Allocation vs Curator** | Compare | Side-by-side comparison with matching curator (by risk profile) |
 | **"In your allocation" Badge** | Explore | Pools in your allocation are highlighted in the pool table |
-| **Load My Allocation** | Learn > Practice | One-click import into Strategy Builder for customization |
+| **Load My Allocation** | Practice | One-click import into Strategy Builder for customization |
 | **Back to Allocation Button** | All tabs (except Start) | Floating button for quick navigation back to your allocation |
 
 This connected experience lets you:
+- **Track**: Monitor paper portfolio performance with visual dashboard
 - **Validate**: See how your allocation compares to professionals
 - **Customize**: Swap pools in Explore, see alternatives
 - **Learn**: Understand why curators make similar or different choices
@@ -132,15 +149,10 @@ Compare up to 3 pools side-by-side:
 - **Historical performance backtesting** (7/30/90 days)
 - Compounding options (daily, weekly, none)
 
-### Learn Tab
+### Practice Tab
 
-The Learn tab is divided into three sub-sections:
+Build and test your own allocation strategies:
 
-#### Principles
-- **Why Learn Curation** — Problem statement and comparison table
-- **6 Core Principles** — Expandable cards with examples
-
-#### Practice
 - **Strategy Builder** — Build your own allocation strategy
   - **"Load my allocation"** — Import your Get Started allocation with one click
   - Select from available pools
@@ -154,13 +166,21 @@ The Learn tab is divided into three sub-sections:
     - Rewards ending
     - Stablecoin depeg
 
-#### Compare (Tools)
-Card-based tool picker for cleaner navigation:
-- **Protocol Comparison** — Compare Kamino, Marginfi, Meteora, etc.
-- **LST Comparison** — Compare liquid staking tokens
-- **Yield Spreads** — Find arbitrage opportunities
-- **Alternative Yields** — Restaking, perp LP, advanced strategies
-- **IL Calculator** — Impermanent loss estimation
+### Compare Tab
+
+Analyze and compare allocations with specialized tools:
+
+- **Allocation Comparison** — Compare your allocation vs professional curators
+  - Side-by-side view with Gauntlet, Steakhouse, RE7
+  - See where you diverge from pros
+  - Understand curator reasoning
+
+- **Compare Tools** — Card-based tool picker:
+  - **Protocol Comparison** — Compare Kamino, Marginfi, Meteora, etc.
+  - **LST Comparison** — Compare liquid staking tokens
+  - **Yield Spreads** — Find arbitrage opportunities
+  - **Alternative Yields** — Restaking, perp LP, advanced strategies
+  - **IL Calculator** — Impermanent loss estimation
 
 ### How It Works Page
 
@@ -239,20 +259,19 @@ Trust badges are displayed at the top of every section throughout the app, so us
 
 ## Pages
 
-- **/** — Main app with Get Started, Insights, Explore, and Learn tabs
+- **/** — Main app with Get Started, Insights, Explore, Practice, and Compare tabs
 - **/guide** — Complete feature guide with links to each function
 - **/about** — Team and mission
-- **/tools** — Redirects to Learn > Compare tab
+- **/tools** — Redirects to Compare tab
 
 ### URL Navigation
 
 Direct links to specific tabs and features:
-- `/?tab=start` — Get Started (personalized allocation flow)
-- `/?tab=insights` — Insights tab (curator strategies)
+- `/?tab=start` — Get Started (personalized allocation flow + Paper Portfolio Dashboard)
+- `/?tab=insights` — Insights tab (market context, curator strategies, performance tracking)
 - `/?tab=explore` — Explore tab (pool browser)
-- `/?tab=learn` — Learn tab (defaults to Practice)
-- `/?tab=learn&subtab=practice` — Learn > Practice (Strategy Builder)
-- `/?tab=learn&subtab=compare` — Learn > Compare (Tools)
+- `/?tab=practice` — Practice tab (Strategy Builder)
+- `/?tab=compare` — Compare tab (Allocation Comparison + Tools)
 
 ---
 
