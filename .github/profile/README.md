@@ -10,22 +10,31 @@ We help Solana users find the right yield strategies. Tell us your amount and ri
 
 **[fabrknt.com](https://www.fabrknt.com)** — Personalized DeFi allocations for Solana:
 
+### Try → Track → Trust → Trade
+
+| Step | What Happens |
+|------|--------------|
+| **Try** | Get personalized allocation in 30 seconds |
+| **Track** | Paper Portfolio Dashboard shows performance over time |
+| **Trust** | 14+ days of tracking builds confidence |
+| **Trade** | Execute with step-by-step instructions |
+
 ### Get Started (30 seconds)
 - **Enter your preferences** — Amount and risk tolerance (Safe/Balanced/Growth)
 - **Get your allocation** — Personalized recommendations with expected yields
-- **Execute** — Step-by-step instructions with protocol links
+- **Paper Portfolio Dashboard** — Track performance with APY sparklines and trust progress
 
 ### Connected Experience
 Your allocation persists across all tabs:
-- **Insights** — Compare your allocation vs professional curators
+- **Insights** — Rebalance alerts, market context, curator strategies
 - **Explore** — Pools in your allocation are highlighted; find alternatives
-- **Learn** — Load your allocation into Strategy Builder to customize
+- **Practice** — Load your allocation into Strategy Builder to customize
+- **Compare** — Compare your allocation vs professional curators
 
-### Learn (Optional)
-- **Curation Principles** — Six mental models that guide professional curators
-- **Curator Strategies** — See how Gauntlet, Steakhouse, and RE7 allocate—and *why*
+### Practice (Build Your Own)
 - **Strategy Builder** — Practice building allocations with real-time feedback (A-F grading)
 - **Scenario Simulator** — Stress test strategies before committing capital
+- **Curation Principles** — Six mental models that guide professional curators
 
 ### Explore
 - **Pool Browser** — 200+ Solana yield pools with risk scoring
@@ -34,7 +43,8 @@ Your allocation persists across all tabs:
 - **Backtest** — Historical performance testing (7/30/90 days)
 - **Watchlist** — Save and track pools with APY change alerts
 
-### Compare Tools
+### Compare (Analysis Tools)
+- **Allocation Comparison** — Compare your allocation vs Gauntlet, Steakhouse, RE7
 - **Protocol Comparison** — Kamino, Marginfi, Meteora side-by-side
 - **LST Comparison** — Liquid staking tokens: APY, validators, MEV boost
 - **Yield Spreads** — Find APY differences across protocols
@@ -64,16 +74,17 @@ Your allocation persists across all tabs:
 
 ## Two Ways to Use FABRKNT
 
-**Option A: Get Your Allocation (30 seconds)**
-1. Enter amount and risk tolerance
-2. Get personalized recommendations
-3. Follow step-by-step execution
+**Option A: Paper Trade First (Recommended)**
+1. Get your allocation in 30 seconds
+2. Track with Paper Portfolio Dashboard for 14+ days
+3. Build trust by watching performance
+4. Execute when confident
 
 **Option B: Learn to Curate**
-1. Learn the 6 mental models curators use
-2. Study how experts apply these principles
-3. Practice building with feedback
-4. Test before deploying
+1. Study curator strategies in Insights
+2. Practice building your own in Strategy Builder
+3. Compare your allocation vs professionals
+4. Test with Scenario Simulator before deploying
 
 ## Tech Stack
 
