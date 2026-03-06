@@ -49,9 +49,9 @@ export async function POST(request: Request) {
         // @complr: screen recommended pools for compliance
         const complianceAlerts = compliance.checkAllocationCompliance(
             enrichedRecommendations.map(rec => ({
-                protocol: rec.pool?.protocol || "unknown",
+                protocol: rec.pool?.project || "unknown",
                 poolId: rec.poolId,
-                percentage: rec.allocationPercentage ?? 0,
+                percentage: (rec as Record<string, unknown>).allocationPercentage as number ?? 0,
             }))
         );
 
