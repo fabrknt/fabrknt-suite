@@ -512,6 +512,40 @@ model UserAllocationHistory {
   @@index([createdAt])
 }
 
+// QuickNode Marketplace Add-on Instance
+model QuicknodeInstance {
+  id              String   @id @default(cuid())
+
+  // QuickNode identifiers
+  quicknodeId     String   @unique  // QuickNode account ID
+  endpointId      String?           // QuickNode endpoint ID
+  plan            String   @default("free") // "free" | "starter" | "growth" | "business"
+
+  // Endpoint details
+  wssUrl          String?
+  httpUrl         String?
+  chain           String?
+  network         String?
+
+  // Complr add-on state
+  product         String   @default("complr") // Which Fabrknt product
+  apiKey          String   @unique @default(cuid()) // API key for the customer
+  status          String   @default("active") // "active" | "deactivated" | "deprovisioned"
+
+  // Usage tracking
+  requestCount    Int      @default(0)
+  lastRequestAt   DateTime?
+
+  // Timestamps
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([quicknodeId])
+  @@index([endpointId])
+  @@index([status])
+  @@index([apiKey])
+}
+
 // Allocation Snapshot - Track performance of recommended allocations
 model AllocationSnapshot {
   id              String   @id @default(cuid())
