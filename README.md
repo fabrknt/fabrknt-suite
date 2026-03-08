@@ -1,6 +1,6 @@
 # Forge
 
-Personalized Solana DeFi allocations — powered by the Fabrknt infrastructure suite.
+Personalized Solana DeFi allocations — powered by Fabrknt's compliance, privacy, and data infrastructure.
 
 **Get your personalized yield allocation in 30 seconds, executed safely with full compliance and privacy.**
 
@@ -152,14 +152,27 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 
 ## Fabrknt Product Suite
 
-| Product | Slug | Repo | Scope |
-|---------|------|------|-------|
-| On-Chain Compliance | fabrknt-onchain-compliance | accredit | KYC/AML, identity, transfer hooks |
-| Off-Chain Compliance | fabrknt-offchain-compliance | complr | Screening, SAR/STR, regulatory queries |
-| Data Optimization | fabrknt-data-optimization | stratum | Merkle trees, bitfields, order matching |
-| Privacy | fabrknt-privacy | veil | Encryption, Shamir, ZK compression |
-| DeFi Toolkit | fabrknt-defi-toolkit | sentinel | Guard, patterns, Jito bundles |
-| **Forge** | — | **forge** | **Reference app dogfooding all 5 products** |
+### Compliance
+
+| Product | What it does in Forge |
+|---------|----------------------|
+| **Complr** | Screens wallets and pools before recommending. SAR/STR generation. |
+| **Accredit** | Verifies KYC level. Gates features by verification tier. |
+| **Sentinel** | Guards transactions with pre-tx analysis. DCA/rebalance builders. |
+
+### Privacy
+
+| Product | What it does in Forge |
+|---------|----------------------|
+| **Veil** | Encrypts allocation data. ZK proofs for private sharing. |
+
+### Data
+
+| Product | What it does in Forge |
+|---------|----------------------|
+| **Stratum** | Powers sanctions data and regulatory feeds. Merkle proofs for allocation history. |
+
+All products live in [fabrknt/api](https://github.com/fabrknt/api).
 
 ## License
 
