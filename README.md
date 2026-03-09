@@ -1,12 +1,12 @@
 # Forge
 
-Personalized Solana DeFi allocations — powered by Fabrknt's compliance, privacy, and data infrastructure.
+Personalized Solana DeFi allocations — with Fabrknt compliance, privacy, and data plug-ins integrated.
 
-**Get your personalized yield allocation in 30 seconds, executed safely with full compliance and privacy.**
+**Get your personalized yield allocation in 30 seconds, executed safely with plug-in compliance and privacy.**
 
 ## What is Forge?
 
-Forge is Fabrknt's flagship DeFi app and the reference implementation for the entire product suite. It gives users personalized Solana yield allocations based on risk tolerance, then uses Fabrknt's own SDKs for compliance screening, identity verification, transaction security, private execution, and verifiable allocation proofs.
+Forge is a DeFi yield allocation app that demonstrates how Fabrknt plug-ins integrate into an existing protocol without rebuilding. It gives users personalized Solana yield allocations based on risk tolerance, with Fabrknt SDKs plugged in for compliance screening, identity verification, transaction security, private execution, and verifiable allocation proofs.
 
 **Try → Track → Trust → Trade**
 
@@ -19,7 +19,7 @@ Forge is Fabrknt's flagship DeFi app and the reference implementation for the en
 
 ## Fabrknt SDK Integrations
 
-Forge dogfoods all 5 Fabrknt products. Each integration lives in `src/lib/fabrknt/` and is exposed via `/api/fabrknt/*` endpoints.
+Forge plugs in all 5 Fabrknt products. Each integration lives in `src/lib/fabrknt/` and is exposed via `/api/fabrknt/*` endpoints.
 
 | Product | SDK | Integration | What it does in Forge |
 |---------|-----|-------------|----------------------|
