@@ -62,7 +62,7 @@ export function TypeSelectionStep({
         },
     });
 
-    const selectedType = watch("type");
+    const selectedType = watch("type"); // eslint-disable-line react-hooks/incompatible-library -- React Hook Form watch() is used intentionally
 
     const onSubmit = (data: TypeSelectionInput) => {
         onNext(data);

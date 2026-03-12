@@ -16,7 +16,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     const [config, setConfig] = useState<any>(null);
 
     useEffect(() => {
-        setMounted(true);
+        setMounted(true); // eslint-disable-line react-hooks/set-state-in-effect -- intentional hydration guard
         // Only get config on client side
         try {
             setConfig(getWagmiConfig());

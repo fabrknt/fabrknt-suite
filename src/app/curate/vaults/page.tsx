@@ -171,7 +171,7 @@ export default function VaultsPage() {
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
-        setMounted(true);
+        setMounted(true); // eslint-disable-line react-hooks/set-state-in-effect -- intentional hydration guard
     }, []);
 
     // Show loading state during SSR and initial mount

@@ -79,7 +79,7 @@ export function CuratorCard({ curator, strategyMetrics, onViewStrategy }: Curato
     const amount = Number(investmentAmount) || 0;
     const expectedYield = amount * ((strategyMetrics?.avgApy || 0) / 100);
 
-    const displayAllocations = strategyMetrics?.allocations || [];
+    const displayAllocations = useMemo(() => strategyMetrics?.allocations || [], [strategyMetrics?.allocations]);
 
     // Calculate top principles used across all allocations
     const topPrinciples = useMemo(() => {

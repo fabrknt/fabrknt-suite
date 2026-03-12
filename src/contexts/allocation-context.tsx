@@ -122,7 +122,7 @@ export function AllocationProvider({ children }: { children: ReactNode }) {
     useEffect(() => {
         const savedPortfolio = getFromStorage<{ allocation: AllocationRecommendation; riskTolerance: RiskTolerance } | null>(STORAGE_KEY, null);
         if (savedPortfolio) {
-            setAllocationState(savedPortfolio.allocation);
+            setAllocationState(savedPortfolio.allocation); // eslint-disable-line react-hooks/set-state-in-effect -- hydrating from localStorage
             setRiskToleranceState(savedPortfolio.riskTolerance);
         }
 

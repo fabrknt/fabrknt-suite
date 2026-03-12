@@ -57,7 +57,7 @@ export default function ResetClaimPage() {
         <div className="space-y-4">
           <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
             <p className="text-sm text-yellow-800">
-              ⚠️ This will delete your claimed company profile. You'll need to
+              ⚠️ This will delete your claimed company profile. You&apos;ll need to
               claim a company again to access Synergy features.
             </p>
           </div>

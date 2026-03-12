@@ -55,6 +55,7 @@ export function PoolAIInsights({ poolId, isLoggedIn = true }: PoolAIInsightsProp
         if (isLoggedIn) {
             fetchInsight();
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [poolId, isLoggedIn]);
 
     if (!isLoggedIn) {

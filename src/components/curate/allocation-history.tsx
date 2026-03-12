@@ -256,6 +256,7 @@ export function AllocationHistory() {
         if (session?.user) {
             fetchHistory();
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [session?.user]);
 
     const handleSaveCurrentAllocation = async () => {

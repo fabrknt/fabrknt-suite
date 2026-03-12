@@ -24,7 +24,7 @@ export function LearnTabs({ children, defaultTab }: LearnTabsProps) {
     // Sync with defaultTab prop when it changes
     useEffect(() => {
         if (defaultTab && ["practice", "compare"].includes(defaultTab)) {
-            setActiveTab(defaultTab);
+            setActiveTab(defaultTab); // eslint-disable-line react-hooks/set-state-in-effect -- syncing with prop
         }
     }, [defaultTab]);
 

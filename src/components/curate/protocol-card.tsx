@@ -49,6 +49,7 @@ export function ProtocolCard({ protocol }: ProtocolCardProps) {
                     <div className="flex items-center gap-3">
                         <div className="w-12 h-12 flex-shrink-0 rounded-lg overflow-hidden bg-muted flex items-center justify-center">
                             {protocol.logo ? (
+                                // eslint-disable-next-line @next/next/no-img-element -- dynamic external protocol logo
                                 <img
                                     src={protocol.logo}
                                     alt={`${protocol.name} logo`}

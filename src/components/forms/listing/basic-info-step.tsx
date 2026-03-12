@@ -48,7 +48,7 @@ export function BasicInfoStep({ defaultValues, onNext, onPrevious }: BasicInfoSt
     },
   });
 
-  const description = watch('description');
+  const description = watch('description'); // eslint-disable-line react-hooks/incompatible-library -- React Hook Form watch() is used intentionally
   const descriptionLength = description?.length || 0;
 
   const onSubmit = (data: BasicInfoInput) => {

@@ -74,6 +74,7 @@ export function AuthConnectButton() {
                         }}
                       >
                         {chain.iconUrl && (
+                          // eslint-disable-next-line @next/next/no-img-element -- dynamic external icon from RainbowKit
                           <img
                             alt={chain.name ?? 'Chain icon'}
                             src={chain.iconUrl}

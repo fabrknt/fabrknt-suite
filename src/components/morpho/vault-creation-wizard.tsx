@@ -90,7 +90,7 @@ export function VaultCreationWizard({ onClose, onSuccess }: VaultCreationWizardP
             const vaultAddress = receipt.logs[0]?.topics[1];
             if (vaultAddress) {
                 const formattedAddress = `0x${vaultAddress.slice(26)}`;
-                setDeployedVaultAddress(formattedAddress);
+                setDeployedVaultAddress(formattedAddress); // eslint-disable-line react-hooks/set-state-in-effect -- responding to transaction confirmation
                 setStep("success");
 
                 // Register vault in database
@@ -117,7 +117,7 @@ export function VaultCreationWizard({ onClose, onSuccess }: VaultCreationWizardP
     // Handle transaction rejection/error - go back to confirm step
     useEffect(() => {
         if (writeError && step === "deploying") {
-            setStep("confirm");
+            setStep("confirm"); // eslint-disable-line react-hooks/set-state-in-effect -- responding to transaction error
         }
     }, [writeError, step]);
 

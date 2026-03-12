@@ -26,6 +26,7 @@ export function DealTermsStep({ defaultValues, onNext, onPrevious }: DealTermsSt
     },
   });
 
+  // eslint-disable-next-line react-hooks/incompatible-library -- React Hook Form watch() is used intentionally
   const hasNDA = watch('hasNDA');
   const requiresProofOfFunds = watch('requiresProofOfFunds');
 

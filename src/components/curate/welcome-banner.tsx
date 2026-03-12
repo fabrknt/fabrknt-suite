@@ -11,7 +11,7 @@ export function WelcomeBanner() {
 
     useEffect(() => {
         const wasDismissed = localStorage.getItem(STORAGE_KEY);
-        setDismissed(!!wasDismissed);
+        setDismissed(!!wasDismissed); // eslint-disable-line react-hooks/set-state-in-effect -- hydrating from localStorage
         setChecked(true);
     }, []);
 

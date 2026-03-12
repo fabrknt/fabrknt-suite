@@ -154,7 +154,7 @@ export default function AboutPage() {
                 <section className="text-center py-8">
                     <h2 className="text-xl font-semibold text-white mb-4">Get in Touch</h2>
                     <p className="text-slate-400 mb-6">
-                        Questions, feedback, or partnership inquiries? We'd love to hear from you.
+                        Questions, feedback, or partnership inquiries? We&apos;d love to hear from you.
                     </p>
                     <div className="flex items-center justify-center gap-4">
                         <a

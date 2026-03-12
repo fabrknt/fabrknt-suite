@@ -675,7 +675,7 @@ export default function GuidePage() {
                     </div>
                     <div className="mt-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
                         <p className="text-xs text-blue-300">
-                            <strong>How to use:</strong> In Explore tab, click the compare icon on any pool to add it to comparison. Click "Compare" button when ready.
+                            <strong>How to use:</strong> In Explore tab, click the compare icon on any pool to add it to comparison. Click &ldquo;Compare&rdquo; button when ready.
                         </p>
                     </div>
                 </section>
@@ -779,7 +779,7 @@ export default function GuidePage() {
                                 Input your investment amount and risk tolerance. AI suggests a diversified allocation across pools with expected yields and risk warnings.
                             </p>
                             <p className="text-xs text-slate-500">
-                                Access: Click "Optimize" button in the Explore tab header.
+                                Access: Click &ldquo;Optimize&rdquo; button in the Explore tab header.
                             </p>
                         </div>
                         <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
@@ -791,7 +791,7 @@ export default function GuidePage() {
                                 Get plain-English analysis of any pool: risk explanation, APY sustainability assessment, comparison vs similar pools, and actionable verdict.
                             </p>
                             <p className="text-xs text-slate-500">
-                                Access: Click "AI Insights" on any expanded pool card.
+                                Access: Click &ldquo;AI Insights&rdquo; on any expanded pool card.
                             </p>
                         </div>
                     </div>
@@ -812,7 +812,7 @@ export default function GuidePage() {
                         </Link>
                     </div>
                     <p className="text-slate-300 mb-4">
-                        Save pools you're interested in and track them over time:
+                        Save pools you&apos;re interested in and track them over time:
                     </p>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div className="text-center p-4 bg-slate-800/50 rounded-lg">

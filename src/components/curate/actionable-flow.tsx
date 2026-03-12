@@ -48,13 +48,14 @@ export function ActionableFlow({ onExplore, onLearn }: ActionableFlowProps) {
     // Sync with context when it changes
     useEffect(() => {
         if (savedAllocation && savedRisk) {
-            setRecommendation(savedAllocation);
+            setRecommendation(savedAllocation); // eslint-disable-line react-hooks/set-state-in-effect -- syncing with context
             setAmount(savedAllocation.summary.totalAmount);
             setRiskToleranceState(savedRisk);
             if (step === "input") {
                 setStep("recommendation");
             }
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- intentionally excluding step to avoid resetting flow
     }, [savedAllocation, savedRisk]);
 
     const handleSubmit = async (inputAmount: number, risk: RiskTolerance) => {

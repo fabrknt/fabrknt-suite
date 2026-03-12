@@ -71,6 +71,7 @@ export function CuratorStrategyPanel({ curatorSlug, isOpen, onClose }: CuratorSt
         if (isOpen && curatorSlug) {
             fetchCuratorData();
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isOpen, curatorSlug]);
 
     async function fetchCuratorData() {

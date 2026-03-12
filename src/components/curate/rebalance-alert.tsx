@@ -198,6 +198,7 @@ export function RebalanceAlerts({ className = "" }: RebalanceAlertsProps) {
 
     useEffect(() => {
         fetchAlerts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [allocation, riskTolerance, hasAllocation]);
 
     const handleDismiss = (alertId: string) => {

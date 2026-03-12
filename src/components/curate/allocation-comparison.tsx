@@ -433,7 +433,7 @@ export function AllocationComparison() {
                         <div className="flex items-start gap-2">
                             <Info className="h-4 w-4 text-slate-400 shrink-0 mt-0.5" />
                             <div>
-                                <p className="text-xs text-slate-400 mb-1">{selectedCurator.name}'s approach:</p>
+                                <p className="text-xs text-slate-400 mb-1">{selectedCurator.name}&apos;s approach:</p>
                                 <p className="text-sm text-slate-300">{selectedCurator.philosophy}</p>
                             </div>
                         </div>
@@ -468,7 +468,7 @@ export function AllocationComparison() {
 
                     {/* Curator Strengths */}
                     <div className="mt-4 pt-4 border-t border-slate-700/30">
-                        <p className="text-xs text-slate-400 mb-2">{selectedCurator.name}'s strengths:</p>
+                        <p className="text-xs text-slate-400 mb-2">{selectedCurator.name}&apos;s strengths:</p>
                         <div className="flex flex-wrap gap-2">
                             {selectedCurator.strengths.map((strength, idx) => (
                                 <span
