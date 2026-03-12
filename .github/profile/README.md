@@ -1,94 +1,90 @@
 # FABRKNT
 
-**Get personalized DeFi allocations in 30 seconds.**
+**Infrastructure for compliant, secure, and composable DeFi.**
 
 ---
 
-We help Solana users find the right yield strategies. Tell us your amount and risk tolerance—we'll show you exactly where to put your money.
+We build modular infrastructure products that make DeFi safer — from compliance and identity to MEV protection, privacy, state optimization, derivatives, and dynamic fees.
 
 ## What We're Building
 
-**[fabrknt.com](https://www.fabrknt.com)** — Personalized DeFi allocations for Solana:
+**[fabrknt.com](https://www.fabrknt.com)** — A suite of 7 infrastructure products for DeFi:
 
-### Try → Track → Trust → Trade
+### Product Suite
 
-| Step | What Happens |
-|------|--------------|
-| **Try** | Get personalized allocation in 30 seconds |
-| **Track** | Paper Portfolio Dashboard shows performance over time |
-| **Trust** | 14+ days of tracking builds confidence |
-| **Trade** | Execute with step-by-step instructions |
+| Product | Purpose |
+|---------|---------|
+| **Complr** | AI-powered off-chain compliance |
+| **Accredit** | On-chain KYC/AML and identity verification |
+| **Sentinel** | MEV protection and threat detection |
+| **Veil** | Privacy-preserving transactions via ZK compression |
+| **Stratum** | State optimization and data availability |
+| **Tensor** | Derivatives infrastructure and margin engine |
+| **Tempest** | Dynamic fee optimization |
 
-### Get Started (30 seconds)
-- **Enter your preferences** — Amount and risk tolerance (Safe/Balanced/Growth)
-- **Get your allocation** — Personalized recommendations with expected yields
-- **Paper Portfolio Dashboard** — Track performance with APY sparklines and trust progress
+### Complr — Off-Chain Compliance
 
-### Connected Experience
-Your allocation persists across all tabs:
-- **Insights** — Rebalance alerts, market context, curator strategies
-- **Explore** — Pools in your allocation are highlighted; find alternatives
-- **Practice** — Load your allocation into Strategy Builder to customize
-- **Compare** — Compare your allocation vs professional curators
+- **AI-powered review queue** — Automated compliance decisions with confidence scoring
+- **External providers** — TRM Labs, Chainalysis integration for risk intelligence
+- **Confidence scoring** — Probabilistic risk assessment for every transaction
 
-### Practice (Build Your Own)
-- **Strategy Builder** — Practice building allocations with real-time feedback (A-F grading)
-- **Scenario Simulator** — Stress test strategies before committing capital
-- **Curation Principles** — Six mental models that guide professional curators
+### Accredit — On-Chain KYC/AML
 
-### Explore
-- **Pool Browser** — 200+ Solana yield pools with risk scoring
-- **"In your allocation" Badge** — Highlights pools from your allocation
-- **Pool Comparison** — Compare up to 3 pools side-by-side
-- **Backtest** — Historical performance testing (7/30/90 days)
-- **Watchlist** — Save and track pools with APY change alerts
+- **Compliant wrapper** — On-chain identity layer for regulated DeFi
+- **Multi-provider KYC** — Civic, World ID integration for flexible verification
+- **Institutional dashboard** — Compliance monitoring and reporting for institutions
 
-### Compare (Analysis Tools)
-- **Allocation Comparison** — Compare your allocation vs Gauntlet, Steakhouse, RE7
-- **Protocol Comparison** — Kamino, Marginfi, Meteora side-by-side
-- **LST Comparison** — Liquid staking tokens: APY, validators, MEV boost
-- **Yield Spreads** — Find APY differences across protocols
-- **IL Calculator** — Impermanent loss estimation
+### Sentinel — MEV Protection & Threat Detection
 
-### AI Features (Login Required)
-- **Portfolio Optimizer** — AI-suggested diversified allocations
-- **AI Pool Insights** — Plain-English risk analysis
+- **17 pattern detectors** — 8 Solana-specific + 9 EVM-specific threat patterns
+- **Simulation sandbox** — Test transactions before submission
+- **MEV protection** — Flashbots/MEV-Share (EVM), Jito (Solana)
+- **Oracle registry** — Trusted price feed management
 
-## Trust & Security
+### Veil — Privacy Layer
 
-| | |
-|---|---|
-| **Read-Only** | No wallet permissions |
-| **Non-Custodial** | Your keys, your funds |
-| **Transparent** | Open methodology |
+- **@veil/core** — Core privacy primitives via ZK compression
+- **Shielded transfers** — Private token transfers with proof generation
+- **Encrypted swaps** — Privacy-preserving DEX interactions
+- **MCP server** — Model Context Protocol integration for AI-assisted privacy
 
-## Our Philosophy
+### Stratum — State Optimization
 
-| Data Platforms | FABRKNT |
-|----------------|---------|
-| Show APY numbers | Tell you which ones to use |
-| Display risk scores | Explain why risks matter |
-| List protocols | Give you actionable steps |
-| Raw data dumps | Personalized recommendations |
-| Dashboards to browse | Allocations to execute |
+- **Cranker registry** — Managed crank infrastructure for protocol automation
+- **ZK verifier** — On-chain proof verification
+- **DA providers** — Celestia, Avail, EigenDA integration for data availability
 
-## Two Ways to Use FABRKNT
+### Tensor — Derivatives Infrastructure
 
-**Option A: Paper Trade First (Recommended)**
-1. Get your allocation in 30 seconds
-2. Track with Paper Portfolio Dashboard for 14+ days
-3. Build trust by watching performance
-4. Execute when confident
+- **Margin engine** — Cross-margined derivatives positions
+- **Vol surface** — Implied volatility surface construction
+- **Solver auctions** — Order flow auction mechanism
+- **Gamma scaling** — Dynamic hedging and risk management
+- **Keeper bots** — Automated liquidation and settlement
+- **ZK credit scores** — Privacy-preserving creditworthiness proofs
 
-**Option B: Learn to Curate**
-1. Study curator strategies in Insights
-2. Practice building your own in Strategy Builder
-3. Compare your allocation vs professionals
-4. Test with Scenario Simulator before deploying
+### Tempest — Dynamic Fees
+
+- **Dynamic fee hook** — Adaptive fee adjustment based on market conditions
+- **Keeper fail-safe** — Fallback mechanisms for keeper downtime
+- **Dust filter** — Minimum transaction thresholds
+- **Momentum boost** — Fee incentives for trend-following liquidity
+- **Chain-agnostic** — Deployable across EVM and Solana
+
+## Architecture
+
+Forge is the integration layer that connects all 7 products. It imports real SDK packages via `file:` dependencies:
+
+- `@veil/core` — Privacy primitives
+- `@sentinel/core` — Threat detection
+- `@stratum/core` — State optimization
+- `@accredit/core` — Identity verification
+
+**92 tests** via Vitest · ESLint 9 configured
 
 ## Tech Stack
 
-Next.js · React · TypeScript · Tailwind CSS · Anthropic Claude · PostgreSQL · Vercel
+Next.js · React · TypeScript · Tailwind CSS · Vitest · ESLint 9 · Solana · EVM
 
 ## Connect
 
@@ -97,4 +93,4 @@ Next.js · React · TypeScript · Tailwind CSS · Anthropic Claude · PostgreSQL
 
 ---
 
-*Get your personalized Solana yield allocation in 30 seconds.*
+*Infrastructure for compliant, secure, and composable DeFi.*
