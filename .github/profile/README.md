@@ -43,7 +43,7 @@ We build modular infrastructure products that make DeFi safer — from complianc
 
 ### Veil — Privacy Layer
 
-- **@veil/core** — Core privacy primitives via ZK compression
+- **@fabrknt/veil-core** — Core privacy primitives via ZK compression
 - **Shielded transfers** — Private token transfers with proof generation
 - **Encrypted swaps** — Privacy-preserving DEX interactions
 - **MCP server** — Model Context Protocol integration for AI-assisted privacy
@@ -75,10 +75,10 @@ We build modular infrastructure products that make DeFi safer — from complianc
 
 Forge is the integration layer that connects all 7 products. It imports real SDK packages via `file:` dependencies:
 
-- `@veil/core` — Privacy primitives
-- `@sentinel/core` — Threat detection
-- `@stratum/core` — State optimization
-- `@accredit/core` — Identity verification
+- `@fabrknt/veil-core` — Privacy primitives
+- `@fabrknt/sentinel-core` — Threat detection
+- `@fabrknt/stratum-core` — State optimization
+- `@fabrknt/accredit-core` — Identity verification
 
 **92 tests** via Vitest · ESLint 9 configured
 

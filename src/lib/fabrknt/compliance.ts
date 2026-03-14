@@ -1,18 +1,18 @@
 /**
- * @complr/core integration — Off-chain compliance screening.
+ * @fabrknt/complr-core integration — Off-chain compliance screening.
  *
- * Thin adapter layer between Forge's domain types and the real @complr/core SDK.
- * - ReviewQueue delegates to @complr/core ReviewQueue for human-in-the-loop review
- * - Screening functions use Forge-specific logic with @complr/core types
- * - ConfidenceScorer from @complr/core is available for LLM-based queries;
+ * Thin adapter layer between Forge's domain types and the real @fabrknt/complr-core SDK.
+ * - ReviewQueue delegates to @fabrknt/complr-core ReviewQueue for human-in-the-loop review
+ * - Screening functions use Forge-specific logic with @fabrknt/complr-core types
+ * - ConfidenceScorer from @fabrknt/complr-core is available for LLM-based queries;
  *   the simpler calculateConfidence() here is for basic compliance scoring.
  */
 
-// @complr/core is available for AI-powered regulatory analysis via the Complr class.
+// @fabrknt/complr-core is available for AI-powered regulatory analysis via the Complr class.
 // The ReviewQueue is not re-exported from the package index, so the review queue
 // logic remains self-contained here. For full regulatory intelligence features,
 // instantiate Complr directly: new Complr({ anthropicApiKey: "..." }).
-import type { Jurisdiction as SdkJurisdiction } from "@complr/core";
+import type { Jurisdiction as SdkJurisdiction } from "@fabrknt/complr-core";
 
 import type {
   Jurisdiction,
@@ -76,7 +76,7 @@ export async function screenWallet(
 
   // Simulate sanctions list check per jurisdiction
   for (const j of jurisdictions) {
-    // In production: uses @complr/core Complr.checkTransaction() for jurisdiction checks
+    // In production: uses @fabrknt/complr-core Complr.checkTransaction() for jurisdiction checks
     const clean = true;
     if (!clean) {
       riskFactors.push(`Flagged by ${j} sanctions list`);
@@ -223,7 +223,7 @@ export function checkAllocationCompliance(
 // ---------------------------------------------------------------------------
 // Confidence scoring for compliance queries
 // Simple scoring for Forge's compliance domain.
-// For LLM-based regulatory queries, use @complr/core ConfidenceScorer directly.
+// For LLM-based regulatory queries, use @fabrknt/complr-core ConfidenceScorer directly.
 // ---------------------------------------------------------------------------
 
 export function calculateConfidence(params: {
@@ -286,7 +286,7 @@ export function calculateConfidence(params: {
 
 // ---------------------------------------------------------------------------
 // Human-in-the-loop review queue
-// Delegates to @complr/core ReviewQueue for persistent storage
+// Delegates to @fabrknt/complr-core ReviewQueue for persistent storage
 // ---------------------------------------------------------------------------
 
 const reviewQueue: ReviewItem[] = [];

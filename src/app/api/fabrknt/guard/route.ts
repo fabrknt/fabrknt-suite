@@ -25,7 +25,7 @@ export async function POST(request: Request) {
 
         return NextResponse.json({
             ...result,
-            poweredBy: "@sentinel/core",
+            poweredBy: "@fabrknt/sentinel-core",
         });
     } catch (error) {
         return NextResponse.json(

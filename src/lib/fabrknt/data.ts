@@ -1,7 +1,7 @@
 /**
- * @stratum/core integration — Merkle trees, bitfields, ZK verification, DA providers.
+ * @fabrknt/stratum-core integration — Merkle trees, bitfields, ZK verification, DA providers.
  *
- * Thin adapter layer between Forge's domain types and the real @stratum/core SDK.
+ * Thin adapter layer between Forge's domain types and the real @fabrknt/stratum-core SDK.
  * Consumers import the `data` namespace.
  */
 
@@ -13,14 +13,14 @@ import {
   chunksNeeded,
   SnarkJSBackend,
   createDAProvider,
-} from "@stratum/core";
+} from "@fabrknt/stratum-core";
 import type {
   ZKProofSystem as SdkZKProofSystem,
   ZKProof as SdkZKProof,
   ZKArtifact as SdkZKArtifact,
   DACommitment as SdkDACommitment,
   DAConfig as SdkDAConfig,
-} from "@stratum/core";
+} from "@fabrknt/stratum-core";
 
 import type {
   AllocationProof,
@@ -39,7 +39,7 @@ import type {
 
 // ---------------------------------------------------------------------------
 // Merkle tree — allocation history proofs
-// Delegates to @stratum/core MerkleTree
+// Delegates to @fabrknt/stratum-core MerkleTree
 // ---------------------------------------------------------------------------
 
 export async function buildAllocationTree(
@@ -70,7 +70,7 @@ export async function buildAllocationTree(
 export async function verifyAllocationProof(
   proof: AllocationProof
 ): Promise<boolean> {
-  // Use @stratum/core MerkleTree.verifyProof for proof verification
+  // Use @fabrknt/stratum-core MerkleTree.verifyProof for proof verification
   const leaf = hexToUint8(proof.leaf);
   const root = hexToUint8(proof.root);
   const siblings = proof.siblings.map((s) => hexToUint8(s.hash));
@@ -100,7 +100,7 @@ async function sha256Sync(data: Uint8Array): Promise<Uint8Array> {
 
 // ---------------------------------------------------------------------------
 // Bitfield — pool state tracking
-// Delegates to @stratum/core Bitfield
+// Delegates to @fabrknt/stratum-core Bitfield
 // ---------------------------------------------------------------------------
 
 export function createPoolTracker(capacity: number): PoolTracker {
@@ -148,12 +148,12 @@ export function isPoolActive(
 
 // ---------------------------------------------------------------------------
 // ZK Verifier — proof validation
-// Delegates to @stratum/core SnarkJSBackend
+// Delegates to @fabrknt/stratum-core SnarkJSBackend
 // ---------------------------------------------------------------------------
 
 /**
  * Create a ZK verifier for a specific proof system.
- * Uses @stratum/core SnarkJSBackend.
+ * Uses @fabrknt/stratum-core SnarkJSBackend.
  */
 export function createZKVerifier(system: ZKProofSystem): ZKVerifier {
   return {
@@ -177,7 +177,7 @@ export function createZKVerifier(system: ZKProofSystem): ZKVerifier {
 
 /**
  * Verify a ZK proof against known circuit artifacts.
- * Delegates to @stratum/core SnarkJSBackend.verify().
+ * Delegates to @fabrknt/stratum-core SnarkJSBackend.verify().
  */
 export async function verifyZKProof(
   proof: ZKProof,
@@ -196,12 +196,12 @@ export async function verifyZKProof(
 
 // ---------------------------------------------------------------------------
 // DA Provider — off-chain data availability
-// Delegates to @stratum/core createDAProvider()
+// Delegates to @fabrknt/stratum-core createDAProvider()
 // ---------------------------------------------------------------------------
 
 /**
  * Submit data to a DA provider and get a commitment.
- * Delegates to @stratum/core DAProvider.submit().
+ * Delegates to @fabrknt/stratum-core DAProvider.submit().
  */
 export async function submitToDA(
   data: Uint8Array,
@@ -226,7 +226,7 @@ export async function submitToDA(
 
 /**
  * Retrieve data from a DA provider using a commitment.
- * Delegates to @stratum/core DAProvider.retrieve().
+ * Delegates to @fabrknt/stratum-core DAProvider.retrieve().
  */
 export async function retrieveFromDA(
   commitment: DACommitment,
@@ -242,7 +242,7 @@ export async function retrieveFromDA(
 
 /**
  * Verify data integrity against a DA commitment.
- * Delegates to @stratum/core DAProvider.verify().
+ * Delegates to @fabrknt/stratum-core DAProvider.verify().
  */
 export async function verifyDACommitment(
   commitment: DACommitment,

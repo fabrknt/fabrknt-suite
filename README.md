@@ -23,11 +23,11 @@ Forge plugs in all 5 Fabrknt products. Each integration lives in `src/lib/fabrkn
 
 | Product | SDK | Integration | What it does in Forge |
 |---------|-----|-------------|----------------------|
-| **Sentinel** | `@sentinel/core` | `sentinel.ts` | Guard validates transactions with 17 pattern detectors (8 Solana + 9 EVM). DCA/rebalance/grid pattern builders. Jito + Flashbots bundle management for MEV protection. |
+| **Sentinel** | `@fabrknt/sentinel-core` | `sentinel.ts` | Guard validates transactions with 17 pattern detectors (8 Solana + 9 EVM). DCA/rebalance/grid pattern builders. Jito + Flashbots bundle management for MEV protection. |
 | **Complr** | `@complr` | `compliance.ts` | AI-powered screening (OFAC, TRM Labs, Chainalysis). Multi-jurisdiction checks (MAS/SFC/FSA). Confidence scoring. Human-in-the-loop review queue. |
 | **Accredit** | `@accredit` | `identity.ts` | On-chain KYC via Token-2022 transfer hooks. Multi-provider KYC (Civic, World ID). Sovereign identity verification. |
-| **Veil** | `@veil/core` | `privacy.ts` | NaCl Box encryption for allocation data. Shamir secret sharing for M-of-N access control. Noir ZK proofs for private sharing. |
-| **Stratum** | `@stratum/core` | `data.ts` | Merkle tree proofs for verifiable allocation history. Bitfield tracking for efficient pool state management. 800x state reduction. |
+| **Veil** | `@fabrknt/veil-core` | `privacy.ts` | NaCl Box encryption for allocation data. Shamir secret sharing for M-of-N access control. Noir ZK proofs for private sharing. |
+| **Stratum** | `@fabrknt/stratum-core` | `data.ts` | Merkle tree proofs for verifiable allocation history. Bitfield tracking for efficient pool state management. 800x state reduction. |
 
 ### Integration Architecture
 

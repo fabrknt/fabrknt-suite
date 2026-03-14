@@ -39,7 +39,7 @@ export async function POST(request: Request) {
         return NextResponse.json({
             ...plan,
             complianceAlerts,
-            poweredBy: ["@sentinel/core", "@complr"],
+            poweredBy: ["@fabrknt/sentinel-core", "@fabrknt/complr"],
         });
     } catch (error) {
         return NextResponse.json(

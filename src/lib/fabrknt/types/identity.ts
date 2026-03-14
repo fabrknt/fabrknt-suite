@@ -41,7 +41,7 @@ export interface KycVerificationResponse {
   metadata?: Record<string, unknown>;
 }
 
-// ── Compliant Wrapper Types (mirrors @accredit/core wrapper) ──
+// ── Compliant Wrapper Types (mirrors @fabrknt/accredit-core wrapper) ──
 
 export interface WrapperConfig {
   authority: string;
@@ -96,7 +96,7 @@ export interface InstitutionalActivity {
   status: "success" | "pending" | "failed";
 }
 
-// ── KYC Trade Limits (mirrors @accredit/core) ──
+// ── KYC Trade Limits (mirrors @fabrknt/accredit-core) ──
 
 export const KYC_LEVEL_ORDER: Record<KycLevel, number> = {
   none: 0,

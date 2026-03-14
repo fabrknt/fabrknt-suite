@@ -1,7 +1,7 @@
 /**
- * @sentinel/core integration — Guard, execution patterns, Jito bundles, Flashbots/MEV-Share.
+ * @fabrknt/sentinel-core integration — Guard, execution patterns, Jito bundles, Flashbots/MEV-Share.
  *
- * Thin adapter layer between Forge's domain types and the real @sentinel/core SDK.
+ * Thin adapter layer between Forge's domain types and the real @fabrknt/sentinel-core SDK.
  * Consumers import the `sentinel` namespace and call methods like
  * sentinel.createGuard(), sentinel.buildDCAPlan(), sentinel.getTipInfo(), etc.
  */
@@ -15,7 +15,7 @@ import {
   JitoRegion,
   FlashbotsNetwork,
   buildGridTradingPlan as sdkBuildGridTradingPlan,
-} from "@sentinel/core";
+} from "@fabrknt/sentinel-core";
 import type {
   Transaction as SdkTransaction,
   ValidationResult as SdkValidationResult,
@@ -25,7 +25,7 @@ import type {
   AuthSigner as SdkAuthSigner,
   TradingPair as SdkTradingPair,
   Price as SdkPrice,
-} from "@sentinel/core";
+} from "@fabrknt/sentinel-core";
 
 import type {
   GuardConfig,
@@ -50,7 +50,7 @@ import type {
 
 // ---------------------------------------------------------------------------
 // Guard — transaction security (Solana + EVM)
-// Delegates to @sentinel/core Guard class
+// Delegates to @fabrknt/sentinel-core Guard class
 // ---------------------------------------------------------------------------
 
 export function createGuard(overrides?: Partial<GuardConfig>): GuardInstance {
@@ -124,12 +124,12 @@ function computeRiskScore(warnings: SecurityWarning[]): number {
 
 // ---------------------------------------------------------------------------
 // Simulation Sandbox — pre-execution transaction simulation
-// Delegates to @sentinel/core SimulationSandbox
+// Delegates to @fabrknt/sentinel-core SimulationSandbox
 // ---------------------------------------------------------------------------
 
 /**
  * Analyze simulation results for honeypot indicators.
- * Uses @sentinel/core SimulationSandbox under the hood.
+ * Uses @fabrknt/sentinel-core SimulationSandbox under the hood.
  */
 export function analyzeHoneypot(
   buyResult: SimulationResult,
@@ -148,7 +148,7 @@ export function analyzeHoneypot(
 
 // ---------------------------------------------------------------------------
 // Execution patterns — DCA, rebalance, grid trading
-// These adapt Forge's domain types to @sentinel/core pattern builders.
+// These adapt Forge's domain types to @fabrknt/sentinel-core pattern builders.
 // The SDK pattern builders have different input/output shapes, so we keep
 // Forge-specific adapters here for API stability.
 // ---------------------------------------------------------------------------
@@ -254,7 +254,7 @@ export function buildGridTradingPlan(config: GridTradingConfig) {
 
 // ---------------------------------------------------------------------------
 // Jito bundle tips (Solana MEV protection)
-// Uses JITO_TIP_ACCOUNTS from @sentinel/core
+// Uses JITO_TIP_ACCOUNTS from @fabrknt/sentinel-core
 // ---------------------------------------------------------------------------
 
 const JITO_TIP_LAMPORTS = {
@@ -283,7 +283,7 @@ export function getTipInfo(
 
 // ---------------------------------------------------------------------------
 // Flashbots / MEV-Share bundle support (EVM MEV protection)
-// Delegates to @sentinel/core FlashbotsBundleManager
+// Delegates to @fabrknt/sentinel-core FlashbotsBundleManager
 // ---------------------------------------------------------------------------
 
 const FLASHBOTS_RELAY_URLS: Record<string, string> = {
@@ -298,7 +298,7 @@ export function getFlashbotsRelayUrl(network: string = "mainnet"): string {
 
 /**
  * Submit a Flashbots bundle for private EVM transaction execution.
- * Delegates to @sentinel/core FlashbotsBundleManager.
+ * Delegates to @fabrknt/sentinel-core FlashbotsBundleManager.
  */
 export async function submitFlashbotsBundle(
   bundle: FlashbotsBundle,
@@ -334,7 +334,7 @@ export async function submitFlashbotsBundle(
 
 /**
  * Submit a MEV-Share bundle with privacy hints.
- * Delegates to @sentinel/core FlashbotsBundleManager.
+ * Delegates to @fabrknt/sentinel-core FlashbotsBundleManager.
  */
 export async function submitMevShareBundle(
   bundle: MevShareBundle,

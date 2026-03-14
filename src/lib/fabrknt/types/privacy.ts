@@ -20,7 +20,7 @@ export interface PrivacyConfig {
   dataRoomShares: number;
 }
 
-// ── ZK Compression Types (mirrors @veil/core zk-compression) ──
+// ── ZK Compression Types (mirrors @fabrknt/veil-core zk-compression) ──
 
 export interface ZkCompressionConfig {
   rpcUrl: string;
@@ -43,7 +43,7 @@ export interface CompressionSavings {
   savingsPercent: number;
 }
 
-// ── Shielded Transfer Types (mirrors @veil/core shielded) ──
+// ── Shielded Transfer Types (mirrors @fabrknt/veil-core shielded) ──
 
 export interface ShieldedTransferParams {
   amount: bigint;
@@ -70,7 +70,7 @@ export interface WithdrawalResult {
   recipient: string;
 }
 
-// ── Encrypted Swap Order Types (mirrors @veil/core payload schemas) ──
+// ── Encrypted Swap Order Types (mirrors @fabrknt/veil-core payload schemas) ──
 
 export interface EncryptedSwapOrder {
   /** Encrypted order data */

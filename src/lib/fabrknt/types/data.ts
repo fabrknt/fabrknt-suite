@@ -13,7 +13,7 @@ export interface PoolTracker {
   activeCount: number;
 }
 
-// ── ZK Verifier Types (mirrors @stratum/core zk) ──
+// ── ZK Verifier Types (mirrors @fabrknt/stratum-core zk) ──
 
 export type ZKProofSystem = "groth16" | "plonk" | "stark";
 
@@ -38,7 +38,7 @@ export interface ZKVerifier {
   verify(proof: ZKProof, publicInputs: Uint8Array[]): Promise<boolean>;
 }
 
-// ── DA Provider Types (mirrors @stratum/core da) ──
+// ── DA Provider Types (mirrors @fabrknt/stratum-core da) ──
 
 export type DAProviderType = "celestia" | "avail" | "eigenda" | "memory";
 

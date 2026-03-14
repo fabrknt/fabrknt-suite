@@ -58,7 +58,7 @@ export interface ValidationResult {
   simulation?: SimulationResult;
 }
 
-// ── Pattern IDs (mirrors @sentinel/core PatternId enum) ──
+// ── Pattern IDs (mirrors @fabrknt/sentinel-core PatternId enum) ──
 
 export type PatternId =
   // Solana patterns

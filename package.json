@@ -82,11 +82,11 @@
         "wagmi": "^3.5.0",
         "zod": "^3.25.76",
         "zustand": "^4.5.7",
-        "@sentinel/core": "git+https://github.com/psyto/sentinel.git#main&path:packages/core",
-        "@veil/core": "git+https://github.com/psyto/veil.git#main&path:packages/core",
-        "@stratum/core": "git+https://github.com/psyto/stratum.git#main&path:packages/core",
-        "@accredit/core": "git+https://github.com/psyto/accredit.git#master&path:packages/core",
-        "@complr/core": "git+https://github.com/psyto/complr.git#master&path:packages/core"
+        "@fabrknt/sentinel-core": "^1.0.0",
+        "@fabrknt/veil-core": "^1.0.0",
+        "@fabrknt/stratum-core": "^1.0.0",
+        "@fabrknt/accredit-core": "^1.0.0",
+        "@fabrknt/complr-core": "^1.0.0"
     },
     "pnpm": {
         "overrides": {
@@ -100,11 +100,11 @@
         "onlyBuiltDependencies": [
             "@prisma/engines",
             "prisma",
-            "@veil/core",
-            "@sentinel/core",
-            "@stratum/core",
-            "@accredit/core",
-            "@complr/core",
+            "@fabrknt/veil-core",
+            "@fabrknt/sentinel-core",
+            "@fabrknt/stratum-core",
+            "@fabrknt/accredit-core",
+            "@fabrknt/complr-core",
             "esbuild",
             "puppeteer",
             "sharp"

@@ -30,7 +30,7 @@ export async function POST(request: Request) {
 
         return NextResponse.json({
             ...plan,
-            poweredBy: "@sentinel/core",
+            poweredBy: "@fabrknt/sentinel-core",
         });
     } catch (error) {
         return NextResponse.json(

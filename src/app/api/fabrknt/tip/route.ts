@@ -16,6 +16,6 @@ export async function GET(request: Request) {
 
     return NextResponse.json({
         ...tip,
-        poweredBy: "@sentinel/core",
+        poweredBy: "@fabrknt/sentinel-core",
     });
 }

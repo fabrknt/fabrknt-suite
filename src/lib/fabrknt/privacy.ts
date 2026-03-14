@@ -1,13 +1,13 @@
 /**
- * @veil/core integration — Encryption, secret sharing, ZK compression, shielded transfers.
+ * @fabrknt/veil-core integration — Encryption, secret sharing, ZK compression, shielded transfers.
  *
- * Thin adapter layer between Forge's domain types and the real @veil/core SDK.
+ * Thin adapter layer between Forge's domain types and the real @fabrknt/veil-core SDK.
  *
  * Direct SDK delegation:
- * - encrypt/decrypt -> @veil/core NaCl box
- * - splitSecret/combineShares -> @veil/core Shamir threshold
- * - estimateCompressionSavings -> @veil/core ZK compression
- * - estimateShieldedFee -> @veil/core shielded
+ * - encrypt/decrypt -> @fabrknt/veil-core NaCl box
+ * - splitSecret/combineShares -> @fabrknt/veil-core Shamir threshold
+ * - estimateCompressionSavings -> @fabrknt/veil-core ZK compression
+ * - estimateShieldedFee -> @fabrknt/veil-core shielded
  *
  * Forge-specific adapters (SDK requires Solana Connection/Keypair objects):
  * - compressData/decompressData
@@ -22,11 +22,11 @@ import {
   estimateCompressionSavings as veilEstimateCompressionSavings,
   estimateShieldedFee as veilEstimateShieldedFee,
   SWAP_ORDER_SCHEMA,
-} from "@veil/core";
+} from "@fabrknt/veil-core";
 import type {
   EncryptedData,
   SecretShare,
-} from "@veil/core";
+} from "@fabrknt/veil-core";
 
 import type {
   EncryptedAllocation,
@@ -45,7 +45,7 @@ import type {
 
 // ---------------------------------------------------------------------------
 // NaCl box encryption for allocations
-// Delegates to @veil/core encrypt() / decrypt()
+// Delegates to @fabrknt/veil-core encrypt() / decrypt()
 // ---------------------------------------------------------------------------
 
 export function encryptAllocation(
@@ -70,7 +70,7 @@ export function decryptAllocation(
   senderPublicKey: Uint8Array,
   keypair: { publicKey: Uint8Array; secretKey: Uint8Array }
 ): Record<string, unknown> {
-  // @veil/core decrypt() takes combined bytes (nonce + ciphertext)
+  // @fabrknt/veil-core decrypt() takes combined bytes (nonce + ciphertext)
   const nonce = base64ToUint8(encrypted.nonce);
   const ciphertext = base64ToUint8(encrypted.ciphertext);
   const combinedBytes = new Uint8Array(nonce.length + ciphertext.length);
@@ -83,7 +83,7 @@ export function decryptAllocation(
 
 // ---------------------------------------------------------------------------
 // Shamir secret sharing for data room access
-// Delegates to @veil/core splitSecret() / combineShares()
+// Delegates to @fabrknt/veil-core splitSecret() / combineShares()
 // ---------------------------------------------------------------------------
 
 export function createSharedAccess(
@@ -148,14 +148,14 @@ export function createPrivateShareLink(
 
 // ---------------------------------------------------------------------------
 // ZK Compression (Light Protocol) — cost-efficient on-chain storage
-// estimateCompressionSavings delegates to @veil/core.
+// estimateCompressionSavings delegates to @fabrknt/veil-core.
 // compressData/decompressData stay as Forge adapters because the SDK requires
 // Solana Rpc/Keypair objects that Forge doesn't hold at this layer.
 // ---------------------------------------------------------------------------
 
 /**
  * Estimate cost savings from using ZK compression.
- * Delegates to @veil/core estimateCompressionSavings().
+ * Delegates to @fabrknt/veil-core estimateCompressionSavings().
  */
 export function estimateCompressionSavings(
   dataSize: number,
@@ -166,7 +166,7 @@ export function estimateCompressionSavings(
 
 /**
  * Compress data using ZK compression.
- * Note: @veil/core compressData() requires a Solana Rpc + Keypair.
+ * Note: @fabrknt/veil-core compressData() requires a Solana Rpc + Keypair.
  * This adapter provides a simplified interface for Forge consumers.
  */
 export async function compressData(
@@ -202,12 +202,12 @@ export async function decompressData(
 // ---------------------------------------------------------------------------
 // Shielded Transfers (Privacy Cash) — privacy-preserving token movements
 // SDK requires Solana Connection/Keypair objects, so these remain adapters.
-// estimateShieldedFee delegates directly to @veil/core.
+// estimateShieldedFee delegates directly to @fabrknt/veil-core.
 // ---------------------------------------------------------------------------
 
 /**
  * Create a shielded transfer that hides transaction amount.
- * Note: @veil/core createShieldedTransfer() requires Connection + Keypair.
+ * Note: @fabrknt/veil-core createShieldedTransfer() requires Connection + Keypair.
  */
 export async function createShieldedTransfer(
   params: ShieldedTransferParams,
@@ -218,7 +218,7 @@ export async function createShieldedTransfer(
 
 /**
  * Shield tokens by depositing into the privacy pool.
- * Note: @veil/core shieldTokens() requires Connection + Keypair.
+ * Note: @fabrknt/veil-core shieldTokens() requires Connection + Keypair.
  */
 export async function shieldTokens(
   amount: bigint,
@@ -234,7 +234,7 @@ export async function shieldTokens(
 
 /**
  * Unshield tokens by withdrawing from the privacy pool.
- * Note: @veil/core unshieldTokens() requires Connection + Keypair + PublicKey.
+ * Note: @fabrknt/veil-core unshieldTokens() requires Connection + Keypair + PublicKey.
  */
 export async function unshieldTokens(
   amount: bigint,
@@ -265,7 +265,7 @@ export async function getShieldedBalance(
 
 /**
  * Estimate fees for a shielded transfer.
- * Delegates to @veil/core estimateShieldedFee().
+ * Delegates to @fabrknt/veil-core estimateShieldedFee().
  */
 export function estimateShieldedFee(tokenType: "SOL" | "USDC" | "USDT"): bigint {
   return veilEstimateShieldedFee(tokenType);
@@ -273,12 +273,12 @@ export function estimateShieldedFee(tokenType: "SOL" | "USDC" | "USDT"): bigint 
 
 // ---------------------------------------------------------------------------
 // Encrypted Swap Orders — dark pool execution
-// Uses @veil/core encrypt() for real NaCl encryption.
+// Uses @fabrknt/veil-core encrypt() for real NaCl encryption.
 // ---------------------------------------------------------------------------
 
 /**
  * Create an encrypted swap order for dark pool submission.
- * Uses @veil/core encrypt() for NaCl box encryption.
+ * Uses @fabrknt/veil-core encrypt() for NaCl box encryption.
  */
 export async function createEncryptedSwapOrder(
   order: SwapOrderSchema,

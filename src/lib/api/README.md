@@ -11,10 +11,10 @@ Forge serves as the orchestration layer for 7 infrastructure products. The API l
 | Product | SDK Import | API Surface |
 |---------|-----------|-------------|
 | **Complr** | Internal | Compliance review queue, confidence scoring, provider routing (TRM Labs, Chainalysis) |
-| **Accredit** | `@accredit/core` | KYC verification (Civic, World ID), compliant wrapper, institutional dashboard |
-| **Sentinel** | `@sentinel/core` | 17 pattern detectors (8 Solana + 9 EVM), simulation sandbox, Flashbots/MEV-Share, Jito, oracle registry |
-| **Veil** | `@veil/core` | ZK compression, shielded transfers, encrypted swaps, MCP server |
-| **Stratum** | `@stratum/core` | Cranker registry, ZK verifier, DA providers (Celestia, Avail, EigenDA) |
+| **Accredit** | `@fabrknt/accredit-core` | KYC verification (Civic, World ID), compliant wrapper, institutional dashboard |
+| **Sentinel** | `@fabrknt/sentinel-core` | 17 pattern detectors (8 Solana + 9 EVM), simulation sandbox, Flashbots/MEV-Share, Jito, oracle registry |
+| **Veil** | `@fabrknt/veil-core` | ZK compression, shielded transfers, encrypted swaps, MCP server |
+| **Stratum** | `@fabrknt/stratum-core` | Cranker registry, ZK verifier, DA providers (Celestia, Avail, EigenDA) |
 | **Tensor** | Internal | Margin engine, vol surface, solver auctions, gamma scaling, keeper bots, ZK credit scores |
 | **Tempest** | Internal | Dynamic fee hook, keeper fail-safe, dust filter, momentum boost |
 
@@ -23,10 +23,10 @@ Forge serves as the orchestration layer for 7 infrastructure products. The API l
 Forge imports real SDK packages via `file:` dependencies in `package.json`:
 
 ```typescript
-import { /* ... */ } from "@veil/core";
-import { /* ... */ } from "@sentinel/core";
-import { /* ... */ } from "@stratum/core";
-import { /* ... */ } from "@accredit/core";
+import { /* ... */ } from "@fabrknt/veil-core";
+import { /* ... */ } from "@fabrknt/sentinel-core";
+import { /* ... */ } from "@fabrknt/stratum-core";
+import { /* ... */ } from "@fabrknt/accredit-core";
 ```
 
 Products without dedicated SDK packages (Complr, Tensor, Tempest) are integrated directly within Forge's internal modules.
@@ -134,4 +134,4 @@ pnpm lint        # Run linter
 ### SDK Import Errors
 
 - Ensure `file:` dependencies are installed: run `pnpm install` from the workspace root.
-- SDK packages (`@veil/core`, `@sentinel/core`, `@stratum/core`, `@accredit/core`) must be built before Forge can import them.
+- SDK packages (`@fabrknt/veil-core`, `@fabrknt/sentinel-core`, `@fabrknt/stratum-core`, `@fabrknt/accredit-core`) must be built before Forge can import them.
