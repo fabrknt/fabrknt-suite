@@ -1,12 +1,12 @@
 # Forge
 
-Personalized Solana DeFi allocations — with Fabrknt compliance, privacy, and data plug-ins integrated.
+The reference app showing all 7 Fabrknt services plugged into a working DeFi protocol -- personalized Solana yield allocations with compliance, privacy, and data integrity built in.
 
 **Get your personalized yield allocation in 30 seconds, executed safely with plug-in compliance and privacy.**
 
 ## What is Forge?
 
-Forge is a DeFi yield allocation app that demonstrates how Fabrknt plug-ins integrate into an existing protocol without rebuilding. It gives users personalized Solana yield allocations based on risk tolerance, with Fabrknt SDKs plugged in for compliance screening, identity verification, transaction security, private execution, and verifiable allocation proofs.
+Forge demonstrates the core Fabrknt thesis: you shouldn't have to rebuild from scratch to add TradFi compliance to a DeFi protocol. Forge is a Solana yield allocation app with all 7 `@fabrknt/*-core` npm packages plugged in for compliance screening, identity verification, transaction security, margin management, dynamic fees, private execution, and verifiable allocation proofs.
 
 **Try → Track → Trust → Trade**
 
@@ -19,15 +19,17 @@ Forge is a DeFi yield allocation app that demonstrates how Fabrknt plug-ins inte
 
 ## Fabrknt SDK Integrations
 
-Forge plugs in all 5 Fabrknt products. Each integration lives in `src/lib/fabrknt/` and is exposed via `/api/fabrknt/*` endpoints.
+Forge plugs in all 7 Fabrknt products via their npm packages. Each integration lives in `src/lib/fabrknt/` and is exposed via `/api/fabrknt/*` endpoints.
 
-| Product | SDK | Integration | What it does in Forge |
-|---------|-----|-------------|----------------------|
+| Product | npm Package | Integration | What it does in Forge |
+|---------|-------------|-------------|----------------------|
 | **Sentinel** | `@fabrknt/sentinel-core` | `sentinel.ts` | Guard validates transactions with 17 pattern detectors (8 Solana + 9 EVM). DCA/rebalance/grid pattern builders. Jito + Flashbots bundle management for MEV protection. |
-| **Complr** | `@complr` | `compliance.ts` | AI-powered screening (OFAC, TRM Labs, Chainalysis). Multi-jurisdiction checks (MAS/SFC/FSA). Confidence scoring. Human-in-the-loop review queue. |
-| **Accredit** | `@accredit` | `identity.ts` | On-chain KYC via Token-2022 transfer hooks. Multi-provider KYC (Civic, World ID). Sovereign identity verification. |
+| **Complr** | `@fabrknt/complr-core` | `compliance.ts` | AI-powered screening (OFAC, TRM Labs, Chainalysis). Multi-jurisdiction checks (MAS/SFC/FSA). Confidence scoring. Human-in-the-loop review queue. |
+| **Accredit** | `@fabrknt/accredit-core` | `identity.ts` | On-chain KYC via Token-2022 transfer hooks. Multi-provider KYC (Civic, World ID). Sovereign identity verification. |
 | **Veil** | `@fabrknt/veil-core` | `privacy.ts` | NaCl Box encryption for allocation data. Shamir secret sharing for M-of-N access control. Noir ZK proofs for private sharing. |
 | **Stratum** | `@fabrknt/stratum-core` | `data.ts` | Merkle tree proofs for verifiable allocation history. Bitfield tracking for efficient pool state management. 800x state reduction. |
+| **Tensor** | `@fabrknt/tensor-core` | `margin.ts` | Greeks-aware portfolio margining for leveraged yield positions. Vol surface interpolation. Intent-based execution. |
+| **Tempest** | `@fabrknt/tempest-core` | `fees.ts` | Volatility-responsive dynamic fees for pool swaps. LP range optimization. Impermanent loss estimation. |
 
 ### Integration Architecture
 
@@ -36,34 +38,40 @@ User Request
     │
     ├── /api/curate/ai/recommendations
     │       ├── AI yield advisor (Claude)
-    │       └── @complr: screen pools before recommending
+    │       └── @fabrknt/complr-core: screen pools before recommending
     │
     ├── /api/fabrknt/guard
-    │       └── @sentinel: validate transaction security (17 patterns)
+    │       └── @fabrknt/sentinel-core: validate transaction security (17 patterns)
     │
     ├── /api/fabrknt/dca
-    │       └── @sentinel: build DCA schedule for gradual entry
+    │       └── @fabrknt/sentinel-core: build DCA schedule for gradual entry
     │
     ├── /api/fabrknt/rebalance
-    │       ├── @sentinel: generate concrete rebalance trades
-    │       └── @complr: screen trades for compliance
+    │       ├── @fabrknt/sentinel-core: generate concrete rebalance trades
+    │       └── @fabrknt/complr-core: screen trades for compliance
     │
     ├── /api/fabrknt/screen-wallet
-    │       └── @complr: sanctions/risk screening
+    │       └── @fabrknt/complr-core: sanctions/risk screening
     │
     ├── /api/fabrknt/verify-identity
-    │       └── @accredit: KYC level + feature gating
+    │       └── @fabrknt/accredit-core: KYC level + feature gating
+    │
+    ├── /api/fabrknt/margin
+    │       └── @fabrknt/tensor-core: portfolio margin + risk analysis
+    │
+    ├── /api/fabrknt/fees
+    │       └── @fabrknt/tempest-core: dynamic fee estimation + LP optimization
     │
     └── /api/fabrknt/tip
-            └── @sentinel: Jito tip for MEV protection
+            └── @fabrknt/sentinel-core: Jito tip for MEV protection
 ```
 
 ### Rebalance Detector
 
 The rebalance detector (`src/lib/curate/rebalance-detector.ts`) combines Forge's own APY/risk monitoring with:
 
-- **@complr** `checkAllocationCompliance()` — flags unverified protocols and concentration risk
-- **@sentinel** `buildRebalancePlan()` — generates actionable trade lists when rebalancing is needed
+- **@fabrknt/complr-core** `checkAllocationCompliance()` -- flags unverified protocols and concentration risk
+- **@fabrknt/sentinel-core** `buildRebalancePlan()` -- generates actionable trade lists when rebalancing is needed
 
 ## Core Features
 
@@ -105,6 +113,8 @@ The rebalance detector (`src/lib/curate/rebalance-detector.ts`) combines Forge's
 | `/api/fabrknt/tip` | GET | Sentinel | Jito tip account for MEV protection |
 | `/api/fabrknt/screen-wallet` | POST | Complr | Wallet sanctions/risk screening |
 | `/api/fabrknt/verify-identity` | POST | Accredit | KYC verification + feature access check |
+| `/api/fabrknt/margin` | POST | Tensor | Portfolio margin calculation + risk analysis |
+| `/api/fabrknt/fees` | POST | Tempest | Dynamic fee estimation + LP range optimization |
 
 ### Curate (`/api/curate/*`)
 
@@ -117,7 +127,7 @@ The rebalance detector (`src/lib/curate/rebalance-detector.ts`) combines Forge's
 | `/api/curate/curators` | GET | Curator profiles |
 | `/api/curate/curators/{slug}` | GET | Curator strategies |
 | `/api/curate/backtest` | POST | Historical performance backtesting |
-| `/api/curate/ai/recommendations` | POST | AI recommendations (with @complr screening) |
+| `/api/curate/ai/recommendations` | POST | AI recommendations (with @fabrknt/complr-core screening) |
 | `/api/curate/ai/insights/{poolId}` | GET | AI pool analysis |
 | `/api/curate/ai/portfolio` | POST | Portfolio optimization |
 
@@ -128,7 +138,7 @@ The rebalance detector (`src/lib/curate/rebalance-detector.ts`) combines Forge's
 - **Database:** PostgreSQL (Supabase) via Prisma
 - **Hosting:** Vercel
 - **Data Sources:** DeFiLlama, Fragmetric, Jupiter, on-chain data
-- **Fabrknt SDKs:** Sentinel, Complr, Accredit, Veil, Stratum
+- **Fabrknt SDKs:** All 7 -- `@fabrknt/sentinel-core`, `@fabrknt/complr-core`, `@fabrknt/accredit-core`, `@fabrknt/veil-core`, `@fabrknt/stratum-core`, `@fabrknt/tensor-core`, `@fabrknt/tempest-core`
 
 ## Development
 
@@ -152,27 +162,34 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 
 ## Fabrknt Product Suite
 
+All 7 products are available as npm packages (`@fabrknt/*-core@1.0.0`). Free tier on all, Pro from $49/mo. Source and REST API live in [fabrknt/api](https://github.com/fabrknt/api).
+
 ### Compliance
 
-| Product | What it does in Forge |
-|---------|----------------------|
-| **Complr** | AI-powered screening (OFAC, TRM Labs, Chainalysis). SAR/STR generation. Confidence scoring. |
-| **Accredit** | On-chain KYC via transfer hooks. Multi-provider verification (Civic, World ID). Sovereign identity. |
-| **Sentinel** | Guards transactions with 17-pattern detection. Simulation sandbox. DCA/rebalance/grid builders. Jito + Flashbots bundles. |
+| Product | npm Package | What it does in Forge |
+|---------|-------------|----------------------|
+| **Complr** | `@fabrknt/complr-core` | AI-powered screening (OFAC, TRM Labs, Chainalysis). SAR/STR generation. Confidence scoring. |
+| **Accredit** | `@fabrknt/accredit-core` | On-chain KYC via transfer hooks. Multi-provider verification (Civic, World ID). Sovereign identity. |
+| **Sentinel** | `@fabrknt/sentinel-core` | Guards transactions with 17-pattern detection. Simulation sandbox. DCA/rebalance/grid builders. Jito + Flashbots bundles. |
 
 ### Privacy
 
-| Product | What it does in Forge |
-|---------|----------------------|
-| **Veil** | NaCl encryption for allocation data. Shamir sharing for access control. Noir ZK proofs. |
+| Product | npm Package | What it does in Forge |
+|---------|-------------|----------------------|
+| **Veil** | `@fabrknt/veil-core` | NaCl encryption for allocation data. Shamir sharing for access control. Noir ZK proofs. |
 
 ### Data
 
-| Product | What it does in Forge |
-|---------|----------------------|
-| **Stratum** | Merkle proofs for verifiable allocation history. Bitfield for pool state tracking. 800x state reduction. |
+| Product | npm Package | What it does in Forge |
+|---------|-------------|----------------------|
+| **Stratum** | `@fabrknt/stratum-core` | Merkle proofs for verifiable allocation history. Bitfield for pool state tracking. 800x state reduction. |
 
-All products live in [fabrknt/api](https://github.com/fabrknt/api).
+### DeFi
+
+| Product | npm Package | What it does in Forge |
+|---------|-------------|----------------------|
+| **Tensor** | `@fabrknt/tensor-core` | Greeks-aware portfolio margining. Vol surface interpolation. Intent-based execution with solver auctions. |
+| **Tempest** | `@fabrknt/tempest-core` | Volatility-responsive dynamic fees. LP range optimization. Impermanent loss estimation. |
 
 ## License
 
